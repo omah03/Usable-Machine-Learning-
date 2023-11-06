@@ -1,11 +1,11 @@
 # Usable-Machine-Learning-
 Training Interface
 
-*start training
-*interrupt training
-*continue training
+**start training**
+**interrupt training**
+**continue training**
 
-*adjust parameters (e.g., learning rate, loss function, momentum, dropout-rate) (0.5 P)
+**adjust parameters (e.g., learning rate, loss function, momentum, dropout-rate) (0.5 P)**
 
 *before the training
 *during the training
