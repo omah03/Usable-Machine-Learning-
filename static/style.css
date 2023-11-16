@@ -131,7 +131,6 @@ flex-grow: 0;
   background-color: #f1f1f1;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
 }
 
 /* Links inside the dropdown */
@@ -185,7 +184,7 @@ border-radius: 30px;
 
 box-sizing: border-box;
 
-width: 1065px;
+width: 80%;
 height: 229px;
 
 background: #D0F4FF;
