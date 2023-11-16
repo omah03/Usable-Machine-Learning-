@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Minimal ML App</h1>
+    <label for="slider">PRNG Seed:</label>
+    <input type="range" id="slider" min="0" max="1000" value="{{ seed }}">
+    <span id="sliderValue">{{ seed }}</span>
+    <p>Current Accuracy: <span id="accuracy">{{ acc }}</span></p>
+    <button id="playButton">Play</button>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+ 
