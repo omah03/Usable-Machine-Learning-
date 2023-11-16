@@ -2,7 +2,9 @@ import torch.nn as nn
 
 class Modelbuilder(nn.Module):
 
-    def __init__(self,numConvLayers,convChannels,kernel_size,stride,padding,activationFunction,learning_rate, numEpochs,batch_size,inputsize=(28,28)):
+    def __init__(self,numConvLayers,convChannels,kernel_size,stride,
+                 padding,activationFunction,learning_rate, 
+                 numEpochs,batch_size,inputsize=(28,28)):
         super(Modelbuilder, self).__init__()
 
         self.numConvLayers = numConvLayers 
