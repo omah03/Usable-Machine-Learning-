@@ -1,13 +1,82 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <link rel="stylesheet" href="../static/style.css">
+    </head>
 <body>
-    <h1>Minimal ML App</h1>
-    <label for="slider">PRNG Seed:</label>
-    <input type="range" id="slider" min="0" max="1000" value="{{ seed }}">
-    <span id="sliderValue">{{ seed }}</span>
-    <p>Current Accuracy: <span id="accuracy">{{ acc }}</span></p>
-    <button id="playButton">Play</button>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <div class = "row">
+        <h2> Usable Machine Learning</h2>
+        <div class = "column"> 
+            <div class="dropdown">
+                <button class="dropbtn">Activation function</button>
+                <div class="dropdown-content">
+                  <a href="#">Retified Linear Activation (ReLU)</a>
+                  <a href="#">Logistics (Sigmoid)</a>
+                  <a href="#">Hyperbolic Tangent (tanh)</a>
+                </div>
+            </div> 
+        </div>    
+        <div class = "column"> 
+            <label for="slider">Learning rate</label>
+            <br>
+            <input type="range" id="slider" min="1" max="256" value="{{ batch_size }}">
+            <span id="sliderValue">{{ batch_size }}</span>
+            <script src="{{ url_for('static', filename='script.js') }}"></script>
+            <br>
+        </div>
+        <div class = "column"> 
+            <label for="slider">Batch Size</label>
+            <br>
+            <input type="range" id="slider" min="1" max="256" value="{{ batch_size }}">
+            <span id="sliderValue">{{ batch_size }}</span>
+            <script src="{{ url_for('static', filename='script.js') }}"></script>
+        </div>
+        <div class = "column">         
+            <label for="slider">Number of epochs</label>
+            <br>
+            <input type="range" id="slider" min="1" max="256" value="{{ batch_size }}">
+            <span id="sliderValue">{{ batch_size }}</span>
+            <script src="{{ url_for('static', filename='script.js') }}"></script>
+        </div>
+        <div class = "column"> 
+            <label for="slider">Kernel</label>
+            <br>
+            <input type="range" id="slider" min="1" max="256" value="{{ batch_size }}">
+            <span id="sliderValue">{{ batch_size }}</span>
+            <script src="{{ url_for('static', filename='script.js') }}"></script>
+        </div>
+
+        <div class = "column"> 
+            <label for="slider">Stride</label>
+            <br>
+            <input type="range" id="slider" min="1" max="256" value="{{ batch_size }}">
+            <span id="sliderValue">{{ batch_size }}</span>
+            <script src="{{ url_for('static', filename='script.js') }}"></script>
+        </div>
+    </div>
+    <div class = "row">
+        <div class = "rectanglelayer"></div>
+        <div class = "column">
+            <!-- <div class = "rectanglelayer"></div> -->
+            <div class ="inputbox"> 
+                Input
+            </div>
+        </div>
+        <div class = "column">
+            <div class = "block">
+                BLOCK 1
+            </div>
+        </div>
+        <div class = "column">
+            <div class = "block">
+                BLOCK 2
+            </div>
+            <br>
+            <div class = "button"> - </div>
+        </div>
+        <div class = "column">
+            <div class = "button"> + </div>
+        </div>
+    </div>
 </body>
 </html>
- 
