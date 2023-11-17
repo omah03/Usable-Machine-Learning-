@@ -19,41 +19,34 @@
             </div> 
         </div>    
         <div class = "column"> 
-            <label for="slider">Learning rate</label>
+            <label for="LRateSlider">Learning rate -- </label>
+            <span id="LRateDisplay"></span>
             <br>
-            <input type="range" id="slider" min="1" max="256" value="{{ LRate }}">
-            <span id="sliderValue">{{ LRate }}</span>
-            <script src="{{ url_for('static', filename='script.js') }}"></script>
-            <br>
+            <input type="range" id="LRateSlider" min="1" max="256" value="{{ 1 }}">
         </div>
         <div class = "column"> 
-            <label for="slider">Batch Size</label>
+            <label for="BSizeSlider">Batch Size -- </label>
+            <span id="BSizeDisplay"></span>
             <br>
-            <input type="range" id="slider" min="1" max="256" value="{{ batch_size }}">
-            <span id="sliderValue">{{ batch_size }}</span>
-            <script src="{{ url_for('static', filename='script.js') }}"></script>
-        </div>
-        <div class = "column">         
-            <label for="slider">Number of epochs</label>
-            <br>
-            <input type="range" id="slider" min="1" max="256" value="{{ batch_size }}">
-            <span id="sliderValue">{{ batch_size }}</span>
-            <script src="{{ url_for('static', filename='script.js') }}"></script>
+            <input type="range" id="BSizeSlider" min="1" max="256" value="{{ 32 }}">
         </div>
         <div class = "column"> 
-            <label for="slider">Kernel</label>
+            <label for="NEpochsSlider">Epochs -- </label>
+            <span id="NEpochsDisplay"></span>
             <br>
-            <input type="range" id="slider" min="1" max="256" value="{{ batch_size }}">
-            <span id="sliderValue">{{ batch_size }}</span>
-            <script src="{{ url_for('static', filename='script.js') }}"></script>
+            <input type="range" id="NEpochsSlider" min="1" max="256" value="{{ 10 }}">
         </div>
-
         <div class = "column"> 
-            <label for="slider">Stride</label>
+            <label for="KSizeSlider">Kernel Size -- </label>
+            <span id="KSizeDisplay"></span>
             <br>
-            <input type="range" id="slider" min="1" max="256" value="{{ batch_size }}">
-            <span id="sliderValue">{{ batch_size }}</span>
-            <script src="{{ url_for('static', filename='script.js') }}"></script>
+            <input type="range" id="KSizeSlider" min="1" max="4" value="{{ 2 }}">
+        </div>
+        <div class = "column"> 
+            <label for="StrideSlider">Stride -- </label>
+            <span id="StrideDisplay"></span>
+            <br>
+            <input type="range" id="StrideSlider" min="1" max="4" value="{{ 2 }}">
         </div>
     </div>
     <div class = "row">
@@ -82,5 +75,8 @@
             </div>
         </div>
     </div>
+    <!-- only need this once -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
 </body>
 </html>

@@ -1,9 +1,8 @@
+//------------------------------------------------------------------
+// Activation Function Dropdown Menu
 act_reluOption = document.getElementById("act_reluOption")
 act_sigmoidOption = document.getElementById("act_sigmoidOption")
 act_tanhOption = document.getElementById("act_tanhOption")
-
-
-
 
 function handleActivationFunctionChange(event) {
 // Get the text of the selected option
@@ -36,6 +35,59 @@ switch (selectedOptionText) {
 act_reluOption.addEventListener("click", handleActivationFunctionChange);
 act_sigmoidOption.addEventListener("click", handleActivationFunctionChange);
 act_tanhOption.addEventListener("click", handleActivationFunctionChange);
+
+
+//------------------------------------------------------------------
+//Sliders
+var sliders= ["LRateSlider", "BSizeSlider", "NEpochsSlider", "KSizeSlider", "StrideSlider"];
+
+for (const slider of sliders) {
+    SliderElement= document.getElementById(slider);
+    SliderElement.addEventListener("input", (event)=> {updateSliderValue(event.target);});
+    updateSliderValue(SliderElement);
+}
+/*
+LRateSlider= document.getElementById("LRateSlider");
+LRateSlider.addEventListener("input", (event)=> {updateSliderValue(event.target);});
+
+BSizeSlider= document.getElementById("BSizeSlider");
+BSizeSlider.addEventListener("input", (event)=> {updateSliderValue(event.target);});
+
+NEpochsSlider= document.getElementById("NEpochsSlider");
+NEpochsSlider.addEventListener("input", (event)=> {updateSliderValue(event.target);});
+
+KSizeSlider= document.getElementById("KSizeSlider");
+KSizeSlider.addEventListener("input", (event)=> {updateSliderValue(event.target);});
+
+StrideSlider= document.getElementById("StrideSlider");
+StrideSlider.addEventListener("input", (event)=> {updateSliderValue(event.target);});
+
+
+*/
+
+function updateSliderValue(slider) {
+    var  displayId = slider.id.replace("Slider", "Display");
+    var display = document.getElementById(displayId);
+
+    display.innerHTML = slider.value;
+    
+    // Call the backend
+    //callBackend(sliderId, slider.value);
+}
+
+//LRateSlider.addEventListener("DCMContentLoaded", handleSliderChange)
+
+
+
+
+
+
+
+
+
+
+
+/*
 
 
 // Function to disable slider and button when button is pressed
@@ -87,3 +139,4 @@ slider.addEventListener("input", function() {
         body: "seed=" + slider.value
     });
 });
+*/
