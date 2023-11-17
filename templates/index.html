@@ -8,19 +8,21 @@
         <h2> Usable Machine Learning</h2>
         <div class = "column"> 
             <div class="dropdown">
-                <button class="dropbtn">Activation function</button>
+                <button id="ActivationFuncMenu" class="dropbtn" >
+                    <span id="selectedOption">Activation function</span>
+                </button>
                 <div class="dropdown-content">
-                  <a href="#">Retified Linear Activation (ReLU)</a>
-                  <a href="#">Logistics (Sigmoid)</a>
-                  <a href="#">Hyperbolic Tangent (tanh)</a>
+                  <a href="#" id="act_reluOption">Retified Linear Activation (ReLU)</a>
+                  <a href="#" id="act_sigmoidOption">Logistics (Sigmoid)</a>
+                  <a href="#" id="act_tanhOption">Hyperbolic Tangent (tanh)</a>
                 </div>
             </div> 
         </div>    
         <div class = "column"> 
             <label for="slider">Learning rate</label>
             <br>
-            <input type="range" id="slider" min="1" max="256" value="{{ seed }}">
-            <span id="sliderValue">{{ seed }}</span>
+            <input type="range" id="slider" min="1" max="256" value="{{ LRate }}">
+            <span id="sliderValue">{{ LRate }}</span>
             <script src="{{ url_for('static', filename='script.js') }}"></script>
             <br>
         </div>

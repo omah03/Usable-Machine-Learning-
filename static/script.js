@@ -1,7 +1,42 @@
-var slider = document.getElementById("slider");
-var sliderValueElement = document.getElementById("sliderValue");
-var playButton = document.getElementById("test");
-var accuracyElement = document.getElementById("accuracy");
+act_reluOption = document.getElementById("act_reluOption")
+act_sigmoidOption = document.getElementById("act_sigmoidOption")
+act_tanhOption = document.getElementById("act_tanhOption")
+
+
+
+
+function handleActivationFunctionChange(event) {
+// Get the text of the selected option
+    var selectedOptionText = event.target.textContent;
+
+// Update the title text with the selected option
+    var titleElement = document.getElementById("selectedOption");
+    titleElement.innerHTML = "Activation Function: <br>" +selectedOptionText;
+
+// Call a function or perform an action based on the selected option
+switch (selectedOptionText) {
+    case "Retified Linear Activation (ReLU)":
+        // Call a function for ReLU activation
+        // Example: performReLUActivation();
+        break;
+    case "Logistics (Sigmoid)":
+        // Call a function for Sigmoid activation
+        // Example: performSigmoidActivation();
+        break;
+    case "Hyperbolic Tangent (tanh)":
+        // Call a function for tanh activation
+        // Example: performTanhActivation();
+        break;
+    default:
+        // Handle any other cases or do nothing
+        break;
+}}
+
+// Add a "click" event listener to the dropdown options
+act_reluOption.addEventListener("click", handleActivationFunctionChange);
+act_sigmoidOption.addEventListener("click", handleActivationFunctionChange);
+act_tanhOption.addEventListener("click", handleActivationFunctionChange);
+
 
 // Function to disable slider and button when button is pressed
 playButton.addEventListener('click', function () {
