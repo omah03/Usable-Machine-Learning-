@@ -94,7 +94,7 @@ flex-grow: 0;
 }
 .column {
   float: left;
-  width: 16.6%;
+  width: auto;
   padding: 10px;
 }
 
@@ -189,4 +189,16 @@ height: 229px;
 
 background: #D0F4FF;
 border: 2px solid #000000;
+}
+
+.infobox {
+  box-sizing: border-box;
+
+  width: 40%;
+  height: 150px;
+  margin-top: 30px;
+  margin-left: 20%;
+
+  background: #D0F4FF;
+  border: 2px solid #000000;
 }
