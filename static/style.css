@@ -8,94 +8,19 @@ h1 {
 }
 
 input[type="range"] {
-  width: 80%;
-  margin: 20px;
+  width:80%;
+  margin: 5px;
+  margin-left:25px;
 }
 
-.button {
-/* Button - Open Links, Navigate Design */
 
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 69px;
-height: 51px;
-
-
-/* Button Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 3px 3px 6px;
-
-width: 69px;
-height: 51px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Label Container */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 10.5px 21px;
-
-width: 63px;
-height: 42px;
-
-background: #FFFFFF;
-border: 2px solid #F14722;
-box-shadow: 0px 3px 0px #F14722;
-border-radius: 14px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Label */
-
-width: 21px;
-height: 21px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 21px;
-line-height: 25px;
-
-color: #333333;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-}
-
-#value_display {
-  font-size: 20px;
-  margin: 20px;
-
-}
 .column {
+  display: flex;
   float: left;
+  flex-direction: column;
   width: auto;
   padding: 10px;
+  align-items: center;
 }
 
 /* Clear floats after the columns */
@@ -151,6 +76,11 @@ flex-grow: 0;
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: #3e8e41;} 
 
+.sliderDisplay {
+  display: flex;
+  flex-direction: row;
+}
+
 .inputbox {
   /* Layer 1 */
 
@@ -166,30 +96,40 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 border-radius: 30px;
 }
 .block {
-/* Layer 1 */
+  /* Layer 1 */
+  display:flex;
+  align-items: center;
+  box-sizing: border-box;
 
-box-sizing: border-box;
-
-width: 135px;
-height: 117.44px;
+  width: 135px;
+  height: 117.44px;
 
 
-background: #FFFFFF;
-border: 1px solid #000000;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-border-radius: 30px;
+  background: #FFFFFF;
+  border: 1px solid #000000;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 30px;
+}
+
+.MinusButton {
+  display: flex;
+}
+
+.AddButton {
+  display: flex;
 }
 
 .rectanglelayer {
   /* Rectangle 5 */
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
 
-box-sizing: border-box;
+  width: 80%;
+  height: 229px;
 
-width: 80%;
-height: 229px;
-
-background: #D0F4FF;
-border: 2px solid #000000;
+  background: #D0F4FF;
+  border: 2px solid #000000;
 }
 
 .infobox {

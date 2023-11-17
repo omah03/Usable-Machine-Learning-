@@ -1,8 +1,8 @@
 //------------------------------------------------------------------
 // Activation Function Dropdown Menu
-act_reluOption = document.getElementById("act_reluOption")
-act_sigmoidOption = document.getElementById("act_sigmoidOption")
-act_tanhOption = document.getElementById("act_tanhOption")
+const act_reluOption = document.getElementById("act_reluOption")
+const act_sigmoidOption = document.getElementById("act_sigmoidOption")
+const act_tanhOption = document.getElementById("act_tanhOption")
 
 function handleActivationFunctionChange(event) {
 // Get the text of the selected option
@@ -39,50 +39,99 @@ act_tanhOption.addEventListener("click", handleActivationFunctionChange);
 
 //------------------------------------------------------------------
 //Sliders
-var sliders= ["LRateSlider", "BSizeSlider", "NEpochsSlider", "KSizeSlider", "StrideSlider"];
+const sliders= ["LRateSlider", "BSizeSlider", "NEpochsSlider", "KSizeSlider", "StrideSlider"];
 
 for (const slider of sliders) {
     SliderElement= document.getElementById(slider);
     SliderElement.addEventListener("input", (event)=> {updateSliderValue(event.target);});
     updateSliderValue(SliderElement);
 }
-/*
-LRateSlider= document.getElementById("LRateSlider");
-LRateSlider.addEventListener("input", (event)=> {updateSliderValue(event.target);});
 
-BSizeSlider= document.getElementById("BSizeSlider");
-BSizeSlider.addEventListener("input", (event)=> {updateSliderValue(event.target);});
-
-NEpochsSlider= document.getElementById("NEpochsSlider");
-NEpochsSlider.addEventListener("input", (event)=> {updateSliderValue(event.target);});
-
-KSizeSlider= document.getElementById("KSizeSlider");
-KSizeSlider.addEventListener("input", (event)=> {updateSliderValue(event.target);});
-
-StrideSlider= document.getElementById("StrideSlider");
-StrideSlider.addEventListener("input", (event)=> {updateSliderValue(event.target);});
-
-
-*/
 
 function updateSliderValue(slider) {
     var  displayId = slider.id.replace("Slider", "Display");
     var display = document.getElementById(displayId);
 
-    display.innerHTML = slider.value;
+    display.innerHTML=("0000"+slider.value.toString()).slice(-3)
     
     // Call the backend
-    //callBackend(sliderId, slider.value);
 }
 
-//LRateSlider.addEventListener("DCMContentLoaded", handleSliderChange)
+
+//------------------------------------------------------------------
+//MODEL CREATOR
 
 
+//------------------------------------------------------------------
+//MODEL CREATOR -- Blocks
+
+//INIT STATE: Hide all but BLOCK 1 & 2
+//To hide Block, set block.style.display = "none"
+//To display set block.className = "block"
 
 
+var Blocks=[];
+//get input block
+Blocks[0]= document.getElementById("inputbox");
+
+var MinusButtons=[""]; //leave first empty so index matches
+var AddButtons=[""];
 
 
+// Loop through blocks from 1 to 5 (hiding everything)
+for (let i = 1; i <= 5; i++) {
+    var block = document.getElementById(`block${i}`);
+    Blocks[i]=block;
+    var Add_block = document.getElementById(`Add_block${i}`);
+    AddButtons[i]=Add_block;
+    var Minus_block = document.getElementById(`Minus_block${i}`);
+    MinusButtons[i]=Minus_block;
+    
+    if (block) {
+      block.style.setProperty("display", "none");
+    }
+  
+    if (Add_block) {
+      Add_block.style.setProperty("display", "none");
+      Add_block.addEventListener("click", () => {
+        Blocks[i].style.display="flex";
+        AddButtons[i].style.display="none";
+        if (i<5){
+        AddButtons[i+1].style.display="flex";}
+        
+        MinusButtons[i].style.display="flex";
+        if (i>1){
+        MinusButtons[i-1].style.display="none";}
 
+        }
+    );
+    }
+    
+    if (Minus_block) {
+      Minus_block.style.setProperty("display", "none");
+      Minus_block.addEventListener("click", () => {
+        Blocks[i].style.display="none";
+        AddButtons[i].style.display="flex";
+        if (i<5){
+        AddButtons[i+1].style.display="none";}
+        
+        MinusButtons[i].style.display="none";
+        if (i>1){
+        MinusButtons[i-1].style.display="flex";}
+
+            }
+        );
+    }
+  }
+
+
+Blocks[1].style.display="flex";
+
+Blocks[2].style.display="flex";
+
+MinusButtons[2].style.display="flex";
+
+AddButtons[3].style.display="flex";
 
 
 
