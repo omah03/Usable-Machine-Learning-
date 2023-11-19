@@ -42,13 +42,16 @@ class ModelBuilder(nn.Module):
         super(ModelBuilder, self).__init__()
         assert len(conv_params) == len(max_pool_params)
 
-        self.conv_layers = nn.ModuleList()
+        #Change nn.Modulelist to nn.Sequential
+        convOrdered = OrderedDict()
         in_channels = 1  #Grescale first, scaled up through channels latere
         w, h = input_size
         print(f'width:{w}, height:{w}')
-        for conv_param, max_pool_param in zip(conv_params, max_pool_params):
+        for layer, (conv_param, max_pool_param) in enumerate(zip(conv_params, max_pool_params)):
 
-            self.conv_layers.append(ConvBlock(in_channels, **conv_param))
+            conv_block = ConvBlock(**conv_param,**max_pool_params) 
+            convOrdered[f'conv_layer_{layer}'] = conv_block
+            
             kernel_dim = conv_param.get('kernel_size')
             stride = conv_param.get('stride')  
             padding = conv_param.get('padding')
@@ -56,18 +59,16 @@ class ModelBuilder(nn.Module):
 
             kernel_dim = max_pool_param.get('kernel_size')
             stride = max_pool_param.get('stride')  
-            w,h = self.calculate_output_dims(w, h, kernel_dim, stride, 0)
+            padding = max_pool_param.get('padding')
 
-            in_channels = conv_param['out_channels']
-
-        # Calculate flattened size based on the last values of w and h
-        flattened = in_channels * w * h
-
-        self.linear_layers = nn.ModuleList()
-        in_features = flattened
-        for params in linear_params:
-            self.linear_layers.append(LinearBlock(in_features, **params))
-            in_features = params ['out_features']
+        self.conv_layers = nn.Sequential(convOrdered)       
+            
+        linear_ordered = OrderedDict()
+        for idx, params in enumerate(linear_params):
+            linear_block = LinearBlock(**params)
+            linear_ordered[f'linear_layer_{idx}'] = linear_block
+        
+        self.linear_layers = nn.Sequential(linear_ordered)
           
 
     def calculate_output_dims(self,width_input,height_input,kernel_dim,stride,padding):      
@@ -85,5 +86,6 @@ class ModelBuilder(nn.Module):
         return x
 
 model = ModelBuilder(conv_params=conv_params,linear_params=linear_params,max_pool_params=maxpool_params)
-print(summary(model, input_size = (1,1,28,28)))
+summary(model,input_size(1,1,28,28))
+
 
