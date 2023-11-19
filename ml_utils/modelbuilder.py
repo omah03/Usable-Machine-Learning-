@@ -78,13 +78,11 @@ class ModelBuilder(nn.Module):
         width_output = (width_input + 2*padding - (kernel_dim-1)-1 // stride) + 1
         height_output = (height_input + 2*padding- (kernel_dim-1)-1 // stride) + 1
         return width_output,height_output
- 
+            
     def forward(self, x):
-        for layer in self.conv_layers:
-            x = layer(x)
+        x = self.conv_layers(x)
         x = x.view(x.size(0), -1)
-        for layer in self.linear_layers:
-            x = layer(x)
+        x = self.linear_layers(x)
         return x
 
 model = ModelBuilder(conv_params=conv_params,linear_params=linear_params,max_pool_params=maxpool_params)
