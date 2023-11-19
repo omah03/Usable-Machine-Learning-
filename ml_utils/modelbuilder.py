@@ -14,13 +14,15 @@ THE BLOCK:
         Conv2D layer
         Activation function
         MaxPool layer
+        Can be passed conv and max_pool params as merged dict 
+        Params = {**conv_params,**max_pool_params}
 """
 class ConvBlock(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride, padding, activation_function):
+    def __init__(self, in_channels, out_channels, kernel_size_conv, stride_conv, padding, activation_function,kernel_size_max_pool,stride_max_pool):
         super(ConvBlock, self).__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding)
         self.activation = activation_function
-        self.maxpool = nn.MaxPool2d(**maxpool_params)
+        self.maxpool = nn.MaxPool2d(kernel_size_max_pool,stride_max_pool)
 
     def forward(self, x):
         x = self.conv(x)
