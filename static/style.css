@@ -94,6 +94,8 @@ background: #FFFFFF;
 border: 1px solid #000000;
 box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 border-radius: 30px;
+
+margin: 20px;
 }
 .block {
   /* Layer 1 */
@@ -109,28 +111,57 @@ border-radius: 30px;
   border: 1px solid #000000;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
+
+  margin-top: 20px;
 }
 
 .MinusButton {
   display: flex;
+  margin-top: 25px;
+  padding: 10px;
+  background-color:#ff0033;
+  border-radius: 25px;
+  width: 50px;
+  justify-content: center;
 }
 
 .AddButton {
   display: flex;
+  justify-content: center;
+  background-color: #04AA6D;
+  border-radius: 25px;
+  width: 50px;
+  margin-top: 50px;
+  margin-left: 10px;
+  padding: 10px;
 }
-
 .rectanglelayer {
   /* Rectangle 5 */
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
 
-  width: 80%;
+  width: 1000px;
   height: 229px;
 
   background: #D0F4FF;
   border: 2px solid #000000;
 }
+
+.staticClassifier {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+
+  width: 500px;
+  height: 229px;
+
+  background: #D0F4FF;
+  border: 2px solid #000000;
+
+  margin-left: 20px;
+}
+
 
 .infobox {
   box-sizing: border-box;
