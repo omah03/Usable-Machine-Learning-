@@ -51,7 +51,7 @@ class ModelBuilder(nn.Module):
         print(f'width:{w}, height:{w}')
         for layer, (conv_param, max_pool_param) in enumerate(zip(conv_params, max_pool_params)):
 
-            conv_block = ConvBlock(**conv_param,**max_pool_params) 
+            conv_block = ConvBlock({**conv_param,**max_pool_params}) 
             convOrdered[f'conv_layer_{layer}'] = conv_block
             
             kernel_dim = conv_param.get('kernel_size')
