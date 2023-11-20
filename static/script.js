@@ -49,12 +49,23 @@ for (const slider of sliders) {
 
 
 function updateSliderValue(slider) {
+    const sliderValue= slider.value;
+    const sliderName = slider.id.replace("Slider", "");
     var  displayId = slider.id.replace("Slider", "Display");
     var display = document.getElementById(displayId);
 
-    display.innerHTML=("0000"+slider.value.toString()).slice(-3)
+    display.innerHTML=("0000"+sliderValue.toString()).slice(-3)
     
     // Call the backend
+    fetch('/update_value', {
+        method:'POST',
+        headers :{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"type": sliderName,
+                "value": sliderValue})
+    })
+    .then(response => response.json());
 }
 
 
