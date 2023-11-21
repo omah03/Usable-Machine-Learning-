@@ -16,11 +16,13 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 
 
-config = {"LRate": 1,
+config = {  "ActivationFunc": "",
+            "LRate": 1,
             "BSize":1,
             "KSize":1,
             "NEpochs":1,
-            "Stride":1}
+            "Stride":1,
+            "NBlocks": 2}
 # Initialize variables
 seed = 42
 acc = -1
