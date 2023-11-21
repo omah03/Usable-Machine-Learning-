@@ -16,11 +16,17 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 
 
+config = {  "ActivationFunc": "",
+            "LRate": 1,
+            "BSize":1,
+            "KSize":1,
+            "NEpochs":1,
+            "Stride":1,
+            "NBlocks": 2}
 # Initialize variables
 seed = 42
 acc = -1
 q = queue.Queue()
-
 
 def listener():
     global q, acc
@@ -28,18 +34,28 @@ def listener():
         acc = q.get()
         q.task_done()
 
-
 @app.route("/", methods=["GET", "POST"])
 def index():
     global seed, acc
     # render "index.html" as long as user is at "/"
-    return render_template("index.html", seed=seed, acc=acc)
+    return render_template("index.html")
+
+@app.route("/update_value", methods=["POST"])
+def update_value():
+    global config
+    data= request.get_json()
+
+    type= data.get("type")
+    value= data.get("value")
+    config.update({type: value})
+    print(config)
+    return jsonify("True")
 
 
 @app.route("/start_training", methods=["POST"])
 def start_training():
     # ensure that these variables are the same as those outside this method
-    global q, seed
+    global q
     # determine pseudo-random number generation
     manual_seed(seed)
     np.random.seed(seed)
@@ -55,7 +71,7 @@ def start_training():
              queue=q)
     return jsonify({"success": True})
 
-
+"""
 @app.route("/update_seed", methods=["POST"])
 def update_seed():
     global seed
@@ -67,7 +83,7 @@ def update_seed():
 def get_accuracy():
     global acc
     return jsonify({"acc": acc})
-
+"""
 
 if __name__ == "__main__":
     host = "127.0.0.1"
