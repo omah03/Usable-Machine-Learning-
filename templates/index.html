@@ -4,7 +4,7 @@
         <link rel="stylesheet" href="../static/style.css">
     </head>
 <body>
-    <div class = "row">
+    <div style="width:90%;" class = "row">
         <h2> Usable Machine Learning</h2>
         <div class = "column"> 
             <div class="dropdown">
@@ -55,31 +55,33 @@
             </div>
         </div>
     </div>
-    <div style="display:flex; flex-direction:row;">
+    <div style="display:flex; flex-direction:row; align-items: center;">
         <div class = "rectanglelayer">
-            <button id="inputbox" class = "inputbox"> INPUT</button>
-            <div class = "column">
-                <button id="block1" class = "block"> BLOCK 1</button>
+            <div class = "blockcolumn">
+                <button id="inputbox" class = "inputbox">INPUT</button>
+            </div>
+            <div class = "blockcolumn">
+                <button id="block1" class = "block">BLOCK 1</button>
                 <button id="Add_block1", class="AddButton"> + </button>
                 <button id="Minus_block1" class="MinusButton"> - </button>
             </div>
-            <div class = "column">
-                <button id="block2" class = "block"> BLOCK 2</button>
+            <div class = "blockcolumn">
+                <button id="block2" class = "block">BLOCK 2</button>
                 <button id="Add_block2" class="AddButton"> + </button>
                 <button id="Minus_block2" class="MinusButton"> - </button>
             </div>
-            <div class = "column">
-                <button id="block3" class = "block"> BLOCK 3</button>
+            <div class = "blockcolumn">
+                <button id="block3" class = "block">BLOCK 3</button>
                 <button id="Add_block3" class="AddButton"> + </button>
                 <button id="Minus_block3" class="MinusButton"> - </button>
             </div>
-            <div class = "column">
-                <button id="block4" class = "block"> BLOCK 4</button>
+            <div class = "blockcolumn">
+                <button id="block4" class = "block">BLOCK 4</button>
                 <button id="Add_block4" class="AddButton"> + </button>
                 <button id="Minus_block4" class="MinusButton"> - </button>
             </div>
-            <div class = "column">
-                <button id="block5" class = "block"> BLOCK 5</button>
+            <div class = "blockcolumn">
+                <button id="block5" class = "block">BLOCK 5</button>
                 <button id="Add_block5" class="AddButton"> + </button>
                 <button id="Minus_block5" class="MinusButton"> - </button>
             </div>
@@ -93,59 +95,42 @@
                 <div class = "column">
                     <p class= "infotext" id = "infotext"> lorem ipsum pan la la la la la la  la la la lal al al alkndl kan daksd laknsd lansd lkasd lkandl knalsdk nalksdn alknsd alksnd alknsd alksdn alksnd al k so was könnte man denn nich hier so schreiben dass man sieht ob das ganze jetzt gut angezeigt wird oder nicht tokyo ghoulg la laks aj sos aljdu </p>
                 </div>
-                <button id = "hide" name = "hide" style="position: absolute; top: 30%; right: 10px; transform: translateY(-50%)"> HIDE </button>
+                <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
                 <br>
                 <br>
-                <button id = "Show_more" name = "Show_More" style="position: absolute; top: 70%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
+                <button id = "Show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
             </div>
             </div>
         </div>
         <div class = "row">
             <div class = "trainingrectangle">
-                <div class = "column">
-                    <p> TRAINING</p>
+                <div  class = "column" style="width:20%;">
+                    <p style="margin: auto; width:90%; font-size:180%;">TRAIN</p>
                 </div>
-                <div class = "column">
-                <button id = "starttraining" name="starttraining"> START</button>
-                </div>
-                <div class = "column">
-                    <button id = "pausetraining" name="pausetraining"> pause</button>
-                </div>
-                <div class = "column">
-                    <button id = "restarttraining" name="restarttraining"> restart with new</button>
-                </div>
-                <div class = "column">
-                    <button id = "continuetraining" name="continuetraining"> continue with both</button>
-                </div>
-                <div class = "column">
-                    <button id = "savetraining" name="savetraining"> save training state</button>
-                </div>                <div class = "column">
-                <button id = "loadtraining" name="loadtraining"> load state</button>
+                <div  class = "row" style="display:flex; display-direction:row; width:80%">                
+                    <button id = "starttraining" name="starttraining" class= "button"> START</button>
+                    <button id = "pausetraining" name="pausetraining" class= "button"> pause</button>
+                    <button id = "restarttraining" name="restarttraining" class= "button"> restart with new</button>
+                    <button id = "continuetraining" name="continuetraining"  class= "button"> continue both</button>
+                    <button id = "savetraining" name="savetraining"  class= "button"> save state</button>
+                    <button id = "loadtraining" name="loadtraining"  class= "button"> load state</button>
                 </div>
             </div>
         </div>
         <div class = "row"> 
             <div class = "testrectangle">
-                <div class = "column">
-                    <p> TEST TBD</p>
+                <div  class = "column" style="width:20%;">
+                    <p style="margin: auto; width:90%; font-size:180%;">TEST</p>
                 </div>
-                <div class = "column">
-                <button id = "starttest" name="starttest"> START</button>
-                </div>
-                <div class = "column">
-                    <button id = "pausetest" name="pausetest"> pause</button>
-                </div>
-                <div class = "column">
-                    <button id = "restarttest" name="restarttest"> restart with new</button>
-                </div>
-                <div class = "column">
-                    <button id = "continuetest" name="continuetest"> continue with both</button>
-                </div>
-                <div class = "column">
-                    <button id = "savetest" name="savetest"> save training state</button>
-                </div>                <div class = "column">
-                <button id = "loadtest" name="loadtest"> load state</button>
-                </div>
+                <div  class = "row" style="display:flex; display-direction:row; width:80%">                
+                    <button id = "starttest" name="starttest"  class= "button"> START</button>
+                    <button id = "pausetest" name="pausetest" class= "button"> pause</button>
+                    <button id = "restarttest" name="restarttest" class= "button"> restart with new</button>
+                    <button id = "continuetest" name="continuetest" class= "button"> continue both</button>
+                    <button id = "savetest" name="savetest" class= "button"> save state</button>
+                    <button id = "loadtest" name="loadtest" class= "button"> load state</button>
+                </div>                
+
             </div>
         </div>
     <!-- only need this once -->

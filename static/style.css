@@ -34,14 +34,25 @@ input[type="range"] {
   box-sizing: border-box;
 }
 
+
+
 /* Dropdown Button */
 .dropbtn {
   background-color: #04AA6D;
   color: white;
-  padding: 16px;
-  font-size: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  padding-left: auto;
+  font-size: auto;
   border: none;
-  min-width: 270px; /* so it doesnt change size when text changes*/
+  margin-left: 15px;
+
+  min-width: 200px;
+  max-width: 200px;
+  min-height: 50px;
+  max-height: 50px; /* so it doesnt change size when text changes*/
+  /* so it doesnt change size when text changes*/
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -81,48 +92,69 @@ input[type="range"] {
   flex-direction: row;
 }
 
-.inputbox {
-  /* Layer 1 */
-
-box-sizing: border-box;
-
-width: 135px;
-height: 180px;
-
-
-background: #FFFFFF;
-border: 1px solid #000000;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-border-radius: 30px;
-
-margin: 20px;
-}
-.block {
-  /* Layer 1 */
+.inputbox{
   display:flex;
   align-items: center;
   box-sizing: border-box;
 
-  width: 135px;
+  width: 90%;
+  height: 180px;
+
+
+  background: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 30px;
+
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  margin-left:auto;
+}
+
+.blockcolumn {
+  display: flex;
+  float: left;
+  flex-direction: column;
+  width: 20%;
+  padding: 1%;
+  align-items: center;
+}
+
+.block {
+  display:flex;
+  align-items: center;
+  box-sizing: border-box;
+
+  width: 90%;
   height: 117.44px;
 
 
   background: #FFFFFF;
   border: 1px solid #000000;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
 
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-left:auto;
 }
 
 .MinusButton {
   display: flex;
-  margin-top: 25px;
-  padding: 10px;
   background-color:#ff0033;
   border-radius: 25px;
-  width: 50px;
+  width: 30%;
   justify-content: center;
+
+  color:#FFFFFF;
+  font-size: xx-large;
+  font-weight: bolder;
+
+  margin-top: 10px;
+  margin-left:5%;
+
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 .AddButton {
@@ -130,10 +162,20 @@ margin: 20px;
   justify-content: center;
   background-color: #04AA6D;
   border-radius: 25px;
-  width: 50px;
+  width: 30%;
+
+  color:#FFFFFF;
+  font-size:xx-large;
+  font-weight: bolder;
+
   margin-top: 50px;
-  margin-left: 10px;
-  padding: 10px;
+  margin-left: -50%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10%;
+  padding-right: 10%;
+
+
 }
 .rectanglelayer {
   /* Rectangle 5 */
@@ -141,7 +183,7 @@ margin: 20px;
   flex-direction: row;
   box-sizing: border-box;
 
-  width: 1000px;
+  width: 60%;
   height: 229px;
 
   background: #D0F4FF;
@@ -153,7 +195,7 @@ margin: 20px;
   flex-direction: row;
   box-sizing: border-box;
 
-  width: 500px;
+  width: 30%;
   height: 229px;
 
   background: #D0F4FF;
@@ -185,6 +227,9 @@ margin: 20px;
 }
 
 .trainingrectangle {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
   box-sizing: border-box;
 
   position: relative;
@@ -197,6 +242,9 @@ margin: 20px;
 
 }
 .testrectangle {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
   box-sizing: border-box;
 
   position: relative;
@@ -207,4 +255,21 @@ margin: 20px;
   background: #D0F4FF;
   border: 2px solid #000000;
 
+}
+.button{
+  display:flex;
+  border: 2px solid #000000;
+  background-color: #FFFFFF;
+  height: 60px;
+  width: auto;
+  margin: auto;
+  font-size: 100%;
+  text-transform:uppercase;
+  align-items: center;
+}
+.button:hover {
+  background-color: #919191; /* Color on hover */
+}
+.button:active {
+  transform: scale(0.95); /* Scale down on click */
 }
