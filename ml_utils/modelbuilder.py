@@ -1,7 +1,6 @@
 import config
 import torch
 import torch.nn as nn
-import torchinfo 
 """
 Create blocks for each type of layer: Maxpool, Convolution and Linear. 
 Perhaps Maxpool and Conv can be stuck together since maxpool follows convolutional. 
@@ -72,7 +71,9 @@ class ModelBuilder(nn.Module):
             if len(self.conv_layers) >= 5:
                 print("Maximum of 5 convolutional blocks allowed.")
                 break
-            self.conv_layers.append(ConvBlock(in_channels, **conv_param,maxpool_params=max_pool_param))
+            conv_param['in_channels'] = in_channels
+
+            self.conv_layers.append(ConvBlock(**conv_param,maxpool_params=max_pool_param))
             kernel_dim = conv_param.get('kernel_size')
             stride = conv_param.get('stride')  
             padding = conv_param.get('padding')
@@ -89,8 +90,9 @@ class ModelBuilder(nn.Module):
         self.linear_layers = nn.ModuleList()
         in_features = flattened
         for params in linear_params:
-            self.linear_layers.append(LinearBlock(in_features, **params))
-            in_features = params ['out_features']
+            params['in_features'] = in_features
+            self.linear_layers.append(LinearBlock( **params))
+            in_features = params['out_features']
           
 
     def calculate_output_dims(self,width_input,height_input,kernel_size,stride,padding):      
@@ -181,5 +183,5 @@ class ModelBuilder(nn.Module):
 
 
 model = ModelBuilder(conv_params=conv_params,linear_params=linear_params,max_pool_params=maxpool_params)
-print(summary(model, input_size = (1,1,28,28)))
+#print(summary(model, input_size = (1,1,28,28)))
 
