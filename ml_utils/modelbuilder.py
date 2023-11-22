@@ -35,7 +35,6 @@ maxpool_params = [
     {"kernel_size": 2, "stride": 2}
 ]
 
-
 linear_params = [
     {"in_features": 512, "out_features": 32, "activation_function": activation_function},
     {"in_features": 32, "out_features": 10, "activation_function": activation_function},
@@ -66,13 +65,13 @@ class ModelBuilder(nn.Module):
         super(ModelBuilder, self).__init__()
         assert len(conv_params) == len(max_pool_params)
         # Initialize with at least one convolutional block
-        self.conv_layers = nn.ModuleList([ConvBlock(1, **conv_params[0], maxpool_params=max_pool_params[0])])
-
         self.conv_layers = nn.ModuleList()
         in_channels = 1  #Grescale first, scaled up through channels latere
         w, h = input_size
-        print(f'width:{w}, height:{h}')
         for conv_param, max_pool_param in zip(conv_params, max_pool_params,):
+            if len(self.conv_layers) >= 5:
+                print("Maximum of 5 convolutional blocks allowed.")
+                break
             self.conv_layers.append(ConvBlock(in_channels, **conv_param,maxpool_params=max_pool_param))
             kernel_dim = conv_param.get('kernel_size')
             stride = conv_param.get('stride')  
@@ -151,7 +150,7 @@ class ModelBuilder(nn.Module):
 
     # Function to remove last block
     def remove_last_block(self):
-        if len(self.conv_layers) > 1:
+        if len(self.conv_layers) > 0:
             self.conv_layers.pop()
             self._recalculate_dimensions()
         else:
