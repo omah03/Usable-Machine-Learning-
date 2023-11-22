@@ -118,6 +118,9 @@ for (let i = 1; i <= 5; i++) {
 
     if (block) {
         block.style.setProperty("display", "none");
+        block.addEventListener("click", ()=> {
+            changeInfoText(Blocks[i].id);
+        });
     }
 
     if (Add_block) {
@@ -192,6 +195,75 @@ Blocks[2].style.display = "flex";
 MinusButtons[2].style.display = "flex";
 
 AddButtons[3].style.display = "flex";
+
+textOptions={"block": "This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.",
+            "block1": "Its input is a batch of $batch_size$ grayscale images of the dataset. These images are 28 x 28 pixels. <br> Its output depends on the Kernel Size and stride parameters. <br> Input: $batch_size$ x 1 x 28 x28 <br> Output: $block1_output$",   
+            "block2": "Its input is the output of the previous block. <br> Its output depends on the Kernel Size and stride parameters. <br> Input: $block1_output$ <br> Output: $block2_output$" 
+        };   
+
+const infotext = document.getElementById("infotext");
+const infobox= document.getElementById("infobox");
+
+document.getElementById("hide").addEventListener("click", ()=>{
+    infobox.style.display="none";
+})
+
+function changeInfoText(elementID){
+    infobox.style.display="flex";
+    element= document.getElementById(elementID);
+    if (element && element.style.display=="flex"){
+    if (elementID=="block1"){
+        infotext.innerHTML=textOptions["block"]+textOptions["block1"];
+    }
+    else if (elementID=="inputbox")
+    {
+
+    }
+    else {
+        infotext.innerHTML=textOptions["block"]+textOptions["block2"];
+    }
+}
+}
+
+
+
+//------------------------------------------------------------------
+//CONTROLS
+
+const buttonList=["start","pause", "restart", "continue", "save", "load"];
+
+//TRAINING CONTROLS
+for (const button of buttonList){
+    ButtonElement= document.getElementById(button+"training");
+    ButtonElement.addEventListener("click", () => {
+        handleButton(button+"training");
+    });
+}
+
+//TESTING CONTROLS
+for (const button of buttonList){
+    ButtonElement= document.getElementById(button+"test");
+    ButtonElement.addEventListener("click", () => {
+        handleButton(button+"test");
+    });
+}
+
+
+function handleButton(buttonName){
+        // Call the backend
+        console.log(buttonName)
+        fetch('/button_press', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "type": buttonName
+            })
+        })
+            .then(response => response.json());
+    
+}
 
 
 

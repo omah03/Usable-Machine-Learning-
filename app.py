@@ -52,24 +52,16 @@ def update_value():
     return jsonify("True")
 
 
-@app.route("/start_training", methods=["POST"])
-def start_training():
-    # ensure that these variables are the same as those outside this method
-    global q
-    # determine pseudo-random number generation
-    manual_seed(seed)
-    np.random.seed(seed)
-    # initialize training
-    model = ConvolutionalNeuralNetwork()
-    opt = SGD(model.parameters(), lr=0.3, momentum=0.5)
-    # execute training
-    training(model=model,
-             optimizer=opt,
-             cuda=True,
-             n_epochs=10,
-             batch_size=256,
-             queue=q)
-    return jsonify({"success": True})
+@app.route("/button_press", methods=["POST"])
+def handleButton():
+    data=request.get_json()
+    type= data.get("type")
+
+    # Do match case statement for every button (python 3.10 doesnt support match case)
+    if type=="starttraining":         
+        print(" TRAINING STARTING ")
+    return jsonify("True")
+
 
 """
 @app.route("/update_seed", methods=["POST"])
