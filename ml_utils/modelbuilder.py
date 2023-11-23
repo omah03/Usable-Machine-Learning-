@@ -156,3 +156,4 @@ class ModelBuilder(nn.Module):
 #summary(model,input_size(1,1,28,28))
 
 
+#YOOOOOOOOOOOOOOO
