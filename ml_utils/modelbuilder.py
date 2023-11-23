@@ -160,5 +160,5 @@ class ModelBuilder(nn.Module):
 
 
 model = ModelBuilder(conv_params=conv_params,linear_params=linear_params,max_pool_params=maxpool_params)
-#print(summary(model, input_size = (1,1,28,28)))
+print(summary(model, input_size = (1,1,28,28)))
 
