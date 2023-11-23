@@ -44,24 +44,18 @@ class ModelBuilder(nn.Module):
         super(ModelBuilder, self).__init__()
         assert len(conv_params) == len(max_pool_params)
 
-        #Change nn.Modulelist to nn.Sequential
         convOrdered = OrderedDict()
-        in_channels = 1  #Grescale first, scaled up through channels latere
         w, h = input_size
         print(f'width:{w}, height:{w}')
         for layer, (conv_param, max_pool_param) in enumerate(zip(conv_params, max_pool_params)):
 
-            conv_block = ConvBlock({**conv_param,**max_pool_params}) 
+            conv_block = ConvBlock({**conv_param,**max_pool_param}) 
             convOrdered[f'conv_layer_{layer}'] = conv_block
             
             kernel_dim = conv_param.get('kernel_size')
             stride = conv_param.get('stride')  
             padding = conv_param.get('padding')
             w,h = self.calculate_output_dims(w, h, kernel_dim, stride, padding)
-
-            kernel_dim = max_pool_param.get('kernel_size')
-            stride = max_pool_param.get('stride')  
-            padding = max_pool_param.get('padding')
 
         self.conv_layers = nn.Sequential(convOrdered)       
             
