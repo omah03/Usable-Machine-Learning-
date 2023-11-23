@@ -74,8 +74,8 @@ class ModelBuilder(nn.Module):
 
     def calculate_output_dims(self,width_input,height_input,kernel_size,stride,padding):      
         #only works with square kernels for now
-        width_output = (width_input - kernel_size + 2 * padding )// stride + 1
-        height_output = (height_input - kernel_size + 2 * padding) // stride + 1
+        width_output = int((width_input - kernel_size + 2 * padding )/ stride + 1)
+        height_output = int((height_input - kernel_size + 2 * padding) / stride + 1)
         return width_output,height_output
  
     def forward(self, x):
