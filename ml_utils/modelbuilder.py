@@ -1,7 +1,7 @@
 import config
 import torch
 import torch.nn as nn
-import torchinfo 
+from collections import OrderedDict
 """
 Create blocks for each type of layer: Maxpool, Convolution and Linear. 
 Perhaps Maxpool and Conv can be stuck together since maxpool follows convolutional. 
@@ -14,38 +14,16 @@ THE BLOCK:
         Conv2D layer
         Activation function
         MaxPool layer
+        Can be passed conv and max_pool params as merged dict 
+        Params = {**conv_params,**max_pool_params}
 """
 
-activation_function = nn.Tanh
-
-conv_params = [
-    {"in_channels": 1, "out_channels": 16, "kernel_size": 8, "stride": 2, "padding": 2, "activation_function": nn.Tanh},
-    {"in_channels": 16, "out_channels": 32, "kernel_size": 4, "stride": 2, "padding": 1, "activation_function": nn.Tanh},
-    {"in_channels": 32, "out_channels": 64, "kernel_size": 3, "stride": 2, "padding": 1, "activation_function": nn.Tanh},
-    {"in_channels": 64, "out_channels": 128, "kernel_size": 3, "stride": 1, "padding": 1, "activation_function": nn.Tanh},
-    {"in_channels": 128, "out_channels": 256, "kernel_size": 2, "stride": 1, "padding": 0, "activation_function": nn.Tanh}
-]
- 
-
-maxpool_params = [
-    {"kernel_size": 2, "stride": 2},
-    {"kernel_size": 2, "stride": 2},
-    {"kernel_size": 2, "stride": 2},
-    {"kernel_size": 2, "stride": 2},
-    {"kernel_size": 2, "stride": 2}
-]
-
-
-linear_params = [
-    {"in_features": 512, "out_features": 32, "activation_function": activation_function},
-    {"in_features": 32, "out_features": 10, "activation_function": activation_function},
-]
 class ConvBlock(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride, padding, activation_function,maxpool_params):
+    def __init__(self, in_channels, out_channels, kernel_size_conv, stride_conv, padding, activation_function,kernel_size_max_pool,stride_max_pool):
         super(ConvBlock, self).__init__()
-        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding)
+        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size_conv, stride_conv, padding)
         self.activation = activation_function
-        self.maxpool = nn.MaxPool2d(**maxpool_params)
+        self.maxpool = nn.MaxPool2d(kernel_size_max_pool,stride_max_pool)
 
     def forward(self, x):
         x = self.conv(x)
@@ -65,15 +43,17 @@ class ModelBuilder(nn.Module):
     def __init__(self, conv_params, linear_params, max_pool_params, input_size=(28,28)):
         super(ModelBuilder, self).__init__()
         assert len(conv_params) == len(max_pool_params)
-        # Initialize with at least one convolutional block
-        self.conv_layers = nn.ModuleList([ConvBlock(1, **conv_params[0], maxpool_params=max_pool_params[0])])
 
-        self.conv_layers = nn.ModuleList()
+        #Change nn.Modulelist to nn.Sequential
+        convOrdered = OrderedDict()
         in_channels = 1  #Grescale first, scaled up through channels latere
         w, h = input_size
-        print(f'width:{w}, height:{h}')
-        for conv_param, max_pool_param in zip(conv_params, max_pool_params,):
-            self.conv_layers.append(ConvBlock(in_channels, **conv_param,maxpool_params=max_pool_param))
+        print(f'width:{w}, height:{w}')
+        for layer, (conv_param, max_pool_param) in enumerate(zip(conv_params, max_pool_params)):
+
+            conv_block = ConvBlock({**conv_param,**max_pool_params}) 
+            convOrdered[f'conv_layer_{layer}'] = conv_block
+            
             kernel_dim = conv_param.get('kernel_size')
             stride = conv_param.get('stride')  
             padding = conv_param.get('padding')
@@ -81,31 +61,28 @@ class ModelBuilder(nn.Module):
 
             kernel_dim = max_pool_param.get('kernel_size')
             stride = max_pool_param.get('stride')  
-            w,h = self.calculate_output_dims(w, h, kernel_dim, stride, 0)
+            padding = max_pool_param.get('padding')
 
-            in_channels = conv_param['out_channels']
-
-        flattened = in_channels * w * h
-
-        self.linear_layers = nn.ModuleList()
-        in_features = flattened
-        for params in linear_params:
-            self.linear_layers.append(LinearBlock(in_features, **params))
-            in_features = params ['out_features']
+        self.conv_layers = nn.Sequential(convOrdered)       
+            
+        linear_ordered = OrderedDict()
+        for idx, params in enumerate(linear_params):
+            linear_block = LinearBlock(**params)
+            linear_ordered[f'linear_layer_{idx}'] = linear_block
+        
+        self.linear_layers = nn.Sequential(linear_ordered)
           
 
     def calculate_output_dims(self,width_input,height_input,kernel_size,stride,padding):      
         #only works with square kernels for now
-        width_output = (width_input - kernel_size + 2 * padding )// stride + 1
-        height_output = (height_input - kernel_size + 2 * padding) // stride + 1
+        width_output = int((width_input - kernel_size + 2 * padding )/ stride + 1)
+        height_output = int((height_input - kernel_size + 2 * padding) / stride + 1)
         return width_output,height_output
- 
+            
     def forward(self, x):
-        for layer in self.conv_layers:
-            x = layer(x)
+        x = self.conv_layers(x)
         x = x.view(x.size(0), -1)
-        for layer in self.linear_layers:
-            x = layer(x)
+        x = self.linear_layers(x)
         return x
     
     # Function to add conv blocks
@@ -151,7 +128,7 @@ class ModelBuilder(nn.Module):
 
     # Function to remove last block
     def remove_last_block(self):
-        if len(self.conv_layers) > 1:
+        if len(self.conv_layers) > 0:
             self.conv_layers.pop()
             self._recalculate_dimensions()
         else:
@@ -181,6 +158,7 @@ class ModelBuilder(nn.Module):
             self.linear_layers[0].linear.in_features = flattened
 
 
-model = ModelBuilder(conv_params=conv_params,linear_params=linear_params,max_pool_params=maxpool_params)
-print(summary(model, input_size = (1,1,28,28)))
+#model = ModelBuilder(conv_params=conv_params,linear_params=linear_params,max_pool_params=maxpool_params)
+#summary(model,input_size(1,1,28,28))
+
 
