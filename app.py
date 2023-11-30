@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO, emit
 import numpy as np
 
-from ml_utils.config import conv_params, maxpool_params, ConfigHandler
+from ml_utils.config import conv_params, maxpool_params
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -34,14 +34,11 @@ def index():
 def update_value():
     global config
     data= request.get_json()
+
     type= data.get("type")
     value= data.get("value")
-    if type.startswith("Setting_"): # UGLY SOLUTION 
-        NBlock=data.get("block")
-        ConfigHandler.set_from_frontend(type.replace("Setting_", ""), NBlock, value)
-    else:
-        config.update({type: value})
-        print(config)
+    config.update({type: value})
+    print(config)
     return jsonify("True")
 
 

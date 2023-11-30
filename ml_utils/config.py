@@ -2,24 +2,6 @@ import torch
 import torch.nn as nn
 
 #Define characteristics for all the layers as lists of dictionaries
-class ConfigHandler():
-    def __init__(self):
-        pass
-
-    def set_from_frontend(param: str, block:int, value):
-        if param== "conv_KSize":
-            conv_params[block-1]["kernel_size"]= value
-        elif param== "conv_Stride":
-            conv_params[block-1]["stride"]= value
-        elif param== "conv_Padding":
-            conv_params[block-1]["padding"]= value
-        elif param== "pool_KSize":
-            maxpool_params[block-1]["kernel_size"]= value
-        elif param== "pool_Stride":
-            maxpool_params[block-1]["stride"]= value
-        else:
-            raise Exception(param, block, value)
-        print(conv_params[block-1], maxpool_params[block-1])
 
 activation_function = nn.Tanh
 

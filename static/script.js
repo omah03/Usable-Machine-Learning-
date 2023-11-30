@@ -196,11 +196,9 @@ Blocks[0].addEventListener("click", () => {
 var ActiveBlockNum = 0;
 
 function setActiveBlock(i) {
-    settingsbox.style.display="flex";
     Blocks[ActiveBlockNum].style.background = "#FFFFFF";
     ActiveBlockNum = i;
-    Blocks[i].style.background = "#0099ff";
-    document.getElementById("ActiveBlockDisplay").innerHTML= Blocks[i].id
+    Blocks[i].style.background = "#000000";
     // Call the backend
     if (i > 0 && i<6) {
         fetch(`/get_block_config?block=${i}`, {
@@ -213,7 +211,7 @@ function setActiveBlock(i) {
             .then(data => updateSettingsValues(data));
     }
     else {
-        var displays = settingsbox.getElementsByClassName("sliderDisplay");
+        var displays = document.getElementById("settingsbox").getElementsByClassName("sliderDisplay");
         for (const display of displays){
             display.style.display="none";
         }
@@ -256,11 +254,9 @@ textOptions = {
 
 const infotext = document.getElementById("infotext");
 const infobox = document.getElementById("infobox");
-const settingsbox= document.getElementById("settingsbox");
 
 document.getElementById("hide").addEventListener("click", () => {
     infobox.style.display = "none";
-    settingsbox.style.display="none"
 })
 
 function changeInfoText(elementID) {
@@ -308,7 +304,7 @@ function handleSettingsChange(name) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type": "Setting_"+name,
+                "type": name,
                 "block": BlockNum,
                 "value": sliderValue
             })
