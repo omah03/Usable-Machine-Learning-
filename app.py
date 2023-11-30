@@ -9,7 +9,7 @@ from torch import manual_seed, Tensor
 from torch.optim import Optimizer, SGD
 
 from ml_utils.model import ConvolutionalNeuralNetwork
-from ml_utils.training import training
+from ml_utils.trainingViz import training
 
 
 app = Flask(__name__)
@@ -27,6 +27,8 @@ config = {  "ActivationFunc": "",
 seed = 42
 acc = -1
 q = queue.Queue()
+
+training_active= False
 
 def listener():
     global q, acc
@@ -59,9 +61,33 @@ def handleButton():
 
     # Do match case statement for every button (python 3.10 doesnt support match case)
     if type=="starttraining":         
-        print(" TRAINING STARTING ")
+        q.put(toggle_training())
     return jsonify("True")
 
+
+def toggle_training():
+    global training_active
+    if training_active==False:
+        training_active=True    
+        manual_seed(seed)
+        np.random.seed(seed)
+        model = ConvolutionalNeuralNetwork()
+        opt = SGD(model.parameters(), lr=0.3, momentum=0.5)
+        for i in config["NEpochs"]:
+            print("training")
+            q.put(training(
+            model=model,
+            optimizer=opt,
+            cuda=False,     # change to True to run on nvidia gpu
+            batch_size=256,
+            learning_rate=0.01,
+            momentum=0.9
+            ))
+            if training_active==False:
+                print(f"STOP TRAINING AFTER EPOCH {i}")
+                break
+    else:
+        training_active=False
 
 """
 @app.route("/update_seed", methods=["POST"])
