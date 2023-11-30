@@ -1,10 +1,7 @@
 from queue import Queue
 import sys
-from tabnanny import check
-from xmlrpc.client import Boolean
 sys.path.append("ml_utils")
 from collections import OrderedDict
-from copy import copy, deepcopy
 
 import numpy as np
 from torch.cuda import empty_cache
@@ -19,7 +16,7 @@ from evaluate import accuracy
 from model import ConvolutionalNeuralNetwork
 
 import matplotlib.pyplot as plt 
-from matplotlib.animation import FuncAnimation
+
 
 
 
