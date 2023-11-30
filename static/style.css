@@ -186,7 +186,7 @@ input[type="range"] {
 
   width: 60%;
   height: 229px;
-
+  
   background: #D0F4FF;
   border: 2px solid #000000;
 }
@@ -213,11 +213,10 @@ input[type="range"] {
   width: 57%;
   height: auto;
   margin-top: 30px;
-  margin-left: 1%;
   text-align: "center";
   align-items: "center";
   justify-content: center;
-  display: flex;
+  display: none;
 
   background: #D0F4FF;
   border: 2px solid #000000;
@@ -232,14 +231,14 @@ input[type="range"] {
 
 .settingsbox {
   box-sizing: border-box;
-  display:flex;
+  display:none;
   width: 33%;
   flex-direction: column;
 
   background: #D0F4FF;
   border: 2px solid #000000;
 
-  height: auto;
+  height: 200px;
   margin-top: 30px;
   justify-content: center;
   align-items: center;
