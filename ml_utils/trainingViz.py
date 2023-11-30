@@ -16,7 +16,7 @@ from evaluate import accuracy
 from model import ConvolutionalNeuralNetwork
 
 import matplotlib.pyplot as plt 
-from matplotlib.animation import FuncAnimation
+
 
 
 
