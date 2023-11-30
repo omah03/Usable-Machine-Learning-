@@ -1,6 +1,7 @@
 import config
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from collections import OrderedDict
 """
 Create blocks for each type of layer: Maxpool, Convolution and Linear. 
@@ -42,14 +43,16 @@ class LinearBlock(nn.Module):
 class ModelBuilder(nn.Module):
     def __init__(self, conv_params, linear_params, max_pool_params, input_size=(28,28)):
         super(ModelBuilder, self).__init__()
-        assert len(conv_params) == len(max_pool_params)
-
+        if not isinstance(conv_params,list) or not isinstance(linear_params, list):
+            raise ValueError("Conv_params and linear_params must be lists")
+        if len(conv_params) != len(max_pool_params):
+            raise ValueError("Length of conv_params and max_pool_params must be equal")
         convOrdered = OrderedDict()
         w, h = input_size
         print(f'width:{w}, height:{w}')
         for layer, (conv_param, max_pool_param) in enumerate(zip(conv_params, max_pool_params)):
 
-            conv_block = ConvBlock({**conv_param,**max_pool_param}) 
+            conv_block = ConvBlock(**conv_param,**max_pool_param) 
             convOrdered[f'conv_layer_{layer}'] = conv_block
             
             kernel_dim = conv_param.get('kernel_size')
@@ -67,23 +70,27 @@ class ModelBuilder(nn.Module):
         self.linear_layers = nn.Sequential(linear_ordered)
           
 
-    def calculate_output_dims(self,width_input,height_input,kernel_size,stride,padding):      
+    def calculate_output_dims(self,width_input,height_input,kernel_size,stride,padding):  
+        if any(not isinstance(x,int) or x<0 for x in [width_input,height_input,kernel_size,stride,padding]):
+            raise ValueError("All dimensions and parameters must be non-negative integers")    
         #only works with square kernels for now
         width_output = int((width_input - kernel_size + 2 * padding )/ stride + 1)
         height_output = int((height_input - kernel_size + 2 * padding) / stride + 1)
         return width_output,height_output
             
     def forward(self, x):
+        if x.ndim != 4:
+            raise ValueError("Input must be a 4D Tensor")
         x = self.conv_layers(x)
         x = x.view(x.size(0), -1)
         x = self.linear_layers(x)
+        x = F.softmax(x,dim = 1)
         return x
     
     # Function to add conv blocks
     def add_conv_block(self, conv_params, max_pool_params):
         if len(self.conv_layers) >= 5:
-            print("Can only add 5 blocks!")
-            return
+            raise ValueError("Cannot add more than 5 convolutional blocks")
 
         # Handling the case where there are no existing conv layers
         if not self.conv_layers:
@@ -126,7 +133,7 @@ class ModelBuilder(nn.Module):
             self.conv_layers.pop()
             self._recalculate_dimensions()
         else:
-            print("Cannot remove the block. There must be at least one block.")
+            raise ValueError("No blocks to remove")
 
     def _recalculate_dimensions(self):
         w, h = 28, 28
