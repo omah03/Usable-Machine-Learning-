@@ -26,8 +26,9 @@ input[type="range"] {
 /* Clear floats after the columns */
 .row:after {
   content: "";
-  display: table;
+  display: flex;
   clear: both;
+  flex-direction: row;
 }
 
 * {
@@ -209,14 +210,14 @@ input[type="range"] {
   box-sizing: border-box;
 
   position: relative;
-  width: 60%;
+  width: 57%;
   height: auto;
   margin-top: 30px;
-  margin-left: 10%;
+  margin-left: 1%;
   text-align: "center";
   align-items: "center";
   justify-content: center;
-  display: none;
+  display: flex;
 
   background: #D0F4FF;
   border: 2px solid #000000;
@@ -228,6 +229,23 @@ input[type="range"] {
   margin-right: 25%;
   margin-left: 1%;
 }
+
+.settingsbox {
+  box-sizing: border-box;
+  display:flex;
+  width: 33%;
+  flex-direction: column;
+
+  background: #D0F4FF;
+  border: 2px solid #000000;
+
+  height: auto;
+  margin-top: 30px;
+  justify-content: center;
+  align-items: center;
+  
+}
+
 
 .trainingrectangle {
   display:flex;

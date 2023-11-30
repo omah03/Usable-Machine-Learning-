@@ -55,7 +55,7 @@ act_tanhOption.addEventListener("click", handleActivationFunctionChange);
 
 //------------------------------------------------------------------
 //Sliders
-const sliders = ["LRateSlider", "BSizeSlider", "NEpochsSlider", "KSizeSlider", "StrideSlider"];
+const sliders = ["LRateSlider", "BSizeSlider", "NEpochsSlider"];
 
 for (const slider of sliders) {
     SliderElement = document.getElementById(slider);
@@ -85,7 +85,6 @@ function updateSliderValue(slider) {
     })
         .then(response => response.json());
 }
-
 
 //------------------------------------------------------------------
 //MODEL CREATOR
@@ -118,8 +117,9 @@ for (let i = 1; i <= 5; i++) {
 
     if (block) {
         block.style.setProperty("display", "none");
-        block.addEventListener("click", ()=> {
+        block.addEventListener("click", () => {
             changeInfoText(Blocks[i].id);
+            setActiveBlock(i);
         });
     }
 
@@ -187,6 +187,56 @@ function removeBlock(i) {
 
 }
 
+Blocks[0].addEventListener("click", () => {
+    changeInfoText(Blocks[0].id);
+    setActiveBlock(0);
+});
+
+
+var ActiveBlockNum = 0;
+
+function setActiveBlock(i) {
+    Blocks[ActiveBlockNum].style.background = "#FFFFFF";
+    ActiveBlockNum = i;
+    Blocks[i].style.background = "#000000";
+    // Call the backend
+    if (i > 0 && i<6) {
+        fetch(`/get_block_config?block=${i}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => updateSettingsValues(data));
+    }
+    else {
+        var displays = document.getElementById("settingsbox").getElementsByClassName("sliderDisplay");
+        for (const display of displays){
+            display.style.display="none";
+        }
+        
+    }
+}
+
+function updateSettingsValues(data) {
+    var displays = document.getElementById("settingsbox").getElementsByClassName("sliderDisplay");
+    for (const display of displays){
+        display.style.display="flex";
+    }
+    for (const sliderName of BlockSliders) {
+        var slider = document.getElementById(sliderName + "Slider");
+        slider.value = data[sliderName];
+        updateSliderValue(slider);
+    }
+}
+
+
+function getActiveBlock() {
+    return ActiveBlockNum;
+}
+
+
 
 Blocks[1].style.display = "flex";
 
@@ -196,73 +246,109 @@ MinusButtons[2].style.display = "flex";
 
 AddButtons[3].style.display = "flex";
 
-textOptions={"block": "This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.",
-            "block1": "Its input is a batch of $batch_size$ grayscale images of the dataset. These images are 28 x 28 pixels. <br> Its output depends on the Kernel Size and stride parameters. <br> Input: $batch_size$ x 1 x 28 x28 <br> Output: $block1_output$",   
-            "block2": "Its input is the output of the previous block. <br> Its output depends on the Kernel Size and stride parameters. <br> Input: $block1_output$ <br> Output: $block2_output$" 
-        };   
+textOptions = {
+    "block": "This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.",
+    "block1": "Its input is a batch of $batch_size$ grayscale images of the dataset. These images are 28 x 28 pixels. <br> Its output depends on the Kernel Size and stride parameters. <br> Input: $batch_size$ x 1 x 28 x28 <br> Output: $block1_output$",
+    "block2": "Its input is the output of the previous block. <br> Its output depends on the Kernel Size and stride parameters. <br> Input: $block1_output$ <br> Output: $block2_output$"
+};
 
 const infotext = document.getElementById("infotext");
-const infobox= document.getElementById("infobox");
+const infobox = document.getElementById("infobox");
 
-document.getElementById("hide").addEventListener("click", ()=>{
-    infobox.style.display="none";
+document.getElementById("hide").addEventListener("click", () => {
+    infobox.style.display = "none";
 })
 
-function changeInfoText(elementID){
-    infobox.style.display="flex";
-    element= document.getElementById(elementID);
-    if (element && element.style.display=="flex"){
-    if (elementID=="block1"){
-        infotext.innerHTML=textOptions["block"]+textOptions["block1"];
-    }
-    else if (elementID=="inputbox")
-    {
+function changeInfoText(elementID) {
+    infobox.style.display = "flex";
+    element = document.getElementById(elementID);
+    if (element && element.style.display == "flex") {
+        if (elementID == "block1") {
+            infotext.innerHTML = textOptions["block"] + textOptions["block1"];
+        }
+        else if (elementID == "inputbox") {
 
+        }
+        else {
+            infotext.innerHTML = textOptions["block"] + textOptions["block2"];
+        }
+    }
+}
+
+const BlockSliders = ["conv_KSize", "conv_Stride", "conv_Padding", "pool_KSize", "pool_Stride"];
+
+for (const NameStr of BlockSliders) {
+    slider = document.getElementById(NameStr + "Slider");
+    slider.addEventListener("input", () => {
+        handleSettingsChange(NameStr);
+    })
+}
+
+function handleSettingsChange(name) {
+    slider = document.getElementById(name + "Slider");
+    const BlockNum = getActiveBlock();
+    const sliderValue = slider.value;
+
+    var display = document.getElementById(name + "Display");
+
+
+    if (BlockNum == 0) {
+        //SHOULD NOT HAVE ACCESS TO SLIDERS
     }
     else {
-        infotext.innerHTML=textOptions["block"]+textOptions["block2"];
-    }
-}
-}
-
-
-
-//------------------------------------------------------------------
-//CONTROLS
-
-const buttonList=["start","pause", "restart", "continue", "save", "load"];
-
-//TRAINING CONTROLS
-for (const button of buttonList){
-    ButtonElement= document.getElementById(button+"training");
-    ButtonElement.addEventListener("click", () => {
-        handleButton(button+"training");
-    });
-}
-
-//TESTING CONTROLS
-for (const button of buttonList){
-    ButtonElement= document.getElementById(button+"test");
-    ButtonElement.addEventListener("click", () => {
-        handleButton(button+"test");
-    });
-}
-
-
-function handleButton(buttonName){
+        display.innerHTML = ("0000" + sliderValue.toString()).slice(-3);
         // Call the backend
-        console.log(buttonName)
-        fetch('/button_press', {
+        fetch('/update_value', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type": buttonName
+                "type": name,
+                "block": BlockNum,
+                "value": sliderValue
             })
         })
             .then(response => response.json());
-    
+    }
+}
+
+//------------------------------------------------------------------
+//CONTROLS
+
+const buttonList = ["start", "pause", "restart", "continue", "save", "load"];
+
+//TRAINING CONTROLS
+for (const button of buttonList) {
+    ButtonElement = document.getElementById(button + "training");
+    ButtonElement.addEventListener("click", () => {
+        handleButton(button + "training");
+    });
+}
+
+//TESTING CONTROLS
+for (const button of buttonList) {
+    ButtonElement = document.getElementById(button + "test");
+    ButtonElement.addEventListener("click", () => {
+        handleButton(button + "test");
+    });
+}
+
+
+function handleButton(buttonName) {
+    // Call the backend
+    console.log(buttonName)
+    fetch('/button_press', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "type": buttonName
+        })
+    })
+        .then(response => response.json());
+
 }
 
 
