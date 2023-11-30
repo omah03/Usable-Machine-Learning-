@@ -5,14 +5,24 @@ import webbrowser
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO, emit
 import numpy as np
+from torch import manual_seed, Tensor
+from torch.optim import Optimizer, SGD
 
-from ml_utils.config import conv_params, maxpool_params
+from ml_utils.model import ConvolutionalNeuralNetwork
+from ml_utils.training import training
+
 
 app = Flask(__name__)
 socketio = SocketIO(app)
-config={}
 
 
+config = {  "ActivationFunc": "",
+            "LRate": 1,
+            "BSize":1,
+            "KSize":1,
+            "NEpochs":1,
+            "Stride":1,
+            "NBlocks": 2}
 # Initialize variables
 seed = 42
 acc = -1
@@ -52,20 +62,20 @@ def handleButton():
         print(" TRAINING STARTING ")
     return jsonify("True")
 
-@app.route("/get_block_config", methods=["GET"])
-def get_block_config():
-    i = request.args.get('block', default=0, type=int)
-    # Format config for frontend
-    # TODO Put this in configHandler class method in config.py
-    return_config= {
-        "conv_KSize": conv_params[i-1]["kernel_size"],
-        "conv_Stride": conv_params[i-1]["stride"],
-        "conv_Padding": conv_params[i-1]["padding"],
-        "pool_KSize": maxpool_params[i-1]["kernel_size"],
-        "pool_Stride": maxpool_params[i-1]["stride"],
-    }
 
-    return jsonify(return_config)
+"""
+@app.route("/update_seed", methods=["POST"])
+def update_seed():
+    global seed
+    seed = int(request.form["seed"])
+    return jsonify({"seed": seed})
+
+
+@app.route("/get_accuracy")
+def get_accuracy():
+    global acc
+    return jsonify({"acc": acc})
+"""
 
 if __name__ == "__main__":
     host = "127.0.0.1"
