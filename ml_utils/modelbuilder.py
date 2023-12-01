@@ -47,13 +47,14 @@ class LinearBlock(nn.Module):
 class ModelBuilder(nn.Module):
     def __init__(self,num_blocks, linear_params, global_activation_function, input_size=(28,28)):
         super(ModelBuilder, self).__init__()
+        self.input_size = input_size
         self._validate_parameters(num_blocks, linear_params)
         self.conv_layers = self._create_conv_layers(num_blocks,global_activation_function)
         self.linear_layers = self._create_linear_layers(linear_params)
 
         # Validation checks 
     def _validate_parameters(self,num_blocks,linear_params):
-        if not isinstance(num_blocks,list) or not isinstance(1 <= num_blocks <= 5):
+        if not isinstance(num_blocks,int) or not (1 <= num_blocks <= 5):
             raise ValueError("num_blocks must tbe a positive integer between 1 and 5")
         if not isinstance(linear_params,list):
             raise ValueError("Linear_params must be a list")
@@ -74,9 +75,15 @@ class ModelBuilder(nn.Module):
     #Function to create linear layer
     def _create_linear_layers(self, linear_params):
         flattened_size = self._calculate_flattened_size()
-        if 'in_features' not in linear_params[0]:
-            linear_params[0]['in_features'] = flattened_size
-        return nn.Sequential(*[LinearBlock(**params) for params in linear_params])
+        updated_linear_params = []
+        in_features = flattened_size
+        for params in linear_params:
+            params = params.copy()
+            params['in_features'] = in_features
+            in_features = params['out_features']
+            params['activation_function'] = config.activation_function
+            updated_linear_params.append(params)
+        return nn.Sequential(*[LinearBlock(**params) for params in updated_linear_params])
     
     # Function to add conv blocks
     def add_conv_block(self, conv_params, max_pool_params):
@@ -108,8 +115,8 @@ class ModelBuilder(nn.Module):
         
     # Forward function
     def forward(self, x):
-        if x.ndim != 4:
-            raise ValueError("Input must be a 4D Tensor")
+        if x.ndim != 4 or x.shape[1:3] != self.input_size:
+            raise ValueError(f"Input must be a 4D Tensor with shape (N, {self.input_size[0]}, {self.input_size[1]}, C)")
         x = self.conv_layers(x)
         x = x.view(x.size(0), -1)
         x = self.linear_layers(x)
@@ -117,3 +124,8 @@ class ModelBuilder(nn.Module):
         return x
 
 
+global_activation_function = config.activation_function["relu"]
+model_builder = ModelBuilder(num_blocks=5, 
+                             linear_params=config.linear_params, 
+                             global_activation_function=global_activation_function)
+print(model_builder)
