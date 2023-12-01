@@ -39,7 +39,10 @@ class LinearBlock(nn.Module):
         self.activation = activation_function
 
     def forward(self, x):
-        return self.activation(self.linear(x))
+        x = self.linear(x)
+        if self.activation:
+            x = self.activation(x)
+        return x
 
 class ModelBuilder(nn.Module):
     def __init__(self, conv_params, linear_params, max_pool_params, global_activaiton_function, input_size=(28,28)):
@@ -119,7 +122,6 @@ class ModelBuilder(nn.Module):
         width_output = int((width_input - kernel_size + 2 * padding )/ stride + 1)
         height_output = int((height_input - kernel_size + 2 * padding) / stride + 1)
         return width_output,height_output
-
 
         
     def _recalculate_dimensions(self):
