@@ -45,7 +45,7 @@ class LinearBlock(nn.Module):
         return x
 
 class ModelBuilder(nn.Module):
-    def __init__(self,num_blocks, linear_params, max_pool_params, global_activation_function, input_size=(28,28)):
+    def __init__(self,num_blocks, linear_params, global_activation_function, input_size=(28,28)):
         super(ModelBuilder, self).__init__()
         self._validate_parameters(num_blocks, linear_params)
         self.conv_layers = self._create_conv_layers(num_blocks,global_activation_function)
