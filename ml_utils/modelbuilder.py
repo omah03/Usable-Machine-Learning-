@@ -78,87 +78,32 @@ class ModelBuilder(nn.Module):
     
     # Function to add conv blocks
     def add_conv_block(self, conv_params, max_pool_params):
-        # Validation checks
         if len(self.conv_layers) >= 5:
-            raise ValueError("Cannot add more than 5 convolutional blocks")
-
-        conv_param = conv_params[self.current_block_index]
-        max_pool_param = max_pool_params[self.current_block_index]
-
-        # Adding new Conv Block
-        conv_block = ConvBlock(**conv_param, **max_pool_param)
-        self.conv_layers.add_module(f'conv_block_{self.current_block_index}', conv_block)
-
-        self.current_block_index += 1
-
-        # Recalculate the dimensions after adding the new block
-        self._recalculate_dimensions()
-
-        # Update the first linear layer if any linear layers exist
-        if self.linear_layers:
-            flattened = self._calculate_flattened_size()
-            self.linear_layers[0].linear = nn.Linear(flattened, self.linear_layers[0].linear.out_features)
+            raise ValueError("Maximum number of convolutional blocks reached")
+        conv_block = ConvBlock(**conv_params, **max_pool_params)
+        self.conv_layers.add_module(f'conv_block_{len(self.conv_layers)}', conv_block)
+        self._recalculate_linear_layers()
 
     # Function to remove last block
     def remove_last_block(self):
-
-        last_block_key = f'conv_block_{self.current_block_index - 1}'
-        del self.conv_layers._modules[last_block_key]
-
-        self.current_block_index -= 1
-
-        if len(self.conv_layers) > 0:
-            self._recalculate_dimensions()
-        else:
+        if len(self.conv_layers) == 0:
             raise ValueError("No blocks to remove")
-    # Function to calculate the output dimensions of the previous layer
-    def calculate_output_dims(self,width_input,height_input,kernel_size,stride,padding):  
-        if any(not isinstance(x,int) or x<0 for x in [width_input,height_input,kernel_size,stride,padding]):
-            raise ValueError("All dimensions and parameters must be non-negative integers")    
-        #only works with square kernels for now
-        width_output = int((width_input - kernel_size + 2 * padding )/ stride + 1)
-        height_output = int((height_input - kernel_size + 2 * padding) / stride + 1)
-        return width_output,height_output
+        del self.conv_layers[-1]
+        self._recalculate_linear_layers()
+        
     # Function to recalculate the dimensions
-    def _recalculate_dimensions(self):
-        w, h = 28, 28
-        in_channels = 1
+    def _recalculate_linear_layers(self):
+        flattened_size = self._calculate_flattened_size()
+        first_linear_params = self.linear_layers[0].linear
+        self.linear_layers[0].linear = nn.Linear(flattened_size, first_linear_params.out_features)
 
-        for layer in self.conv_layers:
-            conv_param = {'kernel_size': layer.conv.kernel_size[0],
-                          'stride': layer.conv.stride[0],
-                          'padding': layer.conv.padding[0]}
-            w, h = self.calculate_output_dims(w, h, **conv_param)
-
-            maxpool_param = {
-                'kernel_size': layer.maxpool.kernel_size,
-                'stride': layer.maxpool.stride,
-                'padding': 0
-            }
-            w,h = self.calculate_output_dims(w,h,**maxpool_param)
-            in_channels = layer.conv.out_channels
-
-        flattened = in_channels * w * h
-
-        if self.linear_layers:
-            self.linear_layers[0].linear.in_features = flattened
     # Function to calcualte the flattened size
     def _calculate_flattened_size(self):
-        w, h = 28, 28 
-        for layer in self.conv_layers:
-            conv_param = {'kernel_size': layer.conv.kernel_size[0],
-                          'stride': layer.conv.stride[0],
-                          'padding': layer.conv.padding[0]}
-            w, h = self.calculate_output_dims(w, h, **conv_param)
-
-            maxpool_param = {
-                'kernel_size': layer.maxpool.kernel_size,
-                'stride': layer.maxpool.stride,
-                'padding': 0
-            }
-            w, h = self.calculate_output_dims(w, h, **maxpool_param)
-
-        return w * h * self.conv_layers[-1].conv.out_channels if self.conv_layers else 0
+        with torch.no_grad():
+            x = torch.zeros(1, *self.input_size)
+            x = self.conv_layers(x)
+            return x.numel()
+        
     # Forward function
     def forward(self, x):
         if x.ndim != 4:
