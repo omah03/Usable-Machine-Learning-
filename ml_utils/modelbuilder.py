@@ -45,39 +45,37 @@ class LinearBlock(nn.Module):
         return x
 
 class ModelBuilder(nn.Module):
-    def __init__(self, conv_params, linear_params, max_pool_params, global_activaiton_function, input_size=(28,28)):
+    def __init__(self,num_blocks, linear_params, max_pool_params, global_activation_function, input_size=(28,28)):
         super(ModelBuilder, self).__init__()
+        self._validate_parameters(num_blocks, linear_params)
+        self.conv_layers = self._create_conv_layers(num_blocks,global_activation_function)
+        self.linear_layers = self._create_linear_layers(linear_params)
+
         # Validation checks 
-        if not isinstance(conv_params,list) or not isinstance(linear_params, list):
-            raise ValueError("Conv_params and linear_params must be lists")
-        if len(conv_params) != len(max_pool_params):
-            raise ValueError("Length of conv_params and max_pool_params must be equal")
-        
-        self.conv_params = conv_params 
-        self.max_pool_params = max_pool_params
-        self.linear_params = linear_params
-        self.input_size = input_size
-        
-        self.conv_layers = nn.Sequential()
-        for idx,params in enumerate(conv_params):
-            params['activation_function'] = global_activaiton_function
-            conv_block = ConvBlock(**params,**max_pool_params[idx])
-            self.conv_layers.add_module(f'conv_block_{idx}',conv_block)
+    def _validate_parameters(self,num_blocks,linear_params):
+        if not isinstance(num_blocks,list) or not isinstance(num_blocks, list):
+            raise ValueError("num_blocks must tbe a positive integer")
+        if not isinstance(linear_params,list):
+            raise ValueError("Linear_params must be a list")
     
+    def _create_conv_layers(self, num_blocks, activation_function):
+        layers = nn.Sequential()
+        for i in range(num_blocks):
+            try:
+                conv_params = config.conv_params[i]
+                max_pool_params = config.max_pool_params[i]
+            except IndexError:
+                raise ValueError(f"Configuration for block {i} not found in config.py")
+            conv_block = ConvBlock(**conv_params, **max_pool_params, activation_function = activation_function)
+            layers.add_module(f"conv_block_{i}", conv_block)
+        return layers
+    
+    def _create_linear_layers(self, linear_params):
         flattened_size = self._calculate_flattened_size()
-        if linear_params and 'in_features' not in linear_params[0]:
-            linear_params[0]['in_featires'] = flattened_size
-
-        self.linear_layers = nn.Sequential()
-        self.current_block_index = 0
-
-        self.initialize_linear_layers()
+        if 'in_features' not in linear_params[0]:
+            linear_params[0]['in_features'] = flattened_size
+        return nn.Sequential(*[LinearBlock(**params) for params in linear_params])
     
-    def _initialize_linear_layers(self):
-        self.linear_layers = nn.Sequential(
-            *[LinearBlock(**params) for params in self.linear_params]
-        )
-
     # Function to add conv blocks
     def add_conv_block(self, conv_params, max_pool_params):
         # Validation checks
@@ -110,11 +108,10 @@ class ModelBuilder(nn.Module):
         self.current_block_index -= 1
 
         if len(self.conv_layers) > 0:
-            self.conv_layers.pop()
             self._recalculate_dimensions()
         else:
             raise ValueError("No blocks to remove")
-    # Function to calculate the output dimensions
+    # Function to calculate the output dimensions of the previous layer
     def calculate_output_dims(self,width_input,height_input,kernel_size,stride,padding):  
         if any(not isinstance(x,int) or x<0 for x in [width_input,height_input,kernel_size,stride,padding]):
             raise ValueError("All dimensions and parameters must be non-negative integers")    
