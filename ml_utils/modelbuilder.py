@@ -146,7 +146,7 @@ class ModelBuilder(nn.Module):
             self.linear_layers[0].linear.in_features = flattened
 
     def _calculate_flattened_size(self):
-        w, h = 28, 28  # Assuming initial image size, adjust if different
+        w, h = 28, 28 
         for layer in self.conv_layers:
             conv_param = {'kernel_size': layer.conv.kernel_size[0],
                           'stride': layer.conv.stride[0],
