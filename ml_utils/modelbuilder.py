@@ -57,7 +57,8 @@ class ModelBuilder(nn.Module):
             raise ValueError("num_blocks must tbe a positive integer")
         if not isinstance(linear_params,list):
             raise ValueError("Linear_params must be a list")
-    
+        
+    #Function to create conv layer
     def _create_conv_layers(self, num_blocks, activation_function):
         layers = nn.Sequential()
         for i in range(num_blocks):
@@ -70,6 +71,7 @@ class ModelBuilder(nn.Module):
             layers.add_module(f"conv_block_{i}", conv_block)
         return layers
     
+    #Function to create linear layer
     def _create_linear_layers(self, linear_params):
         flattened_size = self._calculate_flattened_size()
         if 'in_features' not in linear_params[0]:
@@ -113,9 +115,5 @@ class ModelBuilder(nn.Module):
         x = self.linear_layers(x)
         x = F.softmax(x,dim = 1)
         return x
-
-
-#model = ModelBuilder(conv_params=conv_params,linear_params=linear_params,max_pool_params=maxpool_params)
-#summary(model,input_size(1,1,28,28))
 
 
