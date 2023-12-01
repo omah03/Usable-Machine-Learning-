@@ -114,7 +114,7 @@ class ModelBuilder(nn.Module):
             self._recalculate_dimensions()
         else:
             raise ValueError("No blocks to remove")
-        
+    # Function to calculate the output dimensions
     def calculate_output_dims(self,width_input,height_input,kernel_size,stride,padding):  
         if any(not isinstance(x,int) or x<0 for x in [width_input,height_input,kernel_size,stride,padding]):
             raise ValueError("All dimensions and parameters must be non-negative integers")    
@@ -122,8 +122,7 @@ class ModelBuilder(nn.Module):
         width_output = int((width_input - kernel_size + 2 * padding )/ stride + 1)
         height_output = int((height_input - kernel_size + 2 * padding) / stride + 1)
         return width_output,height_output
-
-        
+    # Function to recalculate the dimensions
     def _recalculate_dimensions(self):
         w, h = 28, 28
         in_channels = 1
@@ -146,7 +145,7 @@ class ModelBuilder(nn.Module):
 
         if self.linear_layers:
             self.linear_layers[0].linear.in_features = flattened
-
+    # Function to calcualte the flattened size
     def _calculate_flattened_size(self):
         w, h = 28, 28 
         for layer in self.conv_layers:
@@ -163,7 +162,7 @@ class ModelBuilder(nn.Module):
             w, h = self.calculate_output_dims(w, h, **maxpool_param)
 
         return w * h * self.conv_layers[-1].conv.out_channels if self.conv_layers else 0
-
+    # Forward function
     def forward(self, x):
         if x.ndim != 4:
             raise ValueError("Input must be a 4D Tensor")
