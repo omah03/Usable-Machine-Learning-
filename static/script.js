@@ -283,12 +283,8 @@ function displayText() {
      for (let i = 0; i < lines.length; i++) {
         ctx.fillText(lines[i], 50, 50 + i * lineHeight); // Hier kannst du die Position des Textes anpassen
     }
+    isTextDisplayed = true;
 }
-    /* ctx.font = '20px Arial';
-    ctx.fillStyle = '#000';
-    const text = ; // Mit \n wird ein Zeilenumbruch erzeugt
-    ctx.fillText(text, 50, 50);*/
-
 
 function clearText() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -310,7 +306,10 @@ function startDrawing(e) {
   const pos = getMousePos(canvas, e);
   ctx.beginPath();
   ctx.moveTo(pos.x, pos.y);
-  clearText();
+  if (isTextDisplayed == true){
+    clearText();
+    isTextDisplayed = false;
+  } 
 }
 
 function draw(e) {
@@ -336,6 +335,15 @@ canvas.addEventListener('mouseup', stopDrawing);
 canvas.addEventListener('mouseout', stopDrawing);
 
 displayText();
+
+function clearCanvas(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    displayText();
+}
+
+//Reset Button for Canvas
+document.getElementById('reset').addEventListener('click', clearCanvas);
+
 
 /*
 

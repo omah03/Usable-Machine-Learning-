@@ -126,8 +126,8 @@ input[type="range"] {
 
 .resetButton{
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 15px;
+  left: 35px;
   padding: 8px;
   background: none;
   border: none;
