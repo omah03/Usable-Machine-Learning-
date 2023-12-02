@@ -111,13 +111,27 @@ input[type="range"] {
   margin-left:auto;
 }
 
+
+
 .blockcolumn {
+  position: relative;
+
   display: flex;
   float: left;
   flex-direction: column;
   width: 20%;
   padding: 1%;
   align-items: center;
+}
+
+.resetButton{
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .block {
@@ -271,6 +285,8 @@ input[type="range"] {
   text-transform:uppercase;
   align-items: center;
 }
+
+
 .button:hover {
   background-color: #919191; /* Color on hover */
 }

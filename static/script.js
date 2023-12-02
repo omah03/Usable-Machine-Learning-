@@ -272,6 +272,28 @@ const canvas = document.getElementById('inputbox');
 const ctx = canvas.getContext('2d');
 let isDrawing = false;
 
+function displayText() {
+    ctx.font = '20px Arial';
+    ctx.fillStyle = '#000';
+    const text = 'Draw a digit\n to be classified,\n here'; // Mit \n wird ein Zeilenumbruch erzeugt
+    const lineHeight = 25; // Zeilenhöhe festlegen
+
+    const lines = text.split('\n'); // Text in einzelne Zeilen aufteilen
+     // Textzeilen nacheinander auf dem Canvas zeichnen
+     for (let i = 0; i < lines.length; i++) {
+        ctx.fillText(lines[i], 50, 50 + i * lineHeight); // Hier kannst du die Position des Textes anpassen
+    }
+}
+    /* ctx.font = '20px Arial';
+    ctx.fillStyle = '#000';
+    const text = ; // Mit \n wird ein Zeilenumbruch erzeugt
+    ctx.fillText(text, 50, 50);*/
+
+
+function clearText() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
 function getMousePos(canvas, evt) {
   const rect = canvas.getBoundingClientRect();
   const scaleX = canvas.width / rect.width;
@@ -288,6 +310,7 @@ function startDrawing(e) {
   const pos = getMousePos(canvas, e);
   ctx.beginPath();
   ctx.moveTo(pos.x, pos.y);
+  clearText();
 }
 
 function draw(e) {
@@ -311,6 +334,8 @@ canvas.addEventListener('mousedown', startDrawing);
 canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mouseup', stopDrawing);
 canvas.addEventListener('mouseout', stopDrawing);
+
+displayText();
 
 /*
 
