@@ -92,12 +92,12 @@ input[type="range"] {
   flex-direction: row;
 }
 
-.inputbox{
+.inputCanvas{
   display:flex;
   align-items: center;
   box-sizing: border-box;
 
-  width: 90%;
+  width: 150px;
   height: 180px;
 
 
@@ -106,7 +106,7 @@ input[type="range"] {
   border-radius: 30px;
 
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 10px;*/
 
   margin-left:auto;
 }
@@ -139,7 +139,7 @@ input[type="range"] {
 
 .MinusButton {
   display: flex;
-  background-color:#ff0033;
+  background-color: #ff0033;
   border-radius: 25px;
   width: 30%;
   justify-content: center;
@@ -277,3 +277,4 @@ input[type="range"] {
 .button:active {
   transform: scale(0.95); /* Scale down on click */
 }
+

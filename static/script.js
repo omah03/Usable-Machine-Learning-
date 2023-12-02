@@ -4,6 +4,8 @@ const act_reluOption = document.getElementById("act_reluOption")
 const act_sigmoidOption = document.getElementById("act_sigmoidOption")
 const act_tanhOption = document.getElementById("act_tanhOption")
 
+
+
 function handleActivationFunctionChange(event) {
     // Get the text of the selected option
     var selectedOptionText = event.target.textContent;
@@ -265,8 +267,50 @@ function handleButton(buttonName){
     
 }
 
+//code for the canvas
+const canvas = document.getElementById('inputbox');
+const ctx = canvas.getContext('2d');
+let isDrawing = false;
 
+function getMousePos(canvas, evt) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
 
+  return {
+    x: (evt.clientX - rect.left) * scaleX,
+    y: (evt.clientY - rect.top) * scaleY
+  };
+}
+
+function startDrawing(e) {
+  isDrawing = true;
+  const pos = getMousePos(canvas, e);
+  ctx.beginPath();
+  ctx.moveTo(pos.x, pos.y);
+}
+
+function draw(e) {
+  if (!isDrawing) return;
+  const pos = getMousePos(canvas, e);
+
+  ctx.lineWidth = 5;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = '#000';
+
+  ctx.lineTo(pos.x, pos.y);
+  ctx.stroke();
+}
+
+function stopDrawing() {
+  isDrawing = false;
+  ctx.closePath();
+}
+
+canvas.addEventListener('mousedown', startDrawing);
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', stopDrawing);
+canvas.addEventListener('mouseout', stopDrawing);
 
 /*
 
