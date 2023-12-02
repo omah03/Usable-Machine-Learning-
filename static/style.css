@@ -38,6 +38,8 @@ input[type="range"] {
 
 /* Dropdown Button */
 .dropbtn {
+  z-index: 3; /*drop down in front of canvas*/
+  
   background-color: #04AA6D;
   color: white;
   padding-top: 10px;
@@ -59,6 +61,7 @@ input[type="range"] {
 .dropdown {
   position: relative;
   display: inline-block;
+
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -68,6 +71,8 @@ input[type="range"] {
   background-color: #f1f1f1;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 3; /*drop down in front of canvas*/
+
 }
 
 /* Links inside the dropdown */
@@ -109,6 +114,8 @@ input[type="range"] {
   margin-bottom: 10px;*/
 
   margin-left:auto;
+  position: relative;
+  z-index: 2; /* Canvas liegt standardmäßig über anderen Elementen */
 }
 
 
@@ -132,7 +139,8 @@ input[type="range"] {
   background: none;
   border: none;
   cursor: pointer;
-}
+  z-index: 2; /* Canvas liegt standardmäßig über anderen Elementen */
+}    
 
 .block {
   display:flex;
