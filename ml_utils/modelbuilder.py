@@ -45,11 +45,14 @@ class LinearBlock(nn.Module):
         return x
 
 class ModelBuilder(nn.Module):
-    def __init__(self,num_blocks, linear_params, global_activation_function, input_size=(28,28)):
+    def __init__(self,num_blocks, linear_params, activation_fn_choice , input_size=(28,28)):
         super(ModelBuilder, self).__init__()
         self.input_size = input_size
         self._validate_parameters(num_blocks, linear_params)
-        self.conv_layers = self._create_conv_layers(num_blocks,global_activation_function)
+        if activation_fn_choice not in config.activation_function:
+            raise ValueError(f"Invalid activation function choice: {activation_fn_choice}")
+        self.global_activation_fn = config.activation_function[activation_fn_choice]
+        self.conv_layers = self._create_conv_layers(num_blocks,self.global_activation_fn)
         self.linear_layers = self._create_linear_layers(linear_params)
 
         # Validation checks 
@@ -86,33 +89,44 @@ class ModelBuilder(nn.Module):
         return nn.Sequential(*[LinearBlock(**params) for params in updated_linear_params])
     
     # Function to add conv blocks
-    def add_conv_block(self, conv_params, max_pool_params):
-        if len(self.conv_layers) >= 5:
+    def add_conv_block(self):
+        block_index = len(self.conv_layers)
+        if block_index >= len(config.conv_params):
             raise ValueError("Maximum number of convolutional blocks reached")
-        conv_block = ConvBlock(**conv_params, **max_pool_params)
+        
+        conv_params = config.conv_params[block_index]
+        max_pool_params = config.max_pool_params[block_index]
+        conv_block = ConvBlock(**conv_params, **max_pool_params,activation_function = self.global_activation_fn)
         self.conv_layers.add_module(f'conv_block_{len(self.conv_layers)}', conv_block)
+
         self._recalculate_linear_layers()
 
     # Function to remove last block
     def remove_last_block(self):
         if len(self.conv_layers) == 0:
             raise ValueError("No blocks to remove")
-        del self.conv_layers[-1]
+        del self.conv_layers[len(self.conv_layers)-1]
         self._recalculate_linear_layers()
         
     # Function to recalculate the dimensions
     def _recalculate_linear_layers(self):
         flattened_size = self._calculate_flattened_size()
-        first_linear_params = self.linear_layers[0].linear
-        self.linear_layers[0].linear = nn.Linear(flattened_size, first_linear_params.out_features)
+        first_linear_layer = self.linear_layers[0]
+        out_features = first_linear_layer.linear.out_features
+        self.linear_layers[0].linear = nn.Linear(flattened_size,out_features)
 
+        for i in range(1, len(self.linear_layers)):
+            in_features = self.linear_layers[i-1].linear.out_features
+            out_features = self.linear_layers[i].linear.out_features
+            self.linear_layers[i].linear = nn.Linear(in_features, out_features)
     # Function to calcualte the flattened size
     def _calculate_flattened_size(self):
         with torch.no_grad():
-            x = torch.zeros(1, *self.input_size)
-            x = self.conv_layers(x)
-            return x.numel()
-        
+            dummy_input = torch.zeros(1, *self.input_size)
+            output = self.conv_layers(dummy_input)
+            flattened_size = output.numel() // output.size(0)
+        return flattened_size
+            
     # Forward function
     def forward(self, x):
         if x.ndim != 4 or x.shape[1:3] != self.input_size:
@@ -122,10 +136,4 @@ class ModelBuilder(nn.Module):
         x = self.linear_layers(x)
         x = F.softmax(x,dim = 1)
         return x
-
-
-global_activation_function = config.activation_function["relu"]
-model_builder = ModelBuilder(num_blocks=5, 
-                             linear_params=config.linear_params, 
-                             global_activation_function=global_activation_function)
-print(model_builder)
+    
