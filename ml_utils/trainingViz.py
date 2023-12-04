@@ -1,7 +1,6 @@
 from queue import Queue
 import sys
 sys.path.append("ml_utils")
-from collections import OrderedDict
 
 import numpy as np
 from torch.cuda import empty_cache
@@ -9,18 +8,13 @@ from torch.nn import Module, functional as F
 from torch import manual_seed, Tensor
 from torch.optim import Optimizer, SGD
 from torch.utils.tensorboard import SummaryWriter
-import torch
 
 from data import get_data_loaders
 from evaluate import accuracy
 from model import ConvolutionalNeuralNetwork
 
 import matplotlib.pyplot as plt 
-
-
-
-
-
+from matplotlib.animation import FuncAnimation
 
 def train_step(model: Module, optimizer: Optimizer, data: Tensor,
                target: Tensor, cuda: bool):
@@ -75,6 +69,7 @@ def main(seed):
     np.random.seed(seed)
     model = ConvolutionalNeuralNetwork()
     opt = SGD(model.parameters(), lr=0.3, momentum=0.5)
+    print("train...")
     training(
         model=model,
         optimizer=opt,
@@ -88,6 +83,5 @@ def main(seed):
 
 if __name__ == "__main__":
     main(seed=0)
-
 
 
