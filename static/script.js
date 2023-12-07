@@ -4,6 +4,8 @@ const act_reluOption = document.getElementById("act_reluOption")
 const act_sigmoidOption = document.getElementById("act_sigmoidOption")
 const act_tanhOption = document.getElementById("act_tanhOption")
 
+
+
 function handleActivationFunctionChange(event) {
     // Get the text of the selected option
     var selectedOptionText = event.target.textContent;
@@ -265,9 +267,122 @@ function handleButton(buttonName){
     
 }
 
+//code for the canvas
+const canvas = document.getElementById('inputbox');
+const ctx = canvas.getContext('2d');
+let isDrawing = false;
 
+function displayText() {
+    ctx.font = '20px Arial';
+    ctx.fillStyle = '#000';
+    const text = 'Draw a digit\n to be classified,\n here'; // Mit \n wird ein Zeilenumbruch erzeugt
+    const lineHeight = 25; // Zeilenhöhe festlegen
 
+    const lines = text.split('\n'); // Text in einzelne Zeilen aufteilen
+     // Textzeilen nacheinander auf dem Canvas zeichnen
+     for (let i = 0; i < lines.length; i++) {
+        ctx.fillText(lines[i], 50, 50 + i * lineHeight); // Hier kannst du die Position des Textes anpassen
+    }
+    isTextDisplayed = true;
+}
 
+function clearText() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function getMousePos(canvas, evt) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+
+  return {
+    x: (evt.clientX - rect.left) * scaleX,
+    y: (evt.clientY - rect.top) * scaleY
+  };
+}
+
+function startDrawing(e) {
+  isDrawing = true;
+  const pos = getMousePos(canvas, e);
+  ctx.beginPath();
+  ctx.moveTo(pos.x, pos.y);
+  if (isTextDisplayed == true){
+    clearText();
+    isTextDisplayed = false;
+  } 
+}
+
+function draw(e) {
+  if (!isDrawing) return;
+  const pos = getMousePos(canvas, e);
+
+  ctx.lineWidth = 5;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = '#000';
+
+  ctx.lineTo(pos.x, pos.y);
+  ctx.stroke();
+}
+
+function stopDrawing() {
+  isDrawing = false;
+  ctx.closePath();
+}
+
+canvas.addEventListener('mousedown', startDrawing);
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', stopDrawing);
+canvas.addEventListener('mouseout', stopDrawing);
+
+displayText();
+
+function clearCanvas(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    displayText();
+}
+
+//Reset Button for Canvas
+document.getElementById('reset').addEventListener('click', clearCanvas);
+
+// Sample data (replace with your actual data)
+const epochs = [1, 2, 3, 4, 5];
+const losses = [0.1, 0.08, 0.06, 0.04, 0.02];
+const accuracies = [80, 85, 90, 95, 98];
+
+// Get the canvas element
+const ctxs = document.getElementById('myChart').getContext('2d');
+
+// Create the chart
+const myChart = new Chart(ctxs, {
+    type: 'line',
+    data: {
+        labels: epochs,
+        datasets: [
+            {
+                label: 'Loss',
+                borderColor: 'rgb(255, 99, 132)',
+                data: losses,
+            },
+            {
+                label: 'Accuracy',
+                borderColor: 'rgb(54, 162, 235)',
+                data: accuracies,
+            },
+        ],
+    },
+    options: {
+        scales: {
+            x: {
+                type: 'linear',
+                position: 'bottom',
+            },
+            y: {
+                min: 0,
+                max: 100,
+            },
+        },
+    },
+});
 /*
 
 
