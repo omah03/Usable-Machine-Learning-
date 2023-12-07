@@ -22,6 +22,7 @@ def train_step(model: Module, optimizer: Optimizer, data: Tensor,
     if cuda:
         data, target = data.cuda(), target.cuda()
     prediction = model(data)
+    print("prediction", prediction)
     loss = F.cross_entropy(prediction, target)
     loss.backward()
     

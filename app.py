@@ -46,13 +46,11 @@ def index():
 def update_value():
     global config
     data= request.get_json()
-
     type= data.get("type")
     value= data.get("value")
     config.update({type: value})
     print(config)
     return jsonify("True")
-
 
 @app.route("/button_press", methods=["POST"])
 def handleButton():
