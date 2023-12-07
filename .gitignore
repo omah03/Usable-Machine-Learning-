@@ -1,3 +1,5 @@
 **/venv/**
 **/pycache/**
 **/**.pyc
+*-ubyte
+*.gz
