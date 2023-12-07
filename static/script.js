@@ -344,7 +344,45 @@ function clearCanvas(){
 //Reset Button for Canvas
 document.getElementById('reset').addEventListener('click', clearCanvas);
 
+// Sample data (replace with your actual data)
+const epochs = [1, 2, 3, 4, 5];
+const losses = [0.1, 0.08, 0.06, 0.04, 0.02];
+const accuracies = [80, 85, 90, 95, 98];
 
+// Get the canvas element
+const ctxs = document.getElementById('myChart').getContext('2d');
+
+// Create the chart
+const myChart = new Chart(ctxs, {
+    type: 'line',
+    data: {
+        labels: epochs,
+        datasets: [
+            {
+                label: 'Loss',
+                borderColor: 'rgb(255, 99, 132)',
+                data: losses,
+            },
+            {
+                label: 'Accuracy',
+                borderColor: 'rgb(54, 162, 235)',
+                data: accuracies,
+            },
+        ],
+    },
+    options: {
+        scales: {
+            x: {
+                type: 'linear',
+                position: 'bottom',
+            },
+            y: {
+                min: 0,
+                max: 100,
+            },
+        },
+    },
+});
 /*
 
 

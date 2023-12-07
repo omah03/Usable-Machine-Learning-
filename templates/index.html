@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <link rel="stylesheet" href="../static/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <title> Machine Learning Playground</title>
     </head>
 <body>
     <div style="width:90%;" class = "row">
@@ -139,6 +143,10 @@
                 </div>                
 
             </div>
+        </div>
+        <div class="row">
+            <canvas id="myChart" width="400" height="200"> GO </canvas>
+
         </div>
     <!-- only need this once -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
