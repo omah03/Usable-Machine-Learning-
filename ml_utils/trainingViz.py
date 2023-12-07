@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 
+import pickle #for saving the model
 
 
 
@@ -82,7 +83,8 @@ def training(model: Module, optimizer: Optimizer, cuda: bool, n_epochs: int,
         print(f"epoch={epoch+1}, test accuracy={test_acc}, loss={test_loss}")
     plt.show() 
     if cuda:
-        empty_cache()           
+        empty_cache()        
+    return   
 
 
 def main(seed):
@@ -99,8 +101,15 @@ def main(seed):
         n_epochs=10,
         batch_size=256
     )
-   
-    
+    print("training finished")
+
+    # save the classification model as a pickle file
+
+    model_pkl_file = "MNIST_classifier_model.pkl"  
+
+    with open(model_pkl_file, 'wb') as file:  
+    	pickle.dump(model, file) 
+    print(f"model saved to {file}")    
 
 
 if __name__ == "__main__":
