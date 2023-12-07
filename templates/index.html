@@ -1,13 +1,155 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../static/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <title> Machine Learning Playground</title>
+    </head>
 <body>
-    <h1>Minimal ML App</h1>
-    <label for="slider">PRNG Seed:</label>
-    <input type="range" id="slider" min="0" max="1000" value="{{ seed }}">
-    <span id="sliderValue">{{ seed }}</span>
-    <p>Current Accuracy: <span id="accuracy">{{ acc }}</span></p>
-    <button id="playButton">Play</button>
+    <div style="width:90%;" class = "row">
+        <h2> Usable Machine Learning</h2>
+        <div class = "column"> 
+            <div class="dropdown">
+                <button id="ActivationFuncMenu" class="dropbtn" >
+                    <span id="selectedOption">Activation function</span>
+                </button>
+                <div class="dropdown-content">
+                  <a href="#" id="act_reluOption">Retified Linear Activation (ReLU)</a>
+                  <a href="#" id="act_sigmoidOption">Logistics (Sigmoid)</a>
+                  <a href="#" id="act_tanhOption">Hyperbolic Tangent (tanh)</a>
+                </div>
+            </div> 
+        </div>    
+        <div class = "column"> 
+            <label for="LRateSlider">Learning rate</label>
+            <div class= "sliderDisplay">
+                <input type="range" id="LRateSlider" min="1" max="256" value="{{ 1 }}">
+                <span id="LRateDisplay"></span>
+            </div>
+        </div>
+        <div class = "column"> 
+            <label for="BSizeSlider">Batch Size</label>
+            <div class= "sliderDisplay">
+                <input type="range" id="BSizeSlider" min="1" max="256" value="{{ 32 }}">
+                <span id="BSizeDisplay"></span>
+            </div>
+            
+        </div>
+        <div class = "column"> 
+            <label for="NEpochsSlider">Epochs</label>
+            <div class= "sliderDisplay">
+                <input type="range" id="NEpochsSlider" min="1" max="256" value="{{ 10 }}">
+                <span id="NEpochsDisplay"></span>
+            </div>
+        </div>
+        <div class = "column"> 
+            <label for="KSizeSlider">Kernel Size</label>
+            <div class= "sliderDisplay">
+                <input type="range" id="KSizeSlider" min="1" max="4" value="{{ 2 }}">             
+                <span id="KSizeDisplay"></span>
+            </div>
+        </div>
+        <div class = "column"> 
+            <label for="StrideSlider">Stride</label>
+            <div class= "sliderDisplay">
+                <input type="range" id="StrideSlider" min="1" max="4" value="{{ 2 }}">
+                <span id="StrideDisplay"></span>
+            </div>
+        </div>
+    </div>
+    <div style="display:flex; flex-direction:row; align-items: center;">
+        <div class = "rectanglelayer">
+            <div class = "blockcolumn">
+                <canvas id="inputbox" class = "inputCanvas"></canvas>
+                <button id ="reset" class = "resetButton" aria-label="Reset">
+                    <!-- SVG für das Reset-Symbol -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+                        <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+                    </svg>
+                </button>
+            </div>
+            <div class = "blockcolumn">
+                <button id="block1" class = "block">BLOCK 1</button>
+                <button id="Add_block1", class="AddButton"> + </button>
+                <button id="Minus_block1" class="MinusButton"> - </button>
+            </div>
+            <div class = "blockcolumn">
+                <button id="block2" class = "block">BLOCK 2</button>
+                <button id="Add_block2" class="AddButton"> + </button>
+                <button id="Minus_block2" class="MinusButton"> - </button>
+            </div>
+            <div class = "blockcolumn">
+                <button id="block3" class = "block">BLOCK 3</button>
+                <button id="Add_block3" class="AddButton"> + </button>
+                <button id="Minus_block3" class="MinusButton"> - </button>
+            </div>
+            <div class = "blockcolumn">
+                <button id="block4" class = "block">BLOCK 4</button>
+                <button id="Add_block4" class="AddButton"> + </button>
+                <button id="Minus_block4" class="MinusButton"> - </button>
+            </div>
+            <div class = "blockcolumn">
+                <button id="block5" class = "block">BLOCK 5</button>
+                <button id="Add_block5" class="AddButton"> + </button>
+                <button id="Minus_block5" class="MinusButton"> - </button>
+            </div>
+        </div>
+        <div class = "staticClassifier">
+        </div> 
+    </div>
+        <br>
+        <div class = "row">
+            <div class = "infobox" id = "infobox">
+                <div class = "column">
+                    <p class= "infotext" id = "infotext"> lorem ipsum pan la la la la la la  la la la lal al al alkndl kan daksd laknsd lansd lkasd lkandl knalsdk nalksdn alknsd alksnd alknsd alksdn alksnd al k so was könnte man denn nich hier so schreiben dass man sieht ob das ganze jetzt gut angezeigt wird oder nicht tokyo ghoulg la laks aj sos aljdu </p>
+                </div>
+                <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
+                <br>
+                <br>
+                <button id = "Show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
+            </div>
+            </div>
+        </div>
+        <div class = "row">
+            <div class = "trainingrectangle">
+                <div  class = "column" style="width:20%;">
+                    <p style="margin: auto; width:90%; font-size:180%;">TRAIN</p>
+                </div>
+                <div  class = "row" style="display:flex; width:80%">                
+                    <button id = "starttraining" name="starttraining" class= "button"> START</button>
+                    <button id = "pausetraining" name="pausetraining" class= "button"> pause</button>
+                    <button id = "restarttraining" name="restarttraining" class= "button"> restart with new</button>
+                    <button id = "continuetraining" name="continuetraining"  class= "button"> continue both</button>
+                    <button id = "savetraining" name="savetraining"  class= "button"> save state</button>
+                    <button id = "loadtraining" name="loadtraining"  class= "button"> load state</button>
+                </div>
+            </div>
+        </div>
+        <div class = "row"> 
+            <div class = "testrectangle">
+                <div  class = "column" style="width:20%;">
+                    <p style="margin: auto; width:90%; font-size:180%;">TEST</p>
+                </div>
+                <div  class = "row" style="display:flex; width:80%">                
+                    <button id = "starttest" name="starttest"  class= "button"> START</button>
+                    <button id = "pausetest" name="pausetest" class= "button"> pause</button>
+                    <button id = "restarttest" name="restarttest" class= "button"> restart with new</button>
+                    <button id = "continuetest" name="continuetest" class= "button"> continue both</button>
+                    <button id = "savetest" name="savetest" class= "button"> save state</button>
+                    <button id = "loadtest" name="loadtest" class= "button"> load state</button>
+                </div>                
+
+            </div>
+        </div>
+        <div class="row">
+            <canvas id="myChart" width="400" height="200"> GO </canvas>
+
+        </div>
+    <!-- only need this once -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+
 </body>
 </html>
- 
