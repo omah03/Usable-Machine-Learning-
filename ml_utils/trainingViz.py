@@ -7,14 +7,13 @@ from torch.cuda import empty_cache
 from torch.nn import Module, functional as F
 from torch import manual_seed, Tensor
 from torch.optim import Optimizer, SGD
-from torch.utils.tensorboard import SummaryWriter
 
 from data import get_data_loaders
 from evaluate import accuracy
 from model import ConvolutionalNeuralNetwork
+from modelbuilder import ModelBuilder
 
 import matplotlib.pyplot as plt 
-from matplotlib.animation import FuncAnimation
 
 def train_step(model: Module, optimizer: Optimizer, data: Tensor,
                target: Tensor, cuda: bool):
