@@ -16,10 +16,6 @@ from model import ConvolutionalNeuralNetwork
 import matplotlib.pyplot as plt 
 from matplotlib.animation import FuncAnimation
 
-
-
-
-
 def train_step(model: Module, optimizer: Optimizer, data: Tensor,
                target: Tensor, cuda: bool):
     model.train()
