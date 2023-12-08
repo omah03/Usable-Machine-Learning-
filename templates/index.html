@@ -44,20 +44,6 @@
                 <span id="NEpochsDisplay"></span>
             </div>
         </div>
-        <div class = "column"> 
-            <label for="KSizeSlider">Kernel Size</label>
-            <div class= "sliderDisplay">
-                <input type="range" id="KSizeSlider" min="1" max="4" value="{{ 2 }}">             
-                <span id="KSizeDisplay"></span>
-            </div>
-        </div>
-        <div class = "column"> 
-            <label for="StrideSlider">Stride</label>
-            <div class= "sliderDisplay">
-                <input type="range" id="StrideSlider" min="1" max="4" value="{{ 2 }}">
-                <span id="StrideDisplay"></span>
-            </div>
-        </div>
     </div>
     <div style="display:flex; flex-direction:row; align-items: center;">
         <div class = "rectanglelayer">
@@ -111,7 +97,6 @@
                 <br>
                 <button id = "Show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
             </div>
-            </div>
         </div>
         <div class = "row">
             <div class = "trainingrectangle">
@@ -126,22 +111,6 @@
                     <button id = "savetraining" name="savetraining"  class= "button"> save state</button>
                     <button id = "loadtraining" name="loadtraining"  class= "button"> load state</button>
                 </div>
-            </div>
-        </div>
-        <div class = "row"> 
-            <div class = "testrectangle">
-                <div  class = "column" style="width:20%;">
-                    <p style="margin: auto; width:90%; font-size:180%;">TEST</p>
-                </div>
-                <div  class = "row" style="display:flex; width:80%">                
-                    <button id = "starttest" name="starttest"  class= "button"> START</button>
-                    <button id = "pausetest" name="pausetest" class= "button"> pause</button>
-                    <button id = "restarttest" name="restarttest" class= "button"> restart with new</button>
-                    <button id = "continuetest" name="continuetest" class= "button"> continue both</button>
-                    <button id = "savetest" name="savetest" class= "button"> save state</button>
-                    <button id = "loadtest" name="loadtest" class= "button"> load state</button>
-                </div>                
-
             </div>
         </div>
         <div class="row">

@@ -57,7 +57,7 @@ act_tanhOption.addEventListener("click", handleActivationFunctionChange);
 
 //------------------------------------------------------------------
 //Sliders
-const sliders = ["LRateSlider", "BSizeSlider", "NEpochsSlider", "KSizeSlider", "StrideSlider"];
+const sliders = ["LRateSlider", "BSizeSlider", "NEpochsSlider"];
 
 for (const slider of sliders) {
     SliderElement = document.getElementById(slider);
@@ -239,14 +239,6 @@ for (const button of buttonList){
     ButtonElement= document.getElementById(button+"training");
     ButtonElement.addEventListener("click", () => {
         handleButton(button+"training");
-    });
-}
-
-//TESTING CONTROLS
-for (const button of buttonList){
-    ButtonElement= document.getElementById(button+"test");
-    ButtonElement.addEventListener("click", () => {
-        handleButton(button+"test");
     });
 }
 
