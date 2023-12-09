@@ -10,7 +10,6 @@ from torch.optim import Optimizer, SGD
 
 from ml_utils.data import get_data_loaders
 from ml_utils.evaluate import accuracy
-from ml_utils.model import ConvolutionalNeuralNetwork
 
 import requests
 
@@ -80,28 +79,5 @@ def training(model: Module, optimizer: Optimizer, cuda: bool,
         send_data_to_flask(batch_data)
 
     return test_loss, test_acc  
-
-
-def main(seed):
-    print("init...")
-    manual_seed(seed)
-    np.random.seed(seed)
-    model = ConvolutionalNeuralNetwork()
-    opt = SGD(model.parameters(), lr=0.3, momentum=0.5)
-    print("train...")
-    training(
-            model=model,
-            optimizer=opt,
-            cuda=False,     # change to True to run on nvidia gpu
-            batch_size=256,
-            learning_rate=0.01,
-            momentum=0.9
-            )
-   
-    
-
-
-if __name__ == "__main__":
-    main(seed=0)
 
 

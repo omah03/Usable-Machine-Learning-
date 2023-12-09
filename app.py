@@ -67,7 +67,8 @@ def handleButton():
     # Do match case statement for every button (python 3.10 doesnt support match case)
     if type=="starttraining":         
         q.put(toggle_training())
-    return jsonify(training_active)
+        return jsonify(training_active)
+    return jsonify(True)
 
 def toggle_training():
     global training_active, training_stop_signal
