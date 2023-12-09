@@ -7,14 +7,11 @@ from torch.cuda import empty_cache
 from torch.nn import Module, functional as F
 from torch import manual_seed, Tensor
 from torch.optim import Optimizer, SGD
-from torch.utils.tensorboard import SummaryWriter
 
-from data import get_data_loaders
-from evaluate import accuracy
-from model import ConvolutionalNeuralNetwork
+from ml_utils.data import get_data_loaders
+from ml_utils.evaluate import accuracy
 
-import matplotlib.pyplot as plt 
-from matplotlib.animation import FuncAnimation
+import requests
 
 
 import pickle #for saving the model
@@ -35,39 +32,56 @@ def train_step(model: Module, optimizer: Optimizer, data: Tensor,
     optimizer.zero_grad()
 
 
-def training(model: Module, optimizer: Optimizer, cuda: bool, n_epochs: int,
-             batch_size: int, queue: Queue = None):
+def send_data_to_flask(batch_data):
+    url = 'http://localhost:5000/receive_data'
+    try:
+        response = requests.post(url, json=batch_data)
+        if response.status_code == 200:
+            print('Data sent successfully')
+        else:
+            print('Failed to send data')
+    except requests.exceptions.RequestException as e:
+        print(f'Error: {e}')
 
+
+    
+
+
+def training(model: Module, optimizer: Optimizer, cuda: bool, 
+             batch_size: int,learning_rate, momentum,  queue: Queue = None):
+    print("training")
     train_loader, test_loader = get_data_loaders(batch_size=batch_size)
     if cuda:
         model.cuda()
     
-    fig, (ax1,ax2) = plt.subplots(2,1,figsize=(10,8))
-    losses,epochs,accuracies = [],[],[]
-    line1, = ax1.plot(epochs, losses, 'r-', label='Test Loss')
-    ax1.set_xlabel('Epochs')
-    ax1.set_ylabel('Loss')
-    ax1.set_xlim(0, n_epochs)
-    ax1.set_ylim(0, 1.0) 
-    ax1.legend()
+ 
+    opt = optimizer
+    optimizer_state = opt.state_dict()
 
-    
-    line2, = ax2.plot(epochs, accuracies, 'b-', label='Test Accuracy')
-    ax2.set_xlabel('Epochs')
-    ax2.set_ylabel('Accuracy')
-    ax2.set_xlim(1, n_epochs)
-    ax2.set_ylim(5, 100)
-    ax2.legend()
 
-    for epoch in range(n_epochs):
-        for batch in train_loader:
-            data, target = batch
-            train_step(model=model, optimizer=optimizer, cuda=cuda, data=data,
-                       target=target)
+
+    try:
+        optimizer_state['param_groups'][0]['lr'] = float(learning_rate)
+        optimizer_state['param_groups'][0]['momentum'] = float(momentum)
+        optimizer.load_state_dict(optimizer_state)
+    except ValueError:
+        print('Accepts only numerical values.')
+
+    for batch_idx, batch in enumerate(train_loader):
+        data, target = batch
+        train_step(model=model, optimizer=optimizer, cuda=cuda, data=data,
+                    target=target)
+
         test_loss, test_acc = accuracy(model, test_loader, cuda)
-        losses.append(test_loss)
-        epochs.append(epoch)
-        accuracies.append(test_acc)
+        batch_data = {
+            'type': "batch_data",
+            'batch_idx': batch_idx ,
+            'N_batch': len(train_loader),
+            'loss': test_loss,
+            'acc': test_acc
+        }
+        print(batch_data)
+        send_data_to_flask(batch_data)
 
         line1.set_data(epochs, losses)
         ax1.relim()  
@@ -114,5 +128,6 @@ def main(seed):
 
 if __name__ == "__main__":
     main(seed=0)
+    return test_loss, test_acc  
 
 

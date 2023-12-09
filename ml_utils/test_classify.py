@@ -4,20 +4,30 @@ from data import get_dataset
 import matplotlib.pyplot as plt
 
 
+model_file = 'MNIST_classifier_model.pkl'
 
-print("start...")
 
-pkl_file = 'MNIST_classifier_model.pkl'
 # load model from pickle file
 with open(pkl_file, 'rb') as file:  
     model = pickle.load(file)
 
-print("model loaded")
-# evaluate model 
-#y_predict = model.predict(X_test)
 
-# check results
-#print(classification_report(y_test, y_predict)) 
+def classify_canvas_image(image):
+  
+ #Überprüfung, ob das Bild mehrere Kanäle hat und Auswahl eines Kanals, wenn nötig
+ if image.shape[0] > 1:
+     image = image[0, :, :]  # Auswahl des ersten Kanals
+ 
+ # Hinzufügen einer Batch-Dimension und Ändern der Tensor-Dimensionen entsprechend den Modellanforderungen
+ image = image.unsqueeze(0)  # Annahme: [Batch_Size, Channels, Height, Width]
+ #
+
+
+print("resized to = ", image.shape)
+
+model.eval()
+
+
 
 test = get_dataset(test =True)
 image, label = test[0]
@@ -28,18 +38,6 @@ print("image shape = ", image.shape)
 
 
 
-#Überprüfung, ob das Bild mehrere Kanäle hat und Auswahl eines Kanals, wenn nötig
-if image.shape[0] > 1:
-    image = image[0, :, :]  # Auswahl des ersten Kanals
-
-# Hinzufügen einer Batch-Dimension und Ändern der Tensor-Dimensionen entsprechend den Modellanforderungen
-image = image.unsqueeze(0)  # Annahme: [Batch_Size, Channels, Height, Width]
-#
-
-
-print("resized to = ", image.shape)
-
-model.eval()
 
 
 
