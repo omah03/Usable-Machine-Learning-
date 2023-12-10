@@ -17,7 +17,60 @@ function handleActivationFunctionChange(event) {
 
         // Call a function or perform an action based on the selected option
         switch (selectedOptionText) {
-            case "Retified Linear Activation (ReLU)":
+            case "0.1":
+                // Call a function for ReLU activation
+                func = "1";
+
+                break;
+            case "0.01":
+                // Call a function for Sigmoid activation
+                func = "01";
+                break;
+            case "0.001":
+                // Call a function for tanh activation
+
+                func = "001";
+                break;
+                case "0.0001":
+                    // Call a function for tanh activation
+    
+                    func = "0001";
+                    break;
+            default:
+                // Handle any other cases or do nothing
+                func = "";
+                break;
+        }
+        fetch('/update_value', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "type": "ActivationFunc",
+                "value": func
+            })
+        })
+            .then(response => response.json());
+    }
+}
+// Add a "click" event listener to the dropdown options
+act_reluOption.addEventListener("click", handleActivationFunctionChange);
+act_sigmoidOption.addEventListener("click", handleActivationFunctionChange);
+act_tanhOption.addEventListener("click", handleActivationFunctionChange);
+
+function handle_LRate_Change(event) {
+    // Get the text of the selected option
+    var LRateOptionText = event.target.textContent;
+
+    // Update the title text with the selected option
+    var titleElement = document.getElementById("LRateOption");
+    if ("Learning Rate: <br>" + LRateOptionText != titleElement.innerHTML) {
+        titleElement.innerHTML = "Learning Rate: <br>" + LRateOptionText;
+
+        // Call a function or perform an action based on the selected option
+        switch (LRateOptionText) {
+            case "Rectified Linear Activation (ReLU)":
                 // Call a function for ReLU activation
                 func = "ReLU";
 
@@ -42,7 +95,7 @@ function handleActivationFunctionChange(event) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type": "ActivationFunc",
+                "type": "LRate",
                 "value": func
             })
         })
@@ -50,14 +103,15 @@ function handleActivationFunctionChange(event) {
     }
 }
 // Add a "click" event listener to the dropdown options
-act_reluOption.addEventListener("click", handleActivationFunctionChange);
-act_sigmoidOption.addEventListener("click", handleActivationFunctionChange);
-act_tanhOption.addEventListener("click", handleActivationFunctionChange);
-
+act_1.addEventListener("click", handle_LRate_Change);
+act_01.addEventListener("click", handle_LRate_Change);
+act_001.addEventListener("click", handle_LRate_Change);
+act_0001.addEventListener("click", handle_LRate_Change);
 
 //------------------------------------------------------------------
 //Sliders
-const sliders = ["LRateSlider", "BSizeSlider", "NEpochsSlider"];
+const sliders = ["BSizeSlider", "NEpochsSlider"];
+
 
 for (const slider of sliders) {
     SliderElement = document.getElementById(slider);

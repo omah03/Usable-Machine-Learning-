@@ -16,19 +16,26 @@
                     <span id="selectedOption">Activation function</span>
                 </button>
                 <div class="dropdown-content">
-                  <a href="#" id="act_reluOption">Retified Linear Activation (ReLU)</a>
+                  <a href="#" id="act_reluOption">Rectified Linear Activation (ReLU)</a>
                   <a href="#" id="act_sigmoidOption">Logistics (Sigmoid)</a>
                   <a href="#" id="act_tanhOption">Hyperbolic Tangent (tanh)</a>
                 </div>
             </div> 
         </div>    
         <div class = "column"> 
-            <label for="LRateSlider">Learning rate</label>
-            <div class= "sliderDisplay">
-                <input type="range" id="LRateSlider" min="1" max="256" value="{{ 1 }}">
-                <span id="LRateDisplay"></span>
+            <div class="dropdown">
+                <button id="LRate" class="dropbtn" >
+                    <span id="LRateOption">Learning Rate</span>
+                </button>
+                <div class="dropdown-content">
+                  <a href="#" id="act_1">0.1</a>
+                  <a href="#" id="act_01">0.01</a>
+                  <a href="#" id="act_001">0.001</a>
+                  <a href="#" id="act_0001">0.0001</a>
+                </div>
+            </div> 
             </div>
-        </div>
+        
         <div class = "column"> 
             <label for="BSizeSlider">Batch Size</label>
             <div class= "sliderDisplay">
@@ -40,10 +47,11 @@
         <div class = "column"> 
             <label for="NEpochsSlider">Epochs</label>
             <div class= "sliderDisplay">
-                <input type="range" id="NEpochsSlider" min="1" max="256" value="{{ 10 }}">
+                <input type="range" id="NEpochsSlider" min="1" max="10" value="{{ 1 }}">
                 <span id="NEpochsDisplay"></span>
             </div>
         </div>
+    </div>
     </div>
     <br>
     <div class = "row">
@@ -113,8 +121,8 @@
                 <div class= "progressbar" id="progressbar">
                     <div class="progress" id="progress"></div>
                 </div>
-                <div class="row">
-                    <canvas id="myChart" width="400" height="200"> GO </canvas>
+                <div class="row" style="width: 50%;">
+                    <canvas id="myChart" width="500" height="200"> GO </canvas>
                 </div>
 
         </div>
