@@ -98,8 +98,8 @@ def training(model: Module, optimizer: Optimizer, cuda: bool,
     plt.show() 
     if cuda:
         empty_cache()        
-    return   
 
+    return test_loss, test_acc  
 
 def main(seed):
     print("init...")
@@ -128,6 +128,5 @@ def main(seed):
 
 if __name__ == "__main__":
     main(seed=0)
-    return test_loss, test_acc  
 
 
