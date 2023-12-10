@@ -281,6 +281,24 @@ function changeInfoText(elementID){
 }
 }
 
+//------------------------------------------------------------------
+//Classifier arrows UGLY FUCKING SOLUTION I HATE THIS
+
+inputs= (document.getElementsByClassName("classifier_input"));
+classes= (document.getElementsByClassName("classifier_class"));
+
+console.log(inputs.length);
+
+for (let i=0; i<inputs.length; i=i+2){
+
+    for (let j= 0; j<5; j=j+1){
+        new LeaderLine(
+            inputs[i],classes[j],
+            {color:'black', size:1}
+          );
+    }
+    
+}
 
 
 //------------------------------------------------------------------
