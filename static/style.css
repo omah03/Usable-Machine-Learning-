@@ -97,28 +97,42 @@ input[type="range"] {
   flex-direction: row;
 }
 
-.inputCanvas{
+.inputbox{
   display:flex;
   align-items: center;
   box-sizing: border-box;
+  margin-top: 10px;
 
-  width: 150px;
-  height: 180px;
 
+  width: 168px;
+  height: 200px;
 
   background: #FFFFFF;
   border: 1px solid #000000;
   border-radius: 30px;
+  z-index: 1;
 
-  margin-top: 10px;
-  margin-bottom: 10px;
+}
+.inputCanvas{
+  height: 168px;
+  width: 168px;
+  
+  background: none;
 
-  margin-left:auto;
   position: relative;
   z-index: 2; /* Canvas liegt standardmäßig über anderen Elementen */
 }
 
+.controls_column{
+  display: flex;
+  flex-direction: column;
 
+  justify-content: space-around;
+  
+  width: 10px;
+
+  margin-left: -2%;
+}
 
 .blockcolumn {
   position: relative;
@@ -132,7 +146,6 @@ input[type="range"] {
 }
 
 .resetButton{
-  position: absolute;
   bottom: 15px;
   left: 35px;
   padding: 8px;
@@ -217,6 +230,8 @@ input[type="range"] {
   flex-direction: row;
   box-sizing: border-box;
 
+  justify-content:  space-between;
+
   width: 30%;
   height: 229px;
 
@@ -225,6 +240,27 @@ input[type="range"] {
 
   margin-left: 20px;
 }
+
+.classifier_input{
+  height: 5px;
+  width: 5px;
+  margin-top: 5px;
+  background-color: #000000;
+  border: 2px solid #000000;
+}
+
+.classifier_class {
+  height: 40px;
+  width: 100px;
+  float: right;
+  border: 2px solid #000000;
+  margin:0;
+
+  text-align: center;
+
+  font-size: xx-large;
+}
+
 
 
 .infobox {
