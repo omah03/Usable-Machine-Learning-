@@ -16,19 +16,26 @@
                     <span id="selectedOption">Activation function</span>
                 </button>
                 <div class="dropdown-content">
-                  <a href="#" id="act_reluOption">Retified Linear Activation (ReLU)</a>
+                  <a href="#" id="act_reluOption">Rectified Linear Activation (ReLU)</a>
                   <a href="#" id="act_sigmoidOption">Logistics (Sigmoid)</a>
                   <a href="#" id="act_tanhOption">Hyperbolic Tangent (tanh)</a>
                 </div>
             </div> 
         </div>    
         <div class = "column"> 
-            <label for="LRateSlider">Learning rate</label>
-            <div class= "sliderDisplay">
-                <input type="range" id="LRateSlider" min="1" max="256" value="{{ 1 }}">
-                <span id="LRateDisplay"></span>
+            <div class="dropdown">
+                <button id="LRate" class="dropbtn" >
+                    <span id="LRateOption">Learning Rate</span>
+                </button>
+                <div class="dropdown-content">
+                  <a href="#" id="act_1">0.1</a>
+                  <a href="#" id="act_01">0.01</a>
+                  <a href="#" id="act_001">0.001</a>
+                  <a href="#" id="act_0001">0.0001</a>
+                </div>
+            </div> 
             </div>
-        </div>
+        
         <div class = "column"> 
             <label for="BSizeSlider">Batch Size</label>
             <div class= "sliderDisplay">
@@ -40,36 +47,46 @@
         <div class = "column"> 
             <label for="NEpochsSlider">Epochs</label>
             <div class= "sliderDisplay">
-                <input type="range" id="NEpochsSlider" min="1" max="256" value="{{ 10 }}">
+                <input type="range" id="NEpochsSlider" min="1" max="10" value="{{ 1 }}">
                 <span id="NEpochsDisplay"></span>
             </div>
         </div>
-        <div class = "column"> 
-            <label for="KSizeSlider">Kernel Size</label>
-            <div class= "sliderDisplay">
-                <input type="range" id="KSizeSlider" min="1" max="4" value="{{ 2 }}">             
-                <span id="KSizeDisplay"></span>
+    </div>
+    </div>
+    <br>
+    <div class = "row">
+        <div class = "infobox" id = "infobox">
+            <div class = "column">
+                <p class= "infotext" id = "infotext"> lorem ipsum pan la la la la la la  la la la lal al al alkndl kan daksd laknsd lansd lkasd lkandl knalsdk nalksdn alknsd alksnd alknsd alksdn alksnd al k so was könnte man denn nich hier so schreiben dass man sieht ob das ganze jetzt gut angezeigt wird oder nicht tokyo ghoulg la laks aj sos aljdu </p>
             </div>
-        </div>
-        <div class = "column"> 
-            <label for="StrideSlider">Stride</label>
-            <div class= "sliderDisplay">
-                <input type="range" id="StrideSlider" min="1" max="4" value="{{ 2 }}">
-                <span id="StrideDisplay"></span>
-            </div>
+            <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
+            <br>
+            <br>
+            <button id = "Show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
         </div>
     </div>
     <div style="display:flex; flex-direction:row; align-items: center;">
         <div class = "rectanglelayer">
             <div class = "blockcolumn">
-                <canvas id="inputbox" class = "inputCanvas"></canvas>
-                <button id ="reset" class = "resetButton" aria-label="Reset">
-                    <!-- SVG für das Reset-Symbol -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
-                        <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
-                    </svg>
-                </button>
+                <div class="inputbox">
+                    <canvas id="inputbox" class = "inputCanvas"></canvas>
+
+                    <div class = "controls_column">
+                        <button id ="reset" class = "resetButton" aria-label="Reset">
+                            <!-- SVG für das Reset-Symbol -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+                            </svg>
+                        </button>
+                        <button id = "classify" class = "resetButton" aria-label="classify">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
+                                <path d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
+                              </svg>
+                            </button>
+                    </div>
+                </div>
+
             </div>
             <div class = "blockcolumn">
                 <button id="block1" class = "block">BLOCK 1</button>
@@ -98,57 +115,105 @@
             </div>
         </div>
         <div class = "staticClassifier">
-        </div> 
-    </div>
-        <br>
-        <div class = "row">
-            <div class = "infobox" id = "infobox">
-                <div class = "column">
-                    <p class= "infotext" id = "infotext"> lorem ipsum pan la la la la la la  la la la lal al al alkndl kan daksd laknsd lansd lkasd lkandl knalsdk nalksdn alknsd alksnd alknsd alksdn alksnd al k so was könnte man denn nich hier so schreiben dass man sieht ob das ganze jetzt gut angezeigt wird oder nicht tokyo ghoulg la laks aj sos aljdu </p>
+            <div class="column">
+                <div class="classifier_input">
                 </div>
-                <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
-                <br>
-                <br>
-                <button id = "Show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+                <div class="classifier_input">
+                </div>
+
             </div>
+            <div class="row" style="justify-content:right;">
+                <div class="column" style = "justify-content:center;">
+                    <div class="classifier_class"> 1
+                    </div>
+                    <div class="classifier_class"> 2
+                    </div>
+                    <div class="classifier_class"> 3
+                    </div>
+                    <div class="classifier_class"> 4
+                    </div>
+                    <div class="classifier_class"> 5
+                    </div>
+                </div>
+                <div class="column" style = "justify-content:center; margin-left:-21px">
+                    <div class="classifier_class"> 6
+                    </div>                
+                    <div class="classifier_class"> 7
+                    </div>
+                    <div class="classifier_class"> 8
+                    </div>
+                    <div class="classifier_class"> 9
+                    </div>
+                    <div class="classifier_class"> 10
+                    </div>
+                </div>
             </div>
         </div>
+
+    </div>
+
         <div class = "row">
             <div class = "trainingrectangle">
                 <div  class = "column" style="width:20%;">
                     <p style="margin: auto; width:90%; font-size:180%;">TRAIN</p>
                 </div>
                 <div  class = "row" style="display:flex; width:80%">                
-                    <button id = "starttraining" name="starttraining" class= "button"> START</button>
-                    <button id = "pausetraining" name="pausetraining" class= "button"> pause</button>
-                    <button id = "restarttraining" name="restarttraining" class= "button"> restart with new</button>
-                    <button id = "continuetraining" name="continuetraining"  class= "button"> continue both</button>
-                    <button id = "savetraining" name="savetraining"  class= "button"> save state</button>
-                    <button id = "loadtraining" name="loadtraining"  class= "button"> load state</button>
+                    <button id = "starttraining" name="starttraining" class= "button"> START </button>
+                    <button id = "resettraining" name="restarttraining" class= "button"> RESET </button>
                 </div>
             </div>
-        </div>
-        <div class = "row"> 
-            <div class = "testrectangle">
-                <div  class = "column" style="width:20%;">
-                    <p style="margin: auto; width:90%; font-size:180%;">TEST</p>
+
+                <div class= "progressbar" id="progressbar" style="width: 90%;">
+                    <div class="progress" id="progress" ></div>
                 </div>
-                <div  class = "row" style="display:flex; width:80%">                
-                    <button id = "starttest" name="starttest"  class= "button"> START</button>
-                    <button id = "pausetest" name="pausetest" class= "button"> pause</button>
-                    <button id = "restarttest" name="restarttest" class= "button"> restart with new</button>
-                    <button id = "continuetest" name="continuetest" class= "button"> continue both</button>
-                    <button id = "savetest" name="savetest" class= "button"> save state</button>
-                    <button id = "loadtest" name="loadtest" class= "button"> load state</button>
-                </div>                
-
-            </div>
-        </div>
-        <div class="row">
-            <canvas id="myChart" width="400" height="200"> GO </canvas>
+                <div class="row" style="width: 50%;">
+                    <canvas id="myChart" width="500" height="200"> GO </canvas>
+                </div>
 
         </div>
+
     <!-- only need this once -->
+    <script src="../static/include/anseki-leader-line-6c26a9d/leader-line.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>

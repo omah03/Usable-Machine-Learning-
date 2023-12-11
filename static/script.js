@@ -17,7 +17,60 @@ function handleActivationFunctionChange(event) {
 
         // Call a function or perform an action based on the selected option
         switch (selectedOptionText) {
-            case "Retified Linear Activation (ReLU)":
+            case "0.1":
+                // Call a function for ReLU activation
+                func = "1";
+
+                break;
+            case "0.01":
+                // Call a function for Sigmoid activation
+                func = "01";
+                break;
+            case "0.001":
+                // Call a function for tanh activation
+
+                func = "001";
+                break;
+                case "0.0001":
+                    // Call a function for tanh activation
+    
+                    func = "0001";
+                    break;
+            default:
+                // Handle any other cases or do nothing
+                func = "";
+                break;
+        }
+        fetch('/update_value', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "type": "ActivationFunc",
+                "value": func
+            })
+        })
+            .then(response => response.json());
+    }
+}
+// Add a "click" event listener to the dropdown options
+act_reluOption.addEventListener("click", handleActivationFunctionChange);
+act_sigmoidOption.addEventListener("click", handleActivationFunctionChange);
+act_tanhOption.addEventListener("click", handleActivationFunctionChange);
+
+function handle_LRate_Change(event) {
+    // Get the text of the selected option
+    var LRateOptionText = event.target.textContent;
+
+    // Update the title text with the selected option
+    var titleElement = document.getElementById("LRateOption");
+    if ("Learning Rate: <br>" + LRateOptionText != titleElement.innerHTML) {
+        titleElement.innerHTML = "Learning Rate: <br>" + LRateOptionText;
+
+        // Call a function or perform an action based on the selected option
+        switch (LRateOptionText) {
+            case "Rectified Linear Activation (ReLU)":
                 // Call a function for ReLU activation
                 func = "ReLU";
 
@@ -42,7 +95,7 @@ function handleActivationFunctionChange(event) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type": "ActivationFunc",
+                "type": "LRate",
                 "value": func
             })
         })
@@ -50,14 +103,15 @@ function handleActivationFunctionChange(event) {
     }
 }
 // Add a "click" event listener to the dropdown options
-act_reluOption.addEventListener("click", handleActivationFunctionChange);
-act_sigmoidOption.addEventListener("click", handleActivationFunctionChange);
-act_tanhOption.addEventListener("click", handleActivationFunctionChange);
-
+act_1.addEventListener("click", handle_LRate_Change);
+act_01.addEventListener("click", handle_LRate_Change);
+act_001.addEventListener("click", handle_LRate_Change);
+act_0001.addEventListener("click", handle_LRate_Change);
 
 //------------------------------------------------------------------
 //Sliders
-const sliders = ["LRateSlider", "BSizeSlider", "NEpochsSlider", "KSizeSlider", "StrideSlider"];
+const sliders = ["BSizeSlider", "NEpochsSlider"];
+
 
 for (const slider of sliders) {
     SliderElement = document.getElementById(slider);
@@ -227,29 +281,101 @@ function changeInfoText(elementID){
 }
 }
 
+//------------------------------------------------------------------
+//Classifier arrows UGLY FUCKING SOLUTION I HATE THIS
+
+inputs= (document.getElementsByClassName("classifier_input"));
+classes= (document.getElementsByClassName("classifier_class"));
+
+console.log(inputs.length);
+
+for (let i=0; i<inputs.length; i=i+2){
+
+    for (let j= 0; j<5; j=j+1){
+        new LeaderLine(
+            inputs[i],classes[j],
+            {color:'black', size:1}
+          );
+    }
+    
+}
 
 
 //------------------------------------------------------------------
 //CONTROLS
 
-const buttonList=["start","pause", "restart", "continue", "save", "load"];
+const buttonList=["start","reset"];
 
 //TRAINING CONTROLS
-for (const button of buttonList){
-    ButtonElement= document.getElementById(button+"training");
-    ButtonElement.addEventListener("click", () => {
-        handleButton(button+"training");
-    });
-}
+startbutton= document.getElementById("starttraining");
+startbutton.addEventListener("click", handleStartButton);
+progressbar=document.getElementById("progressbar");
+progress= document.getElementById("progress");
+//for US only
+var training=false;
+var sleepSetTimeout_ctrl;
 
-//TESTING CONTROLS
-for (const button of buttonList){
-    ButtonElement= document.getElementById(button+"test");
-    ButtonElement.addEventListener("click", () => {
-        handleButton(button+"test");
-    });
+function sleep(ms) {
+    clearInterval(sleepSetTimeout_ctrl);
+    return new Promise(resolve => sleepSetTimeout_ctrl = setTimeout(resolve, ms));
 }
+//end for US only
 
+
+async function handleStartButton(){
+    //FAKE FOR USER STUDY
+    if (training==false){
+        training=true;
+        startbutton.innerHTML="PAUSE";
+    for (const epoch of SampleEpochs){
+        if (training==false){break;}
+        progressbar.style.display="flex";      
+        progress.style.width="0%";
+        for (var i= 0; i<256; i++){
+            await sleep(100);
+            progress.style.width=((i+1)*100/256).toFixed(0)+"%";
+        }
+        accuracies.push(SampleAccuracies[epoch-1]);
+        losses.push(SampleLosses[epoch-1]);
+        epochs.push(epoch);
+        myChart.update();
+    }
+    progressbar.style.display="None";
+    training=false;
+    startbutton.innerHTML="continue";
+    }
+    else {
+        training= false;
+        startbutton.innerHTML="CONTINUE";
+    }
+    //ACTUAL IMPLEMENTATION
+    /*
+    fetch('/button_press', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "type": "starttraining"
+        })
+    })
+        .then(response => {return response.json()})
+        .then((data)=> {
+            if (data==true){
+                startbutton.innerHTML="Pause";
+            }
+            else {
+                startbutton.innerHTML="Continue";
+            }
+        });
+    //toggleProgressBar();*/
+    }
+
+
+resetbutton= document.getElementById("resettraining");
+resetbutton.addEventListener("click", () => {
+    handleButton(resetbutton);
+})
 
 function handleButton(buttonName){
         // Call the backend
@@ -264,8 +390,9 @@ function handleButton(buttonName){
             })
         })
             .then(response => response.json());
-    
+        
 }
+
 
 //code for the canvas
 const canvas = document.getElementById('inputbox');
@@ -345,9 +472,13 @@ function clearCanvas(){
 document.getElementById('reset').addEventListener('click', clearCanvas);
 
 // Sample data (replace with your actual data)
-const epochs = [1, 2, 3, 4, 5];
-const losses = [0.1, 0.08, 0.06, 0.04, 0.02];
-const accuracies = [80, 85, 90, 95, 98];
+const SampleEpochs = [1, 2, 3, 4, 5];
+const SampleLosses = [0.1, 0.08, 0.06, 0.04, 0.02];
+const SampleAccuracies = [80, 85, 90, 95, 98];
+
+var epochs=[];
+var losses =[];
+var accuracies=[];
 
 // Get the canvas element
 const ctxs = document.getElementById('myChart').getContext('2d');
@@ -383,56 +514,3 @@ const myChart = new Chart(ctxs, {
         },
     },
 });
-/*
-
-
-// Function to disable slider and button when button is pressed
-playButton.addEventListener('click', function () {
-    startTraining();
-    slider.disabled = true;
-    playButton.disabled = true;
-    print("TEST SUCCES")
-});
-
-// Function to update accuracy value on the page
-function updateAccuracy() {
-    fetch("/get_accuracy")
-        .then(response => response.json())
-        .then(data => {
-            accuracyElement.textContent = data.acc;
-        });
-}
-
-// Function to update slider value display
-function updateSliderValue() {
-    sliderValueElement.textContent = slider.value;
-}
-
-// Function to start training
-function startTraining() {
-    fetch("/start_training", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-    })
-    .then(response => response.json())
-}
-
-// Update accuracy every second
-setInterval(function() {
-    updateAccuracy();
-}, 1000);
-
-// Function to change seed value when slider is changed
-slider.addEventListener("input", function() {
-    updateSliderValue();
-    fetch("/update_seed", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: "seed=" + slider.value
-    });
-});
-*/
