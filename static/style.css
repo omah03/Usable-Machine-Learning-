@@ -99,9 +99,11 @@ input[type="range"] {
 
 .inputbox{
   display:flex;
+  position: relative;
   align-items: center;
   box-sizing: border-box;
   margin-top: 10px;
+  margin-left: 30px;
 
 
   width: 280px;
@@ -122,6 +124,7 @@ input[type="range"] {
   position: relative;
   z-index: 2; /* Canvas liegt standardmäßig über anderen Elementen */
 }
+
 
 .controls_column{
   display: flex;
@@ -219,8 +222,9 @@ input[type="range"] {
   box-sizing: border-box;
 
 
-  width: 60%;
-  height: 300px;
+
+  width: 65%;
+  height: 320px;
 
   background: #D0F4FF;
   border: 2px solid #000000;

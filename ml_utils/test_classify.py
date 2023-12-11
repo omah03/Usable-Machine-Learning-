@@ -74,6 +74,9 @@ def classify_canvas_image(image,modelFile):
         mean = [0.5]  # Mittelwert für jeden Kanal
         std = [0.5]   # Standardabweichung für jeden Kanal
 
+        mean=[0.1307] #same as in data.py
+        std=(0.3081)
+
 
         normalize = transforms.Normalize(mean=mean, std=std)
 
