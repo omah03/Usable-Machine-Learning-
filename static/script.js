@@ -468,6 +468,20 @@ function clearCanvas(){
     displayText();
 }
 
+
+function sendToModel(){
+    
+}
+
+function classifyImage(){
+    const canvasData = canvas.toDataURL();
+    const classification = sendToModel(canvasDaata);
+    console.log('Die Klassifizierung ergbit: ',classification);
+}
+
+const classifyButton = document.getElementById('classify');
+classifyButton.addEventListener('click',classifyImage);
+
 //Reset Button for Canvas
 document.getElementById('reset').addEventListener('click', clearCanvas);
 
