@@ -147,7 +147,11 @@ input[type="range"] {
   padding: 1%;
   align-items: center;
 }
-
+/*
+.classifier_class {
+  background: red;
+}
+*/
 .resetButton{
   bottom: 15px;
   left: 35px;

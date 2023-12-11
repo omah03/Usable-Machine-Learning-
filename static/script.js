@@ -535,15 +535,25 @@ function sendAndReceiveClassification(canvasData){
     });
 }
 
+
+
+function classificationResult(predicted_digit){
+    const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
+    const resultClass = classes[predicted_digit];
+    resultClass.style.backgroundColor = 'red';
+}
+
 async function classifyImage(){
     console.log('Classifying Image....')
     var predicted_digit = 5;
     const canvasData = canvas.toDataURL();
-
+    const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
+    classes.forEach(container => {container.style.backgroundColor = 'transparent';});
     try {
         const classification = await sendAndReceiveClassification(canvasData);
         console.log('Die Klassifizierung ergibt:', classification);
-        printPrediction(classification);
+        //printPrediction(classification); not needed anymore as containers are colored
+        classificationResult(classification);
     } catch(error) {
         console.error('Fehler bei der Klassifizierung:', error);
     }
@@ -559,10 +569,15 @@ function clearCanvas(){
     var predictionText = document.getElementById('predictionText');
     predictionText.innerText = ''; // Leere den Text
     predictionText.style.display = 'none'; // Verberge das Element
+    const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
+    classes.forEach(container => {container.style.backgroundColor = 'transparent';});
 }
 
 //Reset Button for Canvas
 document.getElementById('reset').addEventListener('click', clearCanvas);
+
+
+
 
 //
 //-------------------------------------------------------
