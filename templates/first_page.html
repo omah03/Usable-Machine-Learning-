@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Page</title>
+    <!-- Add any additional CSS or styling here -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <div style="display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* This ensures the container takes up the full height of the viewport */
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;">
+        <div class = "rectanglelayer">
+            <div class = "blockcolumn">
+                <div class="inputbox">
+                    <canvas id="inputbox" class = "inputCanvas"></canvas>
+
+                    <div class = "controls_column">
+                        <button id ="reset" class = "resetButton" aria-label="Reset">
+                            <!-- SVG für das Reset-Symbol -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+                            </svg>
+                        </button>
+                        <button id = "classify" class = "resetButton" aria-label="classify">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
+                                <path d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
+                              </svg>
+                            </button>
+                    </div>
+                </div>
+
+            </div>
+            <div class = "blockcolumn">
+                <button id="block1" class = "block">BLOCK 1</button>
+                <button id="Add_block1", class="AddButton"> + </button>
+                <button id="Minus_block1" class="MinusButton"> - </button>
+            </div>
+            <div class = "blockcolumn">
+                <button id="block2" class = "block">BLOCK 2</button>
+                <button id="Add_block2" class="AddButton"> + </button>
+                <button id="Minus_block2" class="MinusButton"> - </button>
+            </div>
+            <div class = "blockcolumn">
+                <button id="block3" class = "block">BLOCK 3</button>
+                <button id="Add_block3" class="AddButton"> + </button>
+                <button id="Minus_block3" class="MinusButton"> - </button>
+            </div>
+            <div class = "blockcolumn">
+                <button id="block4" class = "block">BLOCK 4</button>
+                <button id="Add_block4" class="AddButton"> + </button>
+                <button id="Minus_block4" class="MinusButton"> - </button>
+            </div>
+            <div class = "blockcolumn">
+                <button id="block5" class = "block">BLOCK 5</button>
+                <button id="Add_block5" class="AddButton"> + </button>
+                <button id="Minus_block5" class="MinusButton"> - </button>
+            </div>
+        </div>
+        <form method="post">
+        <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <!-- Add any additional scripts or JavaScript here -->
+    <script src="../static/include/anseki-leader-line-6c26a9d/leader-line.min.js"></script>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

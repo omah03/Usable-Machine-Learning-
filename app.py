@@ -15,6 +15,19 @@ from ml_utils.trainingViz import training
 app = Flask(__name__)
 socketio = SocketIO(app)
 
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        # Handle form submission and display the second HTML structure
+        return render_template('second_page.html')
+    else:
+        # Display the first HTML structure on the initial page load
+        return render_template('first_page.html')
+
+@app.route('/third_page')
+def third_page():
+    # Display the third HTML structure
+    return render_template('index.html')
 
 config = {  "ActivationFunc": "",
             "LRate": 1,
@@ -33,11 +46,6 @@ def listener():
         acc = q.get()
         q.task_done()
 
-@app.route("/", methods=["GET", "POST"])
-def index():
-    global seed, acc
-    # render "index.html" as long as user is at "/"
-    return render_template("index.html")
 
 @app.route("/update_value", methods=["POST"])
 def update_value():

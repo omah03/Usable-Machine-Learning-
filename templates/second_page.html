@@ -1,0 +1,84 @@
+<!-- Replace this with the HTML structure you provided -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Second Page</title>
+    <!-- Add any additional CSS or styling here -->
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <div style="display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* This ensures the container takes up the full height of the viewport */
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;">
+        <div class="row">
+            <div class = "column"> 
+                <div class="dropdown">
+                    <button id="ActivationFuncMenu" class="dropbtn" >
+                        <span id="selectedOption">Activation function</span>
+                    </button>
+                    <div class="dropdown-content">
+                    <a href="#" id="act_reluOption">Rectified Linear Activation (ReLU)</a>
+                    <a href="#" id="act_sigmoidOption">Logistics (Sigmoid)</a>
+                    <a href="#" id="act_tanhOption">Hyperbolic Tangent (tanh)</a>
+                    </div>
+                </div> 
+            </div>    
+            <div class = "column"> 
+                <div class="dropdown">
+                    <button id="LRate" class="dropbtn" >
+                        <span id="LRateOption">Learning Rate</span>
+                    </button>
+                    <div class="dropdown-content">
+                    <a href="#" id="act_1">0.1</a>
+                    <a href="#" id="act_01">0.01</a>
+                    <a href="#" id="act_001">0.001</a>
+                    <a href="#" id="act_0001">0.0001</a>
+                    </div>
+                </div> 
+                </div>
+            
+            <div class = "column"> 
+                <label for="BSizeSlider">Batch Size</label>
+                <div class= "sliderDisplay">
+                    <input type="range" id="BSizeSlider" min="1" max="256" value="{{ 32 }}">
+                    <span id="BSizeDisplay"></span>
+                </div>
+                
+            </div>
+            <div class = "column"> 
+                <label for="NEpochsSlider">Epochs</label>
+                <div class= "sliderDisplay">
+                    <input type="range" id="NEpochsSlider" min="1" max="10" value="{{ 1 }}">
+                    <span id="NEpochsDisplay"></span>
+                </div>
+            </div>
+        </div>        
+        
+        <!-- Back button to navigate back to the first page -->
+        <form action="/" method="get">
+            <input type="submit" value="Back to First Page">
+        </form>
+
+        <!-- Button to navigate to the third page -->
+        <form action="/third_page" method="get">
+            <input type="submit" value="Go to Third Page">
+        </form>
+        </div>
+
+            
+    </div>
+    
+    <!-- Add any additional scripts or JavaScript here -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
