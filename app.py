@@ -12,6 +12,9 @@ from flask import Response,stream_with_context
 from ml_utils.model import ConvolutionalNeuralNetwork
 from ml_utils.trainingViz import training
 
+from ml_utils.test_classify import classify_canvas_image
+
+
 app = Flask(__name__)
 socketio = SocketIO(app)
 
@@ -36,12 +39,15 @@ def listener():
 @app.route("/", methods=["GET", "POST"])
 def index():
     global seed, acc
+    print("Die index() Funktion wird ausgeführt")
     # render "index.html" as long as user is at "/"
     return render_template("index.html")
+
 
 @app.route("/update_value", methods=["POST"])
 def update_value():
     global config
+    print("Die update_value() Funktion wird ausgeführt")
     data= request.get_json()
     type= data.get("type")
     value= data.get("value")
@@ -59,6 +65,7 @@ training_data=[]
 
 @app.route("/button_press", methods=["POST"])
 def handleButton():
+    print("Die handleButton() Funktion wird ausgeführt")
     data=request.get_json()
     type= data.get("type")
 
@@ -70,6 +77,7 @@ def handleButton():
 
 def toggle_training():
     global training_active, training_stop_signal
+    print("Die toggle_training() Funktion wird ausgeührt")
     if training_active==False:
         training_active=True    
         manual_seed(seed)
@@ -94,16 +102,37 @@ def toggle_training():
         print("\n \n \n STOPPED TRAINING")
         training_stop_signal=False
 
+
 @app.route("/get_training_state", methods=["GET"])
 def get_training_state():
+    print("Die get_training_state() Funktion wird ausgeführt")
     return jsonify(training_active)
 
 @app.route("/receive_data", methods=["POST"])
 def receive_data():
+    print("Die receive_data() Funktion wird ausgeführt")
     data= request.get_json()
     training_data.append({"progress": [data.get('batch_idx'), data.get('N_batch')],
                               'loss': data.get('loss'), 'acc': data.get('acc')})
     return jsonify("True")
+
+
+
+
+#Get Canvas Image & classify it
+test_model = '/home/sebastian/Documents/FUB_Informatik/5.Sem_FUB_WiSe2024/Usable ML/Usable-Machine-Learning-/ml_utils/MNIST_classifier_model.pkl'
+@socketio.on('classify')
+def classify(data):
+    print("Die classify(data) Funktion wird ausgeführt")
+    print("Empfangene Daten:", data)
+    canvas_data = data['canvasData']
+    print("Canvas data: ", canvas_data)
+    classification_result = classify_canvas_image(canvas_data, test_model)
+    print("classification result = ", classification_result)
+    socketio.emit('classification_result', classification_result)
+
+
+
 
 """
 @app.route("/update_seed", methods=["POST"])

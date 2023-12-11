@@ -1,3 +1,22 @@
+
+//alert('Das ist ein Test');
+console.log('Das ist ein Test');
+
+// Verbindung zum WebSocket-Server herstellen
+const socket = io('http://127.0.0.1:5000');    //Muss in html eingebunden sein!
+//const socket = io('127.0.0.1:5000');    //Muss in html eingebunden sein!
+
+// Event bei erfolgreicher Verbindung zu Socket.io
+socket.on('connect', () => {
+    console.log('Erfolgreich mit dem Socket.io-Server verbunden');
+});
+
+// Event bei Verbindungsabbruch zu Socket.io
+socket.on('disconnect', () => {
+    console.log('Verbindung zum Socket.io-Server unterbrochen');
+});
+
+
 //------------------------------------------------------------------
 // Activation Function Dropdown Menu
 const act_reluOption = document.getElementById("act_reluOption")
@@ -443,7 +462,7 @@ function draw(e) {
   if (!isDrawing) return;
   const pos = getMousePos(canvas, e);
 
-  ctx.lineWidth = 5;
+  ctx.lineWidth = 10;
   ctx.lineCap = 'round';
   ctx.strokeStyle = '#000';
 
@@ -463,27 +482,92 @@ canvas.addEventListener('mouseout', stopDrawing);
 
 displayText();
 
-function clearCanvas(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    displayText();
+
+
+
+//----------------------------------------------------------
+//Canvas Prediction
+/*
+function sendToModel(canvasData) {
+//diese Funktion benutzt keine Websockets 
+
+        // Erstelle ein Objekt mit den Daten, die du an den Server senden möchtest
+        const data = {
+          canvasData: canvasData // Die Bilddaten aus dem Canvas
+    };
+
+        // Sende eine POST-Anfrage an deinen Server mit den Bilddaten
+        fetch('/classify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+      },
+          body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(result => {
+          // Hier erhältst du das Ergebnis von der Serverantwort
+          console.log('Klassifiziertes Ergebnis:', result);
+          // Führe hier weitere Aktionen basierend auf dem Ergebnis aus
+    })
+        .catch(error => {
+          console.error('Fehler beim Senden der Daten:', error);
+    });
+  }
+
+*/
+
+function printPrediction(predicted_digit){
+    var predictionText = document.getElementById('predictionText');
+    var text = 'Die Vorhersage des Models: ' + predicted_digit;
+    predictionText.innerText = text;
+    predictionText.style.display = 'block';
 }
 
 
-function sendToModel(){
-    
+function sendAndReceiveClassification(canvasData){
+    return new Promise((resolve, reject) => {
+        socket.emit('classify', { canvasData });
+        socket.on('classification_result', (result) => {
+            console.log('Klassifizierungsergebnis', result);
+            resolve(result); // Ergebnis an die Aufrufer-Funktion übergeben
+        });
+    });
 }
 
-function classifyImage(){
+async function classifyImage(){
+    console.log('Classifying Image....')
+    var predicted_digit = 5;
     const canvasData = canvas.toDataURL();
-    const classification = sendToModel(canvasDaata);
-    console.log('Die Klassifizierung ergbit: ',classification);
+
+    try {
+        const classification = await sendAndReceiveClassification(canvasData);
+        console.log('Die Klassifizierung ergibt:', classification);
+        printPrediction(classification);
+    } catch(error) {
+        console.error('Fehler bei der Klassifizierung:', error);
+    }
 }
 
 const classifyButton = document.getElementById('classify');
 classifyButton.addEventListener('click',classifyImage);
 
+
+function clearCanvas(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    displayText();
+    var predictionText = document.getElementById('predictionText');
+    predictionText.innerText = ''; // Leere den Text
+    predictionText.style.display = 'none'; // Verberge das Element
+}
+
 //Reset Button for Canvas
 document.getElementById('reset').addEventListener('click', clearCanvas);
+
+//
+//-------------------------------------------------------
+
+
 
 // Sample data (replace with your actual data)
 const SampleEpochs = [1, 2, 3, 4, 5];

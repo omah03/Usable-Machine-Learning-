@@ -104,8 +104,8 @@ input[type="range"] {
   margin-top: 10px;
 
 
-  width: 168px;
-  height: 200px;
+  width: 280px;
+  height: 280px;
 
   background: #FFFFFF;
   border: 1px solid #000000;
@@ -114,8 +114,8 @@ input[type="range"] {
 
 }
 .inputCanvas{
-  height: 168px;
-  width: 168px;
+  height: 280px;
+  width: 280px;
   
   background: none;
 
@@ -161,7 +161,7 @@ input[type="range"] {
   box-sizing: border-box;
 
   width: 90%;
-  height: 117.44px;
+  height: 120px;
 
 
   background: #FFFFFF;
@@ -218,8 +218,9 @@ input[type="range"] {
   flex-direction: row;
   box-sizing: border-box;
 
+
   width: 60%;
-  height: 229px;
+  height: 300px;
 
   background: #D0F4FF;
   border: 2px solid #000000;
