@@ -120,7 +120,7 @@ input[type="range"] {
   width: 280px;
   
   background: none;
-
+  
   position: relative;
   z-index: 2; /* Canvas liegt standardmäßig über anderen Elementen */
 }
@@ -176,7 +176,7 @@ input[type="range"] {
   border-radius: 30px;
 
   margin-top: 10px;
-  margin-left:auto;
+  margin-left: 15%;
 }
 
 .MinusButton {
@@ -227,7 +227,7 @@ input[type="range"] {
 
 
 
-  width: 65%;
+  width: 75%;
   height: 320px;
 
   background: #D0F4FF;
@@ -241,7 +241,7 @@ input[type="range"] {
 
   justify-content:  space-between;
 
-  width: 30%;
+  width: 20%;
   height: 440px;
 
   background: #D0F4FF;
