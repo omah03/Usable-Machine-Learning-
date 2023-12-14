@@ -99,13 +99,15 @@ input[type="range"] {
 
 .inputbox{
   display:flex;
+  position: relative;
   align-items: center;
   box-sizing: border-box;
   margin-top: 10px;
+  margin-left: 30px;
 
 
-  width: 168px;
-  height: 200px;
+  width: 280px;
+  height: 280px;
 
   background: #FFFFFF;
   border: 1px solid #000000;
@@ -114,14 +116,15 @@ input[type="range"] {
 
 }
 .inputCanvas{
-  height: 168px;
-  width: 168px;
+  height: 280px;
+  width: 280px;
   
   background: none;
-
+  
   position: relative;
   z-index: 2; /* Canvas liegt standardmäßig über anderen Elementen */
 }
+
 
 .controls_column{
   display: flex;
@@ -144,7 +147,11 @@ input[type="range"] {
   padding: 1%;
   align-items: center;
 }
-
+/*
+.classifier_class {
+  background: red;
+}
+*/
 .resetButton{
   bottom: 15px;
   left: 35px;
@@ -161,7 +168,7 @@ input[type="range"] {
   box-sizing: border-box;
 
   width: 90%;
-  height: 117.44px;
+  height: 120px;
 
 
   background: #FFFFFF;
@@ -169,7 +176,7 @@ input[type="range"] {
   border-radius: 30px;
 
   margin-top: 10px;
-  margin-left:auto;
+  margin-left: 15%;
 }
 
 .MinusButton {
@@ -218,8 +225,10 @@ input[type="range"] {
   flex-direction: row;
   box-sizing: border-box;
 
-  width: 60%;
-  height: 229px;
+
+
+  width: 75%;
+  height: 320px;
 
   background: #D0F4FF;
   border: 2px solid #000000;
@@ -232,8 +241,8 @@ input[type="range"] {
 
   justify-content:  space-between;
 
-  width: 30%;
-  height: 229px;
+  width: 20%;
+  height: 440px;
 
   background: #D0F4FF;
   border: 2px solid #000000;
@@ -252,10 +261,10 @@ input[type="range"] {
 .classifier_class {
   height: 40px;
   width: 100px;
-  float: right;
   border: 2px solid #000000;
   margin:0;
 
+  padding:auto;
   text-align: center;
 
   font-size: xx-large;

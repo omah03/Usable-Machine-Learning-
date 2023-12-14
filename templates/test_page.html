@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 <html>
     <head>
         <meta charset="UTF-8">
@@ -12,49 +11,7 @@
 <body>
     <div style="width:90%;" class = "row">
         <h2> Usable Machine Learning</h2>
-        <div class = "column" id= "actFunc"> 
-            <div class="dropdown">
-                <button id="ActivationFuncMenu" class="dropbtn" >
-                    <span id="selectedOption">Activation function</span>
-                </button>
-                <div class="dropdown-content">
-                  <a href="#" id="act_reluOption">Rectified Linear Activation (ReLU)</a>
-                  <a href="#" id="act_sigmoidOption">Logistics (Sigmoid)</a>
-                  <a href="#" id="act_tanhOption">Hyperbolic Tangent (tanh)</a>
-                </div>
-            </div> 
-        </div>    
-        <div class = "column" > 
-            <div class="dropdown" id = "LRate">
-                <button id="LRate" class="dropbtn" >
-                    <span id="LRateOption">Learning Rate</span>
-                </button>
-                <div class="dropdown-content">
-                  <a href="#" id="act_1">0.1</a>
-                  <a href="#" id="act_01">0.01</a>
-                  <a href="#" id="act_001">0.001</a>
-                  <a href="#" id="act_0001">0.0001</a>
-                </div>
-            </div> 
-            </div>
-        
-        <div class = "column" id= "BSizeCol"> 
-            <label for="BSizeSlider">Batch Size</label>
-            <div class= "sliderDisplay">
-                <input type="range" id="BSizeSlider" min="1" max="256" value="{{ 32 }}">
-                <span id="BSizeDisplay"></span>
-            </div>
-            
-        </div>
-        <div class = "column" id= "EpochsCol"> 
-            <label for="NEpochsSlider">Epochs</label>
-            <div class= "sliderDisplay">
-                <input type="range" id="NEpochsSlider" min="1" max="10" value="{{ 1 }}">
-                <span id="NEpochsDisplay"></span>
-            </div>
-        </div>
-    </div>
-    </div>
+ 
     <div style="display:flex; flex-direction:row; align-items: center;">
         <div class = "rectanglelayer">
             <div class = "blockcolumn">
@@ -198,7 +155,7 @@
 
     </div>
     <div class = "row">
-        <div class = "infobox" id = "infobox">
+        <!-- <div class = "infobox" id = "infobox">
             <div class = "column">
                 <p class= "infotext" id = "infotext_inputbox"> 
                     The input of the datamodel is the MNIST dataset. This dataset is already preprocessed and consists of 28x28 images of handdrawn images.
@@ -253,40 +210,21 @@
                 </p>
                 <p class= "infotext" id = "infotext_BSizeSlider"> 
                     How many samples to run through before updating the model parameters. Done both to preserve memory (large datasets can be split into several batches) and improve optimization (individual samples can be noisy, regularizes over a batch of samples).                </p>
-            </div>
-            <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
+            </div> -->
+            <!-- <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
             <br>
             <br>
-            <button id = "Show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
+            <button id = "Show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button> -->
         </div>
     </div>
         <div class = "row">
-            <div class = "trainingrectangle">
-                <div  class = "column" style="width:20%;">
-                    <p style="margin: auto; width:90%; font-size:180%;">TRAIN</p>
-                </div>
-                <div  class = "row" style="display:flex; width:80%">                
-                    <button id = "starttraining" name="starttraining" class= "button"> START </button>
-                    <button id = "resettraining" name="restarttraining" class= "button"> RESET </button>
-                </div>
-            </div>
-
-                <div class= "progressbar" id="progressbar" style="width: 90%;">
-                    <div class="progress" id="progress" ></div>
-                </div>
-                <form action="/third_page" method="get">
-                    <input type="submit" value="TEST">
-                </form>
-                <div class="row" style="width: 50%;">
-                    <canvas id="myChart" width="500" height="200"> GO </canvas>
-                </div>
 
         </div>
 
     <!-- only need this once -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../static/include/anseki-leader-line-6c26a9d/leader-line.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='test_script.js') }}"></script>
 
 </body>
 </html>

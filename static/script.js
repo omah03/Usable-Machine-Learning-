@@ -1,3 +1,22 @@
+
+//alert('Das ist ein Test');
+console.log('Das ist ein Test');
+
+// Verbindung zum WebSocket-Server herstellen
+const socket = io('http://127.0.0.1:5000');    //Muss in html eingebunden sein!
+//const socket = io('127.0.0.1:5000');    //Muss in html eingebunden sein!
+
+// Event bei erfolgreicher Verbindung zu Socket.io
+socket.on('connect', () => {
+    console.log('Erfolgreich mit dem Socket.io-Server verbunden');
+});
+
+// Event bei Verbindungsabbruch zu Socket.io
+socket.on('disconnect', () => {
+    console.log('Verbindung zum Socket.io-Server unterbrochen');
+});
+
+
 //------------------------------------------------------------------
 // Activation Function Dropdown Menu
 const act_reluOption = document.getElementById("act_reluOption")
@@ -31,11 +50,11 @@ function handleActivationFunctionChange(event) {
 
                 func = "001";
                 break;
-                case "0.0001":
-                    // Call a function for tanh activation
-    
-                    func = "0001";
-                    break;
+            case "0.0001":
+                // Call a function for tanh activation
+
+                func = "0001";
+                break;
             default:
                 // Handle any other cases or do nothing
                 func = "";
@@ -174,7 +193,7 @@ for (let i = 1; i <= 5; i++) {
 
     if (block) {
         block.style.setProperty("display", "none");
-        block.addEventListener("click", ()=> {
+        block.addEventListener("click", () => {
             changeInfoText(Blocks[i].id);
         });
     }
@@ -252,67 +271,81 @@ MinusButtons[2].style.display = "flex";
 
 AddButtons[3].style.display = "flex";
 
-textOptions={"block": "This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.",
-            "block1": "Its input is a batch of $batch_size$ grayscale images of the dataset. These images are 28 x 28 pixels. <br> Its output depends on the Kernel Size and stride parameters. <br> Input: $batch_size$ x 1 x 28 x28 <br> Output: $block1_output$",   
-            "block2": "Its input is the output of the previous block. <br> Its output depends on the Kernel Size and stride parameters. <br> Input: $block1_output$ <br> Output: $block2_output$" 
-        };   
+textOptions = {
+    "inputbox": "The input of the Model is the MNIST dataset. It is a preprocessed dataset of handdrawn digit as a 28x28 grayscale image. Come here later to try out your own model, after you trained it below.",
+    "block": "This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.",
+    "block1": "Its input is a batch of $batch_size$ grayscale images of the dataset. These images are 28 x 28 pixels. <br> Its output depends on the Kernel Size and stride parameters. <br> Input: $batch_size$ x 1 x 28 x28 <br> Output: $block1_output$",
+
+
+};
 
 const infotext = document.getElementById("infotext");
-const infobox= document.getElementById("infobox");
+const infobox = document.getElementById("infobox");
 
-document.getElementById("hide").addEventListener("click", ()=>{
-    infobox.style.display="none";
+document.getElementById("hide").addEventListener("click", () => {
+    infobox.style.display = "none";
 })
 
-function changeInfoText(elementID){
-    infobox.style.display="flex";
-    element= document.getElementById(elementID);
-    if (element && element.style.display=="flex"){
-    if (elementID=="block1"){
-        infotext.innerHTML=textOptions["block"]+textOptions["block1"];
-    }
-    else if (elementID=="inputbox")
-    {
+document.getElementById("inputbox").addEventListener("click", () => { changeInfoText("inputbox"); }
+)
 
-    }
-    else {
-        infotext.innerHTML=textOptions["block"]+textOptions["block2"];
+function changeInfoText(elementID) {
+    infobox.style.display = "flex";
+    var element = document.getElementById(elementID);
+    if (element && element.style.display != "none") {
+        for (const infoelement of document.getElementsByClassName("infotext")) {
+            if (infoelement.id == `infotext_${elementID}`) {
+                infoelement.style.display = "flex"
+            }
+            else {
+                infoelement.style.display = "none"
+            }
+        }
     }
 }
+
+//----------------------------------
+// Append changeInfoText event listeners
+
+listofEls=["actFunc", "LRate", "BSizeSlider", "NEpochsSlider", "outputbox"]
+
+for (const element of listofEls){
+    actFuncMenu= document.getElementById(element);
+    actFuncMenu.addEventListener("click", ()=> {changeInfoText(element)});
 }
 
 //------------------------------------------------------------------
 //Classifier arrows UGLY FUCKING SOLUTION I HATE THIS
 
-inputs= (document.getElementsByClassName("classifier_input"));
-classes= (document.getElementsByClassName("classifier_class"));
+inputs = (document.getElementsByClassName("classifier_input"));
+classes = (document.getElementsByClassName("classifier_class"));
 
 console.log(inputs.length);
 
-for (let i=0; i<inputs.length; i=i+2){
+for (let i = 0; i < inputs.length; i = i + 1) {
 
-    for (let j= 0; j<5; j=j+1){
+    for (let j = 0; j < 10; j = j + 1) {
         new LeaderLine(
-            inputs[i],classes[j],
-            {color:'black', size:1}
-          );
+            inputs[i], classes[j],
+            { color: 'black', size: 1 }
+        );
     }
-    
+
 }
 
 
 //------------------------------------------------------------------
 //CONTROLS
 
-const buttonList=["start","reset"];
+const buttonList = ["start", "reset"];
 
 //TRAINING CONTROLS
-startbutton= document.getElementById("starttraining");
+startbutton = document.getElementById("starttraining");
 startbutton.addEventListener("click", handleStartButton);
-progressbar=document.getElementById("progressbar");
-progress= document.getElementById("progress");
+progressbar = document.getElementById("progressbar");
+progress = document.getElementById("progress");
 //for US only
-var training=false;
+var training = false;
 var sleepSetTimeout_ctrl;
 
 function sleep(ms) {
@@ -322,31 +355,31 @@ function sleep(ms) {
 //end for US only
 
 
-async function handleStartButton(){
+async function handleStartButton() {
     //FAKE FOR USER STUDY
-    if (training==false){
-        training=true;
-        startbutton.innerHTML="PAUSE";
-    for (const epoch of SampleEpochs){
-        if (training==false){break;}
-        progressbar.style.display="flex";      
-        progress.style.width="0%";
-        for (var i= 0; i<256; i++){
-            await sleep(100);
-            progress.style.width=((i+1)*100/256).toFixed(0)+"%";
+    if (training == false) {
+        training = true;
+        startbutton.innerHTML = "PAUSE";
+        for (const epoch of SampleEpochs) {
+            if (training == false) { break; }
+            progressbar.style.display = "flex";
+            progress.style.width = "0%";
+            for (var i = 0; i < 256; i++) {
+                await sleep(100);
+                progress.style.width = ((i + 1) * 100 / 256).toFixed(0) + "%";
+            }
+            accuracies.push(SampleAccuracies[epoch - 1]);
+            losses.push(SampleLosses[epoch - 1]);
+            epochs.push(epoch);
+            myChart.update();
         }
-        accuracies.push(SampleAccuracies[epoch-1]);
-        losses.push(SampleLosses[epoch-1]);
-        epochs.push(epoch);
-        myChart.update();
-    }
-    progressbar.style.display="None";
-    training=false;
-    startbutton.innerHTML="continue";
+        progressbar.style.display = "None";
+        training = false;
+        startbutton.innerHTML = "continue";
     }
     else {
-        training= false;
-        startbutton.innerHTML="CONTINUE";
+        training = false;
+        startbutton.innerHTML = "CONTINUE";
     }
     //ACTUAL IMPLEMENTATION
     /*
@@ -369,28 +402,28 @@ async function handleStartButton(){
             }
         });
     //toggleProgressBar();*/
-    }
+}
 
 
-resetbutton= document.getElementById("resettraining");
+resetbutton = document.getElementById("resettraining");
 resetbutton.addEventListener("click", () => {
     handleButton(resetbutton);
 })
 
-function handleButton(buttonName){
-        // Call the backend
-        console.log(buttonName)
-        fetch('/button_press', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "type": buttonName
-            })
+function handleButton(buttonName) {
+    // Call the backend
+    console.log(buttonName)
+    fetch('/button_press', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "type": buttonName
         })
-            .then(response => response.json());
-        
+    })
+        .then(response => response.json());
+
 }
 
 
@@ -406,8 +439,8 @@ function displayText() {
     const lineHeight = 25; // Zeilenhöhe festlegen
 
     const lines = text.split('\n'); // Text in einzelne Zeilen aufteilen
-     // Textzeilen nacheinander auf dem Canvas zeichnen
-     for (let i = 0; i < lines.length; i++) {
+    // Textzeilen nacheinander auf dem Canvas zeichnen
+    for (let i = 0; i < lines.length; i++) {
         ctx.fillText(lines[i], 50, 50 + i * lineHeight); // Hier kannst du die Position des Textes anpassen
     }
     isTextDisplayed = true;
@@ -418,42 +451,42 @@ function clearText() {
 }
 
 function getMousePos(canvas, evt) {
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
 
-  return {
-    x: (evt.clientX - rect.left) * scaleX,
-    y: (evt.clientY - rect.top) * scaleY
-  };
+    return {
+        x: (evt.clientX - rect.left) * scaleX,
+        y: (evt.clientY - rect.top) * scaleY
+    };
 }
 
 function startDrawing(e) {
-  isDrawing = true;
-  const pos = getMousePos(canvas, e);
-  ctx.beginPath();
-  ctx.moveTo(pos.x, pos.y);
-  if (isTextDisplayed == true){
-    clearText();
-    isTextDisplayed = false;
-  } 
+    isDrawing = true;
+    const pos = getMousePos(canvas, e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+    if (isTextDisplayed == true) {
+        clearText();
+        isTextDisplayed = false;
+    }
 }
 
 function draw(e) {
-  if (!isDrawing) return;
-  const pos = getMousePos(canvas, e);
+    if (!isDrawing) return;
+    const pos = getMousePos(canvas, e);
 
-  ctx.lineWidth = 5;
+  ctx.lineWidth = 10;
   ctx.lineCap = 'round';
   ctx.strokeStyle = '#000';
 
-  ctx.lineTo(pos.x, pos.y);
-  ctx.stroke();
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
 }
 
 function stopDrawing() {
-  isDrawing = false;
-  ctx.closePath();
+    isDrawing = false;
+    ctx.closePath();
 }
 
 canvas.addEventListener('mousedown', startDrawing);
@@ -463,22 +496,116 @@ canvas.addEventListener('mouseout', stopDrawing);
 
 displayText();
 
+
+
+
+//----------------------------------------------------------
+//Canvas Prediction
+/*
+function sendToModel(canvasData) {
+//diese Funktion benutzt keine Websockets 
+
+        // Erstelle ein Objekt mit den Daten, die du an den Server senden möchtest
+        const data = {
+          canvasData: canvasData // Die Bilddaten aus dem Canvas
+    };
+
+        // Sende eine POST-Anfrage an deinen Server mit den Bilddaten
+        fetch('/classify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+      },
+          body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(result => {
+          // Hier erhältst du das Ergebnis von der Serverantwort
+          console.log('Klassifiziertes Ergebnis:', result);
+          // Führe hier weitere Aktionen basierend auf dem Ergebnis aus
+    })
+        .catch(error => {
+          console.error('Fehler beim Senden der Daten:', error);
+    });
+  }
+
+*/
+
+function printPrediction(predicted_digit){
+    var predictionText = document.getElementById('predictionText');
+    var text = 'Die Vorhersage des Models: ' + predicted_digit;
+    predictionText.innerText = text;
+    predictionText.style.display = 'block';
+}
+
+
+function sendAndReceiveClassification(canvasData){
+    return new Promise((resolve, reject) => {
+        socket.emit('classify', { canvasData });
+        socket.on('classification_result', (result) => {
+            console.log('Klassifizierungsergebnis', result);
+            resolve(result); // Ergebnis an die Aufrufer-Funktion übergeben
+        });
+    });
+}
+
+
+
+function classificationResult(predicted_digit){
+    const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
+    const resultClass = classes[predicted_digit];
+    resultClass.style.backgroundColor = 'red';
+}
+
+async function classifyImage(){
+    console.log('Classifying Image....')
+    var predicted_digit = 5;
+    const canvasData = canvas.toDataURL();
+    const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
+    classes.forEach(container => {container.style.backgroundColor = 'transparent';});
+    try {
+        const classification = await sendAndReceiveClassification(canvasData);
+        console.log('Die Klassifizierung ergibt:', classification);
+        //printPrediction(classification); not needed anymore as containers are colored
+        classificationResult(classification);
+    } catch(error) {
+        console.error('Fehler bei der Klassifizierung:', error);
+    }
+}
+
+const classifyButton = document.getElementById('classify');
+classifyButton.addEventListener('click',classifyImage);
+
+
 function clearCanvas(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     displayText();
+    var predictionText = document.getElementById('predictionText');
+    predictionText.innerText = ''; // Leere den Text
+    predictionText.style.display = 'none'; // Verberge das Element
+    const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
+    classes.forEach(container => {container.style.backgroundColor = 'transparent';});
 }
 
 //Reset Button for Canvas
 document.getElementById('reset').addEventListener('click', clearCanvas);
+
+
+
+
+//
+//-------------------------------------------------------
+
+
 
 // Sample data (replace with your actual data)
 const SampleEpochs = [1, 2, 3, 4, 5];
 const SampleLosses = [0.1, 0.08, 0.06, 0.04, 0.02];
 const SampleAccuracies = [80, 85, 90, 95, 98];
 
-var epochs=[];
-var losses =[];
-var accuracies=[];
+var epochs = [];
+var losses = [];
+var accuracies = [];
 
 // Get the canvas element
 const ctxs = document.getElementById('myChart').getContext('2d');
