@@ -27,6 +27,7 @@ class MNIST(torchvision.datasets.MNIST):
 
 def get_dataset(test: bool = False, indexed: bool = False) -> Dataset:
     transform = torchvision.transforms.Compose([
+            torchvision.transforms.Grayscale(num_output_channels=1),
             torchvision.transforms.ToTensor(),
             torchvision.transforms.Normalize(mean=(0.1307,),
                                              std=(0.3081,))

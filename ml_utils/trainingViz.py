@@ -8,11 +8,15 @@ from torch.nn import Module, functional as F
 from torch import manual_seed, Tensor
 from torch.optim import Optimizer, SGD
 
-from data import get_data_loaders
-from evaluate import accuracy
-from model import ConvolutionalNeuralNetwork
+from ml_utils.data import get_data_loaders
+from ml_utils.evaluate import accuracy
 
 import requests
+
+
+import pickle #for saving the model
+
+
 
 def train_step(model: Module, optimizer: Optimizer, data: Tensor,
                target: Tensor, cuda: bool):
@@ -79,8 +83,23 @@ def training(model: Module, optimizer: Optimizer, cuda: bool,
         print(batch_data)
         send_data_to_flask(batch_data)
 
-    return test_loss, test_acc  
+        line1.set_data(epochs, losses)
+        ax1.relim()  
+        ax1.autoscale_view() 
+        
+        line2.set_data(epochs, accuracies)
+        ax2.relim()  
+        ax2.autoscale_view() 
+        
+        plt.pause(1)
+        if queue is not None:
+            queue.put(test_acc)
+        print(f"epoch={epoch+1}, test accuracy={test_acc}, loss={test_loss}")
+    plt.show() 
+    if cuda:
+        empty_cache()        
 
+    return test_loss, test_acc  
 
 def main(seed):
     print("init...")
@@ -90,15 +109,21 @@ def main(seed):
     opt = SGD(model.parameters(), lr=0.3, momentum=0.5)
     print("train...")
     training(
-            model=model,
-            optimizer=opt,
-            cuda=False,     # change to True to run on nvidia gpu
-            batch_size=256,
-            learning_rate=0.01,
-            momentum=0.9
-            )
-   
-    
+        model=model,
+        optimizer=opt,
+        cuda=False,     # change to True to run on nvidia gpu
+        n_epochs=10,
+        batch_size=256
+    )
+    print("training finished")
+
+    # save the classification model as a pickle file
+
+    model_pkl_file = "MNIST_classifier_model.pkl"  
+
+    with open(model_pkl_file, 'wb') as file:  
+    	pickle.dump(model, file) 
+    print(f"model saved to {file}")    
 
 
 if __name__ == "__main__":
