@@ -127,3 +127,31 @@ function changeInfoText(elementID) {
         }
     }
 }
+
+var mnist= document.getElementById("inputbox")
+var rec_layer= document.getElementsByClassName("rectanglelayer")[0]
+var classifier=  document.getElementById("outputbox")
+
+
+new LeaderLine(mnist, rec_layer,{ color: 'black', size: 10 })
+
+new LeaderLine(rec_layer,classifier,{ color: 'black', size: 10 })
+
+//------------------------------------------------------------------
+//Classifier arrows UGLY FUCKING SOLUTION I HATE THIS
+
+inputs = (document.getElementsByClassName("classifier_input"));
+classes = (document.getElementsByClassName("classifier_class"));
+
+console.log(inputs.length);
+
+for (let i = 0; i < inputs.length; i = i + 1) {
+
+    for (let j = i%2; j < 10; j = j + 2) {
+        new LeaderLine(
+            inputs[i], classes[j],
+            { color: 'black', size: 1 }
+        );
+    }
+
+}

@@ -1,0 +1,33 @@
+.navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333; /* Set the background color to your desired color */
+    color: #fff; /* Set the text color to your desired color */
+    padding: 10px; /* Add padding for better visibility */
+    z-index: 1000; /* Set a high z-index to ensure it's always on top */
+}
+
+.navbarcontent {
+    margin-bottom: 50px; /* Add margin-top to the content to prevent it from being obscured by the fixed navbar */
+    color: #000;    
+}
+
+.popup {
+    display: none;
+    width: 30%;
+    height: 120px;
+
+    background-color: #333;
+    color: white;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: large;
+    top:35%;
+    left: 35%;
+    position: fixed;
+    z-index: 1000;
+}

@@ -20,17 +20,22 @@ socketio = SocketIO(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST':
-        # Handle form submission and display the second HTML structure
-        return render_template('second_page.html')
-    else:
-        # Display the first HTML structure on the initial page load
-        return render_template('first_page.html')
+    return render_template("index.html")
+    
+@app.route('/model')
+def model_page():
+    print("TEST")
+    return render_template('first_page.html')
 
-@app.route('/third_page')
+@app.route('/third')
 def third_page():
     # Display the third HTML structure
     return render_template('index.html')
+
+@app.route('/test')
+def test_page():
+    # Display the third HTML structure
+    return render_template('test_page.html')
 
 config = {  "ActivationFunc": "",
             "LRate": "",
@@ -42,10 +47,7 @@ seed = 42
 acc = -1
 q = queue.Queue()
 
-@app.route('/test_page')
-def test_page():
-    # Display the third HTML structure
-    return render_template('test_page.html')
+
 
 def listener():
     global q, acc
@@ -161,7 +163,7 @@ def get_accuracy():
 
 if __name__ == "__main__":
     host = "127.0.0.1"
-    port = 5000
+    port = 5001
     print("App started")
     threading.Thread(target=listener, daemon=True).start()
     webbrowser.open_new_tab(f"http://{host}:{port}")

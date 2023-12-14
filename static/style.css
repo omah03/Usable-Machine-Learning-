@@ -162,13 +162,13 @@ input[type="range"] {
   z-index: 2; /* Canvas liegt standardmäßig über anderen Elementen */
 }    
 
-.block {
+.block_editor {
   display:flex;
   align-items: center;
   box-sizing: border-box;
 
   width: 90%;
-  height: 120px;
+  height: 140px;
 
 
   background: #FFFFFF;
@@ -176,7 +176,8 @@ input[type="range"] {
   border-radius: 30px;
 
   margin-top: 10px;
-  margin-left: 15%;
+  margin-right: 4%;
+  margin-left: 4%;
 }
 
 .MinusButton {
@@ -191,7 +192,7 @@ input[type="range"] {
   font-weight: bolder;
 
   margin-top: 10px;
-  margin-left:5%;
+  
 
   padding-top: 5px;
   padding-bottom: 10px;
@@ -233,6 +234,22 @@ input[type="range"] {
   background: #D0F4FF;
   border: 2px solid #000000;
 }
+
+.rectanglelayerViz {
+  /* Rectangle 5 */
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+
+
+
+  width: 60%;
+  height: 140px;
+  margin: auto;
+  background: #D0F4FF;
+  border: 2px solid #000000;
+}
+
 
 .staticClassifier {
   display: flex;
