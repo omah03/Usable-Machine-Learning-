@@ -4,9 +4,9 @@ import torch.nn as nn
 # Define characteristics for all the layers as lists of dictionaries
 
 activation_function = {
-    "relu": nn.ReLU(),
+    "ReLU": nn.ReLU(),
     "tanh": nn.Tanh(),
-    "sigmoid": nn.Sigmoid(),
+    "Sigm": nn.Sigmoid(),
     "none": None  # for no activation function
 }
 

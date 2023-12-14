@@ -1,7 +1,7 @@
 import threading
 import queue
 import webbrowser
-
+import ml_utils.config as modelconfig
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO, emit
 import numpy as np
@@ -11,18 +11,21 @@ from flask import Response,stream_with_context
 
 from ml_utils.model import ConvolutionalNeuralNetwork
 from ml_utils.trainingViz import training
+from ml_utils.modelbuilder import ModelBuilder
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
 
+model = ModelBuilder(2, linear_params = modelconfig.linear_params, activation_fn_choice="relu")
+
+
 config = {  "ActivationFunc": "",
             "LRate": 1,
             "BSize":1,
-            "KSize":1,
             "NEpochs":1,
-            "Stride":1,
             "NBlocks": 2}
+
 # Initialize variables
 seed = 42
 acc = -1
@@ -75,7 +78,7 @@ def toggle_training():
         training_active=True    
         manual_seed(seed)
         np.random.seed(seed)
-        model = ConvolutionalNeuralNetwork()
+        model = ModelBuilder(2, linear_params = modelconfig.linear_params, activation_fn_choice="relu")
         opt = SGD(model.parameters(), lr=0.3, momentum=0.5)
         for i in config["NEpochs"]:
             q.put(training(

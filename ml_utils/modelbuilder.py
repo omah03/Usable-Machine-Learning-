@@ -136,5 +136,6 @@ class ModelBuilder(nn.Module):
         x = self.linear_layers(x)
         x = F.softmax(x,dim = 1)
         return x
-model = ModelBuilder(3, linear_params = config.linear_params, activation_fn_choice="relu")
+    
+model = ModelBuilder(2, linear_params = config.linear_params, activation_fn_choice="relu")
 print(model)

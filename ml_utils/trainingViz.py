@@ -11,7 +11,6 @@ from torch.optim import Optimizer, SGD
 from data import get_data_loaders
 from evaluate import accuracy
 from model import ConvolutionalNeuralNetwork
-from modelbuilder import ModelBuilder
 
 import requests
 
@@ -40,22 +39,14 @@ def send_data_to_flask(batch_data):
     except requests.exceptions.RequestException as e:
         print(f'Error: {e}')
 
-
-    
-
-
 def training(model: Module, optimizer: Optimizer, cuda: bool, 
              batch_size: int,learning_rate, momentum,  queue: Queue = None):
     print("training")
     train_loader, test_loader = get_data_loaders(batch_size=batch_size)
     if cuda:
         model.cuda()
-    
- 
     opt = optimizer
     optimizer_state = opt.state_dict()
-
-
 
     try:
         optimizer_state['param_groups'][0]['lr'] = float(learning_rate)
@@ -82,7 +73,6 @@ def training(model: Module, optimizer: Optimizer, cuda: bool,
 
     return test_loss, test_acc  
 
-
 def main(seed):
     print("init...")
     manual_seed(seed)
@@ -99,10 +89,8 @@ def main(seed):
             momentum=0.9
             )
    
-    
 
-
-if __name__ == "__main__":
-    main(seed=0)
+#if __name__ == "__main__":
+    #main(seed=0)
 
 
