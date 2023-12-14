@@ -42,8 +42,8 @@ seed = 42
 acc = -1
 q = queue.Queue()
 
-@app.route('/third_page')
-def third_page():
+@app.route('/test_page')
+def test_page():
     # Display the third HTML structure
     return render_template('test_page.html')
 
