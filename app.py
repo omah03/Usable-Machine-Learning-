@@ -124,7 +124,7 @@ def receive_data():
 
 
 #Get Canvas Image & classify it
-test_model = '/home/sebastian/Documents/FUB_Informatik/5.Sem_FUB_WiSe2024/Usable ML/Usable-Machine-Learning-/ml_utils/MNIST_classifier_model.pkl'
+test_model = 'ml_utils/MNIST_classifier_model.pkl'
 @socketio.on('classify')
 def classify(data):
     print("Die classify(data) Funktion wird ausgeführt")
