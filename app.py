@@ -33,7 +33,7 @@ def third_page():
     return render_template('index.html')
 
 config = {  "ActivationFunc": "",
-            "LRate": 1,
+            "LRate": "",
             "BSize":1,
             "NEpochs":1,
             "NBlocks": 2}

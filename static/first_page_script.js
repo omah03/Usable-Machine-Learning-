@@ -103,31 +103,27 @@ MinusButtons[2].style.display = "flex";
 
 AddButtons[3].style.display = "flex";
 
-textOptions={"block": "This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.",
-            "block1": "Its input is a batch of $batch_size$ grayscale images of the dataset. These images are 28 x 28 pixels. <br> Its output depends on the Kernel Size and stride parameters. <br> Input: $batch_size$ x 1 x 28 x28 <br> Output: $block1_output$",   
-            "block2": "Its input is the output of the previous block. <br> Its output depends on the Kernel Size and stride parameters. <br> Input: $block1_output$ <br> Output: $block2_output$" 
-        };   
-
 const infotext = document.getElementById("infotext");
-const infobox= document.getElementById("infobox");
+const infobox = document.getElementById("infobox");
 
-document.getElementById("hide").addEventListener("click", ()=>{
-    infobox.style.display="none";
+document.getElementById("hide").addEventListener("click", () => {
+    infobox.style.display = "none";
 })
 
-function changeInfoText(elementID){
-    infobox.style.display="flex";
-    element= document.getElementById(elementID);
-    if (element && element.style.display=="flex"){
-    if (elementID=="block1"){
-        infotext.innerHTML=textOptions["block"]+textOptions["block1"];
-    }
-    else if (elementID=="inputbox")
-    {
+document.getElementById("inputbox").addEventListener("click", () => { changeInfoText("inputbox"); }
+)
 
+function changeInfoText(elementID) {
+    infobox.style.display = "flex";
+    var element = document.getElementById(elementID);
+    if (element && element.style.display != "none") {
+        for (const infoelement of document.getElementsByClassName("infotext")) {
+            if (infoelement.id == `infotext_${elementID}`) {
+                infoelement.style.display = "flex"
+            }
+            else {
+                infoelement.style.display = "none"
+            }
+        }
     }
-    else {
-        infotext.innerHTML=textOptions["block"]+textOptions["block2"];
-    }
-}
 }
