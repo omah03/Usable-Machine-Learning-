@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='infobox.css') }}">
 
+    <script src=" https://cdn.jsdelivr.net/npm/leader-line@1.0.7/leader-line.min.js "></script>
+
+
 </head>
 <body>
     <div style= "display:block;">
@@ -213,9 +216,26 @@
 
     </div>
 </div>
-   <!-- Add any additional scripts or JavaScript here -->
-    <script src="../static/include/anseki-leader-line-6c26a9d/leader-line.min.js"></script>
-    <script src="{{ url_for('static', filename='first_page_script.js') }}"></script>
+<nav class="navbar">
+    <button id= "ModelPage"  class="navbarcontent">Model Builder</button>
+    <button id= "ParamPage" class="navbarcontent">Parameters</button>
+    <button id= "TrainPage" class="navbarcontent">Train</button>
+    <button id= "TestPage"  class="navbarcontent">Test</button>
+</nav>
+<div id="popup-container" class="popup">
+<div style="padding: 10px">
+    <p id="popup-text">By Continuing you will loose your training progress and model settings. Are you sure?</p>
+    <button id="discard">Discard Model</button>
+    <button id="cancel"> Cancel </button>
+
+</div>
+</div>
+
+
+<!-- only need this once -->
+<script src="{{ url_for('static', filename='navbar.js') }}"></script>
+<script src="{{ url_for('static', filename='first_page_script.js') }}"></script>
+
 
 </body>
 </html>

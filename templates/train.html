@@ -13,9 +13,7 @@
         <title> Machine Learning Playground</title>
     </head>
 <body>
-    <div style="width:90%;" class = "row">
-        <h2> Usable Machine Learning</h2>
-    </div>
+
     <div style="display:flex; flex-direction:row; align-items: center;">
         <div class="MNIST" id="inputbox" style="border: 2px solid #000000;">
             <h2>MNIST Dataset</h2>
@@ -273,7 +271,6 @@
             <button id= "TrainPage" class="navbarcontent">Train</button>
             <button id= "TestPage"  class="navbarcontent">Test</button>
     </nav>
-</div>
     <div id="popup-container" class="popup">
         <div style="padding: 10px">
             <p id="popup-text">By Continuing you will loose your training progress and model settings. Are you sure?</p>
@@ -285,7 +282,6 @@
 
 
     <!-- only need this once -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='navbar.js') }}"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 

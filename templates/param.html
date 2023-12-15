@@ -9,10 +9,11 @@
     
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='infobox.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
 
 </head>
 <body>
-    <div style="display: flex;
+<div style="display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -64,17 +65,6 @@
             </div>
         </div>
         </div>
-        
-        <!-- Back button to navigate back to the first page -->
-        <form action="/" method="get">
-            <input type="submit" value="Back to First Page">
-        </form>
-
-        <!-- Button to navigate to the third page -->
-        <form action="/third_page" method="get">
-            <input type="submit" value="Go to Third Page">
-        </form>
-
         <div class = "row">
             <div class = "infobox" id = "infobox">
                 <div class = "column">
@@ -141,9 +131,28 @@
             </div>
         </div>   
     </div>
-    
-    <!-- Add any additional scripts or JavaScript here -->
-    <script src="{{ url_for('static', filename='second_page_script.js') }}"></script>
+</div>
+    <nav class="navbar">
+        <button id= "ModelPage"  class="navbarcontent">Model Builder</button>
+        <button id= "ParamPage" class="navbarcontent">Parameters</button>
+        <button id= "TrainPage" class="navbarcontent">Train</button>
+        <button id= "TestPage"  class="navbarcontent">Test</button>
+    </nav>
+    <div id="popup-container" class="popup">
+        <div style="padding: 10px">
+            <p id="popup-text">By Continuing you will loose your training progress and model settings. Are you sure?</p>
+            <button id="discard">Discard Model</button>
+            <button id="cancel"> Cancel </button>
+
+        </div>
+    </div>
+
+
+<!-- only need this once -->
+<script src="{{ url_for('static', filename='navbar.js') }}"></script>
+<script src="{{ url_for('static', filename='second_page_script.js') }}"></script>
+
+
 
 </body>
 </html>

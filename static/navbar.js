@@ -1,5 +1,5 @@
 function GoToModelPage() {
-    if (!TrainingHappened()) {
+    if (TrainingHappened()) {
         // Call the backend
         window.location.href = "model";
     }
@@ -8,7 +8,7 @@ function GoToModelPage() {
     }
 }
 function GoToParamPage() {
-    if (!TrainingHappened()) {
+    if (TrainingHappened()) {
         // Call the backend
         window.location.href = "param";
     }
@@ -18,7 +18,7 @@ function GoToParamPage() {
 }
 
 function GoToTrainPage() {
-    window.location.href = "";
+    window.location.href = "train";
 }
 function GoToTestPage() {
     if (!TrainingHappened()) {
@@ -27,11 +27,11 @@ function GoToTestPage() {
             popuptext.innerHTML = "Classification will be random if you do not train the model first."
         }
         if (popup && discard && cancel) {
-            cancel.style.display = "none";
             discard.innerHTML = "Continue";
             popup.style.display = "flex";
             discard.addEventListener("click", () => {
-                window.location.href = "param";
+                popuptext.innerHTML = "By Continuing you will loose your training progress and model settings. Are you sure?"
+                window.location.href = "test";
             })
         }
 
@@ -42,7 +42,7 @@ function GoToTestPage() {
 }
 
 function TrainingHappened() {
-    return true
+    return false
 }
 
 function handlePopup(destination) {

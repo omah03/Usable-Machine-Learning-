@@ -266,8 +266,10 @@ function removeBlock(i) {
 var NumBLocks;
 
 // Call the backend
+
+
 fetch("/get_blocks")
-  .then(response => {
+    .then(response => {
     if (response.ok) {
       return response.json();
     } else {
@@ -276,15 +278,18 @@ fetch("/get_blocks")
   })
   .then(data => {
     // Access the number from the response JSON
-    NumBLocks = data.number;
+    const NumBlocks = data.number;
+    console.log("NUMBER " + NumBlocks);
+    for (i = 1; i<=NumBlocks; i++){
+        Blocks[i].style.display = "flex";
+    }
   })
   .catch(error => {
     console.error(error);
   });
 
-for (i = 0; i<NumBLocks; i++){
-    Blocks[i].style.display = "flex";
-}
+console.log("Number of Blocks to display: "+NumBLocks)
+
 
 
 const infotext = document.getElementById("infotext");

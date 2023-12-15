@@ -5,13 +5,23 @@
     width: 100%;
     background-color: #333; /* Set the background color to your desired color */
     color: #fff; /* Set the text color to your desired color */
-    padding: 10px; /* Add padding for better visibility */
     z-index: 1000; /* Set a high z-index to ensure it's always on top */
+
+    display: flex;
+    justify-content: center;
 }
 
 .navbarcontent {
-    margin-bottom: 50px; /* Add margin-top to the content to prevent it from being obscured by the fixed navbar */
-    color: #000;    
+    color: #000;  
+    
+    height: 50px;
+    width: 200px;
+
+    margin-bottom: 10px; /* Add margin-top to the content to prevent it from being obscured by the fixed navbar */
+    margin-top:10px;
+
+    margin-right: 5%;
+    margin-left: 5%;
 }
 
 .popup {

@@ -103,11 +103,12 @@ input[type="range"] {
   align-items: center;
   box-sizing: border-box;
   margin-top: 10px;
-  margin-left: 30px;
+  margin-left: 5%;
 
+  flex-direction: column;
 
   width: 280px;
-  height: 280px;
+  height: 350px;
 
   background: #FFFFFF;
   border: 1px solid #000000;
@@ -128,7 +129,7 @@ input[type="range"] {
 
 .controls_column{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 
   justify-content: space-around;
   
