@@ -18,7 +18,7 @@ function GoToParamPage() {
 }
 
 function GoToTrainPage() {
-    window.location.href = "param";
+    window.location.href = "";
 }
 function GoToTestPage() {
     if (!TrainingHappened()) {

@@ -3,9 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../static/style.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='infobox.css') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/socket.io/client-dist/socket.io.js"></script>
+        <script src=" https://cdn.jsdelivr.net/npm/leader-line@1.0.7/leader-line.min.js "></script>
         <title> Machine Learning Playground</title>
     </head>
 <body>
@@ -221,9 +223,8 @@
 
         </div>
 
-    <!-- only need this once -->
+    <!-- only need this once --> 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../static/include/anseki-leader-line-6c26a9d/leader-line.min.js"></script>
     <script src="{{ url_for('static', filename='test_script.js') }}"></script>
 
 </body>

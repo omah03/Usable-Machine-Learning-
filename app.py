@@ -8,7 +8,7 @@ import numpy as np
 from torch import manual_seed, Tensor
 from torch.optim import Optimizer, SGD
 from flask import Response,stream_with_context
-
+from flask_cors import CORS
 from ml_utils.model import ConvolutionalNeuralNetwork
 from ml_utils.trainingViz import training
 
@@ -17,25 +17,28 @@ from ml_utils.test_classify import classify_canvas_image
 
 app = Flask(__name__)
 socketio = SocketIO(app)
+CORS(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("index.html")
+    return render_template("model.html")
     
 @app.route('/model')
 def model_page():
     print("TEST")
-    return render_template('first_page.html')
+    return render_template('model.html')
 
-@app.route('/third')
+@app.route('/param')
 def third_page():
-    # Display the third HTML structure
-    return render_template('index.html')
+    return render_template('param.html')
+
+@app.route('/train')
+def train_page():
+    return render_template('train.html')
 
 @app.route('/test')
 def test_page():
-    # Display the third HTML structure
-    return render_template('test_page.html')
+    return render_template('test.html')
 
 config = {  "ActivationFunc": "",
             "LRate": "",
@@ -55,7 +58,9 @@ def listener():
         acc = q.get()
         q.task_done()
 
-
+@app.route("/get_blocks")
+def get_blocks():
+    return jsonify({'number': config["NBlocks"]})
 
 @app.route("/update_value", methods=["POST"])
 def update_value():

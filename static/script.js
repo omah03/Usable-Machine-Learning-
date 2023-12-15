@@ -182,6 +182,7 @@ var MinusButtons = [""]; //leave first empty so index matches
 var AddButtons = [""];
 
 
+
 // Loop through blocks from 1 to 5 (hiding everything)
 for (let i = 1; i <= 5; i++) {
     var block = document.getElementById(`block${i}`);
@@ -262,14 +263,29 @@ function removeBlock(i) {
 
 }
 
+var NumBLocks;
 
-Blocks[1].style.display = "flex";
+// Call the backend
+fetch("/get_blocks")
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Request failed.');
+    }
+  })
+  .then(data => {
+    // Access the number from the response JSON
+    NumBLocks = data.number;
+  })
+  .catch(error => {
+    console.error(error);
+  });
 
-Blocks[2].style.display = "flex";
+for (i = 0; i<NumBLocks; i++){
+    Blocks[i].style.display = "flex";
+}
 
-MinusButtons[2].style.display = "flex";
-
-AddButtons[3].style.display = "flex";
 
 const infotext = document.getElementById("infotext");
 const infobox = document.getElementById("infobox");
@@ -299,11 +315,11 @@ function changeInfoText(elementID) {
 //----------------------------------
 // Append changeInfoText event listeners
 
-listofEls=["actFunc", "LRate", "BSizeSlider", "NEpochsSlider", "outputbox"]
+listofEls = ["actFunc", "LRate", "BSizeSlider", "NEpochsSlider", "outputbox"]
 
-for (const element of listofEls){
-    actFuncMenu= document.getElementById(element);
-    actFuncMenu.addEventListener("click", ()=> {changeInfoText(element)});
+for (const element of listofEls) {
+    actFuncMenu = document.getElementById(element);
+    actFuncMenu.addEventListener("click", () => { changeInfoText(element) });
 }
 
 //------------------------------------------------------------------
@@ -316,7 +332,7 @@ console.log(inputs.length);
 
 for (let i = 0; i < inputs.length; i = i + 1) {
 
-    for (let j = i%2; j < 10; j = j + 2) {
+    for (let j = i % 2; j < 10; j = j + 2) {
         new LeaderLine(
             inputs[i], classes[j],
             { color: 'black', size: 1 }
@@ -418,7 +434,7 @@ function handleButton(buttonName) {
 
 }
 
-
+/*
 //code for the canvas
 const canvas = document.getElementById('inputbox');
 const ctx = canvas.getContext('2d');
@@ -468,9 +484,9 @@ function draw(e) {
     if (!isDrawing) return;
     const pos = getMousePos(canvas, e);
 
-  ctx.lineWidth = 10;
-  ctx.lineCap = 'round';
-  ctx.strokeStyle = '#000';
+    ctx.lineWidth = 10;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#000';
 
     ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
@@ -488,7 +504,7 @@ canvas.addEventListener('mouseout', stopDrawing);
 
 displayText();
 
-
+*/
 
 
 //----------------------------------------------------------
@@ -523,7 +539,8 @@ function sendToModel(canvasData) {
 
 */
 
-function printPrediction(predicted_digit){
+/*
+function printPrediction(predicted_digit) {
     var predictionText = document.getElementById('predictionText');
     var text = 'Die Vorhersage des Models: ' + predicted_digit;
     predictionText.innerText = text;
@@ -531,7 +548,7 @@ function printPrediction(predicted_digit){
 }
 
 
-function sendAndReceiveClassification(canvasData){
+function sendAndReceiveClassification(canvasData) {
     return new Promise((resolve, reject) => {
         socket.emit('classify', { canvasData });
         socket.on('classification_result', (result) => {
@@ -543,47 +560,47 @@ function sendAndReceiveClassification(canvasData){
 
 
 
-function classificationResult(predicted_digit){
+function classificationResult(predicted_digit) {
     const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
     const resultClass = classes[predicted_digit];
     resultClass.style.backgroundColor = 'red';
 }
 
-async function classifyImage(){
+async function classifyImage() {
     console.log('Classifying Image....')
     var predicted_digit = 5;
     const canvasData = canvas.toDataURL();
     const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
-    classes.forEach(container => {container.style.backgroundColor = 'transparent';});
+    classes.forEach(container => { container.style.backgroundColor = 'transparent'; });
     try {
         const classification = await sendAndReceiveClassification(canvasData);
         console.log('Die Klassifizierung ergibt:', classification);
         //printPrediction(classification); not needed anymore as containers are colored
         classificationResult(classification);
-    } catch(error) {
+    } catch (error) {
         console.error('Fehler bei der Klassifizierung:', error);
     }
 }
 
 const classifyButton = document.getElementById('classify');
-classifyButton.addEventListener('click',classifyImage);
+classifyButton.addEventListener('click', classifyImage);
 
 
-function clearCanvas(){
+function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     displayText();
     var predictionText = document.getElementById('predictionText');
     predictionText.innerText = ''; // Leere den Text
     predictionText.style.display = 'none'; // Verberge das Element
     const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
-    classes.forEach(container => {container.style.backgroundColor = 'transparent';});
+    classes.forEach(container => { container.style.backgroundColor = 'transparent'; });
 }
 
 //Reset Button for Canvas
 document.getElementById('reset').addEventListener('click', clearCanvas);
 
 
-
+*/
 
 //
 //-------------------------------------------------------
