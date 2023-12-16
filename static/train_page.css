@@ -275,13 +275,14 @@ body {
   
     justify-content:  space-between;
   
-    width: 10%;
-    height: 220px;
+    width: 15%;
+    height: 280px;
   
     background: #D0F4FF;
     border: 2px solid #000000;
   
     margin-left: 20px;
+    align-items: center;
   }
   
   .classifier_input{
@@ -293,8 +294,8 @@ body {
   }
   
   .classifier_class {
-    height: 20px;
-    width: 50px;
+    height: 25px;
+    width: 60px;
     border: 2px solid #000000;
     margin:0;
   
