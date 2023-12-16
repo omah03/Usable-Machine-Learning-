@@ -9,13 +9,12 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/socket.io/client-dist/socket.io.js"></script>
         <script src=" https://cdn.jsdelivr.net/npm/leader-line@1.0.7/leader-line.min.js "></script>
+
         <title> Machine Learning Playground</title>
     </head>
 <body>
-    <div style="width:90%;" class = "row">
-        <h2> Usable Machine Learning</h2>
- 
-    <div style="display:flex; flex-direction:row; align-items: center;">
+<div style="width:90%;" class = "row"> 
+    <div style="display:flex; flex-direction:row; align-items: center; margin-top:10%; margin-left: 5%;">
         <div class = "blockcolumn">
             <div class="inputbox">
                 <canvas id="inputbox" class = "inputCanvas"></canvas>
@@ -40,7 +39,7 @@
 
         </div>
         
-        <div class = "rectanglelayerViz">
+        <div id = "rectanglelayer"class = "rectanglelayerViz" style="width:30%">
             <div class = "blockcolumn">
             </div>
             <div class = "blockcolumn">
@@ -234,6 +233,8 @@
 
 
     <!-- only need this once -->
+    <script src="{{ url_for('static', filename='infobox.js') }}"></script>
+    <script src="{{ url_for('static', filename='blocks.js') }}"></script>
     <script src="{{ url_for('static', filename='navbar.js') }}"></script>
     <script src="{{ url_for('static', filename='test_script.js') }}"></script>
 

@@ -314,6 +314,7 @@ input[type="range"] {
   position: relative;
   width: 90%;
   height: 70px;
+  margin: auto;
   margin-top: 30px;
 
   background: #D0F4FF;

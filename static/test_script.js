@@ -257,3 +257,13 @@ function clearCanvas(){
 //Reset Button for Canvas
 document.getElementById('reset').addEventListener('click', clearCanvas);
 
+
+
+rectangle= document.getElementById("rectanglelayer")
+inputbox= document.getElementById("inputbox")
+outputbox= document.getElementById("outputbox")
+
+new LeaderLine(inputbox, rectanglelayer,     { color: 'black', size: 5 }
+)
+new LeaderLine(rectanglelayer, outputbox,     { color: 'black', size: 5 }
+)
