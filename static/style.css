@@ -103,11 +103,12 @@ input[type="range"] {
   align-items: center;
   box-sizing: border-box;
   margin-top: 10px;
-  margin-left: 30px;
+  margin-left: 5%;
 
+  flex-direction: column;
 
   width: 280px;
-  height: 280px;
+  height: 350px;
 
   background: #FFFFFF;
   border: 1px solid #000000;
@@ -128,7 +129,7 @@ input[type="range"] {
 
 .controls_column{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 
   justify-content: space-around;
   
@@ -162,13 +163,29 @@ input[type="range"] {
   z-index: 2; /* Canvas liegt standardmäßig über anderen Elementen */
 }    
 
-.block {
+.block{
+  display:flex; 
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100px;
+
+  background: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 30px;
+
+  margin-top: 10px;
+  margin-right: 4%;
+  margin-left: 4%;
+}
+
+.block_editor {
   display:flex;
   align-items: center;
   box-sizing: border-box;
 
   width: 90%;
-  height: 120px;
+  height: 140px;
 
 
   background: #FFFFFF;
@@ -176,7 +193,8 @@ input[type="range"] {
   border-radius: 30px;
 
   margin-top: 10px;
-  margin-left: 15%;
+  margin-right: 4%;
+  margin-left: 4%;
 }
 
 .MinusButton {
@@ -191,7 +209,7 @@ input[type="range"] {
   font-weight: bolder;
 
   margin-top: 10px;
-  margin-left:5%;
+  
 
   padding-top: 5px;
   padding-bottom: 10px;
@@ -234,6 +252,22 @@ input[type="range"] {
   border: 2px solid #000000;
 }
 
+.rectanglelayerViz {
+  /* Rectangle 5 */
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+
+
+
+  width: 60%;
+  height: 140px;
+  margin: auto;
+  background: #FFFFFF;
+  border: 2px solid #000000;
+}
+
+
 .staticClassifier {
   display: flex;
   flex-direction: row;
@@ -244,7 +278,7 @@ input[type="range"] {
   width: 20%;
   height: 440px;
 
-  background: #D0F4FF;
+  background: #FFFFFF;
   border: 2px solid #000000;
 
   margin-left: 20px;
@@ -271,31 +305,6 @@ input[type="range"] {
 }
 
 
-
-.infobox {
-  box-sizing: border-box;
-
-  position: relative;
-  width: 60%;
-  height: auto;
-  margin-top: 30px;
-  margin-left: 10%;
-  text-align: "center";
-  align-items: "center";
-  justify-content: center;
-  display: none;
-
-  background: #D0F4FF;
-  border: 2px solid #000000;
-  
-  min-height: 200px;
-}
-
-.infotext {
-  margin-right: 25%;
-  margin-left: 1%;
-}
-
 .trainingrectangle {
   display:flex;
   flex-direction: row;
@@ -305,6 +314,7 @@ input[type="range"] {
   position: relative;
   width: 90%;
   height: 70px;
+  margin: auto;
   margin-top: 30px;
 
   background: #D0F4FF;
@@ -341,7 +351,6 @@ input[type="range"] {
   width:0%;
   height: 100%;
   background-color: #3e8e41;
-  transition: width 0.3s ease-in-out;
 }
 
 

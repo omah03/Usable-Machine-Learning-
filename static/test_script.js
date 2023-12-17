@@ -109,22 +109,6 @@ function removeBlock(i) {
 }
 
 
-Blocks[1].style.display = "flex";
-
-Blocks[2].style.display = "flex";
-
-MinusButtons[2].style.display = "flex";
-
-AddButtons[3].style.display = "flex";
-
-textOptions = {
-    "inputbox": "The input of the Model is the MNIST dataset. It is a preprocessed dataset of handdrawn digit as a 28x28 grayscale image. Come here later to try out your own model, after you trained it below.",
-    "block": "This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.",
-    "block1": "Its input is a batch of $batch_size$ grayscale images of the dataset. These images are 28 x 28 pixels. <br> Its output depends on the Kernel Size and stride parameters. <br> Input: $batch_size$ x 1 x 28 x28 <br> Output: $block1_output$",
-
-
-};
-
 //------------------------------------------------------------------
 //Classifier arrows UGLY FUCKING SOLUTION I HATE THIS
 
@@ -273,3 +257,13 @@ function clearCanvas(){
 //Reset Button for Canvas
 document.getElementById('reset').addEventListener('click', clearCanvas);
 
+
+
+rectangle= document.getElementById("rectanglelayer")
+inputbox= document.getElementById("inputbox")
+outputbox= document.getElementById("outputbox")
+
+new LeaderLine(inputbox, rectanglelayer,     { color: 'black', size: 5 }
+)
+new LeaderLine(rectanglelayer, outputbox,     { color: 'black', size: 5 }
+)
