@@ -8,16 +8,16 @@ import numpy as np
 from torch import manual_seed, Tensor
 from torch.optim import Optimizer, SGD
 from flask import Response,stream_with_context
-from flask_cors import CORS
 from ml_utils.model import ConvolutionalNeuralNetwork
 from ml_utils.trainingViz import training
 
 from ml_utils.test_classify import classify_canvas_image
 
+#FOR USER STUDY ONLY
+import time
 
 app = Flask(__name__)
 socketio = SocketIO(app)
-CORS(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -44,7 +44,10 @@ config = {  "ActivationFunc": "",
             "LRate": "",
             "BSize":1,
             "NEpochs":1,
-            "NBlocks": 2}
+            "NBlocks": 2,
+            "Epochs_Trained": 0,
+            "training_active": False,
+            "training_stop_signal": False}
 # Initialize variables
 seed = 42
 acc = -1
@@ -73,25 +76,54 @@ def update_value():
     print(config)
     return jsonify("True")
 
-lock= True#Lock()
-training_active= False
-
-training_stop_signal= False
 
 training_data=[]
+
+@app.route("/get_config", methods=["GET"])
+def get_config():
+    global config
+    print("CONFIG IS BEING SENT TO CLIENT:  ")
+    print(config)
+    return jsonify(config)
 
 
 @app.route("/button_press", methods=["POST"])
 def handleButton():
+    global config
     print("Die handleButton() Funktion wird ausgeführt")
     data=request.get_json()
     type= data.get("type")
 
     # Do match case statement for every button (python 3.10 doesnt support match case)
     if type=="starttraining":         
-        q.put(toggle_training())
-        return jsonify(training_active)
+        q.put(toggle_training_US())
+        return jsonify(config["training_active"])
+    if type=="resettraining":
+        print("RESET")
+        config.update({"training_active":False, "training_stop_signal":True, "Epochs_Trained":0})
+    else:
+        print(type)
     return jsonify(True)
+
+def toggle_training_US():
+    global config
+    if config["training_active"]==False: #start training
+        config["training_active"]=True
+        config["training_stop_signal"]=False
+        for _ in config["NEpochs"]:
+            config["Epochs_Trained"] = config["Epochs_Trained"]+1
+            if config["training_stop_signal"]==True:
+                break
+            N_Batches=60000 // int(config["BSize"])
+            for i in range(N_Batches+1):
+                time.sleep(0.01)
+                config.update({"EpochProgress": 100*(i/N_Batches) })
+                socketio.emit("training_data", config)
+        config["training_active"]=False
+    elif config["training_active"]==True and config["training_stop_signal"]==False:
+        config["training_stop_signal"]=True
+    #
+    # socketio.emit("training_data")
 
 def toggle_training():
     global training_active, training_stop_signal

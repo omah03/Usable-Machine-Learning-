@@ -1,48 +1,99 @@
-function GoToModelPage() {
-    if (TrainingHappened()) {
-        // Call the backend
-        window.location.href = "model";
-    }
-    else if (true) {
-        handlePopup("model");
-    }
+async function GoToModelPage() {
+    const config = {};
+    fetch("/get_config")
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Request failed.');
+            }
+        })
+        .then(data => {
+            // Access the number from the response JSON
+            Object.assign(config, data); // Merge the received configuration into 'config'
+            console.log(config);
+            if (config["Epochs_Trained"] == 0) {
+                window.location.href = "model";
+            }
+            else {
+                handlePopup("model");
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
-function GoToParamPage() {
-    if (TrainingHappened()) {
-        // Call the backend
-        window.location.href = "param";
-    }
-    else if (popup) {
-        handlePopup("param");
-    }
+
+async function GoToParamPage() {
+    const config = {};
+    fetch("/get_config")
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Request failed.');
+            }
+        })
+        .then(data => {
+            // Access the number from the response JSON
+            Object.assign(config, data); // Merge the received configuration into 'config'
+            console.log(config);
+            if (config["Epochs_Trained"] == 0) {
+                window.location.href = "param";
+            }
+            else {
+                handlePopup("param");
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function GoToTrainPage() {
     window.location.href = "train";
 }
-function GoToTestPage() {
-    if (!TrainingHappened()) {
-        popuptext = document.getElementById("popup-text");
-        if (popuptext) {
-            popuptext.innerHTML = "Classification will be random if you do not train the model first."
-        }
-        if (popup && discard && cancel) {
-            discard.innerHTML = "Continue";
-            popup.style.display = "flex";
-            discard.addEventListener("click", () => {
-                popuptext.innerHTML = "By Continuing you will loose your training progress and model settings. Are you sure?"
+async function GoToTestPage() {
+    const config = {};
+    fetch("/get_config")
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Request failed.');
+            }
+        })
+        .then(data => {
+            // Access the number from the response JSON
+            Object.assign(config, data); // Merge the received configuration into 'config'
+            console.log(config);
+            if (config["Epochs_Trained"] !== 0) {
                 window.location.href = "test";
-            })
-        }
-
-    }
-    else if (popup) {
-        handlePopup("param");
-    }
+            }
+            else {
+                popuptext = document.getElementById("popup-text");
+                if (popuptext) {
+                    popuptext.innerHTML = "Classification will be random if you do not train the model first."
+                }
+                if (popup && discard && cancel) {
+                    discard.innerHTML = "Continue";
+                    popup.style.display = "flex";
+                    discard.addEventListener("click", () => {
+                        popuptext.innerHTML = "By Continuing you will loose your training progress. Are you sure?"
+                        window.location.href = "test";
+                    })
+                    handlePopup("test")
+                }
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
-function TrainingHappened() {
-    return false
+
+async function TrainingHappened() {
+
 }
 
 function handlePopup(destination) {
@@ -50,6 +101,20 @@ function handlePopup(destination) {
     if (discard && cancel) {
         discard.addEventListener("click", () => {
             window.location.href = destination;
+            fetch('/button_press', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "type": "resettraining"
+                })
+            })
+                .then(response => response.json());
+
+            progress = document.getElementById("progress")
+            if (progress) { progress.width = 0; }
+
         })
 
     }

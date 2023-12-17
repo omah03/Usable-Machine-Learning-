@@ -263,7 +263,7 @@ input[type="range"] {
   width: 60%;
   height: 140px;
   margin: auto;
-  background: #D0F4FF;
+  background: #FFFFFF;
   border: 2px solid #000000;
 }
 
@@ -278,7 +278,7 @@ input[type="range"] {
   width: 20%;
   height: 440px;
 
-  background: #D0F4FF;
+  background: #FFFFFF;
   border: 2px solid #000000;
 
   margin-left: 20px;

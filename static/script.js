@@ -213,33 +213,7 @@ function sleep(ms) {
 
 
 async function handleStartButton() {
-    //FAKE FOR USER STUDY
-    if (training == false) {
-        training = true;
-        startbutton.innerHTML = "PAUSE";
-        for (const epoch of SampleEpochs) {
-            if (training == false) { break; }
-            progressbar.style.display = "flex";
-            progress.style.width = "0%";
-            for (var i = 0; i < 256; i++) {
-                await sleep(100);
-                progress.style.width = ((i + 1) * 100 / 256).toFixed(0) + "%";
-            }
-            accuracies.push(SampleAccuracies[epoch - 1]);
-            losses.push(SampleLosses[epoch - 1]);
-            epochs.push(epoch);
-            myChart.update();
-        }
-        progressbar.style.display = "None";
-        training = false;
-        startbutton.innerHTML = "continue";
-    }
-    else {
-        training = false;
-        startbutton.innerHTML = "CONTINUE";
-    }
     //ACTUAL IMPLEMENTATION
-    /*
     fetch('/button_press', {
         method: 'POST',
         headers: {
@@ -249,22 +223,27 @@ async function handleStartButton() {
             "type": "starttraining"
         })
     })
-        .then(response => {return response.json()})
-        .then((data)=> {
-            if (data==true){
-                startbutton.innerHTML="Pause";
-            }
-            else {
-                startbutton.innerHTML="Continue";
-            }
-        });
-    //toggleProgressBar();*/
+        .then(response => {return response.json()});
+
+}
+
+socket.on("training_data", (data) => handleTrainingData(data))
+function handleTrainingData(training_config){
+    if (training_config["training_active"]==true){
+    progress.style.width=""+ training_config["EpochProgress"]+"%"
+}
+    else{
+        progress.style.width="0%"
+
+    }
+    console.log(training_config)
 }
 
 
 resetbutton = document.getElementById("resettraining");
 resetbutton.addEventListener("click", () => {
-    handleButton(resetbutton);
+    handleButton(resetbutton.id);
+    progress.style.width="0%";
 })
 
 function handleButton(buttonName) {
@@ -508,9 +487,3 @@ new LeaderLine(inputbox, rectanglelayer,     { color: 'black', size: 5 }
 )
 new LeaderLine(rectanglelayer, outputbox,     { color: 'black', size: 5 }
 )
-
-
-new LeaderLine(
-    inputs[i], classes[j],
-    { color: 'black', size: 1 }
-);

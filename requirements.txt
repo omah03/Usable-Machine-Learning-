@@ -1,6 +1,5 @@
 flask==2.2.2
 flask_socketio==5.3.6
-flask-cors
 werkzeug==2.2.3
 numpy==1.23.5
 matplotlib==3.7.0

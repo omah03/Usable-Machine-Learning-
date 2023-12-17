@@ -33,32 +33,34 @@
             <img src="../static/include/Images/UML_MNIST.png" alt="Visualization of handwritten digit from the MNIST set. Shown are 5 items per digit." width="200px">
         </div>
         <div class = "rectanglelayer" style="margin:5%">
-            <div class = "blockcolumn">
-                <button id="block1"class = "block_editor">BLOCK 1</button>
-                <button id="Add_block1", class="AddButton"> + </button>
-                <button id="Minus_block1" class="MinusButton"> - </button>
+            <div style="width:100%">
+                <h3> Convolutional Blocks</h3>
+                <div class = "blockcolumn">
+                    <button id="block1"class = "block_editor">BLOCK 1</button>
+                    <button id="Add_block1", class="AddButton"> + </button>
+                    <button id="Minus_block1" class="MinusButton"> - </button>
+                </div>
+                <div class = "blockcolumn">
+                    <button id="block2"class = "block_editor">BLOCK 2</button>
+                    <button id="Add_block2" class="AddButton"> + </button>
+                    <button id="Minus_block2" class="MinusButton"> - </button>
+                </div>
+                <div class = "blockcolumn">
+                    <button id="block3"class = "block_editor">BLOCK 3</button>
+                    <button id="Add_block3" class="AddButton"> + </button>
+                    <button id="Minus_block3" class="MinusButton"> - </button>
+                </div>
+                <div class = "blockcolumn">
+                    <button id="block4"class = "block_editor">BLOCK 4</button>
+                    <button id="Add_block4" class="AddButton"> + </button>
+                    <button id="Minus_block4" class="MinusButton"> - </button>
+                </div>
+                <div class = "blockcolumn">
+                    <button id="block5"class = "block_editor">BLOCK 5</button>
+                    <button id="Add_block5" class="AddButton"> + </button>
+                    <button id="Minus_block5" class="MinusButton"> - </button>
+                </div>
             </div>
-            <div class = "blockcolumn">
-                <button id="block2"class = "block_editor">BLOCK 2</button>
-                <button id="Add_block2" class="AddButton"> + </button>
-                <button id="Minus_block2" class="MinusButton"> - </button>
-            </div>
-            <div class = "blockcolumn">
-                <button id="block3"class = "block_editor">BLOCK 3</button>
-                <button id="Add_block3" class="AddButton"> + </button>
-                <button id="Minus_block3" class="MinusButton"> - </button>
-            </div>
-            <div class = "blockcolumn">
-                <button id="block4"class = "block_editor">BLOCK 4</button>
-                <button id="Add_block4" class="AddButton"> + </button>
-                <button id="Minus_block4" class="MinusButton"> - </button>
-            </div>
-            <div class = "blockcolumn">
-                <button id="block5"class = "block_editor">BLOCK 5</button>
-                <button id="Add_block5" class="AddButton"> + </button>
-                <button id="Minus_block5" class="MinusButton"> - </button>
-            </div>
- 
         </div>
         <div class = "staticClassifier" id = "outputbox">
             <div class="column" style = "justify-content: center">
@@ -224,7 +226,7 @@
 </nav>
 <div id="popup-container" class="popup">
 <div style="padding: 10px">
-    <p id="popup-text">By Continuing you will loose your training progress and model settings. Are you sure?</p>
+    <p id="popup-text">By Continuing you will loose your training progress. Are you sure?</p>
     <button id="discard">Discard Model</button>
     <button id="cancel"> Cancel </button>
 

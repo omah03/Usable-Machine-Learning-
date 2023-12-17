@@ -40,25 +40,28 @@
         </div>
         
         <div id = "rectanglelayer"class = "rectanglelayerViz" style="width:30%">
-            <div class = "blockcolumn">
+            <div style="width:100%">
+                <p style="margin-bottom:-5px; margin-top: 0px"> Convolutional Blocks</p>
+
+                <div class = "blockcolumn">
+                    <button id="block1" class = "block">BLOCK 1</button>
+                </div>
+                <div class = "blockcolumn">
+                    <button id="block2" class = "block">BLOCK 2</button>
+                </div>
+                <div class = "blockcolumn">
+                    <button id="block3" class = "block">BLOCK 3</button>
+                </div>
+                <div class = "blockcolumn">
+                    <button id="block4" class = "block">BLOCK 4</button>
+                </div>
+                <div class = "blockcolumn">
+                    <button id="block5" class = "block">BLOCK 5</button>
+                </div>
             </div>
-            <div class = "blockcolumn">
-                <button id="block1" class = "block">BLOCK 1</button>
-            </div>
-            <div class = "blockcolumn">
-                <button id="block2" class = "block">BLOCK 2</button>
-            </div>
-            <div class = "blockcolumn">
-                <button id="block3" class = "block">BLOCK 3</button>
-            </div>
-            <div class = "blockcolumn">
-                <button id="block4" class = "block">BLOCK 4</button>
-            </div>
-            <div class = "blockcolumn">
-                <button id="block5" class = "block">BLOCK 5</button>
-            </div>
+
         </div>
-        <div class = "staticClassifier" id = "outputbox">
+        <div class = "staticClassifier" id = "outputbox" style = "background: #D0F4FF">
             <div class="column" style = "justify-content: center">
                 <div class="classifier_input">
                 </div>
@@ -224,7 +227,7 @@
     </nav>
     <div id="popup-container" class="popup">
         <div style="padding: 10px">
-            <p id="popup-text">By Continuing you will loose your training progress and model settings. Are you sure?</p>
+            <p id="popup-text">By Continuing you will loose your training progress. Are you sure?</p>
             <button id="discard">Discard Model</button>
             <button id="cancel"> Cancel </button>
 

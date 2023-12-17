@@ -64,22 +64,23 @@
                 </div>
             </div>
             <div id = "rectanglelayer" class = "rectanglelayerViz">
-                <div class = "blockcolumn">
-                </div>
-                <div class = "blockcolumn">
-                    <button id="block1" class = "block">BLOCK 1</button>
-                </div>
-                <div class = "blockcolumn">
-                    <button id="block2" class = "block">BLOCK 2</button>
-                </div>
-                <div class = "blockcolumn">
-                    <button id="block3" class = "block">BLOCK 3</button>
-                </div>
-                <div class = "blockcolumn">
-                    <button id="block4" class = "block">BLOCK 4</button>
-                </div>
-                <div class = "blockcolumn">
-                    <button id="block5" class = "block">BLOCK 5</button>
+                <div style="width:100%">
+                    <p style="margin-bottom:-5px; margin-top: 0px"> Convolutional Blocks</p>
+                    <div class = "blockcolumn">
+                        <button id="block1" class = "block">BLOCK 1</button>
+                    </div>
+                    <div class = "blockcolumn">
+                        <button id="block2" class = "block">BLOCK 2</button>
+                    </div>
+                    <div class = "blockcolumn">
+                        <button id="block3" class = "block">BLOCK 3</button>
+                    </div>
+                    <div class = "blockcolumn">
+                        <button id="block4" class = "block">BLOCK 4</button>
+                    </div>
+                    <div class = "blockcolumn">
+                        <button id="block5" class = "block">BLOCK 5</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -193,8 +194,11 @@
             </div>
             <canvas id="myChart" width="500" height="200"> GO </canvas>
         </div>
-        <div class = "infobox" id = "infobox" style= "width:40%; margin:5%; display:none">
+        <div class = "infobox" id = "infobox" style= "width:40%; margin:5%;">
                 <div class = "column">
+                    <p class = "infotext" style="display:flex">
+                        Here you can train your model. You can still adjust the parameters, But if you want to change the blocks, it will reset your training!
+                    </p>
                     <p class= "infotext" id = "infotext_inputbox"> 
                         The input of the datamodel is the MNIST dataset. This dataset is already preprocessed and consists of 28x28 images of handdrawn images.
                     </p>
@@ -273,7 +277,7 @@
     </nav>
     <div id="popup-container" class="popup">
         <div style="padding: 10px">
-            <p id="popup-text">By Continuing you will loose your training progress and model settings. Are you sure?</p>
+            <p id="popup-text">By Continuing you will loose your training progress. Are you sure?</p>
             <button id="discard">Discard Model</button>
             <button id="cancel"> Cancel </button>
 
