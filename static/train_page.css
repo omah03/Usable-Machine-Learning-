@@ -338,9 +338,7 @@ body {
   .progress {
     width:0%;
     height: 100%;
-    background-color: #3e8e41;
-    transition: width 0.3s ease-in-out;
-  }
+    background-color: #3e8e41;  }
   
   
   .button{

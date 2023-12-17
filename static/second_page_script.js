@@ -16,27 +16,21 @@ function handleActivationFunctionChange(event) {
     var titleElement = document.getElementById("selectedOption");
     if ("Activation Function: <br>" + selectedOptionText != titleElement.innerHTML) {
         titleElement.innerHTML = "Activation Function: <br>" + selectedOptionText;
-
         // Call a function or perform an action based on the selected option
         switch (selectedOptionText) {
-            case "0.1":
+            case "Rectified Linear Activation (ReLU)":
                 // Call a function for ReLU activation
-                func = "1";
+                func = "ReLU";
 
                 break;
-            case "0.01":
+            case "Logistics (Sigmoid)":
                 // Call a function for Sigmoid activation
-                func = "01";
+                func = "Sigm";
                 break;
-            case "0.001":
+            case "Hyperbolic Tangent (tanh)":
                 // Call a function for tanh activation
 
-                func = "001";
-                break;
-            case "0.0001":
-                // Call a function for tanh activation
-
-                func = "0001";
+                func = "tanh";
                 break;
             default:
                 // Handle any other cases or do nothing
@@ -69,28 +63,33 @@ function handle_LRate_Change(event) {
     var titleElement = document.getElementById("LRateOption");
     if ("Learning Rate: <br>" + LRateOptionText != titleElement.innerHTML) {
         titleElement.innerHTML = "Learning Rate: <br>" + LRateOptionText;
-
         // Call a function or perform an action based on the selected option
         switch (LRateOptionText) {
-            case "Rectified Linear Activation (ReLU)":
+            case "0.1":
                 // Call a function for ReLU activation
-                func = "ReLU";
+                func = "1";
 
                 break;
-            case "Logistics (Sigmoid)":
+            case "0.01":
                 // Call a function for Sigmoid activation
-                func = "Sigm";
+                func = "01";
                 break;
-            case "Hyperbolic Tangent (tanh)":
+            case "0.001":
                 // Call a function for tanh activation
 
-                func = "tanh";
+                func = "001";
+                break;
+            case "0.0001":
+                // Call a function for tanh activation
+
+                func = "0001";
                 break;
             default:
                 // Handle any other cases or do nothing
                 func = "";
                 break;
         }
+
         fetch('/update_value', {
             method: 'POST',
             headers: {

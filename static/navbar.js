@@ -91,11 +91,6 @@ async function GoToTestPage() {
         });
 }
 
-
-async function TrainingHappened() {
-
-}
-
 function handlePopup(destination) {
     popup.style.display = "flex";
     if (discard && cancel) {
@@ -136,17 +131,43 @@ if (cancel) {
         popup.style.display = "none"
     })
 }
+var path = window.location.pathname;
 
+color = "#D0F4FF"
+
+switch (path){
+    case "/model":
+        ModelButton.style.background=color
+        break;
+    case "/param":
+        ParamButton.style.background=color
+        break;
+    case "/train":
+        TrainButton.style.background=color
+        break;
+    case "/test":
+        TestButton.style.background=color
+        break;
+}
 if (ModelButton
     && ParamButton
     && TrainButton
     && TestButton) {
+    if (path!=="/model"){
     ModelButton.addEventListener("click", GoToModelPage);
-    ParamButton.addEventListener("click", GoToParamPage);
-    TrainButton.addEventListener("click", GoToTrainPage);
-    TestButton.addEventListener("click", GoToTestPage);
 }
+    if (path!=="/param"){
+
+    ParamButton.addEventListener("click", GoToParamPage);
+}   if (path!=="/train"){
+
+    TrainButton.addEventListener("click", GoToTrainPage);
+}   if (path!=="/test"){
+
+    TestButton.addEventListener("click", GoToTestPage);
+}}
 else {
     console.log("ERROR: Navbar loading failed.")
 }
 
+console.log( path );

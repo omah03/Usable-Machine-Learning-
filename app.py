@@ -100,30 +100,35 @@ def handleButton():
         return jsonify(config["training_active"])
     if type=="resettraining":
         print("RESET")
-        config.update({"training_active":False, "training_stop_signal":True, "Epochs_Trained":0})
+        config.update({"training_active":False, "training_stop_signal":True, "Epochs_Trained":0, "acc":[], "loss":[] })
     else:
         print(type)
     return jsonify(True)
 
 def toggle_training_US():
     global config
+    acc_values=[0.1, 0.08, 0.06, 0.04, 0.02, 0.04, 0.02, 0.04, 0.02]
+    loss_values=[80, 85, 90, 95, 95.5, 96, 97.2, 96 ,94 ]
     if config["training_active"]==False: #start training
         config["training_active"]=True
         config["training_stop_signal"]=False
-        for _ in config["NEpochs"]:
+        for _ in range(int(config["NEpochs"])):
             config["Epochs_Trained"] = config["Epochs_Trained"]+1
             if config["training_stop_signal"]==True:
                 break
             N_Batches=60000 // int(config["BSize"])
-            for i in range(N_Batches+1):
+            for i in range(0, N_Batches+1, 10):
                 time.sleep(0.01)
                 config.update({"EpochProgress": 100*(i/N_Batches) })
                 socketio.emit("training_data", config)
+            config.update({"acc": acc_values[:config["Epochs_Trained"]], "loss":loss_values[:config["Epochs_Trained"]]})
+            socketio.emit("training_data", config)
         config["training_active"]=False
     elif config["training_active"]==True and config["training_stop_signal"]==False:
         config["training_stop_signal"]=True
-    #
-    # socketio.emit("training_data")
+    
+    socketio.emit("training_data", config)
+    
 
 def toggle_training():
     global training_active, training_stop_signal
