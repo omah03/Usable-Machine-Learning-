@@ -101,6 +101,7 @@ def handleButton():
     if type=="resettraining":
         print("RESET")
         config.update({"training_active":False, "training_stop_signal":True, "Epochs_Trained":0, "acc":[], "loss":[] })
+        socketio.emit("training_data", config)
     else:
         print(type)
     return jsonify(True)
