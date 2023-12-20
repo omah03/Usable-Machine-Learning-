@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Useable Machine Learning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='intro_ml.css') }}">
+</head>
+<body>
+    <header class="header-background">
+        <div class="container header-content">
+            <h1>USEABLE MACHINE LEARNING</h1>
+        </div>
+    </header>
+    <section class="ml-intro">
+        <div class="container">
+            <div class="intro-text">
+                <h2>WHAT IS ML?</h2>
+                <p>
+                    Input text here...
+            </div>
+        </div>
+    </section>
+    <main>
+<section class="cnn-explanation">
+    <div class="container">
+        <h2>Understanding CNNs</h2>
+        <p>
+            Convolutional Neural Networks (CNNs) are at the heart of modern AI, powering advancements in computer vision. From facial recognition to medical image analysis, CNNs help machines see and understand our world.
+        </p>
+        <div class="gif-container">
+            <div class="gif-container">
+                <img src="{{ url_for('static', filename='mnist_viz.gif') }}" alt="CNN Process Visualization">
+            </div>
+            
+        </div>
+        <p>
+            Our website focuses on making CNNs accessible and understandable. Through interactive visualizations and intuitive explanations, we demystify how these networks learn to recognize patterns and make sense of images.
+        </p>
+    </div>
+</section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <!-- Footer content -->
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

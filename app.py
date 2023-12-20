@@ -21,7 +21,7 @@ socketio = SocketIO(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("model.html")
+    return render_template("intro_ml.html")
     
 @app.route('/model')
 def model_page():
