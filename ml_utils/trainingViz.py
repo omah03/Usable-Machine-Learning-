@@ -164,14 +164,16 @@ def main(seed):
         model=model,
         optimizer=opt,
         cuda=False,     # change to True to run on nvidia gpu
-        n_epochs=10,
-        batch_size=256
+        #n_epochs=10,
+        batch_size=256,
+        learning_rate=0.3,
+        momentum=0.5
     )
     print("training finished")
 
     # save the classification model as a pickle file
 
-    model_pkl_file = "MNIST_classifier_model.pkl"  
+    model_pkl_file = "MNIST_modelbuilder_model.pkl"  
 
     with open(model_pkl_file, 'wb') as file:  
         pickle.dump(model, file) 

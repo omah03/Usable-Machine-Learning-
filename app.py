@@ -135,7 +135,8 @@ def toggle_training_US():
 
 
 #Get Canvas Image & classify it
-test_model = 'ml_utils/MNIST_classifier_model.pkl'
+test_model = 'ml_utils/MNIST_modelbuilder_model.pkl'
+print(f"using {test_model}")
 @socketio.on('classify')
 def classify(data):
     print("Die classify(data) Funktion wird ausgeführt")
