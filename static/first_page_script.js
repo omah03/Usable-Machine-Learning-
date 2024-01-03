@@ -25,9 +25,6 @@ for (let i = 1; i <= 5; i++) {
 
     if (block) {
         block.style.setProperty("display", "none");
-        block.addEventListener("click", ()=> {
-            changeInfoText(Blocks[i].id);
-        });
     }
 
     if (Add_block) {
@@ -102,31 +99,6 @@ Blocks[2].style.display = "flex";
 MinusButtons[2].style.display = "flex";
 
 AddButtons[3].style.display = "flex";
-
-const infotext = document.getElementById("infotext");
-const infobox = document.getElementById("infobox");
-
-document.getElementById("hide").addEventListener("click", () => {
-    infobox.style.display = "none";
-})
-
-document.getElementById("inputbox").addEventListener("click", () => { changeInfoText("inputbox"); }
-)
-
-function changeInfoText(elementID) {
-    infobox.style.display = "flex";
-    var element = document.getElementById(elementID);
-    if (element && element.style.display != "none") {
-        for (const infoelement of document.getElementsByClassName("infotext")) {
-            if (infoelement.id == `infotext_${elementID}`) {
-                infoelement.style.display = "flex"
-            }
-            else {
-                infoelement.style.display = "none"
-            }
-        }
-    }
-}
 
 var mnist= document.getElementById("inputbox")
 var rec_layer= document.getElementsByClassName("rectanglelayer")[0]

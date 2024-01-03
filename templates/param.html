@@ -26,25 +26,25 @@
         <div class = "column" id= "actFunc"> 
             <div class="dropdown">
                 <button id="ActivationFuncMenu" class="dropbtn" >
-                    <span id="selectedOption">Activation function</span>
+                    <span id="act_Label">Activation function</span>
                 </button>
                 <div class="dropdown-content">
-                <a href="#" id="act_reluOption">Rectified Linear Activation (ReLU)</a>
-                <a href="#" id="act_sigmoidOption">Logistics (Sigmoid)</a>
-                <a href="#" id="act_tanhOption">Hyperbolic Tangent (tanh)</a>
+                <a href="#" class="act_Option" id="act_reluOption">Rectified Linear Activation (ReLU)</a>
+                <a href="#" class="act_Option" id="act_sigmoidOption">Logistics (Sigmoid)</a>
+                <a href="#" class="act_Option" id="act_tanhOption">Hyperbolic Tangent (tanh)</a>
                 </div>
             </div> 
         </div>    
-        <div class = "column" > 
-            <div class="dropdown" id = "LRate">
+        <div class = "column" id= "LRate"> 
+            <div class="dropdown">
                 <button id="LRate" class="dropbtn" >
-                    <span id="LRateOption">Learning Rate</span>
+                    <span id="LRate_Label">Learning Rate</span>
                 </button>
                 <div class="dropdown-content">
-                <a href="#" id="act_1">0.1</a>
-                <a href="#" id="act_01">0.01</a>
-                <a href="#" id="act_001">0.001</a>
-                <a href="#" id="act_0001">0.0001</a>
+                <a href="#" class="LRate_Option" id="LRate_1">0.1</a>
+                <a href="#" class="LRate_Option" id="LRate01">0.01</a>
+                <a href="#" class="LRate_Option" id="LRate001">0.001</a>
+                <a href="#" class="LRate_Option" id="LRate0001">0.0001</a>
                 </div>
             </div> 
         </div>
@@ -67,67 +67,12 @@
         </div>
         <div class = "row" style="display:flex;justify-content:center; margin-right: 7%;">
             <div class = "infobox" id = "infobox">
-                <div class = "column">
-                    <p class = "infotext" style = "display:flex">
-                    Click the parameters to learn more about them.
-                    </p>
-                    <p class= "infotext" id = "infotext_inputbox"> 
-                        The input of the datamodel is the MNIST dataset. This dataset is already preprocessed and consists of 28x28 images of handdrawn images.
-                    </p>
-                    <p class= "infotext" id = "infotext_block1"> 
-                        This is a convolutional block. It consists of a convolutial layer, a non-linear activation function and a MaxPoolLayer.
-                        Its input is a batch of grayscale images of the dataset. These images are 28 x 28 pixels. 
-                        <br> Its output depends on the kernel size and stride parameters. 
-                    </p>
-                    <p class= "infotext" id = "infotext_block2"> 
-                        This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.
-                        Its input is the output of the previous block. 
-                        <br> Its output depends on the kernel size and stride parameters.
-                    </p>
-                    <p class= "infotext" id = "infotext_block3"> 
-                        This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.
-                        Its input is the output of the previous block. 
-                        <br> Its output depends on the kernel size and stride parameters.
-                    </p>
-                    <p class= "infotext" id = "infotext_block4"> 
-                        This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.
-                        Its input is the output of the previous block. 
-                        <br> Its output depends on the kernel size and stride parameters.
-                    </p>
-                    <p class= "infotext" id = "infotext_block5"> 
-                        This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.
-                        Its input is the output of the previous block. 
-                        <br> Its output depends on the kernel size and stride parameters.
-                    </p>
-                    <p class= "infotext" id = "infotext_outputbox"> 
-                        Linear layers make up the final layers in neural networks for classification. As input, they take a vector which in a CNN is a flattened matrix from the previous layer. While data passes through the network, the linear layers perform a linear transformation by multiplying each input neuron by a weight and adding a bias. Several of these layers can be connected sequentially to reduce the number of inputs. Finally, the output consists of a neuron for each class and a corresponding probability determining how likely the input belongs to each class.  
-                    </p>
-                    <p class= "infotext" id = "infotext_actFunc"> 
-                        Activations functions play a critical in neural networks as they add nonlinearity to the models hidden layers. This is necessary as it allows for more complex functions inside the model that can also capture nonlinear relationships. Typically, the same activation function is chosen for the entire network.
-                    </p>
-                    <p class= "infotext" id = "infotext_NEpochsSlider"> 
-                        How often the learning algorithm works through the entire training dataset.
-                    </p>
-                    <p class= "infotext" id = "infotext_LRate"> 
-                        By how much to adjust the internal parameters of a neural network during training. Choosing a learning rate that’s too large will lead to over- or undershooting the true optimum while a learning rate that’s too small will increase the time to see improvements dramatically.
-                    </p>
-                    <p class= "infotext" id = "infotext_BSizeSlider"> 
-                        How many samples to run through before updating the model parameters. Done both to preserve memory (large datasets can be split into several batches) and improve optimization (individual samples can be noisy, regularizes over a batch of samples).                </p>
-                </div>
+                <img class = "info-icon" src="../static/include/Images/info.png" alt="Information Box" width="50px">
+                <p id="infotext" class = "infotext"></p>
                 <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
                 <br>
                 <br>
-                <button id = "Show_more_inputbox" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_block1" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_block2" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_block3" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_block4" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_block5" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_outputbox" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_actFunc" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_NEpochsSlider" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_LRate" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_BSizeSlider" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
+                <button id = "show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
             </div>
         </div>   
     </div>
@@ -150,7 +95,8 @@
 
 <!-- only need this once -->
 <script src="{{ url_for('static', filename='navbar.js') }}"></script>
-<script src="{{ url_for('static', filename='second_page_script.js') }}"></script>
+<script src="{{ url_for('static', filename='infobox.js') }}"></script>
+<script src="{{ url_for('static', filename='options.js') }}"></script>
 
 
 

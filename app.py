@@ -13,6 +13,8 @@ from ml_utils.trainingViz import training
 
 from ml_utils.test_classify import classify_canvas_image
 
+from static.infotexts import infotexts
+
 #FOR USER STUDY ONLY
 import time
 
@@ -76,6 +78,12 @@ def update_value():
     print(config)
     return jsonify("True")
 
+@app.route("/infotext", methods=["POST"])
+def get_infotext():
+    print("Updating Infotext")
+    data=request.get_json()
+    value= data.get("item")
+    return jsonify(infotexts[value])
 
 training_data=[]
 
