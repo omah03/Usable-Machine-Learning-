@@ -13,36 +13,35 @@
             <h1>USEABLE MACHINE LEARNING</h1>
         </div>
     </header>
-    <section class="ml-intro">
+    <section class="ml-fullscreen">
         <div class="container">
-            <div class="intro-text">
-                <h2>WHAT IS ML?</h2>
+            <div class="ml-text">
+                <h2>What is Machine Learning?</h2>
                 <p>
-                    Input text here...
+                    Machine Learning, is a field of artificial intelligence that enables software applications to become more accurate at predicting outcomes without being explicitly programmed to do so. It involves algorithms and statistical models that systems use to perform tasks by relying on patterns.
+                </p>
             </div>
         </div>
     </section>
     <main>
-<section class="cnn-explanation">
-    <div class="container">
-        <h2>Understanding CNNs</h2>
-        <p>
-            Convolutional Neural Networks (CNNs) are at the heart of modern AI, powering advancements in computer vision. From facial recognition to medical image analysis, CNNs help machines see and understand our world.
-        </p>
-        <div class="gif-container">
-            <div class="gif-container">
-                <img src="{{ url_for('static', filename='mnist_viz.gif') }}" alt="CNN Process Visualization">
+        <section class="cnn-explanation">
+            <div class="container cnn-container">
+                <div class="cnn-text">
+                    <h2>Understanding CNNs</h2>
+                    <p>
+                        Convolutional Neural Networks (CNNs) are at the heart of modern AI, powering advancements in computer vision. From facial recognition to medical image analysis, CNNs help machines see and understand our world.
+                    </p>
+                    <p>
+                        The animation shows how models are able to recognize hand written digits from MNIST - a database containing 60000 handwritten images.
+                    </p>
+                </div>
+                <div class="cnn-gif">
+                    <img src="{{ url_for('static', filename='mnist_viz.gif') }}" alt="CNN Process Visualization">
+                </div>
             </div>
-            
-        </div>
-        <p>
-            Our website focuses on making CNNs accessible and understandable. Through interactive visualizations and intuitive explanations, we demystify how these networks learn to recognize patterns and make sense of images.
-        </p>
-    </div>
-</section>
-
+        </section>
+    
     </main>
-
     <footer>
         <div class="container">
             <!-- Footer content -->

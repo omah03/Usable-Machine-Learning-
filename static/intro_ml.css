@@ -1,124 +1,167 @@
 /* General Styles */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: #243958;
+}
+::-webkit-scrollbar-thumb {
+    background: #5D93E1; 
+    border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #2193b0; 
+}
+ 
+:root {
+    --primary-color: #5D93E1;
+    --secondary-color: #FFC107; 
+    --background-color: #FFFFFF; 
+    --text-color: #333333; 
+  }
+
 body, html {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #000d3a;
+    background-color: #243958;
+    color: var(--text-color);
+    font-family: 'Roboto', sans-serif;
+    scroll-snap-type: y mandatory;
 }
-
+section{
+    height:100vh;
+    scroll-snap-align: start;
+}
 .container {
-    width: 80%;
-    margin: auto;
+    width: 100%; 
+    max-width: none; 
+    margin: 0;
+    padding: 0; 
 }
-
 header {
-    padding: 0; /* Removed padding */
-    background: url('image_recognition.gif') center/cover no-repeat; /* Updated with your image */
+    background: url('image_recognition.gif') center/cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 500px; /* Set a fixed height or adjust as needed */
-    color: #fff; /* Text color */
-    text-shadow: 2px 2px 4px #000000; /* Text shadow for readability */
+    height: 100vh;
+    color: #fff;
+    text-shadow: 2px 2px 4px #000000;
     position: relative;
+    overflow: hidden;
+    height:100vh;
+    scroll-snap-align: start;
 }
 
-header::after {
+/*header::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 20%; /* Control the height of the gradient */
-    background: linear-gradient(to bottom, transparent, #243958 100%); /* Gradient that matches the body's bg color */
-    z-index: 1; /* Ensures the gradient is above the background image but below the content */
+    height: 100px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #243958);
+    z-index: 1;
 }
-
+*/
 header h1 {
-    z-index: 2;
-    position: absolute; /* Position the h1 absolutely within the header */
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust the position accurately */
-    font-size: 4rem; /* Large font size for the title */
-    color: #fff; /* Text color white */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for readability */
-    margin: 0; /* Remove margin to avoid affecting positioning */
-    padding: 0; /* No padding to affect the positioning */
-}
-
-/* ML Introduction Section */
-.ml-intro {
-    z-index: 2;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100%;
-    padding: 2rem;
-    text-align: center;
-}
-
-/* Adjusted the font size and color for better visibility on the image */
-.ml-intro h2, .ml-intro p {
-    color: #ffffff;
-    font-size: 1.25rem;
-    line-height: 1.6; /* Adjusted line height for better readability */
-    margin: 0.5rem;
-}
-
-/* CNN Explanation Section */
-.cnn-explanation {
-    text-align: center; 
-    background-color: #243958; 
-    padding: 2rem 0; 
-}
-
-.cnn-explanation h2 {
-    color: #e1afe3; 
-    margin-bottom: 1rem; 
-}
-
-.cnn-explanation p {
-    color: #ffffff; 
-    font-size: 1rem; 
-    max-width: 800px; 
-    margin: auto; 
-    margin-bottom: 1rem; 
-}
-
-.gif-container {
-    display: flex;
-    justify-content: center; 
-    margin-bottom: 1rem; 
-}
-
-.gif-container img {
-    max-width: 100%; 
-    height: auto; 
-}
-
-
-/* Footer */
-footer {
-    background-color: #000000;
+    font-size: 6rem;
     color: #fff;
-    padding: 1rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    padding: 0;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeIn 2s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.ml-basics-centered {
+    text-align: center; 
+    padding: 4rem 0; 
+    background-color: #5D93E1;
+    color: #ffffff;
+}
+
+.ml-fullscreen {
+    min-height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px;
+    background-color: var(--primary-color); 
+}
+
+.ml-fullscreen .container {
+    max-width: 800px; 
+}
+
+.ml-fullscreen h2 {
+    font-size: 3rem; 
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.ml-fullscreen p {
+    font-size: 1.5rem; 
+    color: var(--text-color);
+}
+
+.cnn-container {
+    display: flex;
+    flex-wrap: colunn;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+}
+.cnn-text, .cnn-gif {
+    margin: 0;
+    padding: 1rem;
+    flex: 1 1 50%; 
+    background-color: #243958; 
+    color: #ffffff; 
     text-align: center;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    header {
-        height: auto; 
-    }
-
-    .ml-intro {
-        position: relative; /* Change position for mobile layout */
-        top: auto;
-        left: auto;
-        transform: none;
-        padding: 1rem;
-        background-color: transparent; /* Optional: remove background on mobile if it covers too much of the image */
-    }
+.cnn-text h2 {
+    font-size: 2.5rem; 
+    color: #ffffff;
 }
+
+.cnn-text p {
+    font-size: 1.5rem; 
+    color: #ffffff;
+}
+
+.cnn-gif {
+    text-align: center; 
+}
+
+.cnn-gif img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .container {
+      padding: 1rem; 
+    }
+  
+    header h1 {
+      font-size: 2rem; 
+    }
+  }
+  
