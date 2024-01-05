@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="../static/train_page.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='training/training.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='infobox/infobox.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='navbar/navbar.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='options/options.css') }}">
@@ -15,7 +15,6 @@
         <title> Machine Learning Playground</title>
     </head>
 <body>
-
     <div style="display: flex;
     flex-direction: row;
     align-items: center;
@@ -54,14 +53,12 @@
                         </div>
                     </div> 
                 </div>
-                
                 <div class = "column" id= "BSizeCol"> 
                     <label for="BSizeSlider">Batch Size</label>
                     <div class= "sliderDisplay">
                         <input type="range" id="BSizeSlider" min="1" max="256" value="{{ 32 }}">
                         <span id="BSizeDisplay"></span>
-                    </div>
-                    
+                    </div>   
                 </div>
                 <div class = "column" id= "EpochsCol"> 
                     <label for="NEpochsSlider">Epochs</label>
@@ -155,7 +152,6 @@
                 </div>
                 <div class="classifier_input">
                 </div>
-
             </div>
             <div class="row" style="margin-top: -8%;justify-content:right;">
                 <div class="column" style = "justify-content:center; margin-top: 25%">
@@ -182,11 +178,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
-
     <div class = "row" style = "display:flex; flex-direction:row; margin-top: 0px">
         <div class="row" style="width: 50%;">
             <div class = "trainingrectangle" >
@@ -199,7 +192,6 @@
                     <p id="trainingdisplay"> </p>
                 </div>
             </div>
-    
             <div class= "progressbar" id="progressbar" style="width: 90%;">
                 <div class="progress" id="progress" ></div>
             </div>
@@ -215,7 +207,7 @@
         </div>
     </div>
     <nav class="navbar">
-            <button id= "ModelPage"  class="navbarcontent">Model Builder</button>
+            <button id= "ModelPage" class="navbarcontent">Model Builder</button>
             <button id= "ParamPage" class="navbarcontent">Parameters</button>
             <button id= "TrainPage" class="navbarcontent">Train</button>
             <button id= "TestPage"  class="navbarcontent">Test</button>
@@ -225,16 +217,13 @@
             <p id="popup-text">By Continuing you will loose your training progress. Are you sure?</p>
             <button id="discard">Discard Model</button>
             <button id="cancel"> Cancel </button>
-
         </div>
     </div>
-
-
     <!-- only need this once -->
     <script src="{{ url_for('static', filename='infobox/infobox.js') }}"></script>
     <script src="{{ url_for('static', filename='blocks/blocks.js') }}"></script>
     <script src="{{ url_for('static', filename='navbar/navbar.js') }}"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='training/training.js') }}"></script>
 
 </body>
 </html>

@@ -116,9 +116,48 @@ fetch("/get_blocks")
     for (i = 1; i<=NumBlocks; i++){
         Blocks[i].style.display = "flex";
     }
-  })
+    if (MinusButtons[NumBlocks] && (NumBlocks>1)){
+        MinusButtons[NumBlocks].style.display="flex"
+    }
+    if (NumBlocks<5 && AddButtons[NumBlocks]){
+        AddButtons[NumBlocks+1].style.display="flex"
+    }
+    }
+    )
   .catch(error => {
     console.error(error);
   });
 
 console.log("Number of Blocks to display: "+NumBLocks)
+
+
+var mnist= document.getElementById("inputbox")
+var rec_layer= document.getElementById("rectanglelayer")
+var classifier=  document.getElementById("outputbox")
+
+console.log(mnist,rec_layer,classifier)
+
+if (mnist&&rec_layer){
+new LeaderLine(mnist, rec_layer,{ color: 'black', size: 10 })
+}
+
+if(rec_layer&&classifier){
+new LeaderLine(rec_layer,classifier,{ color: 'black', size: 10 })
+}
+//------------------------------------------------------------------
+//Classifier arrows UGLY FUCKING SOLUTION I HATE THIS
+
+inputs = (document.getElementsByClassName("classifier_input"));
+classes = (document.getElementsByClassName("classifier_class"));
+
+console.log(inputs.length);
+
+for (let i = 0; i < inputs.length; i = i + 1) {
+
+    for (let j = i%2; j < 10; j = j + 2) {
+        new LeaderLine(
+            inputs[i], classes[j],
+            { color: 'black', size: 1 }
+        );
+    }
+}
