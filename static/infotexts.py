@@ -33,16 +33,16 @@ infotexts={
     "outputbox":r"""
         Linear layers make up the final layers in neural networks for classification. As input, they take a vector which in a CNN is a flattened matrix from the previous layer. While data passes through the network, the linear layers perform a linear transformation by multiplying each input neuron by a weight and adding a bias. Several of these layers can be connected sequentially to reduce the number of inputs. Finally, the output consists of a neuron for each class and a corresponding probability determining how likely the input belongs to each class.  
     """,
-    "actFunc":r"""
+    "actFuncCol":r"""
         Activations functions play a critical in neural networks as they add nonlinearity to the models hidden layers. This is necessary as it allows for more complex functions inside the model that can also capture nonlinear relationships. Typically, the same activation function is chosen for the entire network.
     """,
-    "NEpochsSlider":r"""
+    "EpochsCol":r"""
         How often the learning algorithm works through the entire training dataset.
     """,
-    "LRate":r"""
+    "LRateCol":r"""
         By how much to adjust the internal parameters of a neural network during training. Choosing a learning rate that’s too large will lead to over- or undershooting the true optimum while a learning rate that’s too small will increase the time to see improvements dramatically.
     """,
-    "BSizeSlider":r"""
+    "BSizeCol":r"""
         How many samples to run through before updating the model parameters. Done both to preserve memory (large datasets can be split into several batches) and improve optimization (individual samples can be noisy, regularizes over a batch of samples).                
     """
 }

@@ -27,7 +27,7 @@ if (show_more){
     })
 }
 
-const elementIDs= ["inputbox", "block1", "block2", "block3", "block4", "block5", "outputbox", "actFunc", "NEpochsBox", "LRate", "BSizeBox"]
+const elementIDs= ["inputbox", "block1", "block2", "block3", "block4", "block5", "outputbox", "actFuncCol", "LRateCol","EpochsCol", "BSizeCol"]
 
 for( const ID of elementIDs)
 {

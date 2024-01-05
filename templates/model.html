@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>First Page</title>
     <!-- Add any additional CSS or styling here -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='blocks.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='infobox.css') }}">
 
@@ -67,8 +67,8 @@
                 </div>
             </div>
         <div class = "staticClassifier" id = "outputbox">
-            <div class="column" style = "justify-content: center">
-                <p> Linear Layer </p>
+            <div class="linear_layer">
+                <p style="margin-top: 30%"> Linear Layer </p>
                 <div class="classifier_input">
                 </div>
                 <div class="classifier_input">
@@ -132,7 +132,7 @@
 
             </div>
             <div class="row" style="justify-content:right;">
-                <div class="column" style = "justify-content:center;">
+                <div class="column" style = "justify-content:center; margin-top: 25%">
                     <p> Classification </p>
                     <div class="classifier_class"> 0
                     </div>

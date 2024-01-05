@@ -6,6 +6,8 @@
         <link rel="stylesheet" href="../static/train_page.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='infobox.css') }}">
         <link rel="stylesheet" href="../static/navbar.css">
+        <link rel="stylesheet" href="../static/options.css">
+        <link rel="stylesheet" href="../static/blocks.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/socket.io/client-dist/socket.io.js"></script>
@@ -14,14 +16,20 @@
     </head>
 <body>
 
-    <div style="display:flex; flex-direction:row; align-items: center;">
+    <div style="display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;">
         <div class="MNIST" id="inputbox" style="border: 2px solid #000000;">
             <h2>MNIST Dataset</h2>
             <!--<img src="../static/include/Images/UML_MNIST.png" alt="Visualization of handwritten digit from the MNIST set. Shown are 5 items per digit." width="200px">-->
         </div>
         <div style="flex-direction: column; width: 60%; justify-content:center">
             <div style="width:90%; margin:auto; margin-bottom:50px" class = "row">
-                <div class = "column" id= "actFunc"> 
+                <div class = "column" id= "actFuncCol"> 
                     <div class="dropdown">
                         <button id="ActivationFuncMenu" class="dropbtn" >
                             <span id="selectedOption">Activation function</span>
@@ -33,7 +41,7 @@
                         </div>
                     </div> 
                 </div>    
-                <div class = "column" > 
+                <div class = "column" id= "LRateCol"> 
                     <div class="dropdown" id = "LRate">
                         <button id="LRate" class="dropbtn" >
                             <span id="LRateOption">Learning Rate</span>
@@ -45,7 +53,7 @@
                           <a href="#" id="act_0001">0.0001</a>
                         </div>
                     </div> 
-                    </div>
+                </div>
                 
                 <div class = "column" id= "BSizeCol"> 
                     <label for="BSizeSlider">Batch Size</label>
@@ -84,8 +92,9 @@
                 </div>
             </div>
         </div>
-        <div class = "staticClassifier" id = "outputbox">
-            <div class="column" style = "justify-content: center">
+        <div class = "staticClassifier" style="width:18%; height: 470px" id = "outputbox">
+            <div class="linear_layer">
+                <p style="margin-top: 30%;margin-bottom: 50%;"> Linear Layer </p>
                 <div class="classifier_input">
                 </div>
                 <div class="classifier_input">
@@ -148,8 +157,9 @@
                 </div>
 
             </div>
-            <div class="row" style="justify-content:right;">
-                <div class="column" style = "justify-content:center;">
+            <div class="row" style="margin-top: -8%;justify-content:right;">
+                <div class="column" style = "justify-content:center; margin-top: 25%">
+                    <p> Classification </p>
                     <div class="classifier_class"> 0
                     </div>
                     <div class="classifier_class"> 1
@@ -172,12 +182,12 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
     </div>
-    <div class = "row">
-    </div>
-    <div class = "row" style = "display:flex; flex-direction:row; margin-top: 50px">
+
+    <div class = "row" style = "display:flex; flex-direction:row; margin-top: 0px">
         <div class="row" style="width: 50%;">
             <div class = "trainingrectangle" >
                 <div  class = "column" style="width:20%;">

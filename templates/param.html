@@ -7,7 +7,7 @@
     <title>Second Page</title>
     <!-- Add any additional CSS or styling here -->
     
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='options.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='infobox.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
 
@@ -23,10 +23,12 @@
     text-align: center;">
     Choose your parameters
     <div class="row">
-        <div class = "column" id= "actFunc"> 
+        <div class = "column" id= "actFuncCol"> 
             <div class="dropdown">
-                <button id="ActivationFuncMenu" class="dropbtn" >
-                    <span id="act_Label">Activation function</span>
+                <button id="actFunc" class="dropbtn" >
+                    <div id="actFuncBox" width="100%" height="100%">
+                        <span id="act_Label">Activation function</span>
+                    </div>
                 </button>
                 <div class="dropdown-content">
                 <a href="#" class="act_Option" id="act_reluOption">Rectified Linear Activation (ReLU)</a>
@@ -35,10 +37,12 @@
                 </div>
             </div> 
         </div>    
-        <div class = "column" id= "LRate"> 
+        <div class = "column" id= "LRateCol"> 
             <div class="dropdown">
                 <button id="LRate" class="dropbtn" >
-                    <span id="LRate_Label">Learning Rate</span>
+                    <div id="LRateBox" width="100%" height="100%">
+                        <span id="LRate_Label">Learning Rate</span>
+                    </div>
                 </button>
                 <div class="dropdown-content">
                 <a href="#" class="LRate_Option" id="LRate_1">0.1</a>
@@ -65,7 +69,7 @@
             </div>
         </div>
         </div>
-        <div class = "row" style="display:flex;justify-content:center; margin-right: 7%;">
+        <div class = "row" style="display:flex;justify-content:center; margin-top: 5%; margin-right: 7%;">
             <div class = "infobox" id = "infobox">
                 <img class = "info-icon" src="../static/include/Images/info.png" alt="Information Box" width="50px">
                 <p id="infotext" class = "infotext"></p>

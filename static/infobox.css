@@ -32,7 +32,7 @@
   margin-top: 5px;
   align-self:flex-start;
   float:left;
-  z-index: -20;
+  z-index: 20;
 }
 
 .infotext {
