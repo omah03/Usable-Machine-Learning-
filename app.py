@@ -13,7 +13,7 @@ from ml_utils.trainingViz import training
 
 from ml_utils.test_classify import classify_canvas_image
 
-from static.infotexts import infotexts
+from static.infobox.infotexts import infotexts
 
 #FOR USER STUDY ONLY
 import time

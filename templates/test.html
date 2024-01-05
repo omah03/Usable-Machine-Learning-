@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../static/style.css">
-        <link rel="stylesheet" href="{{ url_for('static', filename='blocks.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='blocks/blocks.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='navbar/navbar.css') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/socket.io/client-dist/socket.io.js"></script>
@@ -239,8 +239,8 @@
 
 
     <!-- only need this once -->
-    <script src="{{ url_for('static', filename='blocks.js') }}"></script>
-    <script src="{{ url_for('static', filename='navbar.js') }}"></script>
+    <script src="{{ url_for('static', filename='blocks/blocks.js') }}"></script>
+    <script src="{{ url_for('static', filename='navbar/navbar.js') }}"></script>
     <script src="{{ url_for('static', filename='test_script.js') }}"></script>
 
     
