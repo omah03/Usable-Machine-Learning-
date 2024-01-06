@@ -121,8 +121,8 @@ header h1 {
 
 .cnn-container {
     display: flex;
-    flex-wrap: colunn;
-    align-items: center;
+        flex-wrap: colunn;
+        align-items: center;
     justify-content: center;
     height: 100vh;
 
@@ -155,13 +155,14 @@ header h1 {
     height: auto;
 }
 
+
+/* Responsive design adjustments */
 @media (max-width: 768px) {
-    .container {
-      padding: 1rem; 
+    .visualizer-container {
+        flex-direction: column;
     }
-  
-    header h1 {
-      font-size: 2rem; 
+    .mnist-image, .feature-map {
+        width: 100%; /* Full width on smaller screens */
+        margin: 10px 0; /* Adjust margin for vertical layout */
     }
-  }
-  
+}
