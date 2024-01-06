@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Useable Machine Learning</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='intro_ml.css') }}">
 </head>
 <body>
@@ -36,11 +37,17 @@
                     </p>
                 </div>
                 <div class="cnn-gif">
-                    <img src="{{ url_for('static', filename='mnist_viz.gif') }}" alt="CNN Process Visualization">
+                    <img src="{{ url_for('static', filename='convolution_animation.gif.gif') }}" alt="CNN Process Visualization">
                 </div>
             </div>
         </section>
-    
+        <section id="convolution-visualizer">
+            <div class="container">
+                <h2>Convolution Visualization</h2>
+                <p>
+                    This section demonstrates how a convolutional kernel processes an image from the MNIST dataset. Click 'Visualize' to see the convolution in action.
+                </p>
+                
     </main>
     <footer>
         <div class="container">

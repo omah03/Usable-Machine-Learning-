@@ -1,3 +1,4 @@
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -20,8 +21,7 @@ sample_image = sample_image.unsqueeze(0)  # Add batch dimension
 # Extract the first kernel from the first convolutional layer
 first_kernel = cnn.convolutional_layers[0].weight.data[0]
 
-
-def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=8, stride=2, padding=2):
+def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride=1, padding=1):
     # Apply padding to the image
     padded_image = F.pad(image, (padding, padding, padding, padding), mode='constant', value=0)
     padded_image = padded_image.squeeze().numpy()
@@ -31,8 +31,8 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=8, stride
 
     # Calculate the size of the feature map
     height, width = padded_image.shape
-    feature_map_height = (height - kernel_size) // stride + 1
-    feature_map_width = (width - kernel_size) // stride + 1
+    feature_map_height = (height - kernel_size + 2 * padding) // stride + 1
+    feature_map_width = (width - kernel_size + 2 * padding) // stride + 1
     feature_map = np.zeros((feature_map_height, feature_map_width))
 
     # Function to update the frames
@@ -51,7 +51,7 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=8, stride
         axes[1].set_title("Ausschnitt")
 
         # Show the resulting feature map (condensed to actual size)
-        result = (window * kernel.numpy().squeeze()).sum()
+        result = (window * kernel.numpy()).sum()
         fm_i, fm_j = i // stride, j // stride
         feature_map[fm_i, fm_j] = result
         axes[2].imshow(feature_map, cmap='gray')
@@ -66,10 +66,11 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=8, stride
             frames.append((i, j))
 
     # Create animation
-    ani = FuncAnimation(fig, lambda x: update(*x), frames=frames, interval=200, repeat=False)
+    ani = FuncAnimation(fig, lambda x: update(*x), frames=frames, interval=50, repeat=False)
+    ani.save('convolution_animation.gif', writer='pillow')
 
-    plt.show()  # Display the animation
+    plt.show(block=True)  # Display the animation
     plt.pause(10)
     plt.close()
 
-
+visualize_adjustable_kernel_convolution(sample_image, first_kernel, kernel_size=8, stride=1, padding=0)
