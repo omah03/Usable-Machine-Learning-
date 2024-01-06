@@ -1,6 +1,6 @@
 import pickle
 import torch
-from ml_utils.data import get_dataset
+from data import get_dataset
 import matplotlib.pyplot as plt
 import numpy as np
 import base64
@@ -10,7 +10,9 @@ import torchvision
 from torchvision import transforms
 
 
-model_file = 'MNIST_classifier_model.pkl'
+#model_file = 'MNIST_classifier_model.pkl'
+model_file = 'Untrained_modelbuilder_model.pkl'
+
 
 
 def is_base64(input_string): 
@@ -39,10 +41,10 @@ def loadmodel(saved_model):
 def classify_canvas_image(image,modelFile):
     if isinstance(image, str):
         print("removing prefix")
-        image_b64 = image.split(",")[1]# Entferne das Präfix, um nur die eigentliche Base64-Daten zu behalten
+        image = image.split(",")[1]# Entferne das Präfix, um nur die eigentliche Base64-Daten zu behalten
         print("prefix removed")
         print("new image: ", image_b64)
-    if is_base64(image_b64):
+    if is_base64(image):
         
 
         # Base64 in Bytes konvertieren und dann in ein Bild umwandeln
@@ -145,7 +147,7 @@ image, label = test[0]
 print("test Image = ", image)
 print("test image shape = ", image.shape)
 print("type of test image", type(image))
-#classify_canvas_image(image,model_file)
+classify_canvas_image(image,model_file)
 
 
 """ 

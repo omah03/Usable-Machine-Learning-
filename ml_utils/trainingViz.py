@@ -170,15 +170,15 @@ def main(seed):
         momentum=0.5
     )
     print("training finished")
-
+    """
     # save the classification model as a pickle file
 
-    model_pkl_file = "MNIST_modelbuilder_model.pkl"  
+    model_pkl_file = "Untrained_modelbuilder_model.pkl"  
 
     with open(model_pkl_file, 'wb') as file:  
         pickle.dump(model, file) 
     print(f"model saved to {file}")    
-
+    """
 
 if __name__ == "__main__":
     main(seed=0)
