@@ -481,6 +481,8 @@ function stopDrawing() {
     ctx.closePath();
 }
 
+
+
 canvas.addEventListener('mousedown', startDrawing);
 canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mouseup', stopDrawing);
@@ -523,6 +525,13 @@ function sendToModel(canvasData) {
 
 */
 
+
+
+//const softmaxValues = [0.1, 0.5, 0.8, 0.3, 0.6, 0.9, 0.2, 0.4, 0.7, 0.55]; // Beispielwerte
+
+
+
+
 function printPrediction(predicted_digit){
     var predictionText = document.getElementById('predictionText');
     var text = 'Die Vorhersage des Models: ' + predicted_digit;
@@ -541,12 +550,30 @@ function sendAndReceiveClassification(canvasData){
     });
 }
 
+// Funktion, um Farbwerte entsprechend der Intensität zu generieren
+function mapIntensityToColor(intensity) {
+    const colorIntensity = Math.floor(245 * intensity); // Skalierung auf den Wertebereich von 0 bis 255
+    const Intensity = colorIntensity + 10;
+    console.log('mapIntensity ausgeführt');
+
+    return `rgb(0, ${Intensity}, 0)`;
+}
 
 
-function classificationResult(predicted_digit){
-    const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
-    const resultClass = classes[predicted_digit];
-    resultClass.style.backgroundColor = 'red';
+function classificationResult(softmaxValues){
+    //const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
+    //const resultClass = classes[predicted_digit];
+    //resultClass.style.backgroundColor = 'red';
+    const classifierClasses = document.querySelectorAll('.classifier_class');
+
+    classifierClasses.forEach((element, index) => {
+        const intensity = softmaxValues[index];
+        console.log(`Intensität für Klasse ${index}:`, intensity); // Überprüfen der Intensität für jede Klasse
+        const color = mapIntensityToColor(intensity);
+        console.log(`Farbe für Klasse ${index}:`, color); // Überprüfen der generierten Farbe
+        element.style.backgroundColor = color;
+    });
+    console.log('classificationResult ausgeführt');
 }
 
 async function classifyImage(){
@@ -556,10 +583,11 @@ async function classifyImage(){
     const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
     classes.forEach(container => {container.style.backgroundColor = 'transparent';});
     try {
-        const classification = await sendAndReceiveClassification(canvasData);
-        console.log('Die Klassifizierung ergibt:', classification);
+        const resultArray = await sendAndReceiveClassification(canvasData);
+        console.log('Die Klassifizierung ergibt:', resultArray);
         //printPrediction(classification); not needed anymore as containers are colored
-        classificationResult(classification);
+        classificationResult(resultArray);
+        
     } catch(error) {
         console.error('Fehler bei der Klassifizierung:', error);
     }
