@@ -45,8 +45,9 @@ class LinearBlock(nn.Module):
         return x
 
 class ModelBuilder(nn.Module):
-    def __init__(self,num_blocks, linear_params, activation_fn_choice , input_size=(28,28)):
+    def __init__(self,num_blocks, activation_fn_choice , input_size=(28,28)):
         super(ModelBuilder, self).__init__()
+        linear_params= config.linear_params
         self.input_size = input_size
         self._validate_parameters(num_blocks, linear_params)
         if activation_fn_choice not in config.activation_function:
