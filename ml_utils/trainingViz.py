@@ -26,6 +26,11 @@ def train_step(model: Module, optimizer: Optimizer, data: Tensor,
     model.train()
     if cuda:
         data, target = data.cuda(), target.cuda()
+    print("data.shape = ", data.shape)
+    #data = data.view((-1,28,28,1)) #doesnt work for CNN if this line is used
+    
+    #currently, the implementation doesn't work with the modelbuilder model -> cannot be trained
+    print("data.shape = ", data.shape)
     prediction = model(data)
     print("prediction", prediction)
     loss = F.cross_entropy(prediction, target)
@@ -108,13 +113,13 @@ def main(seed):
     print("init...")
     manual_seed(seed)
     np.random.seed(seed)
-    model = ConvolutionalNeuralNetwork()
+    #model = ConvolutionalNeuralNetwork()
     
-    #model = ModelBuilder(3, config.linear_params, "relu")
+    model = ModelBuilder(1, config.linear_params, "relu")
 
 
 
-
+    """
 
     opt = SGD(model.parameters(), lr=0.3, momentum=0.5)
     print("train...")
@@ -128,10 +133,10 @@ def main(seed):
         momentum=0.5
     )
     print("training finished")
-
+    """
     # save the classification model as a pickle file
 
-    model_pkl_file = "MNIST_modelbuilder_model.pkl"  
+    model_pkl_file = "Untrained_modelbuilder_model.pkl"  
 
     with open(model_pkl_file, 'wb') as file:  
     	pickle.dump(model, file) 

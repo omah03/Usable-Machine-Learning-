@@ -6,9 +6,18 @@ import torch
 from modelbuilder import ModelBuilder
 import config
 
+from model import ConvolutionalNeuralNetwork
+
+from torchinfo import summary
+
+
 def test_model_initialization(num_blocks):
     model = ModelBuilder(num_blocks, config.linear_params, "relu")
+    #model.eval()
     assert len(model.conv_layers) == num_blocks, "Incorrect number of convolutional blocks in the model"
+    #summary(ConvolutionalNeuralNetwork(),(256,1,28,28)) #this works. 
+    #summary(model, (256,1,28,28)) # this doesnt', howerver
+
 
 def test_add_conv_block():
     model = ModelBuilder(3, config.linear_params, "relu")
@@ -54,3 +63,6 @@ test_add_conv_block()
 test_remove_conv_block()
 test_recalculation_of_linear_layers()
 test_forward_pass_incorrect_input()
+
+print("test successful")
+
