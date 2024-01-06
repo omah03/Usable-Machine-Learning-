@@ -11,9 +11,12 @@ from torchvision import transforms
 
 
 #model_file = 'MNIST_classifier_model.pkl'
+<<<<<<< HEAD
 model_file = 'Untrained_modelbuilder_model.pkl'
 
 
+=======
+>>>>>>> 3ea2b6a (colro coding is done)
 
 def is_base64(input_string): 
     #checks if (canvas) image is of type base64
@@ -133,21 +136,26 @@ def classify_canvas_image(image,modelFile):
 
     # Annahme: Das Modell gibt eine Vorhersage für das Bild zurück
     with torch.no_grad():
-        output = model(image)
+        output_tensor = model(image)
+    print("shape",output_tensor.shape)
+    output_array = output_tensor.flatten().numpy()
+    print("size", output_array.size)
+    output = output_array.tolist()
     print("Model prediction:", int(np.argmax(output)))
     
     
     
     print("output = , ", output)
-    return int(np.argmax(output))
-
+    #return int(np.argmax(output))
+    
+    return output
 test = get_dataset(test =True)
 image, label = test[0]
 
 print("test Image = ", image)
 print("test image shape = ", image.shape)
 print("type of test image", type(image))
-classify_canvas_image(image,model_file)
+#classify_canvas_image(image,model_file)
 
 
 """ 
