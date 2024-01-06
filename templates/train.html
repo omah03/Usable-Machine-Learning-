@@ -28,46 +28,50 @@
         </div>
         <div style="flex-direction: column; width: 60%; justify-content:center">
             <div style="width:90%; margin:auto; margin-bottom:50px" class = "row">
-                <div class = "column" id= "actFuncCol"> 
-                    <div class="dropdown">
-                        <button id="ActivationFuncMenu" class="dropbtn" >
-                            <span id="selectedOption">Activation function</span>
-                        </button>
-                        <div class="dropdown-content">
-                          <a href="#" id="act_reluOption">Rectified Linear Activation (ReLU)</a>
-                          <a href="#" id="act_sigmoidOption">Logistics (Sigmoid)</a>
-                          <a href="#" id="act_tanhOption">Hyperbolic Tangent (tanh)</a>
+                    <div class = "column" id= "actFuncCol"> 
+                        <div class="dropdown">
+                            <button id="actFunc" class="dropbtn" >
+                                <div id="actFuncBox" width="100%" height="100%">
+                                    <span id="act_Label">Activation function</span>
+                                </div>
+                            </button>
+                            <div class="dropdown-content">
+                            <a href="#" class="act_Option" id="act_reluOption">Rectified Linear Activation (ReLU)</a>
+                            <a href="#" class="act_Option" id="act_sigmoidOption">Logistics (Sigmoid)</a>
+                            <a href="#" class="act_Option" id="act_tanhOption">Hyperbolic Tangent (tanh)</a>
+                            </div>
+                        </div> 
+                    </div>    
+                    <div class = "column" id= "LRateCol"> 
+                        <div class="dropdown">
+                            <button id="LRate" class="dropbtn" >
+                                <div id="LRateBox" width="100%" height="100%">
+                                    <span id="LRate_Label">Learning Rate</span>
+                                </div>
+                            </button>
+                            <div class="dropdown-content">
+                            <a href="#" class="LRate_Option" id="LRate_1">0.1</a>
+                            <a href="#" class="LRate_Option" id="LRate01">0.01</a>
+                            <a href="#" class="LRate_Option" id="LRate001">0.001</a>
+                            <a href="#" class="LRate_Option" id="LRate0001">0.0001</a>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class = "column" id= "BSizeCol"> 
+                        <label for="BSizeSlider">Batch Size</label>
+                        <div class= "sliderDisplay">
+                            <input type="range" id="BSizeSlider" min="1" max="256" value="{{ 32 }}">
+                            <span id="BSizeDisplay"></span>
                         </div>
-                    </div> 
-                </div>    
-                <div class = "column" id= "LRateCol"> 
-                    <div class="dropdown" id = "LRate">
-                        <button id="LRate" class="dropbtn" >
-                            <span id="LRateOption">Learning Rate</span>
-                        </button>
-                        <div class="dropdown-content">
-                          <a href="#" id="act_1">0.1</a>
-                          <a href="#" id="act_01">0.01</a>
-                          <a href="#" id="act_001">0.001</a>
-                          <a href="#" id="act_0001">0.0001</a>
+                    </div>
+                    <div class = "column" id= "EpochsCol"> 
+                        <label for="NEpochsSlider">Epochs</label>
+                        <div class= "sliderDisplay">
+                            <input type="range" id="NEpochsSlider" min="1" max="10" value="{{ 1 }}">
+                            <span id="NEpochsDisplay"></span>
                         </div>
-                    </div> 
-                </div>
-                <div class = "column" id= "BSizeCol"> 
-                    <label for="BSizeSlider">Batch Size</label>
-                    <div class= "sliderDisplay">
-                        <input type="range" id="BSizeSlider" min="1" max="256" value="{{ 32 }}">
-                        <span id="BSizeDisplay"></span>
-                    </div>   
-                </div>
-                <div class = "column" id= "EpochsCol"> 
-                    <label for="NEpochsSlider">Epochs</label>
-                    <div class= "sliderDisplay">
-                        <input type="range" id="NEpochsSlider" min="1" max="10" value="{{ 1 }}">
-                        <span id="NEpochsDisplay"></span>
                     </div>
                 </div>
-            </div>
             <div id = "rectanglelayer" class = "rectanglelayerViz">
                 <div style="width:100%">
                     <p style="margin-bottom:-5px; margin-top: 0px"> Convolutional Blocks</p>
@@ -224,6 +228,6 @@
     <script src="{{ url_for('static', filename='blocks/blocks.js') }}"></script>
     <script src="{{ url_for('static', filename='navbar/navbar.js') }}"></script>
     <script src="{{ url_for('static', filename='training/training.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='options/options.js') }}"></script>
 </body>
 </html>
