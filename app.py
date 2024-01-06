@@ -2,6 +2,8 @@ import threading
 import queue
 import webbrowser
 
+from data import MNIST
+import torch
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO, emit
 import numpy as np
@@ -10,8 +12,10 @@ from torch.optim import Optimizer, SGD
 from flask import Response,stream_with_context
 from ml_utils.model import ConvolutionalNeuralNetwork
 from ml_utils.trainingViz import training
-
+from PIL import Image
+import torchvision.transforms as transforms
 from ml_utils.test_classify import classify_canvas_image
+from ml_utils.convolution_visualizer import visualize_adjustable_kernel_convolution
 
 #FOR USER STUDY ONLY
 import time
@@ -21,7 +25,7 @@ socketio = SocketIO(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("model.html")
+    return render_template("intro_ml.html")
     
 @app.route('/model')
 def model_page():
@@ -52,8 +56,6 @@ config = {  "ActivationFunc": "",
 seed = 42
 acc = -1
 q = queue.Queue()
-
-
 
 def listener():
     global q, acc

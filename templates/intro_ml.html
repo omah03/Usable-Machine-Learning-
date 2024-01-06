@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Useable Machine Learning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='intro_ml.css') }}">
+</head>
+<body>
+    <header class="header-background">
+        <div class="container header-content">
+            <h1>USEABLE MACHINE LEARNING</h1>
+        </div>
+    </header>
+    <section class="ml-fullscreen">
+        <div class="container">
+            <div class="ml-text">
+                <h2>What is Machine Learning?</h2>
+                <p>
+                    Machine Learning, is a field of artificial intelligence that enables software applications to become more accurate at predicting outcomes without being explicitly programmed to do so. It involves algorithms and statistical models that systems use to perform tasks by relying on patterns.
+                </p>
+            </div>
+        </div>
+    </section>
+    <main>
+        <section class="cnn-explanation">
+            <div class="container cnn-container">
+                <div class="cnn-text">
+                    <h2>Understanding CNNs</h2>
+                    <p>
+                        Convolutional Neural Networks (CNNs) are at the heart of modern AI, powering advancements in computer vision. From facial recognition to medical image analysis, CNNs help machines see and understand our world.
+                    </p>
+                    <p>
+                        The animation shows how models are able to recognize hand written digits from MNIST - a database containing 60000 handwritten images.
+                    </p>
+                </div>
+                <div class="cnn-gif">
+                    <img src="{{ url_for('static', filename='convolution_animation.gif.gif') }}" alt="CNN Process Visualization">
+                </div>
+            </div>
+        </section>
+        <section id="convolution-visualizer">
+            <div class="container">
+                <h2>Convolution Visualization</h2>
+                <p>
+                    This section demonstrates how a convolutional kernel processes an image from the MNIST dataset. Click 'Visualize' to see the convolution in action.
+                </p>
+                
+    </main>
+    <footer>
+        <div class="container">
+            <!-- Footer content -->
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -3,9 +3,9 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #333; /* Set the background color to your desired color */
-    color: #fff; /* Set the text color to your desired color */
-    z-index: 1000; /* Set a high z-index to ensure it's always on top */
+    background-color: #243958;
+    color: #fff; 
+    z-index: 1000; 
 
     display: flex;
     justify-content: center;
@@ -17,7 +17,7 @@
     height: 50px;
     width: 200px;
 
-    margin-bottom: 10px; /* Add margin-top to the content to prevent it from being obscured by the fixed navbar */
+    margin-bottom: 10px; 
     margin-top:10px;
 
     margin-right: 5%;
