@@ -11,7 +11,7 @@ from torchvision import transforms
 
 
 #model_file = 'MNIST_classifier_model.pkl'
-model_file = 'Trained_modelbuilder_model.pkl'
+#model_file = 'Trained_modelbuilder_model.pkl'
 
 def is_base64(input_string): 
     #checks if (canvas) image is of type base64
@@ -41,12 +41,12 @@ def classify_canvas_image(image,modelFile):
         print("removing prefix")
         image = image.split(",")[1]# Entferne das Präfix, um nur die eigentliche Base64-Daten zu behalten
         print("prefix removed")
-        print("new image: ", image_b64)
+        print("new image: ", image)
     if is_base64(image):
         
 
         # Base64 in Bytes konvertieren und dann in ein Bild umwandeln
-        image_bytes = base64.b64decode(image_b64)
+        image_bytes = base64.b64decode(image)
         image = Image.open(io.BytesIO(image_bytes))
 
         # Bild in eine Tensorform umwandeln
@@ -145,7 +145,7 @@ image, label = test[0]
 print("test Image = ", image)
 print("test image shape = ", image.shape)
 print("type of test image", type(image))
-classify_canvas_image(image,model_file)
+#classify_canvas_image(image,model_file)
 
 
 """ 
