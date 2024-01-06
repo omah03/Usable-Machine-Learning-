@@ -37,9 +37,13 @@
                     </p>
                 </div>
                 <div class="cnn-gif">
-                    <img src="{{ url_for('static', filename='convolution_animation.gif.gif') }}" alt="CNN Process Visualization">
+                    <img src="{{ url_for('static', filename='convolution_animation.gif') }}" alt="CNN Process Visualization">
                 </div>
             </div>
+            <div class="explanation-container">
+                <p>The moving red box in the animation is called a <strong>kernel</strong> or <strong>filter</strong>, and it slides over the image to detect features like edges and patterns. The result of this process is what we call a <strong>feature map</strong>, shown on the right, which highlights important details the network will use to make decisions.</p>
+            </div>
+        </div>
         </section>
         <section id="convolution-visualizer">
             <div class="container">

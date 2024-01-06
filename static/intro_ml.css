@@ -121,11 +121,9 @@ header h1 {
 
 .cnn-container {
     display: flex;
-        flex-wrap: colunn;
-        align-items: center;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    height: 100vh;
-
 }
 .cnn-text, .cnn-gif {
     margin: 0;
@@ -149,12 +147,34 @@ header h1 {
 .cnn-gif {
     text-align: center; 
 }
-
 .cnn-gif img {
-    max-width: 100%;
+    width: 80%; /* Adjust the size as needed */
     height: auto;
+    margin-top: 20px; /* Adds space between the text and the gif */
 }
 
+.content-container {
+    text-align: center; /* Centers the content */
+    font-family: Arial, sans-serif; /* Makes text readable */
+}
+
+
+.explanation-container {
+    margin-top: 20px; /* Adds some space between the GIF and the text */
+    padding: 0 15px; /* Adds padding on the sides */
+    background-color: #f8f8f8; /* Light background for the text area */
+    border-radius: 8px; /* Optional: rounds the corners of the text background */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow to the text container */
+    display: inline-block; /* Helps contain the width of the text box */
+    max-width: 600px; /* Max width for the explanation box */
+    text-align: left; /* Aligns text to the left */
+}
+
+.explanation-container p {
+    color: #333; 
+    line-height: 1.6; 
+    font-size: 16px; 
+}
 
 /* Responsive design adjustments */
 @media (max-width: 768px) {
@@ -162,7 +182,7 @@ header h1 {
         flex-direction: column;
     }
     .mnist-image, .feature-map {
-        width: 100%; /* Full width on smaller screens */
-        margin: 10px 0; /* Adjust margin for vertical layout */
+        width: 100%; 
+        margin: 10px 0; 
     }
 }
