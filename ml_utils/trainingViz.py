@@ -18,6 +18,7 @@ import config
 from model import ConvolutionalNeuralNetwork
 
 import pickle #for saving the model
+from torchinfo import summary
 
 
 
@@ -31,8 +32,10 @@ def train_step(model: Module, optimizer: Optimizer, data: Tensor,
     
     #currently, the implementation doesn't work with the modelbuilder model -> cannot be trained
     print("data.shape = ", data.shape)
+
     prediction = model(data)
-    print("prediction", prediction)
+    print("prediction", prediction) #prediction.shape = 256,10
+    
     loss = F.cross_entropy(prediction, target)
     loss.backward()
     
@@ -114,13 +117,12 @@ def main(seed):
     manual_seed(seed)
     np.random.seed(seed)
     #model = ConvolutionalNeuralNetwork()
-    
+    #summary(model, (256,1,28,28))
     model = ModelBuilder(1, config.linear_params, "relu")
+    summary(model)
 
 
-
-    """
-
+    
     opt = SGD(model.parameters(), lr=0.3, momentum=0.5)
     print("train...")
     training(
@@ -133,12 +135,12 @@ def main(seed):
         momentum=0.5
     )
     print("training finished")
-    """
+    
     # save the classification model as a pickle file
 
-    model_pkl_file = "Untrained_modelbuilder_model.pkl"  
-
-    with open(model_pkl_file, 'wb') as file:  
+    model_pkl_file = "Trained_modelbuilder_model.pkl"  
+    #model_pkl_file = 'test_model.pkl'
+    with open(model_pkl_file, 'wb') as file:   #better use torch.save and torch.load
     	pickle.dump(model, file) 
     print(f"model saved to {file}")    
 

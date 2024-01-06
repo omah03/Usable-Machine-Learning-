@@ -11,9 +11,7 @@ from torchvision import transforms
 
 
 #model_file = 'MNIST_classifier_model.pkl'
-model_file = 'Untrained_modelbuilder_model.pkl'
-
-
+model_file = 'Trained_modelbuilder_model.pkl'
 
 def is_base64(input_string): 
     #checks if (canvas) image is of type base64

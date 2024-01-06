@@ -27,21 +27,39 @@ class ConvBlock(nn.Module):
         self.maxpool = nn.MaxPool2d(kernel_size_max_pool,stride_max_pool)
 
     def forward(self, x):
+        #print("conv forward...")
+        #print(f"{x.shape} conv forward...")
         x = self.conv(x)
+        #print(f"{x.shape} conv forward...")
+
+        #print("conv TYPE", type(x), type(self.activation))
         x = self.activation(x)
+        #print(f"{x.shape} conv forward...")
+
         x = self.maxpool(x)
+        #print(f"{x.shape} result of conv forward.")
+
         return x 
 
 class LinearBlock(nn.Module):
     def __init__(self, in_features, out_features, activation_function):
         super(LinearBlock, self).__init__()
+        #print(f"LINEAR IN = {in_features} OUT = {out_features}")
         self.linear = nn.Linear(in_features, out_features)
         self.activation = activation_function
 
     def forward(self, x):
+        #print('linear forward...')
+        #print(x.shape)
         x = self.linear(x)
+        #print(f"{x.shape} linear forward")
         if self.activation:
+         #   print("if")
+          #  print("TYPE",type(x),type(self.activation))
             x = self.activation(x)
+            #print("activation done")
+         #   print(f"{x.shape} result of linear forward.")
+
         return x
 
 class ModelBuilder(nn.Module):
@@ -73,18 +91,29 @@ class ModelBuilder(nn.Module):
                 raise ValueError(f"Configuration for block {i} not found in config.py")
             conv_block = ConvBlock(**conv_params, **max_pool_params, activation_function = activation_function)
             layers.add_module(f"conv_block_{i}", conv_block)
+        print("TEST", layers[-1].conv.out_channels)
         return layers
     
     #Function to create linear layer
     def _create_linear_layers(self, linear_params):
+        """updated_linear_params = []
+        for params in linear_params:
+            in_features = 
+            params = params.copy()
+            params['in_features'] = self."""
+        
+        
         flattened_size = self._calculate_flattened_size()
         updated_linear_params = []
         in_features = flattened_size
+        activation_fn = self.global_activation_fn
+        #in_features = 3136
+        #print(f'IN_FEATURES = {in_features}')
         for params in linear_params:
             params = params.copy()
             params['in_features'] = in_features
             in_features = params['out_features']
-            params['activation_function'] = config.activation_function
+            params['activation_function'] = activation_fn
             updated_linear_params.append(params)
         return nn.Sequential(*[LinearBlock(**params) for params in updated_linear_params])
     
@@ -124,12 +153,16 @@ class ModelBuilder(nn.Module):
         with torch.no_grad():
             dummy_input = torch.zeros(1, *self.input_size)
             output = self.conv_layers(dummy_input)
-            flattened_size = output.numel() // output.size(0)
+            #print("OUTPUT = ", output.numel(), output.size())
+            flattened_size = output.numel() #// output.size(0) modified by sebastian
         return flattened_size
             
     # Forward function
     def forward(self, x):
-        if x.ndim != 4 or x.shape[1:3] != self.input_size:
+        #print("forwarding")
+        #print(x.ndim, x.shape, self.input_size)
+        #print(x.shape[2:4]) #i changed 1:3 to 2:4!
+        if x.ndim != 4 or x.shape[2:4] != self.input_size:
             raise ValueError(f"Input must be a 4D Tensor with shape (N, {self.input_size[0]}, {self.input_size[1]}, C)")
         x = self.conv_layers(x)
         x = x.view(x.size(0), -1)
