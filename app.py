@@ -15,8 +15,6 @@ from ml_utils.trainingViz import training
 from PIL import Image
 import torchvision.transforms as transforms
 from ml_utils.test_classify import classify_canvas_image
-from ml_utils.convolution_visualizer import visualize_adjustable_kernel_convolution
-
 #FOR USER STUDY ONLY
 import time
 
