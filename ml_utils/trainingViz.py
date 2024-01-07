@@ -118,9 +118,12 @@ def main(seed):
     np.random.seed(seed)
     #model = ConvolutionalNeuralNetwork()
     #summary(model, (256,1,28,28))
-    model = ModelBuilder(1, config.linear_params, "relu")
-    summary(model)
+    for i in range(1,6):
+      model = ModelBuilder(i,config.linear_params, "relu")
+ 
+      summary(model,(256,1,28,28))
 
+    model = ModelBuilder(5, config.linear_params, "tanh")
 
     
     opt = SGD(model.parameters(), lr=0.3, momentum=0.5)
@@ -138,7 +141,7 @@ def main(seed):
     
     # save the classification model as a pickle file
 
-    model_pkl_file = "Trained_modelbuilder_model.pkl"  
+    model_pkl_file = "Trained_modelbuilder_model_5_tanh.pkl"  
     #model_pkl_file = 'test_model.pkl'
     with open(model_pkl_file, 'wb') as file:   #better use torch.save and torch.load
     	pickle.dump(model, file) 
