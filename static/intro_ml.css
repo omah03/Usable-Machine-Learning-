@@ -171,7 +171,7 @@ header h1 {
 .explanation-container p {
     color: #333; 
     line-height: 1.6; 
-    font-size: 16px; 
+    font-size: 1vw; 
 }
 
 @media (max-width: 768px) {
