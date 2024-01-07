@@ -157,17 +157,15 @@ header h1 {
     text-align: center; /* Centers the content */
     font-family: Arial, sans-serif; /* Makes text readable */
 }
-
-
 .explanation-container {
-    margin-top: 20px; /* Adds some space between the GIF and the text */
-    padding: 0 15px; /* Adds padding on the sides */
+    margin-top: 20px; /* Space between GIF and the text */
+    padding: 1rem;
     background-color: #f8f8f8; /* Light background for the text area */
-    border-radius: 8px; /* Optional: rounds the corners of the text background */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow to the text container */
-    display: inline-block; /* Helps contain the width of the text box */
-    max-width: 600px; /* Max width for the explanation box */
-    text-align: left; /* Aligns text to the left */
+    max-width: 60%; /* Adjust as needed */
+    text-align: left;
+    margin-left: auto; /* Auto margins for horizontal centering */
+    margin-right: auto;
+    /* Remove vertical centering styles */
 }
 
 .explanation-container p {
@@ -176,13 +174,8 @@ header h1 {
     font-size: 16px; 
 }
 
-/* Responsive design adjustments */
 @media (max-width: 768px) {
-    .visualizer-container {
-        flex-direction: column;
-    }
-    .mnist-image, .feature-map {
-        width: 100%; 
-        margin: 10px 0; 
+    .explanation-container {
+        max-width: 90%; /* Adjust width for smaller screens */
     }
 }
