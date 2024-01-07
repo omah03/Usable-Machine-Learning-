@@ -72,7 +72,7 @@ header h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 6rem;
+    font-size: 5vw;
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     margin: 0;
@@ -105,17 +105,17 @@ header h1 {
 }
 
 .ml-fullscreen .container {
-    max-width: 800px; 
+    max-width: 1600px; 
 }
 
 .ml-fullscreen h2 {
-    font-size: 3rem; 
+    font-size: 4vw; 
     color: var(--text-color);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .ml-fullscreen p {
-    font-size: 1.5rem; 
+    font-size: 2.5vw; 
     color: var(--text-color);
 }
 
@@ -135,12 +135,12 @@ header h1 {
 }
 
 .cnn-text h2 {
-    font-size: 2.5rem; 
+    font-size: 3vw; 
     color: #ffffff;
 }
 
 .cnn-text p {
-    font-size: 1.5rem; 
+    font-size: 1.5vw; 
     color: #ffffff;
 }
 
@@ -148,7 +148,7 @@ header h1 {
     text-align: center; 
 }
 .cnn-gif img {
-    width: 80%; /* Adjust the size as needed */
+    width: 100%; /* Adjust the size as needed */
     height: auto;
     margin-top: 20px; /* Adds space between the text and the gif */
 }
@@ -159,9 +159,9 @@ header h1 {
 }
 .explanation-container {
     margin-top: 20px; /* Space between GIF and the text */
-    padding: 1rem;
+    padding: 1.5rem;
     background-color: #f8f8f8; /* Light background for the text area */
-    max-width: 60%; /* Adjust as needed */
+    max-width: 50%; /* Adjust as needed */
     text-align: left;
     margin-left: auto; /* Auto margins for horizontal centering */
     margin-right: auto;
@@ -171,7 +171,7 @@ header h1 {
 .explanation-container p {
     color: #333; 
     line-height: 1.6; 
-    font-size: 1vw; 
+    font-size: 1.5vw; 
 }
 
 @media (max-width: 768px) {
