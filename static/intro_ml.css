@@ -173,7 +173,11 @@ header h1 {
     line-height: 1.6; 
     font-size: 1.5vw; 
 }
+.modelbuilder-text h2{
+    font-size: 3vw; 
+    color: #ffffff;
 
+}
 @media (max-width: 768px) {
     .explanation-container {
         max-width: 90%; /* Adjust width for smaller screens */
