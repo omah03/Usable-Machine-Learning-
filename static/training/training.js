@@ -99,7 +99,16 @@ fetch("/get_config")
     console.error(error);
 });
 
+var blockBatchData = true;
 
+socket.on("batch_data", (data) => handleBatchData(data))
+function handleBatchData(data){
+    if (!blockBatchData)
+    progress.style.display="flex"
+    console.log(data)
+    console.log(data["batch"]/data["N_batch"])*100
+    progress.style.width= "" + (data["batch"]/data["N_batch"]*100)+"%";
+}
 
 socket.on("training_data", (data) => handleTrainingData(data))
 function handleTrainingData(training_config){
@@ -112,16 +121,19 @@ function handleTrainingData(training_config){
         progress.style.width=""+ training_config["EpochProgress"]+"%"
         startbutton.innerHTML="PAUSE"
         trainingdisplay.innerHTML= `Training Epoch ${training_config["Epochs_Trained"]}...`
+        var blockBatchData = false;
         }
-    else if (training_config["Epochs_Trained"]>0){
+    else if (training_config["Epochs_Trained"]>0){          
         progress.style.width="0%"
         startbutton.innerHTML="CONTINUE"
         trainingdisplay.innerHTML= `Trained ${training_config["Epochs_Trained"]} Epochs`
+        var blockBatchData = false;
     }
     else{
         progress.style.width="0%"
         startbutton.innerHTML="START"
         trainingdisplay.innerHTML= ""
+        var blockBatchData = true;
     }
     epochs=[]
     for (i=1; i<= training_config["Epochs_Trained"]; i++){
@@ -139,6 +151,7 @@ resetbutton = document.getElementById("resettraining");
 resetbutton.addEventListener("click", () => {
     handleButton(resetbutton.id);
     progress.style.width="0%";
+    blockBatchData = true;
 })
 
 function handleButton(buttonName) {

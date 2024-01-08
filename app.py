@@ -112,7 +112,9 @@ def handleButton():
     if type=="resettraining":
         print("RESET")
         session["config"].update({"training_active":False, "training_stop_signal":True, "Epochs_Trained":0, "acc":[], "loss":[] })
-        socketio.emit("training_data", session["config"])
+        socketio.emit("training_data", session["config"])       
+        global model
+        model = None
     else:
         print(type)
     return jsonify(True)
@@ -131,11 +133,13 @@ def toggle_training_US():
             if session["config"]["training_stop_signal"]==True:
                 break
             session["config"]["Epochs_Trained"] += 1
+            socketio.emit("training_data",session["config"])
             q.put(training(
                 model=model,
                 optimizer= SGD(model.parameters(), lr=0.3, momentum=0.5), # TODO initiating this here is probably evil and bad
                 cuda=False,     # change to True to run on nvidia gpu
-                config=session["config"]
+                config=session["config"],
+                socketio= socketio,
                 ))
         session["config"]["training_active"]=False
     elif session["config"]["training_active"]==True and session["config"]["training_stop_signal"]==False:

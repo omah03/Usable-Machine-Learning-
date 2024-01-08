@@ -48,7 +48,7 @@ def train_step(model: Module, optimizer: Optimizer, data: Tensor,
 
 
 def send_data_to_frontend(socketio,batch_data):
-    socketio.emit("training_data", batch_data)
+    socketio.emit("batch_data", batch_data)
 
 
     
@@ -73,6 +73,7 @@ def training(model: Module, optimizer: Optimizer, cuda: bool,
     except ValueError:
         print('Accepts only numerical values.')
 
+    batch_n=1
     for batch in train_loader:
         data, target = batch
         train_step(model=model, optimizer=optimizer, cuda=cuda, data=data,
@@ -80,13 +81,15 @@ def training(model: Module, optimizer: Optimizer, cuda: bool,
 
         batch_data = {
             'type': "batch_data",
-            'N_batch': len(train_loader),
+            'batch': batch_n,
+            'N_batch': 60000//settings["BSize"],
         }
         print(batch_data)
         send_data_to_frontend(socketio, batch_data)
 
         if queue is not None:
             queue.put(test_acc)
+        batch_n+=12
     test_loss, test_acc = accuracy(model, test_loader, cuda)
 
     if cuda:

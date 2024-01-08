@@ -78,14 +78,24 @@ class ModelBuilder(nn.Module):
     
     #Function to create linear layer
     def _create_linear_layers(self, linear_params):
+        """updated_linear_params = []
+        for params in linear_params:
+            in_features = 
+            params = params.copy()
+            params['in_features'] = self."""
+        
+        
         flattened_size = self._calculate_flattened_size()
         updated_linear_params = []
         in_features = flattened_size
+        activation_fn = self.global_activation_fn
+        #in_features = 3136
+        #print(f'IN_FEATURES = {in_features}')
         for params in linear_params:
             params = params.copy()
             params['in_features'] = in_features
             in_features = params['out_features']
-            params['activation_function'] = config.activation_function
+            params['activation_function'] = activation_fn
             updated_linear_params.append(params)
         return nn.Sequential(*[LinearBlock(**params) for params in updated_linear_params])
     
@@ -125,12 +135,12 @@ class ModelBuilder(nn.Module):
         with torch.no_grad():
             dummy_input = torch.zeros(1, *self.input_size)
             output = self.conv_layers(dummy_input)
-            flattened_size = output.numel() // output.size(0)
+            flattened_size = output.numel() #// output.size(0)
         return flattened_size
             
     # Forward function
     def forward(self, x):
-        if x.ndim != 4 or x.shape[1:3] != self.input_size:
+        if x.ndim != 4 or x.shape[2:4] != self.input_size:
             raise ValueError(f"Input must be a 4D Tensor with shape (N, {self.input_size[0]}, {self.input_size[1]}, C)")
         x = self.conv_layers(x)
         x = x.view(x.size(0), -1)
