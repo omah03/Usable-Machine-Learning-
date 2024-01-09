@@ -7,10 +7,9 @@ import base64
 from PIL import Image
 import io
 import torchvision
-from torchvision import transforms
+from torchvision import transforms, models
+import torch.nn.functional as F
 
-
-#model_file = 'MNIST_classifier_model.pkl'
 
 def is_base64(input_string): 
     #checks if (canvas) image is of type base64
@@ -25,8 +24,6 @@ def is_base64(input_string):
         return False
 
 
-
-
 def loadmodel(saved_model):
  
  # load model from pickle file
@@ -34,6 +31,13 @@ def loadmodel(saved_model):
      model = pickle.load(file)
  return model
  
+
+def showim(image):
+    # Zeige das Bild mit Matplotlib an
+    plt.imshow(image, cmap='gray')
+    plt.axis('off')
+    plt.show()
+
 
 def classify_canvas_image(image,modelFile):
     if isinstance(image, str):
@@ -70,37 +74,18 @@ def classify_canvas_image(image,modelFile):
         # Funktion für die Normalisierung nach den anderen Transformationen
 
         # Normalisierungswerte für das gewünschte Modell
-        mean = [0.5]  # Mittelwert für jeden Kanal
-        std = [0.5]   # Standardabweichung für jeden Kanal
-
         mean=[0.1307] #same as in data.py
         std=(0.3081)
-
 
         normalize = transforms.Normalize(mean=mean, std=std)
 
         # Führe dann die Normalisierung durch
         image = normalize(image)
-
-
-        print("image type (ready for classification?)", type(image))
-        print("image is now ready for classification! normalized Image = ", image)
-        print("image shape = ", image.shape)
         
-        """
-        image = image.squeeze(0)  # Entferne die Batch-Dimension
-        image = image.squeeze(0)  # Entferne den Kanal, wenn nur ein Kanal vorhanden ist
-        image = image[0]  # Wähle das erste Bild aus der Batch aus
-        image = image.unsqueeze(0)  # Füge die Batch-Dimension wieder hinzu
-        
-        print("image new shape = ", image.shape)
-        """
     else:
         print("is not base64 but", type(image))
 
     model = loadmodel(modelFile)
-    print("Canvas Image = ", image)
-    print("type of image = ", type(image))
     
     #Überprüfung, ob das Bild mehrere Kanäle hat und Auswahl eines Kanals, wenn nötig
     if image.shape[0] > 1:
@@ -109,71 +94,37 @@ def classify_canvas_image(image,modelFile):
     # Hinzufügen einer Batch-Dimension und Ändern der Tensor-Dimensionen entsprechend den Modellanforderungen
     image = image.unsqueeze(0)  # Annahme: [Batch_Size, Channels, Height, Width]
     #
-    print("resized to = ", image.shape)
     model.eval()
-    print("image shape = ", image.shape)
     
     print("Classifying sample image...\n")
     
     
     #Show the image and check if the array representation works
     # Konvertiere den Tensor in ein Numpy-Array
-    image_np = image.squeeze(0).squeeze(0).numpy()
-    print("squeezed image = ", image_np, image_np.shape)
-    """
-    # Zeige das Bild mit Matplotlib an
-    plt.imshow(image_np, cmap='gray')
-    plt.axis('off')
-    plt.show()
-    print("shape after imshow = ", image.shape)
-    """
+    #image_np = image.squeeze(0).squeeze(0).numpy()
+    image_np = image.squeeze(0).squeeze(0).detach().numpy()# diese version für explainable part
 
-    # Annahme: Das Modell gibt eine Vorhersage für das Bild zurück
+    showim(image_np)
+    
+    
     with torch.no_grad():
         output_tensor = model(image)
-    print("shape",output_tensor.shape)
+        output_class = torch.argmax(output_tensor)  # Annahme: Bestimmung der vorhergesagten Klasse
+
     output_array = output_tensor.flatten().numpy()
-    print("size", output_array.size)
     output = output_array.tolist()
-    print("Model prediction:", int(np.argmax(output)))
-    
-    
-    
     print("output = , ", output)
-    #return int(np.argmax(output))
-    
+    print("output_class:", output_class)
+
     return output
-test = get_dataset(test =True)
-image, label = test[0]
-
-print("test Image = ", image)
-print("test image shape = ", image.shape)
-print("type of test image", type(image))
-#model_file = 'Trained_modelbuilder_model.pkl'
-
-#classify_canvas_image(image,model_file)
 
 
-""" 
-    ##################Plotting
-    # Konvertiere den Tensor in ein Numpy-Array
-    image_np = image.squeeze(0).squeeze(0).numpy()
-    
-    # Anzeige des Originalbildes und der Vorhersage
-    plt.figure(figsize=(5, 5))
-    
-    #plt.subplot(1, 2, 1)
-    #plt.title(f"Original Image - Label: {label}")
-    plt.imshow(image_np, cmap='gray')
-    plt.axis('off')
-    
-    plt.subplot(1, 2, 2)
-    plt.title("Model Prediction")
-    plt.bar(range(10), torch.softmax(output, dim=1).squeeze().tolist())
-    plt.xticks(range(10))
-    plt.xlabel("Class")
-    plt.ylabel("Probability")
-    
-    plt.tight_layout()
-    plt.show()
-    """
+if __name__ == "__main__":
+    print("testing....")
+    test = get_dataset(test =True)
+    image, label = test[0]
+
+    image.requires_grad = True  # Setzen von requires_grad auf True (für explainable part)
+
+    model_file = 'Trained_modelbuilder_model.pkl'#'MNIST_new_classifier_model.pkl'#
+    print(classify_canvas_image(image,model_file))
