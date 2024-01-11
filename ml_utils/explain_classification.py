@@ -193,15 +193,16 @@ def classify_canvas_image(image,modelFile):
 if __name__ == "__main__":
     print("testing....")
     test = get_dataset(test =True)
-    image, label = test[0]
+    for i in range(10,20):
+        image, label = test[i]
 
-    saveim(image)
+        saveim(image)
+        
+        image.requires_grad = True  # Setzen von requires_grad auf True (für explainable part)
     
-    image.requires_grad = True  # Setzen von requires_grad auf True (für explainable part)
-
-    model_file = 'Trained_modelbuilder_model.pkl'#'MNIST_new_classifier_model.pkl'#
-    _ , heatmap = classify_canvas_image(image,model_file)
-
-    plt.imshow(heatmap, alpha=0.5, cmap='jet')
-    plt.show()
+        model_file = 'Trained_modelbuilder_model.pkl'#'MNIST_new_classifier_model.pkl'#
+        _ , heatmap = classify_canvas_image(image,model_file)
+    
+        plt.imshow(heatmap, alpha=0.5, cmap='jet')
+        plt.show()
 
