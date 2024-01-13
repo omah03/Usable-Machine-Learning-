@@ -2,7 +2,7 @@ import threading
 import queue
 import webbrowser
 
-from data import MNIST
+from ml_utils.data import MNIST
 import torch
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO, emit
@@ -23,7 +23,6 @@ socketio = SocketIO(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("intro_ml.html")
     return render_template("intro_ml.html")
     
 @app.route('/model')
