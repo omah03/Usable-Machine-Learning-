@@ -1,6 +1,8 @@
 from queue import Queue
-import sys
-sys.path.append("ml_utils")
+
+if __name__=="__main__":
+    import sys
+    sys.path.append("../")
 
 import numpy as np
 from torch.cuda import empty_cache
@@ -10,92 +12,142 @@ from torch.optim import Optimizer, SGD
 
 from ml_utils.data import get_data_loaders
 from ml_utils.evaluate import accuracy
-
+from ml_utils.modelbuilder import ModelBuilder
 
 import pickle #for saving the model
 
 MOMENTUM = 0.5
 
-def convert_config_for_modelbuilder(config:dict):
-    res = {}
-    string =config["LRate"]
-    string = "0."+string[6:]
-    LRate = float(string)
-    res.update({"LRate" : LRate})
-    
-    BSize = int(config["BSize"])
-    res.update({"BSize": BSize})
-    
-    string = config["ActivationFunc"]
-    res.update({"ActFunc": string})
-    
-    print(res)
-    return res
-    
+class Trainer():
+    def __init__(self, socketio) -> None:
+        self.sio= socketio
+        self.model=None
+        self.optimizer=None
+        self.train_loader=None
+        self.test_loader=None
+        self.nextEpoch=1
+        self.accs= []
+        self.loss= []
+        self.config={}
+        self.changes=set()
 
-def train_step(model: Module, optimizer: Optimizer, data: Tensor,
-               target: Tensor, cuda: bool):
-    model.train()
-    if cuda:
-        data, target = data.cuda(), target.cuda()
-    prediction = model(data)
-    print("prediction", prediction)
-    loss = F.cross_entropy(prediction, target)
-    loss.backward()
-    
-    optimizer.step()
-    optimizer.zero_grad()
+    def add_model_and_config(self, config):
+        settings= self.convert_config_for_modelbuilder(config)
+        block_n = settings["NBlocks"]
+        self.model= ModelBuilder(block_n, config["ActivationFunc"])
+        self.config["NBlocks"]=block_n
+
+        self.optimizer= SGD(self.model.parameters(), lr=float(settings["LRate"]), momentum=MOMENTUM)
+        self.config= settings
+
+        self.train_loader, self.test_loader= get_data_loaders(settings["BSize"])
+
+    def update_config(self, config)->bool:
+        settings= self.convert_config_for_modelbuilder(config)
+        
+        opt_state= self.optimizer.state_dict()
+        if opt_state['param_groups'][0]['lr'] != settings["LRate"]:
+            self.changes.add(self.nextEpoch-1)
+            opt_state['param_groups'][0]['lr'] = settings["LRate"]
+            self.optimizer.load_state_dict(opt_state)
+
+        if settings["BSize"]!= self.config["BSize"]:
+            self.train_loader, self.test_loader = get_data_loaders(settings["BSize"])
+            self.changes.add(self.nextEpoch-1)
+
+        self.config.update(settings)
+
+    def training(self, flask_config, cuda):
+        if self.model==None:
+            self.add_model_and_config(flask_config)
+        else:
+            self.update_config(flask_config)
+        self.send_results_to_frontend()
 
 
-def send_data_to_frontend(socketio,batch_data):
-    socketio.emit("batch_data", batch_data)
+        if cuda:
+            self.model.cuda()
+
+        N_batch= len(self.train_loader)
+        I_batch=1
+        for batch in self.train_loader:
+            data, target = batch
+            self.train_step(cuda=cuda, data=data, target=target)
+
+            batch_data = {
+                'type': "batch_data",
+                'batch': I_batch,
+                'N_batch': N_batch,
+            }
+            self.send_data_to_frontend(self.sio, batch_data)
+
+            I_batch+=1
+        test_loss, test_acc = accuracy(self.model, self.test_loader, cuda)
+        if cuda:
+            empty_cache()    
+
+        self.nextEpoch+=1
+        self.accs.append(test_acc)
+        self.loss.append(test_loss)  
+        self.send_results_to_frontend()
+
+    def reset(self):
+        self.model=None
+        self.optimizer=None
+        self.train_loader=None
+        self.test_loader=None
+        self.nextEpoch=1
+        self.accs= []
+        self.loss= []
+        self.config={}
+        self.changes=set()
 
 
-    
+    @staticmethod
+    def convert_config_for_modelbuilder(config:dict):
+        res = {}
+        string =config["LRate"]
+        string = "0."+string[5:]
+        LRate = float(string)
+        res.update({"LRate" : LRate})
+        
+        BSize = int(config["BSize"])
+        res.update({"BSize": BSize})
+        
+        string = config["ActivationFunc"]
+        res.update({"ActFunc": string})
+        
+        string= config["NBlocks"]
+        res.update({"NBlocks": int(string)})
 
+        return res
+        
 
-def training(model: Module, optimizer: Optimizer, cuda: bool, 
-             config:dict,  queue: Queue = None, socketio= None):
-    print("training")
-    settings= convert_config_for_modelbuilder(config)
-    
-    train_loader, test_loader = get_data_loaders(batch_size=settings["BSize"])
-    if cuda:
-        model.cuda()
- 
-    opt = optimizer
-    optimizer_state = opt.state_dict()
+    def train_step(self, data: Tensor,
+                target: Tensor, cuda: bool):
+        self.model.train()
+        if cuda:
+            data, target = data.cuda(), target.cuda()
+        prediction = self.model(data)
+        loss = F.cross_entropy(prediction, target)
+        loss.backward()
+        
+        self.optimizer.step()
+        self.optimizer.zero_grad()
 
-    try:
-        optimizer_state['param_groups'][0]['lr'] = float(settings["LRate"])
-        optimizer_state['param_groups'][0]['momentum'] = MOMENTUM
-        optimizer.load_state_dict(optimizer_state)
-    except ValueError:
-        print('Accepts only numerical values.')
+    @staticmethod
+    def send_data_to_frontend(socketio,batch_data):
+        socketio.emit("batch_data", batch_data)
 
-    batch_n=1
-    for batch in train_loader:
-        data, target = batch
-        train_step(model=model, optimizer=optimizer, cuda=cuda, data=data,
-                    target=target)
-
-        batch_data = {
-            'type': "batch_data",
-            'batch': batch_n,
-            'N_batch': 60000//settings["BSize"],
+    def send_results_to_frontend(self):
+        data= {
+            "accs": self.accs,
+            "epochs": list(range(1, self.nextEpoch)),
+            "losses": self.loss,
+            "changes": list(self.changes)
         }
-        print(batch_data)
-        send_data_to_frontend(socketio, batch_data)
-
-        if queue is not None:
-            queue.put(test_acc)
-        batch_n+=12
-    test_loss, test_acc = accuracy(model, test_loader, cuda)
-
-    if cuda:
-        empty_cache()        
-
-    return test_loss, test_acc  
+        print(data)
+        self.sio.emit("chart_data", data)
 
 def main(seed):
     config= {}
@@ -104,10 +156,11 @@ def main(seed):
     print("init...")
     manual_seed(seed)
     np.random.seed(seed)
-    model = ConvolutionalNeuralNetwork()
-    opt = SGD(model.parameters(), lr=0.3, momentum=0.5)
+    t = Trainer()
+    config= {}
+    
     print("train...")
-    training(
+    Trainer.training(
         model=model,
         optimizer=opt,
         cuda=False,     # change to True to run on nvidia gpu

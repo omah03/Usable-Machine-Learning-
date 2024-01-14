@@ -4,26 +4,19 @@ import webbrowser
 
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO, emit
-import numpy as np
-from torch import manual_seed, Tensor
-from torch.optim import Optimizer, SGD
 
-from ml_utils.model import ConvolutionalNeuralNetwork
-from ml_utils.trainingViz import training
 from ml_utils.test_classify import classify_canvas_image
 
-from ml_utils.modelbuilder import ModelBuilder
-from ml_utils.config import conv_params
+from ml_utils.trainingViz import Trainer
 
 from static.infobox.infotexts import infotexts
 
-#FOR USER STUDY ONLY
-import time
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-model= None
+trainer= Trainer(socketio)
+
 # moved config to session["config"} to prepare for storing the data ina flask session variable (I hope thats possible)
 # this would allow multiple users + fix some thread safety concerns
 session={"config": {"ActivationFunc": "",  
@@ -113,19 +106,14 @@ def handleButton():
         print("RESET")
         session["config"].update({"training_active":False, "training_stop_signal":True, "Epochs_Trained":0, "acc":[], "loss":[] })
         socketio.emit("training_data", session["config"])       
-        global model
-        model = None
+        global trainer
+        trainer.reset()
     else:
         print(type)
     return jsonify(True)
 
 def toggle_training_US():
-    global model
-    if not model:
-        # TODO calc linear params in ModelBuilder
-        block_n = session["config"]["NBlocks"]
-        model= ModelBuilder(block_n, session["config"]["ActivationFunc"])
-    
+    global trainer  
     if session["config"]["training_active"]==False: #start training
         session["config"]["training_active"]=True
         session["config"]["training_stop_signal"]=False
@@ -134,13 +122,7 @@ def toggle_training_US():
                 break
             session["config"]["Epochs_Trained"] += 1
             socketio.emit("training_data",session["config"])
-            q.put(training(
-                model=model,
-                optimizer= SGD(model.parameters(), lr=0.3, momentum=0.5), # TODO initiating this here is probably evil and bad
-                cuda=False,     # change to True to run on nvidia gpu
-                config=session["config"],
-                socketio= socketio,
-                ))
+            trainer.training(session["config"], cuda=False)
         session["config"]["training_active"]=False
     elif session["config"]["training_active"]==True and session["config"]["training_stop_signal"]==False:
         session["config"]["training_stop_signal"]=True
@@ -148,46 +130,6 @@ def toggle_training_US():
     socketio.emit("training_data", session["config"])
     
 
-def toggle_training():
-    global training_active, training_stop_signal
-    print("Die toggle_training() Funktion wird ausgeührt")
-    if session["config"]["training_active"]==False:
-        session["config"]["training_active"]=True    
-        manual_seed(seed)
-        np.random.seed(seed)
-        model = ConvolutionalNeuralNetwork()
-        opt = SGD(model.parameters(), lr=0.3, momentum=0.5)
-        for i in range(session["config"]["NEpochs"]):
-            q.put(training(
-            model=model,
-            optimizer=opt,
-            cuda=False,     # change to True to run on nvidia gpu
-            batch_size=256,
-            learning_rate=0.01,
-            momentum=0.9
-            ))
-            if training_stop_signal==True:
-                training_active=False
-                print(f"STOP TRAINING AFTER EPOCH {i}")
-                break
-        #TODO:UPDATE training_data with epch_data
-    else:
-        print("\n \n \n STOPPED TRAINING")
-        training_stop_signal=False
-
-
-@app.route("/get_training_state", methods=["GET"])
-def get_training_state():
-    print("Die get_training_state() Funktion wird ausgeführt")
-    return jsonify(training_active)
-
-@app.route("/receive_data", methods=["POST"])
-def receive_data():
-    print("Die receive_data() Funktion wird ausgeführt")
-    data= request.get_json()
-    training_data.append({"progress": [data.get('batch_idx'), data.get('N_batch')],
-                              'loss': data.get('loss'), 'acc': data.get('acc')})
-    return jsonify("True")
 
 
 
