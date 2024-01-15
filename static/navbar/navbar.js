@@ -116,7 +116,7 @@ function handlePopup(destination) {
 
 
 }
-
+Home = document.getElementById("Home");
 ModelButton = document.getElementById("ModelPage");
 ParamButton = document.getElementById("ParamPage");
 TrainButton = document.getElementById("TrainPage");

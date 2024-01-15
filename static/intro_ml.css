@@ -1,0 +1,185 @@
+/* General Styles */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: #243958;
+}
+::-webkit-scrollbar-thumb {
+    background: #5D93E1; 
+    border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #2193b0; 
+}
+ 
+:root {
+    --primary-color: #5D93E1;
+    --secondary-color: #FFC107; 
+    --background-color: #FFFFFF; 
+    --text-color: #333333; 
+  }
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #243958;
+    color: var(--text-color);
+    font-family: 'Roboto', sans-serif;
+    scroll-snap-type: y mandatory;
+}
+section{
+    height:100vh;
+    scroll-snap-align: start;
+}
+.container {
+    width: 100%; 
+    max-width: none; 
+    margin: 0;
+    padding: 0; 
+}
+header {
+    background: url('image_recognition.gif') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #fff;
+    text-shadow: 2px 2px 4px #000000;
+    position: relative;
+    overflow: hidden;
+    height:100vh;
+    scroll-snap-align: start;
+}
+
+/*header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #243958);
+    z-index: 1;
+}
+*/
+header h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5vw;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    padding: 0;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeIn 2s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.ml-basics-centered {
+    text-align: center; 
+    padding: 4rem 0; 
+    background-color: #5D93E1;
+    color: #ffffff;
+}
+
+.ml-fullscreen {
+    min-height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px;
+    background-color: var(--primary-color); 
+}
+
+.ml-fullscreen .container {
+    max-width: 1600px; 
+}
+
+.ml-fullscreen h2 {
+    font-size: 4vw; 
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.ml-fullscreen p {
+    font-size: 2.5vw; 
+    color: var(--text-color);
+}
+
+.cnn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.cnn-text, .cnn-gif {
+    margin: 0;
+    padding: 1rem;
+    flex: 1 1 50%; 
+    background-color: #243958; 
+    color: #ffffff; 
+    text-align: center;
+}
+
+.cnn-text h2 {
+    font-size: 3vw; 
+    color: #ffffff;
+}
+
+.cnn-text p {
+    font-size: 1.5vw; 
+    color: #ffffff;
+}
+
+.cnn-gif {
+    text-align: center; 
+}
+.cnn-gif img {
+    width: 100%; /* Adjust the size as needed */
+    height: auto;
+    margin-top: 20px; /* Adds space between the text and the gif */
+}
+
+.content-container {
+    text-align: center; /* Centers the content */
+    font-family: Arial, sans-serif; /* Makes text readable */
+}
+.explanation-container {
+    margin-top: 20px; /* Space between GIF and the text */
+    padding: 1.5rem;
+    background-color: #f8f8f8; /* Light background for the text area */
+    max-width: 50%; /* Adjust as needed */
+    text-align: left;
+    margin-left: auto; /* Auto margins for horizontal centering */
+    margin-right: auto;
+    /* Remove vertical centering styles */
+}
+
+.explanation-container p {
+    color: #333; 
+    line-height: 1.6; 
+    font-size: 1.5vw; 
+}
+.modelbuilder-text h2{
+    font-size: 3vw; 
+    color: #ffffff;
+
+}
+@media (max-width: 768px) {
+    .explanation-container {
+        max-width: 90%; /* Adjust width for smaller screens */
+    }
+}
