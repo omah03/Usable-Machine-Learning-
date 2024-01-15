@@ -1,4 +1,4 @@
-import config
+import ml_utils.config as config
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -45,8 +45,9 @@ class LinearBlock(nn.Module):
         return x
 
 class ModelBuilder(nn.Module):
-    def __init__(self,num_blocks, linear_params, activation_fn_choice , input_size=(28,28)):
+    def __init__(self,num_blocks, activation_fn_choice , input_size=(28,28)):
         super(ModelBuilder, self).__init__()
+        linear_params= config.linear_params
         self.input_size = input_size
         self._validate_parameters(num_blocks, linear_params)
         if activation_fn_choice not in config.activation_function:
@@ -77,14 +78,24 @@ class ModelBuilder(nn.Module):
     
     #Function to create linear layer
     def _create_linear_layers(self, linear_params):
+        """updated_linear_params = []
+        for params in linear_params:
+            in_features = 
+            params = params.copy()
+            params['in_features'] = self."""
+        
+        
         flattened_size = self._calculate_flattened_size()
         updated_linear_params = []
         in_features = flattened_size
+        activation_fn = self.global_activation_fn
+        #in_features = 3136
+        #print(f'IN_FEATURES = {in_features}')
         for params in linear_params:
             params = params.copy()
             params['in_features'] = in_features
             in_features = params['out_features']
-            params['activation_function'] = config.activation_function
+            params['activation_function'] = activation_fn
             updated_linear_params.append(params)
         return nn.Sequential(*[LinearBlock(**params) for params in updated_linear_params])
     
@@ -124,12 +135,12 @@ class ModelBuilder(nn.Module):
         with torch.no_grad():
             dummy_input = torch.zeros(1, *self.input_size)
             output = self.conv_layers(dummy_input)
-            flattened_size = output.numel() // output.size(0)
+            flattened_size = output.numel() #// output.size(0)
         return flattened_size
             
     # Forward function
     def forward(self, x):
-        if x.ndim != 4 or x.shape[1:3] != self.input_size:
+        if x.ndim != 4 or x.shape[2:4] != self.input_size:
             raise ValueError(f"Input must be a 4D Tensor with shape (N, {self.input_size[0]}, {self.input_size[1]}, C)")
         x = self.conv_layers(x)
         x = x.view(x.size(0), -1)

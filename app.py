@@ -6,23 +6,29 @@ from ml_utils.data import MNIST
 import torch
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO, emit
-import numpy as np
-from torch import manual_seed, Tensor
-from torch.optim import Optimizer, SGD
-from flask import Response,stream_with_context
-from ml_utils.model import ConvolutionalNeuralNetwork
-from ml_utils.trainingViz import training
-from PIL import Image
-import torchvision.transforms as transforms
+
 from ml_utils.test_classify import classify_canvas_image
+
+from ml_utils.trainingViz import Trainer
 
 from static.infobox.infotexts import infotexts
 
-#FOR USER STUDY ONLY
-import time
 
 app = Flask(__name__)
 socketio = SocketIO(app)
+
+trainer= Trainer(socketio)
+
+# moved config to session["config"} to prepare for storing the data ina flask session variable (I hope thats possible)
+# this would allow multiple users + fix some thread safety concerns
+session={"config": {"ActivationFunc": "",  
+                            "LRate": "",
+                            "BSize":1,
+                            "NEpochs":1,
+                            "NBlocks": 2,
+                            "Epochs_Trained": 0,
+                            "training_active": False,
+                            "training_stop_signal": False}}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -45,14 +51,6 @@ def train_page():
 def test_page():
     return render_template('test.html')
 
-config = {  "ActivationFunc": "",
-            "LRate": "",
-            "BSize":1,
-            "NEpochs":1,
-            "NBlocks": 2,
-            "Epochs_Trained": 0,
-            "training_active": False,
-            "training_stop_signal": False}
 # Initialize variables
 seed = 42
 acc = -1
@@ -66,17 +64,16 @@ def listener():
 
 @app.route("/get_blocks")
 def get_blocks():
-    return jsonify({'number': config["NBlocks"]})
+    return jsonify({'number': session["config"]["NBlocks"]})
 
 @app.route("/update_value", methods=["POST"])
 def update_value():
-    global config
     print("Die update_value() Funktion wird ausgeführt")
     data= request.get_json()
     type= data.get("type")
     value= data.get("value")
-    config.update({type: value})
-    print(config)
+    session["config"].update({type: value})
+    print(session["config"])
     return jsonify("True")
 
 @app.route("/infotext", methods=["POST"])
@@ -90,15 +87,13 @@ training_data=[]
 
 @app.route("/get_config", methods=["GET"])
 def get_config():
-    global config
     print("CONFIG IS BEING SENT TO CLIENT:  ")
-    print(config)
-    return jsonify(config)
+    print(session["config"])
+    return jsonify(session["config"])
 
 
 @app.route("/button_press", methods=["POST"])
 def handleButton():
-    global config
     print("Die handleButton() Funktion wird ausgeführt")
     data=request.get_json()
     type= data.get("type")
@@ -106,80 +101,35 @@ def handleButton():
     # Do match case statement for every button (python 3.10 doesnt support match case)
     if type=="starttraining":         
         q.put(toggle_training_US())
-        return jsonify(config["training_active"])
+        return jsonify(session["config"]["training_active"])
     if type=="resettraining":
         print("RESET")
-        config.update({"training_active":False, "training_stop_signal":True, "Epochs_Trained":0, "acc":[], "loss":[] })
-        socketio.emit("training_data", config)
+        session["config"].update({"training_active":False, "training_stop_signal":True, "Epochs_Trained":0, "acc":[], "loss":[] })
+        socketio.emit("training_data", session["config"])       
+        global trainer
+        trainer.reset()
     else:
         print(type)
     return jsonify(True)
 
 def toggle_training_US():
-    global config
-    acc_values=[0.1, 0.08, 0.06, 0.04, 0.02, 0.04, 0.02, 0.04, 0.02]
-    loss_values=[80, 85, 90, 95, 95.5, 96, 97.2, 96 ,94 ]
-    if config["training_active"]==False: #start training
-        config["training_active"]=True
-        config["training_stop_signal"]=False
-        for _ in range(int(config["NEpochs"])):
-            config["Epochs_Trained"] = config["Epochs_Trained"]+1
-            if config["training_stop_signal"]==True:
+    global trainer  
+    if session["config"]["training_active"]==False: #start training
+        session["config"]["training_active"]=True
+        session["config"]["training_stop_signal"]=False
+        for _ in range(int(session["config"]["NEpochs"])):
+            if session["config"]["training_stop_signal"]==True:
                 break
-            N_Batches=60000 // int(config["BSize"])
-            for i in range(0, N_Batches+1, 10):
-                time.sleep(0.01)
-                config.update({"EpochProgress": 100*(i/N_Batches) })
-                socketio.emit("training_data", config)
-            config.update({"acc": acc_values[:config["Epochs_Trained"]], "loss":loss_values[:config["Epochs_Trained"]]})
-            socketio.emit("training_data", config)
-        config["training_active"]=False
-    elif config["training_active"]==True and config["training_stop_signal"]==False:
-        config["training_stop_signal"]=True
+            session["config"]["Epochs_Trained"] += 1
+            socketio.emit("training_data",session["config"])
+            trainer.training(session["config"], cuda=False)
+        session["config"]["training_active"]=False
+    elif session["config"]["training_active"]==True and session["config"]["training_stop_signal"]==False:
+        session["config"]["training_stop_signal"]=True
     
-    socketio.emit("training_data", config)
+    socketio.emit("training_data", session["config"])
     
 
-def toggle_training():
-    global training_active, training_stop_signal
-    print("Die toggle_training() Funktion wird ausgeührt")
-    if training_active==False:
-        training_active=True    
-        manual_seed(seed)
-        np.random.seed(seed)
-        model = ConvolutionalNeuralNetwork()
-        opt = SGD(model.parameters(), lr=0.3, momentum=0.5)
-        for i in config["NEpochs"]:
-            q.put(training(
-            model=model,
-            optimizer=opt,
-            cuda=False,     # change to True to run on nvidia gpu
-            batch_size=256,
-            learning_rate=0.01,
-            momentum=0.9
-            ))
-            if training_stop_signal==True:
-                training_active=False
-                print(f"STOP TRAINING AFTER EPOCH {i}")
-                break
-        #TODO:UPDATE training_data with epch_data
-    else:
-        print("\n \n \n STOPPED TRAINING")
-        training_stop_signal=False
-
-
-@app.route("/get_training_state", methods=["GET"])
-def get_training_state():
-    print("Die get_training_state() Funktion wird ausgeführt")
-    return jsonify(training_active)
-
-@app.route("/receive_data", methods=["POST"])
-def receive_data():
-    print("Die receive_data() Funktion wird ausgeführt")
-    data= request.get_json()
-    training_data.append({"progress": [data.get('batch_idx'), data.get('N_batch')],
-                              'loss': data.get('loss'), 'acc': data.get('acc')})
-    return jsonify("True")
 
 
 
@@ -219,4 +169,4 @@ if __name__ == "__main__":
     print("App started")
     threading.Thread(target=listener, daemon=True).start()
     webbrowser.open_new_tab(f"http://{host}:{port}")
-    socketio.run(app, host=host, port=port, debug=True)
+    socketio.run(app, host=host, port=port, debug=False)

@@ -41,8 +41,7 @@ def get_dataset(test: bool = False, indexed: bool = False) -> Dataset:
     )
 
 
-def get_data_loaders(batch_size: int, indexed: bool = False) -> (
-        DataLoader, DataLoader):
+def get_data_loaders(batch_size: int, indexed: bool = False) -> tuple[DataLoader, DataLoader]:
     train_set = get_dataset(test=False, indexed=indexed)
     test_set = get_dataset(test=True, indexed=indexed)
     train_loader = DataLoader(dataset=train_set,
