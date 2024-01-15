@@ -109,9 +109,15 @@ def saveim(image):
 
 
 def classify_canvas_image(image,modelFile):
+    
+    
     """This function classifies the image and sends the heatmap (aka explanation) back to frontend"""
     model = loadmodel(modelFile)
     image = preprocess_image(image)
+    print(type(image))
+    print(image.requires_grad)
+    if __name__ != "__main__":
+        image.requires_grad = True
 
     model.eval()
     
@@ -138,11 +144,11 @@ def classify_canvas_image(image,modelFile):
     """the following section is for 'explaining' the canvas classification"""
     print("start explaining...")
     model.zero_grad()
-    summary(model)
+    summary(model,input_size= (1,1,28,28))
     print(model.conv_layers[-1].conv)
     print(model.conv_layers[-1].conv.weight)
     #output_tensor.requires_grad == True
-    assert output_tensor.requires_grad == True, "output_rensor.requires_grad is False!"
+    assert output_tensor.requires_grad == True, "output_tensor.requires_grad is False!"
     assert isinstance(output_class,int), "output_class is not of type int"
     output_tensor[0, output_class].backward()
     
@@ -158,13 +164,14 @@ def classify_canvas_image(image,modelFile):
 
     for i in range(activations.size(1)):
         activations[:, i, :, :] *= pooled_gradients[i]
+
     # Heatmap generieren
     heatmap = torch.mean(activations, dim=1).squeeze()
     heatmap = np.maximum(heatmap, 0)
     heatmap /= torch.max(heatmap)
+
     # Heatmap auf Originalbild überlagern
     heatmap = heatmap.numpy()
-    print(heatmap.size)
 
     #img = image.detach().numpy().convert('RGB')
 
@@ -186,14 +193,14 @@ def classify_canvas_image(image,modelFile):
     
     print("output_class:", int(np.argmax(output)))
     print("output = , ", output)
-    
+    print("updated heatmap version")
     return output, heatmap
 
 
 if __name__ == "__main__":
     print("testing....")
     test = get_dataset(test =True)
-    for i in range(10,20):
+    for i in range(10,11):
         image, label = test[i]
 
         saveim(image)
@@ -202,7 +209,8 @@ if __name__ == "__main__":
     
         model_file = 'Trained_modelbuilder_model.pkl'#'MNIST_new_classifier_model.pkl'#
         _ , heatmap = classify_canvas_image(image,model_file)
-    
-        plt.imshow(heatmap, alpha=0.5, cmap='jet')
+
+        print("final heatmap", heatmap, type(heatmap), len(heatmap),len(heatmap[1]),len(heatmap[5]))
+        plt.imshow(heatmap, cmap='jet')
         plt.show()
 

@@ -12,8 +12,8 @@ from flask import Response,stream_with_context
 from ml_utils.model import ConvolutionalNeuralNetwork
 from ml_utils.trainingViz import training
 
-from ml_utils.test_classify import classify_canvas_image
-
+#from ml_utils.test_classify import classify_canvas_image old version
+from ml_utils.explain_classification import classify_canvas_image
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -124,7 +124,8 @@ def receive_data():
 
 
 #Get Canvas Image & classify it
-test_model = 'ml_utils/Trained_modelbuilder_model.pkl'
+#test_model = 'ml_utils/Trained_modelbuilder_model.pkl'
+test_model = 'MNIST_new_classifier_model.pkl'
 print(f"using {test_model}")
 @socketio.on('classify')
 def classify(data):

@@ -543,9 +543,9 @@ function printPrediction(predicted_digit){
 function sendAndReceiveClassification(canvasData){
     return new Promise((resolve, reject) => {
         socket.emit('classify', { canvasData });
-        socket.on('classification_result', (result) => {
+        socket.on('classification_result', (result,heatmap) => {
             console.log('Klassifizierungsergebnis', result);
-            resolve(result); // Ergebnis an die Aufrufer-Funktion übergeben
+            resolve([result,heatmap]); // Ergebnis an die Aufrufer-Funktion übergeben
         });
     });
 }
@@ -576,6 +576,49 @@ function classificationResult(softmaxValues){
     console.log('classificationResult ausgeführt');
 }
 
+
+function calculateColor(value) {
+    // Hier kannst du die Logik implementieren, um die Farbe basierend auf dem Wert zu berechnen
+    // Zum Beispiel könntest du eine Farbpalette erstellen und die Farbe entsprechend des Werts auswählen.
+    // Dies hängt von der Art der Heatmap ab, die du erstellt hast.
+    // Hier ist ein einfaches Beispiel:
+    //const intensity = Math.floor(value * 255);
+    return `rgb(${value}, 0, 0)`; // Rote Farbtöne, je nach Intensität
+}
+
+//This function reeceives the heatmap from python and shows it on the canvas
+function showHeatmap(heatmap){
+    console.log('showHeatmap...');
+    //clearCanvas();
+    const canvas = document.getElementById('inputbox'); // Ersetze 'meinCanvas' durch die tatsächliche ID deines Canvas-Elements
+    const context = canvas.getContext('2d');
+
+    const rows = heatmap.length;
+    const columns = heatmap[0].length;
+
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+
+    const cellWidth = canvasWidth / columns;
+    const cellHeight = canvasHeight / rows;
+
+   
+
+    for (let i = 0; i < heatmap.length; i++) {
+        for (let j = 0; j < heatmap[i].length; j++) {
+            const value = heatmap[i][j];
+            if (value > 0.0){
+                const color = calculateColor(value); // Funktion, um die Farbe basierend auf dem Wert zu berechnen
+                context.fillStyle = color;
+                context.fillRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+            }
+
+            
+        }
+    }
+    console.log('heatmap on canvas')
+}
+
 async function classifyImage(){
     console.log('Classifying Image....')
     var predicted_digit = 5;
@@ -583,10 +626,11 @@ async function classifyImage(){
     const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
     classes.forEach(container => {container.style.backgroundColor = 'transparent';});
     try {
-        const resultArray = await sendAndReceiveClassification(canvasData);
+        const [resultArray, heatmap] = await sendAndReceiveClassification(canvasData);
         console.log('Die Klassifizierung ergibt:', resultArray);
         //printPrediction(classification); not needed anymore as containers are colored
         classificationResult(resultArray);
+        showHeatmap(heatmap);
         
     } catch(error) {
         console.error('Fehler bei der Klassifizierung:', error);
