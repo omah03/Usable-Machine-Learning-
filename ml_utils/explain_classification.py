@@ -128,6 +128,7 @@ def classify_canvas_image(image,modelFile):
     # Konvertiere den Tensor in ein Numpy-Array
     #image_np = image.squeeze(0).squeeze(0).numpy()
     image_np = image.squeeze(0).squeeze(0).detach().numpy()# diese version für explainable part
+    showim(image_np)
 
 
     #assert image.requires_grad == True, "image.requires_grad is not True"
@@ -184,6 +185,9 @@ def classify_canvas_image(image,modelFile):
 
     """end of section"""
 
+
+    plt.imshow(heatmap, alpha = 0.5, cmap='jet')
+    plt.show()
 
     output_array = output_tensor.flatten().detach().numpy()
     output = output_array.tolist()

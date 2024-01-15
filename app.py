@@ -124,8 +124,7 @@ def receive_data():
 
 
 #Get Canvas Image & classify it
-#test_model = 'ml_utils/Trained_modelbuilder_model.pkl'
-test_model = 'MNIST_new_classifier_model.pkl'
+test_model = 'ml_utils/Trained_modelbuilder_model.pkl'
 print(f"using {test_model}")
 @socketio.on('classify')
 def classify(data):
