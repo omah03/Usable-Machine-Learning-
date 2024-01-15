@@ -95,12 +95,13 @@ header h1 {
 }
 
 .ml-fullscreen {
-    min-height: 100vh; 
+    min-height: 100vh;
+    max-height: 100vh; 
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 50px;
+    padding: 50vh;
     background-color: var(--primary-color); 
 }
 
@@ -111,7 +112,7 @@ header h1 {
 .ml-fullscreen h2 {
     font-size: 4vw; 
     color: var(--text-color);
-    margin-bottom: 10px;
+    margin-bottom: 10px
 }
 
 .ml-fullscreen p {
