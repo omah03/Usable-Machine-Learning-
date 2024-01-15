@@ -43,7 +43,7 @@ section{
     padding: 0; 
 }
 header {
-    background: url('image_recognition.gif') center/cover no-repeat;
+    background: url('include/image_recognition.gif') center/cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;

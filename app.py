@@ -2,10 +2,8 @@ import threading
 import queue
 import webbrowser
 
-from ml_utils.data import MNIST
-import torch
 from flask import Flask, render_template, request, jsonify
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 
 from ml_utils.test_classify import classify_canvas_image
 
