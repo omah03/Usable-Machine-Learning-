@@ -12,6 +12,29 @@ import torch.nn.functional as F
 from torchinfo import summary
 
 
+
+def show_linear_filters(model, layer_index=0, num_filters=10):
+    # Extrahiere die Gewichte der ersten linearen Schicht
+    layer = model.linear_layers[layer_index].linear
+    if isinstance(layer, torch.nn.Linear):
+        weights = layer.weight.data.cpu().numpy()
+        
+        # Wähle eine bestimmte Anzahl von Filtern zum Anzeigen aus
+        selected_filters = weights[:num_filters]
+
+        # Zeige die ausgewählten Filter an
+        fig, axs = plt.subplots(1, num_filters, figsize=(15, 3))
+
+        for i in range(num_filters):
+            axs[i].imshow(selected_filters[i].reshape(-1, 1), cmap='gray')
+            axs[i].axis('off')
+
+        plt.show()
+    else:
+        print("Die angegebene Schicht ist keine lineare Schicht.")
+
+
+
 def is_base64(input_string): 
     #checks if (canvas) image is of type base64
     try:
@@ -146,6 +169,10 @@ def classify_canvas_image(image,modelFile):
     print("start explaining...")
     model.zero_grad()
     summary(model,input_size= (1,1,28,28))
+
+
+    #show_linear_filters(model,layer_index=1,num_filters=10) #this is just for fun
+
     print(model.conv_layers[-1].conv)
     print(model.conv_layers[-1].conv.weight)
     #output_tensor.requires_grad == True
@@ -211,7 +238,7 @@ if __name__ == "__main__":
         
         image.requires_grad = True  # Setzen von requires_grad auf True (für explainable part)
     
-        model_file = 'Trained_modelbuilder_model.pkl'#'MNIST_new_classifier_model.pkl'#
+        model_file = 'ml_utils/Trained_modelbuilder_model.pkl'#'MNIST_new_classifier_model.pkl'#
         _ , heatmap = classify_canvas_image(image,model_file)
 
         print("final heatmap", heatmap, type(heatmap), len(heatmap),len(heatmap[1]),len(heatmap[5]))
