@@ -1,4 +1,4 @@
-import ml_utils.config as config
+import config
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -45,9 +45,10 @@ class LinearBlock(nn.Module):
         return x
 
 class ModelBuilder(nn.Module):
-    def __init__(self,num_blocks, activation_fn_choice , input_size=(28,28)):
+    def __init__(self,num_blocks, k_size, activation_fn_choice , input_size=(28,28)):
         super(ModelBuilder, self).__init__()
         linear_params= config.linear_params
+        self.k_size = k_size
         self.input_size = input_size
         self._validate_parameters(num_blocks, linear_params)
         if activation_fn_choice not in config.activation_function:
@@ -64,11 +65,11 @@ class ModelBuilder(nn.Module):
             raise ValueError("Linear_params must be a list")
         
     #Function to create conv layer
-    def _create_conv_layers(self, num_blocks, activation_function):
+    def _create_conv_layers(self, num_blocks, k_size, activation_function):
         layers = nn.Sequential()
         for i in range(num_blocks):
             try:
-                conv_params = config.conv_params[i]
+                conv_params = config.conv_params[k_size][i]
                 max_pool_params = config.max_pool_params[i]
             except IndexError:
                 raise ValueError(f"Configuration for block {i} not found in config.py")
@@ -78,12 +79,6 @@ class ModelBuilder(nn.Module):
     
     #Function to create linear layer
     def _create_linear_layers(self, linear_params):
-        """updated_linear_params = []
-        for params in linear_params:
-            in_features = 
-            params = params.copy()
-            params['in_features'] = self."""
-        
         
         flattened_size = self._calculate_flattened_size()
         updated_linear_params = []
@@ -100,12 +95,12 @@ class ModelBuilder(nn.Module):
         return nn.Sequential(*[LinearBlock(**params) for params in updated_linear_params])
     
     # Function to add conv blocks
-    def add_conv_block(self):
+    def add_conv_block(self,k_size):
         block_index = len(self.conv_layers)
         if block_index >= len(config.conv_params):
             raise ValueError("Maximum number of convolutional blocks reached")
         
-        conv_params = config.conv_params[block_index]
+        conv_params = config.conv_params[k_size][block_index]
         max_pool_params = config.max_pool_params[block_index]
         conv_block = ConvBlock(**conv_params, **max_pool_params,activation_function = self.global_activation_fn)
         self.conv_layers.add_module(f'conv_block_{len(self.conv_layers)}', conv_block)
@@ -148,3 +143,7 @@ class ModelBuilder(nn.Module):
         x = F.softmax(x,dim = 1)
         return x
     
+##maximum amount of blocks is 3
+
+model = ModelBuilder(3,'relu')
+print(model)
