@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='infobox/infobox.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='options/options.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='training/training.css') }}">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/socket.io/client-dist/socket.io.js"></script>
     <script src=" https://cdn.jsdelivr.net/npm/leader-line@1.0.7/leader-line.min.js "></script>
@@ -70,11 +71,34 @@
                             <h2> 
                                 MNIST Dataset
                             </h2>
-                            <img src="../static/include/Images/UML_MNIST.png" alt="Visualization of handwritten digit from the MNIST set. Shown are 5 items per digit." width="200px">
+                            <img src="../static/include/Images/UML_MNIST.png" alt="Visualization of handwritten digit from the MNIST set. Shown are 5 items per digit." width="200px" >
                         </div>
                         <div id = "rectanglelayer" class = "rectanglelayer" style="margin:5%">
                             <div style="width:100%">
                                 <h3> Convolutional Blocks</h3>
+                                <div class="blockcolumn">
+                                    <div class = "column" id= "KSizeCol"> 
+                                        <label for="KSizeSlider">Kernel Complexity</label>
+                                        <div class= "sliderDisplay">
+                                            <input type="range" id="KSizeSlider" min="1" max="3" value="{{ 3 }}">
+                                            <span id="KSizeDisplay"></span>
+                                        </div>
+                                    </div>
+                                    <div class = "column" id= "actFuncCol"> 
+                                        <div class="dropdown">
+                                            <button id="actFunc" class="dropbtn" >
+                                                <div id="actFuncBox" width="100%" height="100%">
+                                                    <span id="act_Label">Activation function</span>
+                                                </div>
+                                            </button>
+                                            <div class="dropdown-content">
+                                            <button href="#" class="act_Option" id="act_reluOption">Rectified Linear Activation (ReLU)</button>
+                                            <button href="#" class="act_Option" id="act_sigmoidOption">Logistics (Sigmoid)</button>
+                                            <button href="#" class="act_Option" id="act_tanhOption">Hyperbolic Tangent (tanh)</button>
+                                            </div>
+                                        </div> 
+                                    </div>  
+                                </div>
                                 <div class = "blockcolumn">
                                     <button id="block1"class = "block_editor">BLOCK 1</button>
                                     <button id="Add_block1", class="AddButton"> + </button>

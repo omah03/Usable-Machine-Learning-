@@ -23,6 +23,9 @@ const BSizeSlider = document.getElementById("BSizeSlider")
 // Epochs
 const EpochsSlider = document.getElementById("NEpochsSlider")
 
+// Kernel
+const KSizeSlider = document.getElementById("KSizeSlider");
+
 
 fetch("/get_config")
     .then(response => {
@@ -46,8 +49,7 @@ fetch("/get_config")
             for (const option of actFuncOptions) {
                 // If the options id was selected; simulate a click on it to put the text on the label
                 // pretty inefficient solution 
-                if (option.id == data["ActivationFunc"]) 
-                {
+                if (option.id == data["ActivationFunc"]) {
                     handleDropdownChange(option, "act")
                 }
             }
@@ -111,6 +113,9 @@ if (EpochsSlider) {
     updateSliderValue(EpochsSlider);
 }
 
+if (KSizeSlider) {
+    KSizeSlider.addEventListener("input", (event) => { updateSliderValue(event.target) });
+}
 
 function updateSliderValue(slider) {
     const sliderValue = slider.value;
@@ -118,8 +123,22 @@ function updateSliderValue(slider) {
     var displayId = slider.id.replace("Slider", "Display");
     var display = document.getElementById(displayId);
 
-    display.innerHTML = ("0000" + sliderValue.toString()).slice(-3)
-
+    if (sliderName != "KSize") {
+        display.innerHTML = ("0000" + sliderValue.toString()).slice(-3)
+    }
+    else {
+        switch (sliderValue) {
+            case "1":
+                display.innerHTML = "small"
+                break
+            case "2":
+                display.innerHTML = "medium"
+                break
+            case "3":
+                display.innerHTML = "large"
+                break
+        }
+    }
     // Call the backend
     fetch('/update_value', {
         method: 'POST',

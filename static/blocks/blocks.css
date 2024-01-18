@@ -1,4 +1,5 @@
-.inputbox{
+.MNIST{
+  color: var(--text-white);
   display:flex;
   position: relative;
   align-items: center;
@@ -6,17 +7,19 @@
   margin-top: 10px;
   margin-left: 5%;
 
+  padding:10px;
+  background-color: var(--primary-color);
   flex-direction: column;
-
-  width: 280px;
-  height: 350px;
-
-  background: #FFFFFF;
-  border: 1px solid #000000;
-  border-radius: 30px;
+  border-radius: 15px;
+  border: 0px solid #000000;
   z-index: 1;
-
 }
+
+.MNIST_Image{
+  margin: 0px
+}
+
+
 .inputCanvas{
   height: 280px;
   width: 280px;
@@ -45,7 +48,7 @@
   display: flex;
   float: left;
   flex-direction: column;
-  width: 18%;
+  width: 23%;
   padding: 1%;
   align-items: center;
 }

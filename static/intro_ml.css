@@ -21,6 +21,10 @@
     --secondary-color: #FFC107; 
     --background-color: #FFFFFF; 
     --text-color: #333333; 
+    --text-darkgrey: #333333;
+    --text-white: #FFFFFF;
+    --highlight-color: #FFC107;
+    --highlight-color2: #ac1a1a;
   }
 
 body, html {

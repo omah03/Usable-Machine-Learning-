@@ -167,4 +167,4 @@ if __name__ == "__main__":
     print("App started")
     threading.Thread(target=listener, daemon=True).start()
     webbrowser.open_new_tab(f"http://{host}:{port}")
-    socketio.run(app, host=host, port=port, debug=False)
+    socketio.run(app, host=host, port=port, debug=True)

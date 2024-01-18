@@ -146,7 +146,7 @@ new LeaderLine(rec_layer,classifier,{ color: 'black', size: 10 })
 }
 //------------------------------------------------------------------
 //Classifier arrows UGLY FUCKING SOLUTION I HATE THIS
-
+/*
 inputs = (document.getElementsByClassName("classifier_input"));
 classes = (document.getElementsByClassName("classifier_class"));
 
@@ -161,3 +161,4 @@ for (let i = 0; i < inputs.length; i = i + 1) {
         );
     }
 }
+*/
