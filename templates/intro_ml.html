@@ -33,26 +33,31 @@
         </div>
     </section>
     <main>
+
+
+
         <section class="cnn-explanation">
             <div class="container cnn-container">
                 <div class="cnn-text">
                     <h2>Understanding CNNs</h2>
                     <p>
-                        Convolutional Neural Networks (CNNs) are at the heart of modern AI, powering advancements in computer vision. From facial recognition to medical image analysis, CNNs help machines see and understand our world.
-                    </p>
-                    <p>
                         The animation shows how models are able to recognize hand written digits from MNIST - a database containing 60000 handwritten digits.
                     </p>
                 </div>
-                <div class="cnn-gif">
-                    <img src="{{ url_for('static', filename='include/convolution_animation.gif') }}" alt="CNN Process Visualization">
+                <div class="gif-container">
+                    <img src="{{ url_for('static', filename='include/convolution_animation.gif') }}" alt="cnn-gif">
                 </div>
             </div>
+        </section>
+        <section class="gif-explanation">
             <div class="explanation-container">
                 <p>The moving red box in the animation is called a <strong>kernel</strong> or <strong>filter</strong>, and it slides over the image to detect features like edges and patterns. The result of this process is what we call a <strong>feature map</strong>, shown on the right, which highlights important details the network will use to make decisions.</p>
             </div>
-        </div> 
-        </section>
+        </section> 
+
+
+
+
         <section class="model-builder">
             <div class="container model-builder">
                 <div class="modelbuilder-text">
@@ -467,6 +472,8 @@
     <script src="{{ url_for('static', filename='options/options.js') }}"></script>
     <script src="{{ url_for('static', filename='test/test.js') }}"></script>
     <script src="{{ url_for('static', filename='training/training.js') }}"></script>
+    <script src="{{ url_for('static', filename='scroll-animation.js') }}"></script>
+
 
 </body>
 </html>
