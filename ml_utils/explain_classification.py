@@ -34,6 +34,11 @@ def show_linear_filters(model, layer_index=0, num_filters=10):
         print("Die angegebene Schicht ist keine lineare Schicht.")
 
 
+def showheatma(heatmap):
+    print("final heatmap", heatmap, type(heatmap), len(heatmap),len(heatmap[1]),len(heatmap[5]))
+    plt.imshow(heatmap, cmap='jet')
+    plt.show()
+
 
 def is_base64(input_string): 
     #checks if (canvas) image is of type base64
@@ -130,6 +135,76 @@ def saveim(image):
     pil_image.save(file_path)
 
 
+def gradCAM(model, image):
+
+    assert image.requires_grad == True, "image.requires_grad is False!"
+    
+    #with torch.no_grad():
+    output_tensor = model(image)
+    output_class = torch.argmax(output_tensor).item()  # Annahme: Bestimmung der vorhergesagten Klasse
+
+
+    print("start explaining...")
+
+    model.zero_grad()
+    summary(model,input_size= (1,1,28,28))
+
+    #show_linear_filters(model,layer_index=1,num_filters=10) #this is just for fun
+
+    #print(model.conv_layers[-1].conv)
+    #print(model.conv_layers[-1].conv.weight)
+
+    assert output_tensor.requires_grad == True, "output_tensor.requires_grad is False!"
+    assert isinstance(output_class,int), "output_class is not of type int"
+
+    print("model: ", model)###
+    output_tensor[0, output_class].backward()
+    
+    # Feature Maps der letzten Convolutional Layer und Gradienten erhalten
+    gradients = model.conv_layers[0].conv.weight.grad #this is the kernel for each convolution
+
+
+    print("gradients.shape= ",gradients.shape)
+
+    #print("gradients",gradients, gradients.shape, len(gradients))    
+
+    assert (gradients.shape == torch.Size([16, 1, 3, 3])),"sth went wrong"
+
+    pooled_gradients = torch.mean(gradients, dim=[1, 2, 3])
+    
+    activations = model.conv_layers[-1].conv(image).detach()
+    assert (model.conv_layers[0] == model.conv_layers[-1]), "Which one is the 'last conv layer'?" 
+ 
+
+
+
+    print("activations", activations, activations.shape, len(activations))
+    print("pooled_gradients", pooled_gradients, pooled_gradients.shape, len(pooled_gradients))
+
+    for i in range(activations.size(1)):
+        """I'm not sure whether this is correct. we should use the kernel not the average"""
+        activations[:, i, :, :] *= pooled_gradients[i]
+
+    # Heatmap generieren
+    heatmap = torch.mean(activations, dim=1).squeeze()
+    heatmap = np.maximum(heatmap, 0) #avoiding negative values
+    heatmap /= torch.max(heatmap)
+
+    # Heatmap auf Originalbild überlagern
+    heatmap = heatmap.numpy()
+
+    #img = image.detach().numpy().convert('RGB')
+
+    #img = Image.open('mein_bild.jpg').convert('RGB')
+    #img = img.resize((28, 28))
+    heatmap = np.uint8(255 * heatmap)
+    heatmap = Image.fromarray(heatmap, 'L')
+    heatmap = heatmap.resize((image.size(2), image.size(3)), Image.BILINEAR)
+    heatmap = np.array(heatmap).tolist()
+    
+    return output_tensor, output_class, heatmap
+
+
 
 def classify_canvas_image(image,modelFile):
     
@@ -151,70 +226,19 @@ def classify_canvas_image(image,modelFile):
     # Konvertiere den Tensor in ein Numpy-Array
     #image_np = image.squeeze(0).squeeze(0).numpy()
     image_np = image.squeeze(0).squeeze(0).detach().numpy()# diese version für explainable part
-    showim(image_np)
+    #showim(image_np)
 
 
     #assert image.requires_grad == True, "image.requires_grad is not True"
     # Annahme: Das Modell gibt eine Vorhersage für das Bild zurück
     #showim(image_np)
 
-    assert image.requires_grad == True, "image.requires_grad is False!"
-    
-    #with torch.no_grad():
-    output_tensor = model(image)
-    output_class = torch.argmax(output_tensor).item()  # Annahme: Bestimmung der vorhergesagten Klasse
+    output_tensor, output_class, heatmap = gradCAM(model,image) #gradCAM is used for the explanation
 
 
-    """the following section is for 'explaining' the canvas classification"""
-    print("start explaining...")
-    model.zero_grad()
-    summary(model,input_size= (1,1,28,28))
 
-
-    #show_linear_filters(model,layer_index=1,num_filters=10) #this is just for fun
-
-    print(model.conv_layers[-1].conv)
-    print(model.conv_layers[-1].conv.weight)
-    #output_tensor.requires_grad == True
-    assert output_tensor.requires_grad == True, "output_tensor.requires_grad is False!"
-    assert isinstance(output_class,int), "output_class is not of type int"
-    output_tensor[0, output_class].backward()
-    
-    # Feature Maps der letzten Convolutional Layer und Gradienten erhalten
-    gradients = model.conv_layers[-1].conv.weight.grad
-    print("gradients",gradients, gradients.shape, len(gradients))    
-
-    pooled_gradients = torch.mean(gradients, dim=[1, 2, 3])
-    activations = model.conv_layers[-1].conv(image).detach()
-    print("activations", activations, activations.shape, len(activations))
-    print(activations[:,1,:,:])
-    print("pooled_gradients", pooled_gradients, pooled_gradients.shape, len(pooled_gradients))
-
-    for i in range(activations.size(1)):
-        activations[:, i, :, :] *= pooled_gradients[i]
-
-    # Heatmap generieren
-    heatmap = torch.mean(activations, dim=1).squeeze()
-    heatmap = np.maximum(heatmap, 0)
-    heatmap /= torch.max(heatmap)
-
-    # Heatmap auf Originalbild überlagern
-    heatmap = heatmap.numpy()
-
-    #img = image.detach().numpy().convert('RGB')
-
-    #img = Image.open('mein_bild.jpg').convert('RGB')
-    #img = img.resize((28, 28))
-    heatmap = np.uint8(255 * heatmap)
-    heatmap = Image.fromarray(heatmap, 'L')
-    heatmap = heatmap.resize((image.size(2), image.size(3)), Image.BILINEAR)
-    heatmap = np.array(heatmap).tolist()
-
-    """end of section"""
-
-
-    plt.imshow(heatmap, alpha = 0.5, cmap='jet')
-    plt.show()
+    #plt.imshow(heatmap, alpha = 0.5, cmap='jet')
+    #plt.show()
 
     output_array = output_tensor.flatten().detach().numpy()
     output = output_array.tolist()
@@ -234,14 +258,13 @@ if __name__ == "__main__":
     for i in range(10,11):
         image, label = test[i]
 
-        saveim(image)
+        #saveim(image)
         
         image.requires_grad = True  # Setzen von requires_grad auf True (für explainable part)
     
         model_file = 'ml_utils/Trained_modelbuilder_model.pkl'#'MNIST_new_classifier_model.pkl'#
         _ , heatmap = classify_canvas_image(image,model_file)
 
-        print("final heatmap", heatmap, type(heatmap), len(heatmap),len(heatmap[1]),len(heatmap[5]))
-        plt.imshow(heatmap, cmap='jet')
-        plt.show()
+        #showheatmap(heatmap)
+
 
