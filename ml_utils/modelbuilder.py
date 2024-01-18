@@ -95,12 +95,12 @@ class ModelBuilder(nn.Module):
         return nn.Sequential(*[LinearBlock(**params) for params in updated_linear_params])
     
     # Function to add conv blocks
-    def add_conv_block(self):
+    def add_conv_block(self,k_size):
         block_index = len(self.conv_layers)
         if block_index >= len(config.conv_params):
             raise ValueError("Maximum number of convolutional blocks reached")
         
-        conv_params = config.conv_params[block_index]
+        conv_params = config.conv_params[k_size][block_index]
         max_pool_params = config.max_pool_params[block_index]
         conv_block = ConvBlock(**conv_params, **max_pool_params,activation_function = self.global_activation_fn)
         self.conv_layers.add_module(f'conv_block_{len(self.conv_layers)}', conv_block)
