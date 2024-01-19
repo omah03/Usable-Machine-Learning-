@@ -92,7 +92,7 @@ def update(frame):
         for line in ax.lines:
                 line.remove()
         
-        if not LEFTSTATIC:
+        if not LEFTSTATIC: # BROKEN
             print("LEFTSTATC")
             circle = left_circles[num_left-(frame%num_left)-1]
             circleList = left_circles if LEFTSTATIC else right_circles
@@ -145,7 +145,7 @@ ax.set_aspect('equal', adjustable='box')
 ax.axis('off')
 
 # Create animation
-ani = animation.FuncAnimation(fig, update, frames=220, init_func=draw_circles_and_lines, repeat= False)
+#ani = animation.FuncAnimation(fig, update, frames=220, init_func=draw_circles_and_lines, repeat= False)
 
 #plt.show()
 # '
@@ -153,4 +153,18 @@ ani = animation.FuncAnimation(fig, update, frames=220, init_func=draw_circles_an
 #     f.write(ani.to_jshtml())'
 
 
-ani.save("test.gif", writer= "pillow", fps=60)
+#ani.save("test.gif", writer= "pillow", fps=60)
+
+"""+
+to get png picture
+DONT FORGET TO SET INITIAL ALPHA IN update FUNC
+draw_circles_and_lines()
+
+
+for i in [10, 7, 4, 1]:
+    index= i
+    update(0)
+    alpha= 0
+    alpha_dir_up = False
+    
+plt.savefig('example_plot.png', dpi=300) """
