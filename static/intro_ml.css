@@ -186,12 +186,18 @@ header h1 {
     text-align: left;
     margin-left: auto; 
     margin-right: auto;
+    position: relative;
 }
 
 .explanation-container p {
     color: #ffffff; 
     line-height: 1.6; 
     font-size: 1.5vw; 
+    position: absolute; /* Add this line */
+    bottom: 0;         /* Add this line */
+    left: 0;           /* Add this line */
+    width: 100%;       /* Add this line */
+    top: 1000px;
 }
 .modelbuilder-text h2{
     font-size: 3vw; 
