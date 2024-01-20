@@ -59,7 +59,7 @@ class ModelBuilder(nn.Module):
 
         # Validation checks 
     def _validate_parameters(self,num_blocks,linear_params):
-        if not isinstance(num_blocks,int) or not (1 <= num_blocks <= 5):
+        if not isinstance(num_blocks,int) or not (1 <= num_blocks <= 3):
             raise ValueError("num_blocks must tbe a positive integer between 1 and 5")
         if not isinstance(linear_params,list):
             raise ValueError("Linear_params must be a list")
