@@ -1,5 +1,8 @@
+// NavScrolling
+
+
 document.addEventListener('DOMContentLoaded', function() {
-    var gifElement = document.querySelector('.gif-container img'); // Select the GIF
+    var gifElement = document.querySelector('.gif-container img'); 
     var cnnSection = document.querySelector('.cnn-explanation');
     var gifSection = document.querySelector('.gif-explanation');
     var gifContainer = document.querySelector('.gif-container');
@@ -23,19 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('section');
     const indicatorContainer = document.getElementById('section-indicators');
     
-    // Create an indicator for each section
     sections.forEach((section, index) => {
         const indicator = document.createElement('div');
         indicator.classList.add('section-indicator');
         indicator.dataset.sectionIndex = index;
 
-        // Create and append the section name element
         const sectionName = document.createElement('span');
         sectionName.classList.add('section-name');
-        sectionName.textContent = section.id || `Section ${index + 1}`; // Use section ID or a default name
+        sectionName.textContent = section.id || `Section ${index + 1}`; 
         indicator.appendChild(sectionName);
 
-        // Add click event to scroll to the section
         indicator.addEventListener('click', () => {
             section.scrollIntoView({ behavior: 'smooth' });
         });
@@ -53,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Update indicators
         document.querySelectorAll('.section-indicator').forEach((indicator, index) => {
             if (index === currentSectionIndex) {
                 indicator.classList.add('active');
@@ -63,3 +62,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
