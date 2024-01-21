@@ -66,18 +66,47 @@
                 </div>
                 <div class= "container-blockVisualization">
                     <div class= "container-MNIST">
-                        <div class="MNIST" id="inputbox" style="border: 2px solid #000000;">
+                        <div class="MNIST" id="inputbox">
                             <h2> 
                                 MNIST Dataset
                             </h2>
-                            <img src="../static/include/Images/UML_MNIST.png" alt="Visualization of handwritten digit from the MNIST set. Shown are 5 items per digit." width="200px" >
+                            <img class = "MNIST_picture" src="../static/include/Images/UML_MNIST.png" alt="Visualization of handwritten digit from the MNIST set. Shown are 5 items per digit.">
                         </div>
+
                     </div>
                     <div class= "container-model">
-
+                        TODO
                     </div>
-                    <div class= "container-classification">
-
+                    <div class= "container-classification" id= "outputbox" >
+                        <div class="LinearLayer_Header" >
+                            <h2> Linear Layer </h2> <h2>Output</h2>
+                        </div>
+                        <div class = "staticClassifier">
+                            <div class="linear_layer">
+                            </div>
+                            <div class="classes-column">
+                                <div class="classifier_class"> 0
+                                </div>
+                                <div class="classifier_class"> 1
+                                </div>
+                                <div class="classifier_class"> 2
+                                </div>
+                                <div class="classifier_class"> 3
+                                </div>
+                                <div class="classifier_class"> 4
+                                </div>
+                                <div class="classifier_class"> 5
+                                </div>                
+                                <div class="classifier_class"> 6
+                                </div>
+                                <div class="classifier_class"> 7
+                                </div>
+                                <div class="classifier_class"> 8
+                                </div>
+                                <div class="classifier_class"> 9
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class= "container-triangle"></div>
@@ -361,3 +390,4 @@
 
 </body>
 </html>
+()

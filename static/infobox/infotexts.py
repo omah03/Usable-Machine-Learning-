@@ -4,6 +4,12 @@ infotexts={
     "inputbox":r""" 
                         The input of the datamodel is the MNIST dataset. 
                         This dataset is already preprocessed and consists of 28x28 images of handdrawn images.
+                        <div class= "container-grayscale">
+                            <p class= "grayscale-text"> Die Bilder des MNIST Datensatzes werden durch eine Matrix mit 
+                                Zahlen von 0 (weiß) bis 1 (schwarz) dargestellt </p>
+                            <img class= "grayscale-image" src="../static/include/grayscale_number.png">
+                        </div>
+               
                """,
     "block1": r""" 
                         This is a convolutional block. It consists of a convolutial layer, a non-linear activation function and a MaxPoolLayer.
