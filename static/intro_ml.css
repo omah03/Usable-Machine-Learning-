@@ -27,7 +27,7 @@
     --text-on-highlight2: #FFFFFF;
     --highlight-color: #FFC107;
     --highlight-color2: #ac1a1a;
-    --model-background: #FFFFFF;
+    --model-background: none
   }
 
 body, html {
@@ -275,6 +275,16 @@ header h1 {
     height: 100%;
     width: 100%;
 
-    box-sizing: content-box;
+    box-sizing: border-box;
     
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 2vh;
+}
+
+.container-model-builder h2{
+    text-align: center;
+    margin: auto;
+    font-size: 3vh;
 }

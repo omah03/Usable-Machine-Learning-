@@ -1,11 +1,11 @@
 .container-blockVisualization {
-    width: 90%;
-    height: 40%;
+    width: 100%;
+    height: 60%;
 
     margin-top: 1%;
     margin-bottom: 1%;
 
-    margin-left: 5%;
+    margin-left: 0%;
 
     border: 2px #000000 solid;
 
@@ -30,21 +30,21 @@
 
 .container-modelconfiguration {
     width: 60%;
-    height: 30%;
-    margin-left: 20%;
+    height: 80%;
+    margin: auto;
 
     border: 2px #000000 solid;
 
     background-color: var(--model-background);
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
 }
 
 .container-MNIST {
-    width: 20%;
-    height: 90%;
+    width: 10%;
+    height:80%;
 
     margin: auto;
     margin-left: 2%;
@@ -65,8 +65,8 @@
 }
 
 .container-classification {
-    width: 20%;
-    height: 120%;
+    width: 18%;
+    height: 80%;
 
     margin: auto;
     margin-right: 2%;
@@ -74,23 +74,24 @@
 }
 
 .container-modelconfiguration-options {
-    width: 30%;
-    height: 90%;
+    width: 90%;
+    height: 30%;
 
     margin: auto;
-    margin-left: 2%;
+    margin-left: 5%;
     border: 2px #000000 solid;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
 }
 
 .container-blocks {
-    width: 65%;
-    height: 90%;
+    width: 90%;
+    height: 60%;
     margin: auto;
-    margin-right: 2%;
+    margin-left: 5%;
+    margin-bottom:2%;
     border: 2px #000000 solid;
 
     display: flex;
@@ -130,11 +131,10 @@
 }
 
 .container-dropdown {
-    width: 90%;
-    height: 30%;
+    width: 40%;
+    height: 80%;
     margin: auto;
-    margin-top: 10%;
-
+    margin-left: 5%;
     border: 2px #000000 solid;
 
     display: flex;
@@ -142,10 +142,10 @@
 }
 
 .container-slider {
-    width: 90%;
-    height: 30%;
+    width: 40%;
+    height: 80%;
     margin: auto;
-    margin-bottom: 10%;
+    margin-right:5%;
 
     border: 2px #000000 solid;
     color: var(--text-on-highlight);
@@ -182,21 +182,21 @@
 }
 
 .MNIST {
-    height: 130%;
+    height: 100%;
     margin: auto;
-    width: 70%;
+    width: 100%;
     border: 2px #000000 solid;
     color: var(--text-white);
 }
 
 .MNIST_picture {
-    width: 80%;
+    width: 90%;
     margin: 10%;
 }
 
 .MNIST h2 {
     margin-top: 10%;
-    margin-left: 10%;
+    margin-left: 20%;
 }
 
 .staticClassifier {
@@ -252,10 +252,3 @@
     border: 2px #000000 solid;
 }
 
-.trapezoid {
-	border-bottom: 50px solid #555;
-	border-left: 25px solid transparent;
-	border-right: 25px solid transparent;
-	height: 0;
-	width: 125px;
-}

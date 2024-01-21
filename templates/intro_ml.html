@@ -59,7 +59,7 @@
             </div>
         </section> 
 
-        <section class="model-builder">
+        <section >
             <div class="container-model-builder">
                 <div class="modelbuilder-text">
                     <h2>Configure your own Model!</h2>
@@ -74,8 +74,45 @@
                         </div>
 
                     </div>
-                    <div class= "container-model">
-                        TODO
+                    <div class= "container-modelconfiguration">
+                        <div class="container-modelconfiguration-options">
+                            <div class = "container-dropdown" id= "actFuncCol"> 
+                                <div class="dropdown">
+                                    <button id="actFunc" class="dropbtn" >
+                                        <span id="act_Label">Activation function</span>
+                                    </button>
+                                    <div class="dropdown-content">
+                                        <button href="#" class="act_Option" id="act_reluOption">Rectified Linear Activation (ReLU)</button>
+                                        <button href="#" class="act_Option" id="act_sigmoidOption">Logistics (Sigmoid)</button>
+                                        <button href="#" class="act_Option" id="act_tanhOption">Hyperbolic Tangent (tanh)</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "container-slider" id= "KSizeCol">
+                                    <label for="KSizeSlider">Kernel Complexity</label>
+                                    <div class= "KSizeSliderDisplay">
+                                        <input type="range" id="KSizeSlider" min="1" max="3" value="{{ 2 }}">
+                                        <span id="KSizeDisplay">2</span>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="container-blocks">
+                            <div class = "blockcolumn">
+                                <button id="block1"class = "BlockButton">BLOCK 1</button>
+                                <button id="Add_block1", class="AddButton"> + </button>
+                                <button id="Minus_block1" class="MinusButton"> - </button>
+                            </div>
+                            <div class = "blockcolumn">
+                                <button id="block2"class = "BlockButton">BLOCK 2</button>
+                                <button id="Add_block2" class="AddButton"> + </button>
+                                <button id="Minus_block2" class="MinusButton"> - </button>
+                            </div>
+                            <div class = "blockcolumn">
+                                <button id="block3"class = "BlockButton">BLOCK 3</button>
+                                <button id="Add_block3" class="AddButton"> + </button>
+                                <button id="Minus_block3" class="MinusButton"> - </button>
+                            </div>
+                        </div>
                     </div>
                     <div class= "container-classification" id= "outputbox" >
                         <div class="LinearLayer_Header" >
@@ -106,47 +143,6 @@
                                 <div class="classifier_class"> 9
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class= "container-triangle"></div>
-                <div class= "container-modelconfiguration">
-                    <div class="container-modelconfiguration-options">
-                        <div class = "container-dropdown" id= "actFuncCol"> 
-                            <div class="dropdown">
-                                <button id="actFunc" class="dropbtn" >
-                                    <span id="act_Label">Activation function</span>
-                                </button>
-                                <div class="dropdown-content">
-                                    <button href="#" class="act_Option" id="act_reluOption">Rectified Linear Activation (ReLU)</button>
-                                    <button href="#" class="act_Option" id="act_sigmoidOption">Logistics (Sigmoid)</button>
-                                    <button href="#" class="act_Option" id="act_tanhOption">Hyperbolic Tangent (tanh)</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class = "container-slider" id= "KSizeCol">
-                                <label for="KSizeSlider">Kernel Complexity</label>
-                                <div class= "KSizeSliderDisplay">
-                                    <input type="range" id="KSizeSlider" min="1" max="3" value="{{ 2 }}">
-                                    <span id="KSizeDisplay">2</span>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="container-blocks">
-                        <div class = "blockcolumn">
-                            <button id="block1"class = "BlockButton">BLOCK 1</button>
-                            <button id="Add_block1", class="AddButton"> + </button>
-                            <button id="Minus_block1" class="MinusButton"> - </button>
-                        </div>
-                        <div class = "blockcolumn">
-                            <button id="block2"class = "BlockButton">BLOCK 2</button>
-                            <button id="Add_block2" class="AddButton"> + </button>
-                            <button id="Minus_block2" class="MinusButton"> - </button>
-                        </div>
-                        <div class = "blockcolumn">
-                            <button id="block3"class = "BlockButton">BLOCK 3</button>
-                            <button id="Add_block3" class="AddButton"> + </button>
-                            <button id="Minus_block3" class="MinusButton"> - </button>
                         </div>
                     </div>
                 </div>
