@@ -1,0 +1,149 @@
+.container-blockVisualization{
+    width: 90%;
+    height: 40%;
+
+    margin-top: 1%;
+    margin-bottom: 1%;
+
+    margin-left: 5%;
+
+    border: 2px #000000 solid;
+
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+}
+
+.container-triangle{
+    width: 30%;
+    height: 10%;
+    margin-left: 35%;
+
+    border: 2px #000000 solid;
+}
+
+.container-modelconfiguration{
+    width: 60%;
+    height: 30%;
+    margin-left: 20%;
+
+    border: 2px #000000 solid;
+    
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container-MNIST{
+    width: 20%;
+    height: 90%;
+
+    margin:auto;
+    margin-left: 2%;
+    border: 2px #000000 solid;
+}
+
+.container-model{
+    width: 20%;
+    height: 90%;
+
+    margin: 1%;
+    border: 2px #000000 solid;
+}
+
+.container-classification{
+    width: 20%;
+    height: 90%;
+
+    margin:auto;
+    margin-right: 2%;
+    border: 2px #000000 solid;
+}
+
+.container-modelconfiguration-options{
+    width:30%;
+    height: 90%;
+
+    margin:auto;
+    margin-left: 2%;
+    border: 2px #000000 solid;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.container-blocks {
+    width: 65%;
+    height: 90%;
+    margin:auto;
+    margin-right: 2%;
+    border: 2px #000000 solid;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.blockcolumn {
+    width: 30%;
+    height: 95%;
+
+    margin: auto;
+    margin-left: 2%;
+    margin-right: 2%;
+    border: 2px #000000 solid;
+
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.BlockButton{
+    width: 100%;
+    height: 80%;    
+    border: 2px #000000 solid;
+}
+
+.AddButton{
+    margin:auto;
+    align-self: center;
+    border: 2px #000000 solid;
+}
+
+.MinusButton{
+    margin:auto;
+    align-self: center;
+    border: 2px #000000 solid;
+}
+
+.container-dropdown{
+    width: 90%;
+    height: 30%;
+    margin:auto;
+    margin-top: 10%;
+
+    border: 2px #000000 solid;
+
+    display:flex;
+    justify-content: center;
+}
+
+.container-slider{
+    width: 90%;
+    height: 30%;
+    margin: auto;
+    margin-bottom: 10%;
+
+    border: 2px #000000 solid;
+    color: var(--text-on-highlight);
+    background-color: var(--highlight-color);
+    text-align: center;
+}
+
+.KSizeSliderDisplay{
+    width: 100%;
+    border: 2px #000000 solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

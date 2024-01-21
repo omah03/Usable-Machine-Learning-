@@ -6,10 +6,11 @@
     <title>Usable Machine Learning</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='intro_ml.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='blocks/blocks.css') }}">
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='blocks/blocks.css') }}">-->
     <link rel="stylesheet" href="{{ url_for('static', filename='infobox/infobox.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='options/options.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='training/training.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='new.css') }}">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/socket.io/client-dist/socket.io.js"></script>
@@ -56,122 +57,67 @@
         </section> 
 
         <section class="model-builder">
-            <div class="container model-builder">
+            <div class="container-model-builder">
                 <div class="modelbuilder-text">
-                    <h2>The Model Builder</h2>
+                    <h2>Configure your own Model!</h2>
                 </div>
-
-                <div style= "display:block;">
-                    <div style="display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: center;
-                    margin: 0;
-                    font-family: Arial, sans-serif;
-                    text-align: center;">
+                <div class= "container-blockVisualization">
+                    <div class= "container-MNIST">
                         <div class="MNIST" id="inputbox" style="border: 2px solid #000000;">
                             <h2> 
                                 MNIST Dataset
                             </h2>
                             <img src="../static/include/Images/UML_MNIST.png" alt="Visualization of handwritten digit from the MNIST set. Shown are 5 items per digit." width="200px" >
                         </div>
-                        <div id = "rectanglelayer" class = "rectanglelayer" style="margin:5%">
-                            <div style="width:100%">
-                                <h3> Convolutional Blocks</h3>
-                                <div class="blockcolumn">
-                                    <div class = "column" id= "KSizeCol"> 
-                                        <label for="KSizeSlider">Kernel Complexity</label>
-                                        <div class= "sliderDisplay">
-                                            <input type="range" id="KSizeSlider" min="1" max="3" value="{{ 3 }}">
-                                            <span id="KSizeDisplay"></span>
-                                        </div>
-                                    </div>
-                                    <div class = "column" id= "actFuncCol"> 
-                                        <div class="dropdown">
-                                            <button id="actFunc" class="dropbtn" >
-                                                <div id="actFuncBox" width="100%" height="100%">
-                                                    <span id="act_Label">Activation function</span>
-                                                </div>
-                                            </button>
-                                            <div class="dropdown-content">
-                                            <button href="#" class="act_Option" id="act_reluOption">Rectified Linear Activation (ReLU)</button>
-                                            <button href="#" class="act_Option" id="act_sigmoidOption">Logistics (Sigmoid)</button>
-                                            <button href="#" class="act_Option" id="act_tanhOption">Hyperbolic Tangent (tanh)</button>
-                                            </div>
-                                        </div> 
-                                    </div>  
-                                </div>
-                                <div class = "blockcolumn">
-                                    <button id="block1"class = "block_editor">BLOCK 1</button>
-                                    <button id="Add_block1", class="AddButton"> + </button>
-                                    <button id="Minus_block1" class="MinusButton"> - </button>
-                                </div>
-                                <div class = "blockcolumn">
-                                    <button id="block2"class = "block_editor">BLOCK 2</button>
-                                    <button id="Add_block2" class="AddButton"> + </button>
-                                    <button id="Minus_block2" class="MinusButton"> - </button>
-                                </div>
-                                <div class = "blockcolumn">
-                                    <button id="block3"class = "block_editor">BLOCK 3</button>
-                                    <button id="Add_block3" class="AddButton"> + </button>
-                                    <button id="Minus_block3" class="MinusButton"> - </button>
-                                </div>
-                                <div class = "blockcolumn">
-                                    <button id="block4"class = "block_editor">BLOCK 4</button>
-                                    <button id="Add_block4" class="AddButton"> + </button>
-                                    <button id="Minus_block4" class="MinusButton"> - </button>
-                                </div>
-                                <div class = "blockcolumn">
-                                    <button id="block5"class = "block_editor">BLOCK 5</button>
-                                    <button id="Add_block5" class="AddButton"> + </button>
-                                    <button id="Minus_block5" class="MinusButton"> - </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id= "outputbox" style="box-sizing: border-box; height: 520px;width: 25%">
-                            <div class = "staticClassifier">
-                                <div class="linear_layer" >
-                                </div>
-                                <div class="column" style = " justify-content:center; margin-top: 0%;">
-                                    <p style= "z-index:1"> Classification </p>
-                                    <div class="classifier_class"> 0
-                                    </div>
-                                    <div class="classifier_class"> 1
-                                    </div>
-                                    <div class="classifier_class"> 2
-                                    </div>
-                                    <div class="classifier_class"> 3
-                                    </div>
-                                    <div class="classifier_class"> 4
-                                    </div>
-                                    <div class="classifier_class"> 5
-                                    </div>                
-                                    <div class="classifier_class"> 6
-                                    </div>
-                                    <div class="classifier_class"> 7
-                                    </div>
-                                    <div class="classifier_class"> 8
-                                    </div>
-                                    <div class="classifier_class"> 9
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                    <div class = "row" style= "display:flex;justify-content:center; margin-right: 7%;">
-                        <div class = "infobox" id = "infobox">
-                            <img class = "info-icon" src="../static/include/Images/info.png" alt="Information Box" width="50px">
-                            <p id="infotext" class = "infotext"></p>
-                            <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
-                            <br>
-                            <br>
-                            <button id = "show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
-                        </div>
+                    <div class= "container-model">
+
                     </div>
-            
+                    <div class= "container-classification">
+
                     </div>
                 </div>
-                
+                <div class= "container-triangle"></div>
+                <div class= "container-modelconfiguration">
+                    <div class="container-modelconfiguration-options">
+                        <div class = "container-dropdown" id= "actFuncCol"> 
+                            <div class="dropdown">
+                                <button id="actFunc" class="dropbtn" >
+                                    <span id="act_Label">Activation function</span>
+                                </button>
+                                <div class="dropdown-content">
+                                    <button href="#" class="act_Option" id="act_reluOption">Rectified Linear Activation (ReLU)</button>
+                                    <button href="#" class="act_Option" id="act_sigmoidOption">Logistics (Sigmoid)</button>
+                                    <button href="#" class="act_Option" id="act_tanhOption">Hyperbolic Tangent (tanh)</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class = "container-slider" id= "KSizeCol">
+                                <label for="KSizeSlider">Kernel Complexity</label>
+                                <div class= "KSizeSliderDisplay">
+                                    <input type="range" id="KSizeSlider" min="1" max="3" value="{{ 2 }}">
+                                    <span id="KSizeDisplay">2</span>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="container-blocks">
+                        <div class = "blockcolumn">
+                            <button id="block1"class = "BlockButton">BLOCK 1</button>
+                            <button id="Add_block1", class="AddButton"> + </button>
+                            <button id="Minus_block1" class="MinusButton"> - </button>
+                        </div>
+                        <div class = "blockcolumn">
+                            <button id="block2"class = "BlockButton">BLOCK 2</button>
+                            <button id="Add_block2" class="AddButton"> + </button>
+                            <button id="Minus_block2" class="MinusButton"> - </button>
+                        </div>
+                        <div class = "blockcolumn">
+                            <button id="block3"class = "BlockButton">BLOCK 3</button>
+                            <button id="Add_block3" class="AddButton"> + </button>
+                            <button id="Minus_block3" class="MinusButton"> - </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
         <section class="model-builder">
