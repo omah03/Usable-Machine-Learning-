@@ -45,8 +45,10 @@ class LinearBlock(nn.Module):
         return x
 
 class ModelBuilder(nn.Module):
-    def __init__(self,num_blocks, linear_params, activation_fn_choice , input_size=(28,28)):
+    def __init__(self,num_blocks, k_size, activation_fn_choice , input_size=(28,28)):
         super(ModelBuilder, self).__init__()
+        linear_params= config.linear_params
+        self.k_size = k_size
         self.input_size = input_size
         self._validate_parameters(num_blocks, linear_params)
         if activation_fn_choice not in config.activation_function:
@@ -57,17 +59,17 @@ class ModelBuilder(nn.Module):
 
         # Validation checks 
     def _validate_parameters(self,num_blocks,linear_params):
-        if not isinstance(num_blocks,int) or not (1 <= num_blocks <= 5):
+        if not isinstance(num_blocks,int) or not (1 <= num_blocks <= 3):
             raise ValueError("num_blocks must tbe a positive integer between 1 and 5")
         if not isinstance(linear_params,list):
             raise ValueError("Linear_params must be a list")
         
     #Function to create conv layer
-    def _create_conv_layers(self, num_blocks, activation_function):
+    def _create_conv_layers(self, num_blocks, k_size, activation_function):
         layers = nn.Sequential()
         for i in range(num_blocks):
             try:
-                conv_params = config.conv_params[i]
+                conv_params = config.conv_params[k_size][i]
                 max_pool_params = config.max_pool_params[i]
             except IndexError:
                 raise ValueError(f"Configuration for block {i} not found in config.py")
@@ -77,24 +79,28 @@ class ModelBuilder(nn.Module):
     
     #Function to create linear layer
     def _create_linear_layers(self, linear_params):
+        
         flattened_size = self._calculate_flattened_size()
         updated_linear_params = []
         in_features = flattened_size
+        activation_fn = self.global_activation_fn
+        #in_features = 3136
+        #print(f'IN_FEATURES = {in_features}')
         for params in linear_params:
             params = params.copy()
             params['in_features'] = in_features
             in_features = params['out_features']
-            params['activation_function'] = config.activation_function
+            params['activation_function'] = activation_fn
             updated_linear_params.append(params)
         return nn.Sequential(*[LinearBlock(**params) for params in updated_linear_params])
     
     # Function to add conv blocks
-    def add_conv_block(self):
+    def add_conv_block(self,k_size):
         block_index = len(self.conv_layers)
         if block_index >= len(config.conv_params):
             raise ValueError("Maximum number of convolutional blocks reached")
         
-        conv_params = config.conv_params[block_index]
+        conv_params = config.conv_params[k_size][block_index]
         max_pool_params = config.max_pool_params[block_index]
         conv_block = ConvBlock(**conv_params, **max_pool_params,activation_function = self.global_activation_fn)
         self.conv_layers.add_module(f'conv_block_{len(self.conv_layers)}', conv_block)
@@ -124,12 +130,12 @@ class ModelBuilder(nn.Module):
         with torch.no_grad():
             dummy_input = torch.zeros(1, *self.input_size)
             output = self.conv_layers(dummy_input)
-            flattened_size = output.numel() // output.size(0)
+            flattened_size = output.numel() #// output.size(0)
         return flattened_size
             
     # Forward function
     def forward(self, x):
-        if x.ndim != 4 or x.shape[1:3] != self.input_size:
+        if x.ndim != 4 or x.shape[2:4] != self.input_size:
             raise ValueError(f"Input must be a 4D Tensor with shape (N, {self.input_size[0]}, {self.input_size[1]}, C)")
         x = self.conv_layers(x)
         x = x.view(x.size(0), -1)
@@ -137,3 +143,7 @@ class ModelBuilder(nn.Module):
         x = F.softmax(x,dim = 1)
         return x
     
+##maximum amount of blocks is 3
+
+model = ModelBuilder(3,'relu')
+print(model)

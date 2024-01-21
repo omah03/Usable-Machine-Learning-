@@ -1,3 +1,4 @@
+
 //------------------------------------------------------------------
 //MODEL CREATOR -- Blocks
 
@@ -14,6 +15,7 @@ var MinusButtons = [""]; //leave first empty so index matches
 var AddButtons = [""];
 
 
+
 // Loop through blocks from 1 to 5 (hiding everything)
 for (let i = 1; i <= 5; i++) {
     var block = document.getElementById(`block${i}`);
@@ -25,7 +27,7 @@ for (let i = 1; i <= 5; i++) {
 
     if (block) {
         block.style.setProperty("display", "none");
-        block.addEventListener("click", ()=> {
+        block.addEventListener("click", () => {
             changeInfoText(Blocks[i].id);
         });
     }
@@ -94,49 +96,54 @@ function removeBlock(i) {
 
 }
 
+var NumBLocks;
 
-Blocks[1].style.display = "flex";
+// Call the backend
 
-Blocks[2].style.display = "flex";
 
-MinusButtons[2].style.display = "flex";
-
-AddButtons[3].style.display = "flex";
-
-const infotext = document.getElementById("infotext");
-const infobox = document.getElementById("infobox");
-
-document.getElementById("hide").addEventListener("click", () => {
-    infobox.style.display = "none";
-})
-
-document.getElementById("inputbox").addEventListener("click", () => { changeInfoText("inputbox"); }
-)
-
-function changeInfoText(elementID) {
-    infobox.style.display = "flex";
-    var element = document.getElementById(elementID);
-    if (element && element.style.display != "none") {
-        for (const infoelement of document.getElementsByClassName("infotext")) {
-            if (infoelement.id == `infotext_${elementID}`) {
-                infoelement.style.display = "flex"
-            }
-            else {
-                infoelement.style.display = "none"
-            }
-        }
+fetch("/get_blocks")
+    .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Request failed.');
     }
-}
+  })
+  .then(data => {
+    // Access the number from the response JSON
+    const NumBlocks = data.number;
+    console.log("NUMBER " + NumBlocks);
+    for (i = 1; i<=NumBlocks; i++){
+        Blocks[i].style.display = "flex";
+    }
+    if (MinusButtons[NumBlocks] && (NumBlocks>1)){
+        MinusButtons[NumBlocks].style.display="flex"
+    }
+    if (NumBlocks<5 && AddButtons[NumBlocks]){
+        AddButtons[NumBlocks+1].style.display="flex"
+    }
+    }
+    )
+  .catch(error => {
+    console.error(error);
+  });
+
+console.log("Number of Blocks to display: "+NumBLocks)
+
 
 var mnist= document.getElementById("inputbox")
-var rec_layer= document.getElementsByClassName("rectanglelayer")[0]
+var rec_layer= document.getElementById("rectanglelayer")
 var classifier=  document.getElementById("outputbox")
 
+console.log(mnist,rec_layer,classifier)
 
+if (mnist&&rec_layer){
 new LeaderLine(mnist, rec_layer,{ color: 'black', size: 10 })
+}
 
+if(rec_layer&&classifier){
 new LeaderLine(rec_layer,classifier,{ color: 'black', size: 10 })
-
+}
 //------------------------------------------------------------------
 //Classifier arrows UGLY FUCKING SOLUTION I HATE THIS
 
@@ -153,5 +160,4 @@ for (let i = 0; i < inputs.length; i = i + 1) {
             { color: 'black', size: 1 }
         );
     }
-
 }

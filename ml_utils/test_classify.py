@@ -1,6 +1,6 @@
 import pickle
 import torch
-from ml_utils.data import get_dataset
+from data import get_dataset
 import matplotlib.pyplot as plt
 import numpy as np
 import base64
@@ -10,8 +10,13 @@ import torchvision
 from torchvision import transforms
 
 
-model_file = 'MNIST_classifier_model.pkl'
+#model_file = 'MNIST_classifier_model.pkl'
+<<<<<<< HEAD
+model_file = 'Untrained_modelbuilder_model.pkl'
 
+
+=======
+>>>>>>> 3ea2b6a (colro coding is done)
 
 def is_base64(input_string): 
     #checks if (canvas) image is of type base64
@@ -39,10 +44,10 @@ def loadmodel(saved_model):
 def classify_canvas_image(image,modelFile):
     if isinstance(image, str):
         print("removing prefix")
-        image_b64 = image.split(",")[1]# Entferne das Präfix, um nur die eigentliche Base64-Daten zu behalten
+        image = image.split(",")[1]# Entferne das Präfix, um nur die eigentliche Base64-Daten zu behalten
         print("prefix removed")
         print("new image: ", image_b64)
-    if is_base64(image_b64):
+    if is_base64(image):
         
 
         # Base64 in Bytes konvertieren und dann in ein Bild umwandeln
@@ -131,14 +136,19 @@ def classify_canvas_image(image,modelFile):
 
     # Annahme: Das Modell gibt eine Vorhersage für das Bild zurück
     with torch.no_grad():
-        output = model(image)
+        output_tensor = model(image)
+    print("shape",output_tensor.shape)
+    output_array = output_tensor.flatten().numpy()
+    print("size", output_array.size)
+    output = output_array.tolist()
     print("Model prediction:", int(np.argmax(output)))
     
     
     
     print("output = , ", output)
-    return int(np.argmax(output))
-
+    #return int(np.argmax(output))
+    
+    return output
 test = get_dataset(test =True)
 image, label = test[0]
 

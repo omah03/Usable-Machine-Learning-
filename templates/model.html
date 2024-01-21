@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>First Page</title>
     <!-- Add any additional CSS or styling here -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='infobox.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='blocks/blocks.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='infobox/infobox.css') }}">
 
     <script src=" https://cdn.jsdelivr.net/npm/leader-line@1.0.7/leader-line.min.js "></script>
 
@@ -15,229 +15,179 @@
 </head>
 <body>
     <div style= "display:block;">
-    <p>
-    Welcome to your machine learning playground. <br>
-    In the following steps you are able to build your own convolutional neural network, train it and test it. <br>
-    Click on the different parts to show an info text explaining what it will do. <br>
-    For starters, please choose how many blocks you want to implement in your model. <br>
-    </p>
-    <div style="display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    text-align: center;">
-        <div class="MNIST" id="inputbox" style="border: 2px solid #000000;">
-            <h2>MNIST Dataset</h2>
-            <img src="../static/include/Images/UML_MNIST.png" alt="Visualization of handwritten digit from the MNIST set. Shown are 5 items per digit." width="200px">
-        </div>
-        <div class = "rectanglelayer" style="margin:5%">
-            <div style="width:100%">
-                <h3> Convolutional Blocks</h3>
-                <div class = "blockcolumn">
-                    <button id="block1"class = "block_editor">BLOCK 1</button>
-                    <button id="Add_block1", class="AddButton"> + </button>
-                    <button id="Minus_block1" class="MinusButton"> - </button>
-                </div>
-                <div class = "blockcolumn">
-                    <button id="block2"class = "block_editor">BLOCK 2</button>
-                    <button id="Add_block2" class="AddButton"> + </button>
-                    <button id="Minus_block2" class="MinusButton"> - </button>
-                </div>
-                <div class = "blockcolumn">
-                    <button id="block3"class = "block_editor">BLOCK 3</button>
-                    <button id="Add_block3" class="AddButton"> + </button>
-                    <button id="Minus_block3" class="MinusButton"> - </button>
-                </div>
-                <div class = "blockcolumn">
-                    <button id="block4"class = "block_editor">BLOCK 4</button>
-                    <button id="Add_block4" class="AddButton"> + </button>
-                    <button id="Minus_block4" class="MinusButton"> - </button>
-                </div>
-                <div class = "blockcolumn">
-                    <button id="block5"class = "block_editor">BLOCK 5</button>
-                    <button id="Add_block5" class="AddButton"> + </button>
-                    <button id="Minus_block5" class="MinusButton"> - </button>
-                </div>
+        <p style=" margin-left:20% ; margin-right:20%">
+            Welcome to your machine learning playground. <br>
+            In the following steps you are able to build your own convolutional neural network, train it and test it. <br>
+            Click on the different parts to show an info text explaining what it will do. <br>
+            For starters, please choose how many blocks you want to implement in your model. <br>
+        </p>
+        <div style="display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        text-align: center;">
+            <div class="MNIST" id="inputbox" style="border: 2px solid #000000;">
+                <h2> 
+                    MNIST Dataset
+                </h2>
+                <img src="../static/include/Images/UML_MNIST.png" alt="Visualization of handwritten digit from the MNIST set. Shown are 5 items per digit." width="200px">
             </div>
-        </div>
-        <div class = "staticClassifier" id = "outputbox">
-            <div class="column" style = "justify-content: center">
-                <div class="classifier_input">
+                <div id = "rectanglelayer" class = "rectanglelayer" style="margin:5%">
+
+                    
+                    <div style="width:100%">
+                        <h3> Convolutional Blocks</h3>
+                        <div class = "blockcolumn">
+                            <button id="block1"class = "block_editor">BLOCK 1</button>
+                            <button id="Add_block1", class="AddButton"> + </button>
+                            <button id="Minus_block1" class="MinusButton"> - </button>
+                        </div>
+                        <div class = "blockcolumn">
+                            <button id="block2"class = "block_editor">BLOCK 2</button>
+                            <button id="Add_block2" class="AddButton"> + </button>
+                            <button id="Minus_block2" class="MinusButton"> - </button>
+                        </div>
+                        <div class = "blockcolumn">
+                            <button id="block3"class = "block_editor">BLOCK 3</button>
+                            <button id="Add_block3" class="AddButton"> + </button>
+                            <button id="Minus_block3" class="MinusButton"> - </button>
+                        </div>
+                        <div class = "blockcolumn">
+                            <button id="block4"class = "block_editor">BLOCK 4</button>
+                            <button id="Add_block4" class="AddButton"> + </button>
+                            <button id="Minus_block4" class="MinusButton"> - </button>
+                        </div>
+                        <div class = "blockcolumn">
+                            <button id="block5"class = "block_editor">BLOCK 5</button>
+                            <button id="Add_block5" class="AddButton"> + </button>
+                            <button id="Minus_block5" class="MinusButton"> - </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="classifier_input">
+            <div class = "staticClassifier" id = "outputbox">
+                <div class="linear_layer">
+                    <p style="margin-top: 30%"> Linear Layer </p>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+                    <div class="classifier_input">
+                    </div>
+
                 </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
-                </div>
-                <div class="classifier_input">
+                <div class="row" style="justify-content:right;">
+                    <div class="column" style = "justify-content:center; margin-top: 25%">
+                        <p> Classification </p>
+                        <div class="classifier_class"> 0
+                        </div>
+                        <div class="classifier_class"> 1
+                        </div>
+                        <div class="classifier_class"> 2
+                        </div>
+                        <div class="classifier_class"> 3
+                        </div>
+                        <div class="classifier_class"> 4
+                        </div>
+                        <div class="classifier_class"> 5
+                        </div>                
+                        <div class="classifier_class"> 6
+                        </div>
+                        <div class="classifier_class"> 7
+                        </div>
+                        <div class="classifier_class"> 8
+                        </div>
+                        <div class="classifier_class"> 9
+                        </div>
+                    </div>
                 </div>
 
             </div>
-            <div class="row" style="justify-content:right;">
-                <div class="column" style = "justify-content:center;">
-                    <div class="classifier_class"> 0
-                    </div>
-                    <div class="classifier_class"> 1
-                    </div>
-                    <div class="classifier_class"> 2
-                    </div>
-                    <div class="classifier_class"> 3
-                    </div>
-                    <div class="classifier_class"> 4
-                    </div>
-                    <div class="classifier_class"> 5
-                    </div>                
-                    <div class="classifier_class"> 6
-                    </div>
-                    <div class="classifier_class"> 7
-                    </div>
-                    <div class="classifier_class"> 8
-                    </div>
-                    <div class="classifier_class"> 9
-                    </div>
+        </div>
+            <div class = "row" style= "display:flex;justify-content:center; margin-right: 7%;">
+                <div class = "infobox" id = "infobox">
+                    <img class = "info-icon" src="../static/include/Images/info.png" alt="Information Box" width="50px">
+                    <p id="infotext" class = "infotext"></p>
+                    <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
+                    <br>
+                    <br>
+                    <button id = "show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
                 </div>
             </div>
 
         </div>
     </div>
-        <div class = "row" style= "display:flex;justify-content:center; margin-right: 7%;">
-            <div class = "infobox" id = "infobox">
-                <div class = "column">
-                    <p class= "infotext" id = "infotext_inputbox"> 
-                        The input of the datamodel is the MNIST dataset. This dataset is already preprocessed and consists of 28x28 images of handdrawn images.
-                    </p>
-                    <p class= "infotext" id = "infotext_block1"> 
-                        This is a convolutional block. It consists of a convolutial layer, a non-linear activation function and a MaxPoolLayer.
-                        Its input is a batch of grayscale images of the dataset. These images are 28 x 28 pixels. 
-                        <br> Its output depends on the kernel size and stride parameters. 
-                    </p>
-                    <p class= "infotext" id = "infotext_block2"> 
-                        This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.
-                        Its input is the output of the previous block. 
-                        <br> Its output depends on the kernel size and stride parameters.
-                    </p>
-                    <p class= "infotext" id = "infotext_block3"> 
-                        This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.
-                        Its input is the output of the previous block. 
-                        <br> Its output depends on the kernel size and stride parameters.
-                    </p>
-                    <p class= "infotext" id = "infotext_block4"> 
-                        This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.
-                        Its input is the output of the previous block. 
-                        <br> Its output depends on the kernel size and stride parameters.
-                    </p>
-                    <p class= "infotext" id = "infotext_block5"> 
-                        This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.
-                        Its input is the output of the previous block. 
-                        <br> Its output depends on the kernel size and stride parameters.
-                    </p>
-                    <p class= "infotext" id = "infotext_outputbox"> 
-                        Linear layers make up the final layers in neural networks for classification. As input, they take a vector which in a CNN is a flattened matrix from the previous layer. While data passes through the network, the linear layers perform a linear transformation by multiplying each input neuron by a weight and adding a bias. Several of these layers can be connected sequentially to reduce the number of inputs. Finally, the output consists of a neuron for each class and a corresponding probability determining how likely the input belongs to each class.  
-                    </p>
-                    <p class= "infotext" id = "infotext_actFunc"> 
-                        Activations functions play a critical in neural networks as they add nonlinearity to the models hidden layers. This is necessary as it allows for more complex functions inside the model that can also capture nonlinear relationships. Typically, the same activation function is chosen for the entire network.
-                    </p>
-                    <p class= "infotext" id = "infotext_NEpochsSlider"> 
-                        How often the learning algorithm works through the entire training dataset.
-                    </p>
-                    <p class= "infotext" id = "infotext_LRate"> 
-                        By how much to adjust the internal parameters of a neural network during training. Choosing a learning rate that’s too large will lead to over- or undershooting the true optimum while a learning rate that’s too small will increase the time to see improvements dramatically.
-                    </p>
-                    <p class= "infotext" id = "infotext_BSizeSlider"> 
-                        How many samples to run through before updating the model parameters. Done both to preserve memory (large datasets can be split into several batches) and improve optimization (individual samples can be noisy, regularizes over a batch of samples).                </p>
-                </div>
-                <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
-                <br>
-                <br>
-                <button id = "Show_more_inputbox" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_block1" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_block2" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_block3" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_block4" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_block5" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_outputbox" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_actFunc" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_NEpochsSlider" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_LRate" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-                <button id = "Show_more_BSizeSlider" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%); display:flex">SHOW MORE</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-<nav class="navbar">
-    <button id= "ModelPage"  class="navbarcontent">Model Builder</button>
-    <button id= "ParamPage" class="navbarcontent">Parameters</button>
-    <button id= "TrainPage" class="navbarcontent">Train</button>
-    <button id= "TestPage"  class="navbarcontent">Test</button>
-</nav>
+    <nav class="navbar">
+        <button id= "ModelPage"  class="navbarcontent">Model Builder</button>
+        <button id= "ParamPage" class="navbarcontent">Parameters</button>
+        <button id= "TrainPage" class="navbarcontent">Train</button>
+        <button id= "TestPage"  class="navbarcontent">Test</button>
+    </nav>
 <div id="popup-container" class="popup">
-<div style="padding: 10px">
-    <p id="popup-text">By Continuing you will loose your training progress. Are you sure?</p>
-    <button id="discard">Discard Model</button>
-    <button id="cancel"> Cancel </button>
-
+    <div style="padding: 10px">
+        <p id="popup-text">By Continuing you will loose your training progress. Are you sure?</p>
+        <button id="discard">Discard Model</button>
+        <button id="cancel"> Cancel </button>
+    </div>
 </div>
-</div>
-
-
-<!-- only need this once -->
-<script src="{{ url_for('static', filename='navbar.js') }}"></script>
-<script src="{{ url_for('static', filename='first_page_script.js') }}"></script>
-
-
+    <!-- only need this once -->
+    <script src="{{ url_for('static', filename='navbar/navbar.js') }}"></script>
+    <script src="{{ url_for('static', filename='infobox/infobox.js') }}"></script>
+    <script src="{{ url_for('static', filename='blocks/blocks.js') }}"></script>
 </body>
 </html>

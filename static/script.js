@@ -161,14 +161,149 @@ function updateSliderValue(slider) {
         .then(response => response.json());
 }
 
+
+//------------------------------------------------------------------
+//MODEL CREATOR
+
+
+//------------------------------------------------------------------
+//MODEL CREATOR -- Blocks
+
+//INIT STATE: Hide all but BLOCK 1 & 2
+//To hide Block, set block.style.display = "none"
+//To display set block.className = "block"
+
+
+var Blocks = [];
+//get input block
+Blocks[0] = document.getElementById("inputbox");
+
+var MinusButtons = [""]; //leave first empty so index matches
+var AddButtons = [""];
+
+
+// Loop through blocks from 1 to 5 (hiding everything)
+for (let i = 1; i <= 5; i++) {
+    var block = document.getElementById(`block${i}`);
+    Blocks[i] = block;
+    var Add_block = document.getElementById(`Add_block${i}`);
+    AddButtons[i] = Add_block;
+    var Minus_block = document.getElementById(`Minus_block${i}`);
+    MinusButtons[i] = Minus_block;
+
+    if (block) {
+        block.style.setProperty("display", "none");
+        block.addEventListener("click", () => {
+            changeInfoText(Blocks[i].id);
+        });
+    }
+
+    if (Add_block) {
+        Add_block.style.setProperty("display", "none");
+        Add_block.addEventListener("click", () => { addBlock(i) });
+    }
+
+    if (Minus_block) {
+        Minus_block.style.setProperty("display", "none");
+        Minus_block.addEventListener("click", () => { removeBlock(i) });
+    }
+}
+
+function addBlock(i) {
+
+    Blocks[i].style.display = "flex";
+    AddButtons[i].style.display = "none";
+    if (i < 5) {
+        AddButtons[i + 1].style.display = "flex";
+    }
+
+    MinusButtons[i].style.display = "flex";
+    if (i > 1) {
+        MinusButtons[i - 1].style.display = "none";
+    }
+    // Call the backend
+    fetch('/update_value', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "type": "NBlocks",
+            "value": i
+        })
+    })
+        .then(response => response.json());
+
+}
+
+function removeBlock(i) {
+    Blocks[i].style.display = "none";
+    AddButtons[i].style.display = "flex";
+    if (i < 5) {
+        AddButtons[i + 1].style.display = "none";
+    }
+
+    MinusButtons[i].style.display = "none";
+    if (i > 1) {
+        MinusButtons[i - 1].style.display = "flex";
+    }
+    // Call the backend
+    fetch('/update_value', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "type": "NBlocks",
+            "value": i - 1
+        })
+    })
+        .then(response => response.json());
+
+}
+
+
+Blocks[1].style.display = "flex";
+
+Blocks[2].style.display = "flex";
+
+MinusButtons[2].style.display = "flex";
+
+AddButtons[3].style.display = "flex";
+
+const infotext = document.getElementById("infotext");
+const infobox = document.getElementById("infobox");
+
+document.getElementById("hide").addEventListener("click", () => {
+    infobox.style.display = "none";
+})
+
+document.getElementById("inputbox").addEventListener("click", () => { changeInfoText("inputbox"); }
+)
+
+function changeInfoText(elementID) {
+    infobox.style.display = "flex";
+    var element = document.getElementById(elementID);
+    if (element && element.style.display != "none") {
+        for (const infoelement of document.getElementsByClassName("infotext")) {
+            if (infoelement.id == `infotext_${elementID}`) {
+                infoelement.style.display = "flex"
+            }
+            else {
+                infoelement.style.display = "none"
+            }
+        }
+    }
+}
+
 //----------------------------------
 // Append changeInfoText event listeners
 
-listofEls = ["actFunc", "LRate", "BSizeSlider", "NEpochsSlider", "outputbox"]
+listofEls=["actFunc", "LRate", "BSizeSlider", "NEpochsSlider", "outputbox"]
 
-for (const element of listofEls) {
-    actFuncMenu = document.getElementById(element);
-    actFuncMenu.addEventListener("click", () => { changeInfoText(element) });
+for (const element of listofEls){
+    actFuncMenu= document.getElementById(element);
+    actFuncMenu.addEventListener("click", ()=> {changeInfoText(element)});
 }
 
 //------------------------------------------------------------------
@@ -181,7 +316,7 @@ console.log(inputs.length);
 
 for (let i = 0; i < inputs.length; i = i + 1) {
 
-    for (let j = i % 2; j < 10; j = j + 2) {
+    for (let j = i%2; j < 10; j = j + 2) {
         new LeaderLine(
             inputs[i], classes[j],
             { color: 'black', size: 1 }
@@ -189,53 +324,6 @@ for (let i = 0; i < inputs.length; i = i + 1) {
     }
 
 }
-
-
-//-----------------------------------------------------------------
-//CHART
-
-var epochs = [];
-var losses = [];
-var accuracies = [];
-
-// Get the canvas element
-const ctxs = document.getElementById('myChart').getContext('2d');
-
-// Create the chart
-const myChart = new Chart(ctxs, {
-    type: 'line',
-    data: {
-        labels: epochs,
-        datasets: [
-            {
-                label: 'Loss',
-                borderColor: 'rgb(255, 99, 132)',
-                data: losses,
-            },
-            {
-                label: 'Accuracy',
-                borderColor: 'rgb(54, 162, 235)',
-                data: accuracies,
-            },
-        ],
-    },
-    options: {
-        scales: {
-            x: {
-                type: 'linear',
-                position: 'bottom',
-            },
-            y: {
-                min: 0,
-                max: 100,
-            },
-        },
-    },
-});
-
-rectangle= document.getElementById("rectanglelayer")
-inputbox= document.getElementById("inputbox")
-outputbox= document.getElementById("outputbox")
 
 
 //------------------------------------------------------------------
@@ -260,7 +348,33 @@ function sleep(ms) {
 
 
 async function handleStartButton() {
+    //FAKE FOR USER STUDY
+    if (training == false) {
+        training = true;
+        startbutton.innerHTML = "PAUSE";
+        for (const epoch of SampleEpochs) {
+            if (training == false) { break; }
+            progressbar.style.display = "flex";
+            progress.style.width = "0%";
+            for (var i = 0; i < 256; i++) {
+                await sleep(100);
+                progress.style.width = ((i + 1) * 100 / 256).toFixed(0) + "%";
+            }
+            accuracies.push(SampleAccuracies[epoch - 1]);
+            losses.push(SampleLosses[epoch - 1]);
+            epochs.push(epoch);
+            myChart.update();
+        }
+        progressbar.style.display = "None";
+        training = false;
+        startbutton.innerHTML = "continue";
+    }
+    else {
+        training = false;
+        startbutton.innerHTML = "CONTINUE";
+    }
     //ACTUAL IMPLEMENTATION
+    /*
     fetch('/button_press', {
         method: 'POST',
         headers: {
@@ -270,67 +384,22 @@ async function handleStartButton() {
             "type": "starttraining"
         })
     })
-        .then(response => {return response.json()});
-
-}
-
-trainingdisplay=document.getElementById("trainingdisplay")
-
-fetch("/get_config")
-.then(response => {
-    if (response.ok) {
-        return response.json();
-    } else {
-        throw new Error('Request failed.');
-    }
-})
-.then(data => {
-    handleTrainingData(data);
-})
-.catch(error => {
-    console.error(error);
-});
-
-
-
-socket.on("training_data", (data) => handleTrainingData(data))
-function handleTrainingData(training_config){
-    if (training_config["training_active"]==true && training_config["training_stop_signal"]==true){
-    progress.style.width=""+ training_config["EpochProgress"]+"%"
-    startbutton.innerHTML="CONTINUE"
-    trainingdisplay.innerHTML= `Waiting for Epoch ${training_config["Epochs_Trained"]} to finish...`
-    }
-    else if (training_config["training_active"]==true && training_config["training_stop_signal"]==false){
-        progress.style.width=""+ training_config["EpochProgress"]+"%"
-        startbutton.innerHTML="PAUSE"
-        trainingdisplay.innerHTML= `Training Epoch ${training_config["Epochs_Trained"]}...`
-        }
-    else if (training_config["Epochs_Trained"]>0){
-        progress.style.width="0%"
-        startbutton.innerHTML="CONTINUE"
-        trainingdisplay.innerHTML= `Trained ${training_config["Epochs_Trained"]} Epochs`
-    }
-    else{
-        progress.style.width="0%"
-        startbutton.innerHTML="START"
-        trainingdisplay.innerHTML= ""
-    }
-    epochs=[]
-    for (i=1; i<= training_config["Epochs_Trained"]; i++){
-        epochs.push(i);
-    }
-    myChart.data.labels= epochs;
-    myChart.data.datasets[0].data= training_config["acc"];
-    myChart.data.datasets[1].data= training_config["loss"];
-    myChart.update();
-    console.log(training_config)
+        .then(response => {return response.json()})
+        .then((data)=> {
+            if (data==true){
+                startbutton.innerHTML="Pause";
+            }
+            else {
+                startbutton.innerHTML="Continue";
+            }
+        });
+    //toggleProgressBar();*/
 }
 
 
 resetbutton = document.getElementById("resettraining");
 resetbutton.addEventListener("click", () => {
-    handleButton(resetbutton.id);
-    progress.style.width="0%";
+    handleButton(resetbutton);
 })
 
 function handleButton(buttonName) {
@@ -349,7 +418,7 @@ function handleButton(buttonName) {
 
 }
 
-/*
+
 //code for the canvas
 const canvas = document.getElementById('inputbox');
 const ctx = canvas.getContext('2d');
@@ -399,9 +468,9 @@ function draw(e) {
     if (!isDrawing) return;
     const pos = getMousePos(canvas, e);
 
-    ctx.lineWidth = 10;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = '#000';
+  ctx.lineWidth = 10;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = '#000';
 
     ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
@@ -412,6 +481,8 @@ function stopDrawing() {
     ctx.closePath();
 }
 
+
+
 canvas.addEventListener('mousedown', startDrawing);
 canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mouseup', stopDrawing);
@@ -419,7 +490,7 @@ canvas.addEventListener('mouseout', stopDrawing);
 
 displayText();
 
-*/
+
 
 
 //----------------------------------------------------------
@@ -454,8 +525,14 @@ function sendToModel(canvasData) {
 
 */
 
-/*
-function printPrediction(predicted_digit) {
+
+
+//const softmaxValues = [0.1, 0.5, 0.8, 0.3, 0.6, 0.9, 0.2, 0.4, 0.7, 0.55]; // Beispielwerte
+
+
+
+
+function printPrediction(predicted_digit){
     var predictionText = document.getElementById('predictionText');
     var text = 'Die Vorhersage des Models: ' + predicted_digit;
     predictionText.innerText = text;
@@ -463,7 +540,7 @@ function printPrediction(predicted_digit) {
 }
 
 
-function sendAndReceiveClassification(canvasData) {
+function sendAndReceiveClassification(canvasData){
     return new Promise((resolve, reject) => {
         socket.emit('classify', { canvasData });
         socket.on('classification_result', (result) => {
@@ -473,56 +550,114 @@ function sendAndReceiveClassification(canvasData) {
     });
 }
 
+// Funktion, um Farbwerte entsprechend der Intensität zu generieren
+function mapIntensityToColor(intensity) {
+    const colorIntensity = Math.floor(245 * intensity); // Skalierung auf den Wertebereich von 0 bis 255
+    const Intensity = colorIntensity + 10;
+    console.log('mapIntensity ausgeführt');
 
-
-function classificationResult(predicted_digit) {
-    const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
-    const resultClass = classes[predicted_digit];
-    resultClass.style.backgroundColor = 'red';
+    return `rgb(0, ${Intensity}, 0)`;
 }
 
-async function classifyImage() {
+
+function classificationResult(softmaxValues){
+    //const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
+    //const resultClass = classes[predicted_digit];
+    //resultClass.style.backgroundColor = 'red';
+    const classifierClasses = document.querySelectorAll('.classifier_class');
+
+    classifierClasses.forEach((element, index) => {
+        const intensity = softmaxValues[index];
+        console.log(`Intensität für Klasse ${index}:`, intensity); // Überprüfen der Intensität für jede Klasse
+        const color = mapIntensityToColor(intensity);
+        console.log(`Farbe für Klasse ${index}:`, color); // Überprüfen der generierten Farbe
+        element.style.backgroundColor = color;
+    });
+    console.log('classificationResult ausgeführt');
+}
+
+async function classifyImage(){
     console.log('Classifying Image....')
     var predicted_digit = 5;
     const canvasData = canvas.toDataURL();
     const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
-    classes.forEach(container => { container.style.backgroundColor = 'transparent'; });
+    classes.forEach(container => {container.style.backgroundColor = 'transparent';});
     try {
-        const classification = await sendAndReceiveClassification(canvasData);
-        console.log('Die Klassifizierung ergibt:', classification);
+        const resultArray = await sendAndReceiveClassification(canvasData);
+        console.log('Die Klassifizierung ergibt:', resultArray);
         //printPrediction(classification); not needed anymore as containers are colored
-        classificationResult(classification);
-    } catch (error) {
+        classificationResult(resultArray);
+        
+    } catch(error) {
         console.error('Fehler bei der Klassifizierung:', error);
     }
 }
 
 const classifyButton = document.getElementById('classify');
-classifyButton.addEventListener('click', classifyImage);
+classifyButton.addEventListener('click',classifyImage);
 
 
-function clearCanvas() {
+function clearCanvas(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     displayText();
     var predictionText = document.getElementById('predictionText');
     predictionText.innerText = ''; // Leere den Text
     predictionText.style.display = 'none'; // Verberge das Element
     const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
-    classes.forEach(container => { container.style.backgroundColor = 'transparent'; });
+    classes.forEach(container => {container.style.backgroundColor = 'transparent';});
 }
 
 //Reset Button for Canvas
 document.getElementById('reset').addEventListener('click', clearCanvas);
 
 
-*/
+
 
 //
 //-------------------------------------------------------
 
 
 
-new LeaderLine(inputbox, rectanglelayer,     { color: 'black', size: 5 }
-)
-new LeaderLine(rectanglelayer, outputbox,     { color: 'black', size: 5 }
-)
+// Sample data (replace with your actual data)
+const SampleEpochs = [1, 2, 3, 4, 5];
+const SampleLosses = [0.1, 0.08, 0.06, 0.04, 0.02];
+const SampleAccuracies = [80, 85, 90, 95, 98];
+
+var epochs = [];
+var losses = [];
+var accuracies = [];
+
+// Get the canvas element
+const ctxs = document.getElementById('myChart').getContext('2d');
+
+// Create the chart
+const myChart = new Chart(ctxs, {
+    type: 'line',
+    data: {
+        labels: epochs,
+        datasets: [
+            {
+                label: 'Loss',
+                borderColor: 'rgb(255, 99, 132)',
+                data: losses,
+            },
+            {
+                label: 'Accuracy',
+                borderColor: 'rgb(54, 162, 235)',
+                data: accuracies,
+            },
+        ],
+    },
+    options: {
+        scales: {
+            x: {
+                type: 'linear',
+                position: 'bottom',
+            },
+            y: {
+                min: 0,
+                max: 100,
+            },
+        },
+    },
+});
