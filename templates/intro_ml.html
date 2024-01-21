@@ -19,6 +19,14 @@
 
 </head>
 <body>
+    <div class = "infobox" id = "infobox">
+        <img class = "info-icon" src="../static/include/Images/info.png" alt="Information Box" width="50px">
+        <p id="infotext" class = "infotext"></p>
+        <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
+        <br>
+        <br>
+        <button id = "show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
+    </div>
     <div id="section-indicators" class="section-indicators">
         <!-- Indicators will be added here dynamically -->
     </div>
@@ -37,9 +45,6 @@
         </div>
     </section>
     <main>
-
-
-
         <section id="Understanding CNNs" class="cnn-explanation">
             <div class="container cnn-container">
                 <div class="cnn-text">
@@ -59,11 +64,14 @@
             </div>
         </section> 
 
-        <section >
+        <section>
+
             <div class="container-model-builder">
                 <div class="modelbuilder-text">
                     <h2>Configure your own Model!</h2>
                 </div>
+
+
                 <div class= "container-blockVisualization">
                     <div class= "container-MNIST">
                         <div class="MNIST" id="inputbox">
@@ -345,14 +353,6 @@
                     </div>
                     <canvas id="myChart" width="500" height="200"> GO </canvas>
                 </div>
-                <div class = "infobox" id = "infobox">
-                    <img class = "info-icon" src="../static/include/Images/info.png" alt="Information Box" width="50px">
-                    <p id="infotext" class = "infotext"></p>
-                    <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
-                    <br>
-                    <br>
-                    <button id = "show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
-                </div>
             </div>
             <nav class="navbar">
                     <button id= "ModelPage" class="navbarcontent">Model Builder</button>
@@ -368,6 +368,7 @@
                 </div>
             </div>
         </section>
+
     </main>
     <footer>
         <div class="container">

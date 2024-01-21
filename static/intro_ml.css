@@ -24,10 +24,10 @@
     --text-darkgrey: #333333;
     --text-white: #FFFFFF;
     --text-on-highlight: #333333;
-    --text-on-highlight2: #FFFFFF;
+    --text-on-highlight2: #ffffff;
     --highlight-color: #FFC107;
     --highlight-color2: #ac1a1a;
-    --model-background: none
+    --model-background: none;
   }
 
 body, html {

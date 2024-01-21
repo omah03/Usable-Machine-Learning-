@@ -42,9 +42,44 @@ for( const ID of elementIDs)
     
 }
 
+window.addEventListener("scroll", () => {
+    if (infobox){
+        infobox.style.display="none";
+    }
+})
+
+function positionInfobox(element){
+    element.parentNode.appendChild(infobox);
+    
+    ElementRect = element.getBoundingClientRect();
+
+    InfoboxRect = infobox.getBoundingClientRect();
+
+    vheight= window.innerHeight;
+    vwidth= window.innerWidth;
+
+    infoheight= InfoboxRect.height;
+    infowidth= InfoboxRect.width;
+
+    CanFitBelow = ElementRect.bottom + InfoboxRect.height < vheight * 0.9;
+    topINT= (CanFitBelow) ? ElementRect.bottom : ElementRect.top - InfoboxRect.height
+    
+    infobox.style.position = "fixed";
+    infobox.style.top =topINT + "px";
+    infobox.style.left= ElementRect.left +"px"; 
+    infobox.focus();
+}
 
 function changeInfoText(elementID) {
     if (infobox) {
+    element = document.getElementById(elementID);
+    
+    if (!element){
+        console.log("ABORTING")
+        return
+    }
+    positionInfobox(element);
+    
     // Trigger the highlight animation and change the text
     infobox.classList.add('highlight');
     fetch('/infotext', {

@@ -1,21 +1,27 @@
+
+
 .infobox {
+  position: fixed;
+
   border: 2px solid #333;
   border-radius: 5px;
   padding: 10px;
-  width: 60%;
-  min-width: 500px;
-  min-height: 200px;
+  width: 30vw;
+  height: 30vh;
   text-align: center;
   font-family: Arial, sans-serif;
-  background-color: #fff;
+  background-color: #FFFFFFDD;;
   transition: transform 0.3s, box-shadow 0.3s;
-  display:flex;
+  display:none;
   flex-direction: row;
   
-  position: relative;
-  text-align: "center";
-  align-items: "center";
-  
+  text-align: center;
+  align-items: center;
+
+  z-index: 10;
+
+  font-size : 1.5vh;
+  color: #000000;  
 }
 
 .info-icon {
@@ -33,6 +39,8 @@
   align-self:flex-start;
   float:left;
   z-index: 20;
+
+  position: static
 }
 
 .infotext {
@@ -46,10 +54,10 @@
 
 /* Animation for changing text */
 @keyframes changeHighlight {
-  0%, 100% { background-color: #fff; transform:scale(1.00);   box-shadow:none;
+  0%, 100% {transform:scale(1.00);   box-shadow:none; background-color:#FFFFFFCC;
   }
   
-  50% { background-color: #f0f0f0;   transform: scale(1.05);   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  50% {  transform: scale(1.05);   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); background-color:#FFFFFFCC;
 
   }
 }
