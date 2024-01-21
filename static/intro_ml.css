@@ -196,10 +196,10 @@ header h1 {
     color: #ffffff; 
     line-height: 1.6; 
     font-size: 1.5vw; 
-    position: absolute; /* Add this line */
-    bottom: 0;         /* Add this line */
-    left: 0;           /* Add this line */
-    width: 100%;       /* Add this line */
+    position: absolute; 
+    bottom: 0;        
+    left: 0;           
+    width: 100%;      
     top: 1000px;
 }
 .modelbuilder-text h2{
@@ -207,6 +207,63 @@ header h1 {
     color: #ffffff;
 
 }
+
+.section-indicators {
+    position: fixed;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+.section-indicator {
+    width: 10px;
+    height: 10px;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    margin: 5px 0;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+.section-indicator.active {
+    opacity: 1;
+}
+
+.section-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 40px;
+    cursor: pointer; 
+    animation: pulse 2s infinite;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.section-name {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap; 
+    order: -1;
+    font-size:  2.0em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.section-indicator:hover .section-name,
+.section-indicator.active .section-name {
+    opacity: 1;
+}
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+
+
 @media (max-width: 768px) {
     .explanation-container {
         max-width: 90%; 
