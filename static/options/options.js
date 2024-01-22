@@ -111,10 +111,7 @@ function updateSliderValue(slider) {
     var displayId = slider.id.replace("Slider", "Display");
     var display = document.getElementById(displayId);
 
-    if (sliderName != "KSize") {
-        display.innerHTML = ("0000" + sliderValue.toString()).slice(-3)
-    }
-    else {
+    if (sliderName == "KSize") {
         switch (sliderValue) {
             case "1":
                 display.innerHTML = "small"
@@ -126,6 +123,25 @@ function updateSliderValue(slider) {
                 display.innerHTML = "large"
                 break
         }
+    }
+    else if (sliderName == 'LRate') {
+        switch (sliderValue) {
+            case "1":
+                display.innerHTML = "0.1"
+                break
+            case "2":
+                display.innerHTML = "0.01"
+                break
+            case "3":
+                display.innerHTML = "0.001"
+                break
+            case "4":
+                display.innerHTML = "0.0001"
+                break
+        }
+    }
+    else {
+        display.innerHTML = ("0000" + sliderValue.toString()).slice(-3)
     }
     // Call the backend
     fetch('/update_value', {
