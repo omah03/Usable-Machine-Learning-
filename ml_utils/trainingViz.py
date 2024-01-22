@@ -160,15 +160,7 @@ def main(seed):
     config= {}
     
     print("train...")
-    Trainer.training(
-        model=model,
-        optimizer=opt,
-        cuda=False,     # change to True to run on nvidia gpu
-        #n_epochs=10,
-        batch_size=256,
-        learning_rate=0.3,
-        momentum=0.5
-    )
+
     print("training finished")
     """
     # save the classification model as a pickle file
