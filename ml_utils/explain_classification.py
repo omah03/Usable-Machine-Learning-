@@ -34,7 +34,7 @@ def show_linear_filters(model, layer_index=0, num_filters=10):
         print("Die angegebene Schicht ist keine lineare Schicht.")
 
 
-def showheatma(heatmap):
+def showheatmap(heatmap):
     print("final heatmap", heatmap, type(heatmap), len(heatmap),len(heatmap[1]),len(heatmap[5]))
     plt.imshow(heatmap, cmap='jet')
     plt.show()
@@ -118,7 +118,7 @@ def showim(image):
     plt.axis('off')
     plt.show()
 
-def saveim(image):
+def saveim(image,path):
     from PIL import Image
     import numpy as np
 
@@ -126,12 +126,14 @@ def saveim(image):
     #np_image = np.random.randint(0, 256, (28, 28))  # Hier wird ein zufälliges Bild erzeugt
     if isinstance(image, torch.Tensor):
         image = image.numpy()
+    elif isinstance(image, list):
+        image = np.array(image)
     image = image.reshape(28, 28)  # Beispiel: Ändern Sie die Form auf (28, 28), falls nötig
     # Konvertieren Sie das Numpy-Bild in ein PIL-Image
     pil_image = Image.fromarray(image.astype('uint8'))
 
     # Speichern Sie das PIL-Image als JPG-Datei
-    file_path = 'mein_bild.jpg'
+    file_path = f'imagem{path}.jpg'
     pil_image.save(file_path)
 
 
@@ -139,9 +141,33 @@ def gradCAM(model, image):
 
     assert image.requires_grad == True, "image.requires_grad is False!"
     
-    #with torch.no_grad():
     output_tensor = model(image)
     output_class = torch.argmax(output_tensor).item()  # Annahme: Bestimmung der vorhergesagten Klasse
+
+    
+    """better code:"""
+    #1 forward pass with input image
+    c = output_class
+    c_tensor = output_tensor[0,c]
+    #2 set gradients to 0 for all classes except for output class (which is set to 1)
+    """im not sure here"""
+
+    #3 backprop until last conv
+    #c_tensor.backward()
+
+    #3.2 calculate 'importance' of the kth feature map
+    #akc = ...
+
+    #3.3 average over all k feature maps and apply Relu because only positive impacts are interesting to us.
+    #for k in model.conv_layers[-1].
+
+    #4 compute heatmap
+   
+    #raise ValueError("stop")
+
+
+    """end of section"""
+
 
 
     print("start explaining...")
@@ -157,6 +183,8 @@ def gradCAM(model, image):
     assert output_tensor.requires_grad == True, "output_tensor.requires_grad is False!"
     assert isinstance(output_class,int), "output_class is not of type int"
 
+
+
     print("model: ", model)###
     output_tensor[0, output_class].backward()
     
@@ -164,25 +192,37 @@ def gradCAM(model, image):
     gradients = model.conv_layers[0].conv.weight.grad #this is the kernel for each convolution
 
 
+
+
+
     print("gradients.shape= ",gradients.shape)
 
     #print("gradients",gradients, gradients.shape, len(gradients))    
 
     assert (gradients.shape == torch.Size([16, 1, 3, 3])),"sth went wrong"
-
+    print("gradients = ", gradients)
     pooled_gradients = torch.mean(gradients, dim=[1, 2, 3])
     
     activations = model.conv_layers[-1].conv(image).detach()
     assert (model.conv_layers[0] == model.conv_layers[-1]), "Which one is the 'last conv layer'?" 
- 
+    """A number of previous works have asserted that deeper repre-
+    sentations in a CNN capture higher-level visual constructs [6,
+    41]. Furthermore, convolutional layers naturally retain spatial
+    information which is lost in fully-connected layers, so we
+    can expect the last convolutional layers to have the best com-
+    promise between high-level semantics and detailed spatial
+    information. [Selvaraju et al.]"""
+    
 
 
 
-    print("activations", activations, activations.shape, len(activations))
+    print("activations", activations, activations.shape, len(activations), activations.size(1))
+
     print("pooled_gradients", pooled_gradients, pooled_gradients.shape, len(pooled_gradients))
 
     for i in range(activations.size(1)):
         """I'm not sure whether this is correct. we should use the kernel not the average"""
+        print("pooled_gradients = ", pooled_gradients[i])
         activations[:, i, :, :] *= pooled_gradients[i]
 
     # Heatmap generieren
@@ -266,5 +306,6 @@ if __name__ == "__main__":
         _ , heatmap = classify_canvas_image(image,model_file)
 
         #showheatmap(heatmap)
+        #saveim(heatmap, f"heatmap{i}")
 
 
