@@ -2,7 +2,7 @@ const socket = io('http://127.0.0.1:5000');
 //-----------------------------------------------------------------
 //CHART
 Chart.defaults.font.size = 20; // Sets the global font size
-Chart.defaults.color = '#333333'
+Chart.defaults.color = '#FFFFFF'
 
 var epochs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 var losses = [];

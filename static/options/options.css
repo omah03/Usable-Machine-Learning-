@@ -79,4 +79,24 @@ input[type="range"] {
   /* Show the dropdown menu on hover */
   .dropdown:hover .dropdown-content {display: block;}
   
-  /* Change the background color of the dropdown button when the dropdown content is shown */  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {background-color: #3e8e41;} 
+  
+  .sliderDisplay {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .slider-text {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 200%; 
+    color: #ffffff;
+  }
+
+  .startbutton {
+    width: 100%;
+    
+  }
