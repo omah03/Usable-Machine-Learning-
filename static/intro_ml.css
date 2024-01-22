@@ -252,13 +252,18 @@ header h1 {
 .section-indicator:hover .section-name,
 .section-indicator.active .section-name {
     opacity: 1;
+    animation: fadeOut 2s ease-in 2s forwards;
 }
+    
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
 }
-
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
 
 
 @media (max-width: 768px) {
