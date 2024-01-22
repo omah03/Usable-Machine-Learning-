@@ -231,7 +231,7 @@ header h1 {
     justify-content: flex-start;
     margin-bottom: 40px;
     cursor: pointer; 
-    animation: pulse 2s infinite;
+    --animation: pulse 2s infinite;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
