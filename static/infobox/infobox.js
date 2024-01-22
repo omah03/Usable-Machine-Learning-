@@ -61,12 +61,20 @@ function positionInfobox(element){
     infoheight= InfoboxRect.height;
     infowidth= InfoboxRect.width;
 
+    CanFitLeftBound = ElementRect.left + InfoboxRect.width < vwidth * 0.9;
+    leftNUM = (CanFitLeftBound) ? ElementRect.left: ElementRect.right - InfoboxRect.width;
+
     CanFitBelow = ElementRect.bottom + InfoboxRect.height < vheight * 0.9;
-    topINT= (CanFitBelow) ? ElementRect.bottom : ElementRect.top - InfoboxRect.height
+    topNUM = (CanFitBelow) ? ElementRect.bottom : ElementRect.top - InfoboxRect.height
     
+    // Special cases
+    if (element.id == "actFuncCol"){
+        topNUM = ElementRect.top - InfoboxRect.height;
+    }
+
     infobox.style.position = "fixed";
-    infobox.style.top =topINT + "px";
-    infobox.style.left= ElementRect.left +"px"; 
+    infobox.style.top = topNUM + "px";
+    infobox.style.left= leftNUM +"px"; 
     infobox.focus();
 }
 

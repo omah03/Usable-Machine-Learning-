@@ -9,13 +9,7 @@ for (const actOption of actFuncOptions) {
 }
 
 // LRate
-const LRateOptions = document.getElementsByClassName("LRate_Option");
-const LRateLabel = document.getElementById("act_Label")
-
-for (const LRateOption of LRateOptions) {
-    LRateOption.addEventListener("click", (event) => { handleDropdownChange(LRateOption, "LRate") })
-}
-
+const LRateSlider = document.getElementById("LRateSlider")
 
 // BSize
 const BSizeSlider = document.getElementById("BSizeSlider")
@@ -37,6 +31,10 @@ fetch("/get_config")
     })
     .then(data => {
         console.log(`Loaded Parameters: ${data}`)
+        if (LRateSlider) {
+            LRateSlider.value = data["LRate"]
+            updateSliderValue(LRateSlider)
+        }
         if (BSizeSlider) {
             BSizeSlider.value = data["BSize"]
             updateSliderValue(BSizeSlider)
@@ -45,7 +43,7 @@ fetch("/get_config")
             EpochsSlider.value = data["NEpochs"]
             updateSliderValue(EpochsSlider)
         }
-        if (actFuncOptions && LRateLabel) {
+        if (actFuncOptions) {
             for (const option of actFuncOptions) {
                 // If the options id was selected; simulate a click on it to put the text on the label
                 // pretty inefficient solution 
@@ -54,29 +52,16 @@ fetch("/get_config")
                 }
             }
         }
-        if (LRateOptions && LRateLabel) {
-            for (const option of LRateOptions) {
-                if (option.id == data["LRate"]) {
-                    handleDropdownChange(option, "LRate")
-                }
-            }
-        }
-
     })
     .catch(error => {
         console.error(error);
     });
 
-
 function handleDropdownChange(option, type) {
-    labelHTML = "error";
+    labelHTML = "error";                            // if überflüssig, da LRate weg?
     if (type == "act") {
         labelHTML = "Activation Function: <br>"
         flask_type = "ActivationFunc"
-    }
-    else if (type == "LRate") {
-        labelHTML = "Learning Rate: <br>"
-        flask_type = "LRate"
     }
     var titleElement = document.getElementById(`${type}_Label`);
     console.log(titleElement.id)
@@ -102,7 +87,10 @@ function handleDropdownChange(option, type) {
 
 // SLIDERS
 
-
+if (LRateSlider) {
+    LRateSlider.addEventListener("input", (event) => { updateSliderValue(event.target); });
+    updateSliderValue(LRateSlider);
+}
 if (BSizeSlider) {
     BSizeSlider.addEventListener("input", (event) => { updateSliderValue(event.target); });
     updateSliderValue(BSizeSlider);

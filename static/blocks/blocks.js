@@ -16,8 +16,8 @@ var AddButtons = [""];
 
 
 
-// Loop through blocks from 1 to 5 (hiding everything)
-for (let i = 1; i <= 5; i++) {
+// Loop through blocks from 1 to 3 (hiding everything)
+for (let i = 1; i <= 3; i++) {
     var block = document.getElementById(`block${i}`);
     Blocks[i] = block;
     var Add_block = document.getElementById(`Add_block${i}`);
@@ -47,11 +47,12 @@ function addBlock(i) {
 
     Blocks[i].style.display = "flex";
     AddButtons[i].style.display = "none";
-    if (i < 5) {
+    MinusButtons[i].style.display = "flex";
+
+    if (i < 3) {
         AddButtons[i + 1].style.display = "flex";
     }
 
-    MinusButtons[i].style.display = "flex";
     if (i > 1) {
         MinusButtons[i - 1].style.display = "none";
     }
@@ -73,7 +74,7 @@ function addBlock(i) {
 function removeBlock(i) {
     Blocks[i].style.display = "none";
     AddButtons[i].style.display = "flex";
-    if (i < 5) {
+    if (i < 3) {
         AddButtons[i + 1].style.display = "none";
     }
 
@@ -103,62 +104,29 @@ var NumBLocks;
 
 fetch("/get_blocks")
     .then(response => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error('Request failed.');
-    }
-  })
-  .then(data => {
-    // Access the number from the response JSON
-    const NumBlocks = data.number;
-    console.log("NUMBER " + NumBlocks);
-    for (i = 1; i<=NumBlocks; i++){
-        Blocks[i].style.display = "flex";
-    }
-    if (MinusButtons[NumBlocks] && (NumBlocks>1)){
-        MinusButtons[NumBlocks].style.display="flex"
-    }
-    if (NumBlocks<5 && AddButtons[NumBlocks]){
-        AddButtons[NumBlocks+1].style.display="flex"
-    }
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Request failed.');
+        }
+    })
+    .then(data => {
+        // Access the number from the response JSON
+        const NumBlocks = data.number;
+        console.log("NUMBER " + NumBlocks);
+        for (i = 1; i <= NumBlocks; i++) {
+            Blocks[i].style.display = "flex";
+        }
+        if (MinusButtons[NumBlocks] && (NumBlocks > 1)) {
+            MinusButtons[NumBlocks].style.display = "flex"
+        }
+        if (NumBlocks < 3 && AddButtons[NumBlocks]) {
+            AddButtons[NumBlocks + 1].style.display = "flex"
+        }
     }
     )
-  .catch(error => {
-    console.error(error);
-  });
+    .catch(error => {
+        console.error(error);
+    });
 
-console.log("Number of Blocks to display: "+NumBLocks)
-
-
-var mnist= document.getElementById("inputbox")
-var rec_layer= document.getElementById("rectanglelayer")
-var classifier=  document.getElementById("outputbox")
-
-console.log(mnist,rec_layer,classifier)
-
-if (mnist&&rec_layer){
-new LeaderLine(mnist, rec_layer,{ color: 'black', size: 10 })
-}
-
-if(rec_layer&&classifier){
-new LeaderLine(rec_layer,classifier,{ color: 'black', size: 10 })
-}
-//------------------------------------------------------------------
-//Classifier arrows UGLY FUCKING SOLUTION I HATE THIS
-/*
-inputs = (document.getElementsByClassName("classifier_input"));
-classes = (document.getElementsByClassName("classifier_class"));
-
-console.log(inputs.length);
-
-for (let i = 0; i < inputs.length; i = i + 1) {
-
-    for (let j = i%2; j < 10; j = j + 2) {
-        new LeaderLine(
-            inputs[i], classes[j],
-            { color: 'black', size: 1 }
-        );
-    }
-}
-*/
+console.log("Number of Blocks to display: " + NumBLocks)
