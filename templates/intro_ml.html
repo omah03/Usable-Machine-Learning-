@@ -70,9 +70,7 @@
                 <div class="modelbuilder-text">
                     <h2>Configure your own Model!</h2>
                 </div>
-
-
-                <div class= "container-blockVisualization">
+                <div class= "container-blockVisualization" >
                     <div class= "container-MNIST">
                         <div class="MNIST" id="inputbox">
                             <h2> 
@@ -82,7 +80,7 @@
                         </div>
 
                     </div>
-                    <div class= "container-modelconfiguration">
+                    <div class= "container-modelconfiguration" id = "rectanglelayer">
                         <div class="container-modelconfiguration-options">
                             <div class = "container-dropdown" id= "actFuncCol"> 
                                 <div class="dropdown">
@@ -223,7 +221,7 @@
                                 </div>
                             </div>
                         </div>
-                    <div id = "rectanglelayer" class = "rectanglelayerViz">
+                    <div class = "rectanglelayerViz">
                         <div style="width:100%">
                             <p style="margin-bottom:-5px; margin-top: 0px"> Convolutional Blocks</p>
                             <div class = "blockcolumn">
@@ -378,9 +376,8 @@
 
     <script src="{{ url_for('static', filename='blocks/blocks.js') }}"></script>
     <script src="{{ url_for('static', filename='infobox/infobox.js') }}"></script>
-    <script src="{{ url_for('static', filename='navbar/navbar.js') }}"></script>
     <script src="{{ url_for('static', filename='options/options.js') }}"></script>
-    <script src="{{ url_for('static', filename='test/test.js') }}"></script>
+    <script src="{{ url_for('static', filename='test.js') }}"></script>
     <script src="{{ url_for('static', filename='training/training.js') }}"></script>
     <script src="{{ url_for('static', filename='scroll-animation.js') }}"></script>
 
