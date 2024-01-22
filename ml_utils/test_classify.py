@@ -1,6 +1,6 @@
 import pickle
 import torch
-from data import get_dataset
+from ml_utils.data import get_dataset
 import matplotlib.pyplot as plt
 import numpy as np
 import base64

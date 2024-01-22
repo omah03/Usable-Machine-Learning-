@@ -1,4 +1,4 @@
-import config
+import ml_utils.config
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -145,5 +145,5 @@ class ModelBuilder(nn.Module):
     
 ##maximum amount of blocks is 3
 
-model = ModelBuilder(3,'relu')
-print(model)
+# model = ModelBuilder(3,'relu')
+# print(model)
