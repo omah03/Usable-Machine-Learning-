@@ -2,8 +2,9 @@ const walkthroughTargets = ['inputbox','rectanglelayer','outputbox','training_pa
 
 function skip_walkthrough(){
     console.log('skip walkthrough...');
-
     const pagePosition = 4 * window.innerHeight;
+
+    
 
       // Scrollen Sie zur berechneten Position
       window.scrollTo({
