@@ -1,3 +1,5 @@
+const walkthroughTargets = ['inputbox','rectanglelayer','outputbox','training_params','training_graph','testing_section'];
+
 function skip_walkthrough(){
     console.log('skip walkthrough...');
 
@@ -8,6 +10,10 @@ function skip_walkthrough(){
         top: pagePosition,
         behavior: 'smooth' // Fügt eine sanfte Animation hinzu (optional)
       });
+    walkthroughTargets.forEach(target => {
+        highlight_section(target);
+    });
+    
 
     console.log('scrolling abgeschlossen');
 }
@@ -28,8 +34,16 @@ function blurr_section(target_id){
 
 }
 
-function highlight_section(sec){
+function highlight_section(target_id){
+    console.log('highlight_section...')
+    const target = document.getElementById(target_id);
 
+    if (target.classList.contains('blurred-section')){
+        target.classList.remove('blurred-section');
+        console.log('removed blurred');
+    } else{
+        console.log('target was not blurred');
+    }
 };
 
 function walkthrough(){
@@ -37,16 +51,15 @@ function walkthrough(){
     console.log('starting walkthrough...');
     //Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet. 
     //blurr_section('inputbox');
-    
-    //blurr_section('rectanglelayer');
+    blurr_section('rectanglelayer');
 
     //blurr_section('outputbox');
 
     //blurr_section('training_params');
 
-    //blurr_section('training_graph');
+    blurr_section('training_graph');
 
-    //blurr_section('testing_section');
+    blurr_section('testing_section');
 
 
 
