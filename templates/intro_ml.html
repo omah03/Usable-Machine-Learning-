@@ -71,6 +71,10 @@
                 <div class="modelbuilder-text">
                     <h2>Configure your own Model!</h2>
                 </div>
+                <div class = "speech_bubble">
+                    <p class = "walkthrough_text">Dieser Text ist nur ein Dummy</p>
+                    <button id = "next_button">next</button>
+                </div>
                 <div class= "container-blockVisualization" >
                     <div class= "container-MNIST">
                         <div class="MNIST" id="inputbox">
@@ -160,7 +164,7 @@
             <h2> Training and Testing the Model</h2>            
             </div>
                 <div class="training-container">
-                    <div class="parameter-control-progressbar">
+                    <div class="parameter-control-progressbar" id = training_params>
                         <div class="parameter-control-container">
                             <div class="parameters-container">
                                 <div class="LearningRate">
@@ -213,12 +217,12 @@
                             <div class="progress" id="progress" ></div>
                         </div>
                     </div>
-                    <div class="graph-container">
+                    <div class="graph-container", id = "training_graph">
                         <canvas id="myChart"> GO </canvas>
                     </div>
 
                 </div>
-                <div class="testing-container">
+                <div class="testing-container" id = "testing_section">
                     <div class="canvas-container">
                         <div class="inputbox">
                             <canvas id="inputbox" class = "inputCanvas"></canvas>

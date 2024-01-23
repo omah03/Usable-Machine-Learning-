@@ -254,7 +254,7 @@
 
 
 
-
+/*This section is for the walkthrough*/
 #skip_tut{
     position: fixed;
     bottom: 10px;
@@ -266,3 +266,32 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+.blurred-section {
+    filter: blur(5px); /* Ändere die Zahl entsprechend der gewünschten Unschärfe */
+    transition: filter 0.3s ease; /* Füge eine Übergangsanimation hinzu */
+  }
+
+
+.speech_bubble{
+    position: relative;
+    align-self: center;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 500px; /* Maximalbreite der Sprechblase */
+    bottom: -10px;
+}
+
+.walkthrough_text{
+    color:black;
+    align-items: center;
+}
+
+#next_button{
+    position: relative;
+    bottom:5px;
+    right:5px;
+}
+
+/*End of Section*/
