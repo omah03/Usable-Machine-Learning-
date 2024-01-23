@@ -661,3 +661,4 @@ const myChart = new Chart(ctxs, {
         },
     },
 });
+
