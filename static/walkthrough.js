@@ -59,9 +59,10 @@ function blurr_all_but(nottarget_id){
     });
 }
 
-function waitForDropdownSelection(dropdown_id,desiredValue) {
+function waitForDropdownSelection(desiredOption_id) {
     console.log('waitForDropdownSelection');
     return new Promise(resolve => {
+        /*might reuse this if dropdown is actual dropdown and not buttons anymore
         const dropdown = document.getElementById(dropdown_id);
         console.log('const...')
         function handleChange() {
@@ -72,39 +73,54 @@ function waitForDropdownSelection(dropdown_id,desiredValue) {
             }else{
                 console.log('else');
             }
-        }
-
-        dropdown.addEventListener('change', handleChange);
+        }             
+        */
+        document.getElementById(desiredOption_id).addEventListener('click',resolve);
+        //dropdown.addEventListener('change', handleChange);
         console.log('EventListener added');
+    });
+}
+
+function waitForNextButton(){
+    return new Promise(resolve => {
+        document.getElementById('next_button').addEventListener('click',resolve);
+
+    });
+}
+
+async function delay(seconds) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve();
+        }, seconds * 1000);
     });
 }
 
 async function walkthrough(){
     
     console.log('starting walkthrough...');
-    /*
+    
     //input
     changeText('Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet.');
     blurr_all_but('inputbox');
-    
+    await waitForNextButton();
 
-    await new Promise(resolve => {
-        document.getElementById('next_button').addEventListener('click', resolve);
-      });
-    */
+    
+    
+    //modelbuilder
     blurr_all_but('rectanglelayer');
     changeText('Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernel Complexity, ReLu als Aktivierungsfunktion und 3 Blöcken um fortzufahren.');
 
-    await waitForDropdownSelection('act_dropdown','relu');
+    await waitForDropdownSelection('act_reluOption');
+    await delay(2);
 
 
-    console.log('continue');
-    blurr_all_but('outputbox');
-    changeText('testest');
-    
     //output
 
-    //modelbuilder-> activity
+    blurr_all_but('outputbox');
+    changeText('Die letzte Schicht des Modells wird jedes Eingabebild auf eine Ziffer abbilden können.');
+    await waitForNextButton();
+    
 
     //trainingparams -> activity
 
@@ -125,10 +141,6 @@ async function walkthrough(){
     //blurr_section('testing_section');
 }
 
-function next(){
-    console.log('next walkthrough step...');
-}
 
-document.getElementById('next_button').addEventListener('click',next)
 
 document.addEventListener('DOMContentLoaded', walkthrough);
