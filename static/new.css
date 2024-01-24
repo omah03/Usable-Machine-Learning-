@@ -281,6 +281,8 @@
     border-radius: 10px;
     max-width: 500px; /* Maximalbreite der Sprechblase */
     bottom: -10px;
+    display: none;
+
 }
 
 .walkthrough_text{
@@ -299,12 +301,17 @@
     bottom: -5100px;
     right: 400px;
 
+
 }
 
 #training_graph_speech_bubble{
     position:absolute;
-    bottom: -5100px;
-    left: 400px;
+    bottom: -5700px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ccc;
+    padding: 20px;
+
 }
 
 #testing_speech_bubble{

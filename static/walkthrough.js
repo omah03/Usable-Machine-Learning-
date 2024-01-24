@@ -101,21 +101,21 @@ function changeText(speech_bubble_id,new_text){
     console.log('Text changed');
 }
 
-function removeBubble(speech_bubble_id){
+function removeElement(element_id){
     console.log('removeBubble...');
-    const speechBubble = document.getElementById(speech_bubble_id);
-    if (speechBubble) {
-        speechBubble.style.display = 'none';
+    const element = document.getElementById(element_id);
+    if (element) {
+        element.style.display = 'none';
     }
 
 }
 
-function showBubble(speech_bubble_id){
+function showElement(element_id){
     console.log('removeBubble...');
-    const speechBubble = document.getElementById(speech_bubble_id);
-    if (speechBubble) {
-        speechBubble.style.display = 'block';
-        highlight_section(speech_bubble_id);
+    const element = document.getElementById(element_id);
+    if (element) {
+        element.style.display = 'block';
+        highlight_section(element_id);
     }
 }
 
@@ -127,7 +127,7 @@ async function bubbleRoutine(keyword){
         'input':['inputbox','modelbuilder_speech_bubble','Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet.',['next_button']],
         'modelbuilder':['rectanglelayer','modelbuilder_speech_bubble','Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernel Complexity, ReLu als Aktivierungsfunktion und 3 Blöcken um fortzufahren.',['act_reluOption']],
         'output':['outputbox','modelbuilder_speech_bubble','Die letzte Schicht des Modells wird jedes Eingabebild auf eine Ziffer abbilden können.',['next_button']],
-        'training':['training_params','training_speech_bubble','Hier kannst du die Parameter für das Training anpassen. Wähle eine Lernrate von 0.01, eine Batchgröße von 200 und 5 Epochen aus und klicke zum Fortfahren auf Start.',[]],
+        'training':['training_params','training_speech_bubble','Hier kannst du die Parameter für das Training anpassen. Wähle eine Lernrate von 0.01, eine Batchgröße von 200 und 5 Epochen aus und klicke zum Fortfahren auf Start.',['starttraining']],
         'graph':['training_graph','training_grpah_speech_bubble','Dieser Graph zeigt dir, wie sich die Performance des Modells im Laufe des Trainings verändert',[]],
         'testing':['testing_section','testing_speech_bubble','Das Modell wurde fertig trainiert. Jetzt kannst du selber eine Ziffer zeichnen, um sie von deinem Modell klassifizieren zu lassen.',[]]
     }
@@ -141,7 +141,7 @@ async function bubbleRoutine(keyword){
 
     console.log('init successful.');
 
-    showBubble(bubble_id);
+    showElement(bubble_id);
     console.log('show done');
     changeText(bubble_id, bubble_text);
     
@@ -154,7 +154,7 @@ async function bubbleRoutine(keyword){
 
     await waitForClick(button_ids[0]);
     console.log('click done');
-    removeBubble(bubble_id);
+    removeElement(bubble_id);
     console.log('remove done');
 
     console.log('bubbleRoutine end');
@@ -165,7 +165,9 @@ async function walkthrough(){
     console.log('starting walkthrough...');
 
     await bubbleRoutine('input');
+    removeElement('next_button');
     await bubbleRoutine('modelbuilder');
+    showElement('next_button');
     await bubbleRoutine('output');
     scrollTo_page(5);
     await bubbleRoutine('training');
