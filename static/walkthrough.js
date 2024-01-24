@@ -1,7 +1,9 @@
 const walkthroughTargets = ['inputbox','rectanglelayer','outputbox','training_params','training_graph','testing_section'];
 
+
+
 function scrollTo_page(page_nr){
-    console.log('skip walkthrough...');
+    console.log('scrollTo_page...');
     const pagePosition = page_nr * window.innerHeight;
 
     
@@ -11,16 +13,11 @@ function scrollTo_page(page_nr){
         top: pagePosition,
         behavior: 'smooth' // Fügt eine sanfte Animation hinzu (optional)
       });
-    walkthroughTargets.forEach(target => {
-        highlight_section(target);
-    });
     
 
     console.log('scrolling abgeschlossen');
 }
 
-console.log('new');
-//document.getElementById('skip_tut').addEventListener('click',scrollTo_page(4));
 
 
 function highlight_section(target_id){
@@ -186,8 +183,35 @@ async function walkthrough(){
     await bubbleRoutine('graph');
     console.log('endddd');
     await bubbleRoutine('testing');
+    document.getElementById('skip_tut').innerText ='Start Tutorial';
+
 }
 
+
+
+async function skip_start_walkthrough(){
+    console.log('skip/start walkthrough...');
+
+    scrollTo_page(4);
+    var skip_button_label = document.getElementById('skip_tut').innerText;
+    if(skip_button_label =='Start Tutorial'){
+        console.log('if');
+        document.getElementById('skip_tut').innerText ='Skip Tutorial';
+        await walkthrough();
+    } else{
+        console.log('else');
+        console.log(skip_button_label);
+        removeElement('modelbuilder_speech_bubble');
+        walkthroughTargets.forEach(target => {
+            highlight_section(target);
+        });
+        document.getElementById('skip_tut').innerText ='Start Tutorial';
+    }
+    
+}
+
+
+document.getElementById('skip_tut').addEventListener('click', skip_start_walkthrough);
 
 
 //document.addEventListener('DOMContentLoaded', walkthrough);
