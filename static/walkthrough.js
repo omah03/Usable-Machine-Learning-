@@ -1,13 +1,8 @@
 const walkthroughTargets = ['inputbox','rectanglelayer','outputbox','training_params','training_graph','testing_section'];
 
-function changeText(new_text){
-    const textElement = document.querySelector('.walkthrough_text');
-    textElement.innerText = new_text;
-}
-
-function skip_walkthrough(){
+function scrollTo_page(page_nr){
     console.log('skip walkthrough...');
-    const pagePosition = 4 * window.innerHeight;
+    const pagePosition = page_nr * window.innerHeight;
 
     
 
@@ -25,7 +20,7 @@ function skip_walkthrough(){
 }
 
 console.log('new');
-document.getElementById('skip_tut').addEventListener('click',skip_walkthrough);
+//document.getElementById('skip_tut').addEventListener('click',scrollTo_page(4));
 
 
 function highlight_section(target_id){
@@ -81,10 +76,9 @@ function waitForDropdownSelection(desiredOption_id) {
     });
 }
 
-function waitForNextButton(){
+function waitForClick(button_id){
     return new Promise(resolve => {
-        document.getElementById('next_button').addEventListener('click',resolve);
-
+        document.getElementById(button_id).addEventListener('click',resolve);
     });
 }
 
@@ -96,12 +90,88 @@ async function delay(seconds) {
     });
 }
 
+
+function changeText(speech_bubble_id,new_text){
+    console.log('changeText...');
+    const speechBubble = document.getElementById(speech_bubble_id);
+    //speechBubble.innerText = new_text;
+    var textElement = speechBubble.querySelector('.walkthrough_text');
+    textElement.innerText = new_text;
+    //speechBubble.innerHTML = '<p class="walkthrough_text">' + new_text + '</p>';
+    console.log('Text changed');
+}
+
+function removeBubble(speech_bubble_id){
+    console.log('removeBubble...');
+    const speechBubble = document.getElementById(speech_bubble_id);
+    if (speechBubble) {
+        speechBubble.style.display = 'none';
+    }
+
+}
+
+function showBubble(speech_bubble_id){
+    console.log('removeBubble...');
+    const speechBubble = document.getElementById(speech_bubble_id);
+    if (speechBubble) {
+        speechBubble.style.display = 'block';
+        highlight_section(speech_bubble_id);
+    }
+}
+
+
+async function bubbleRoutine(keyword){
+    console.log('bubbleRoutine...');
+    var walkthrough = {
+        /*key: [target,BubbleId,BubbleText,[button_ids]] */
+        'input':['inputbox','modelbuilder_speech_bubble','Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet.',['next_button']],
+        'modelbuilder':['rectanglelayer','modelbuilder_speech_bubble','Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernel Complexity, ReLu als Aktivierungsfunktion und 3 Blöcken um fortzufahren.',['act_reluOption']],
+        'output':['outputbox','modelbuilder_speech_bubble','Die letzte Schicht des Modells wird jedes Eingabebild auf eine Ziffer abbilden können.',['next_button']],
+        'training':['training_params','training_speech_bubble','Hier kannst du die Parameter für das Training anpassen. Wähle eine Lernrate von 0.01, eine Batchgröße von 200 und 5 Epochen aus und klicke zum Fortfahren auf Start.',[]],
+        'graph':['training_graph','training_grpah_speech_bubble','Dieser Graph zeigt dir, wie sich die Performance des Modells im Laufe des Trainings verändert',[]],
+        'testing':['testing_section','testing_speech_bubble','Das Modell wurde fertig trainiert. Jetzt kannst du selber eine Ziffer zeichnen, um sie von deinem Modell klassifizieren zu lassen.',[]]
+    }
+    var target_id = walkthrough[keyword][0];
+    var bubble_id = walkthrough[keyword][1];
+    var bubble_text = walkthrough[keyword][2];
+    var button_ids = walkthrough[keyword][3];
+    console.log(target_id);
+    console.log(bubble_id);
+    console.log(bubble_text);
+
+    console.log('init successful.');
+
+    showBubble(bubble_id);
+    console.log('show done');
+    changeText(bubble_id, bubble_text);
+    
+    console.log('change done');
+    
+    blurr_all_but(target_id);
+    console.log('blurr done');
+
+
+
+    await waitForClick(button_ids[0]);
+    console.log('click done');
+    removeBubble(bubble_id);
+    console.log('remove done');
+
+    console.log('bubbleRoutine end');
+    
+}
 async function walkthrough(){
     
     console.log('starting walkthrough...');
-    
+
+    await bubbleRoutine('input');
+    await bubbleRoutine('modelbuilder');
+    await bubbleRoutine('output');
+    scrollTo_page(5);
+    await bubbleRoutine('training');
+    /*
     //input
-    changeText('Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet.');
+    changeText('training_speech_bubble','Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet.');
     blurr_all_but('inputbox');
     await waitForNextButton();
 
@@ -109,18 +179,40 @@ async function walkthrough(){
     
     //modelbuilder
     blurr_all_but('rectanglelayer');
-    changeText('Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernel Complexity, ReLu als Aktivierungsfunktion und 3 Blöcken um fortzufahren.');
+    changeText('training_speech_bubble','Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernel Complexity, ReLu als Aktivierungsfunktion und 3 Blöcken um fortzufahren.');
 
     await waitForDropdownSelection('act_reluOption');
-    await delay(2);
+    await delay(1);
 
 
     //output
 
     blurr_all_but('outputbox');
-    changeText('Die letzte Schicht des Modells wird jedes Eingabebild auf eine Ziffer abbilden können.');
+    changeText('training_speech_bubble','Die letzte Schicht des Modells wird jedes Eingabebild auf eine Ziffer abbilden können.');
     await waitForNextButton();
     
+    removeBubble('training_speech_bubble')
+
+    */
+    /*
+    //training page
+    scrollTo_page(5);
+
+    blurr_all_but('training_params');
+    showBubble('training_speech_bubble');
+
+    changeText('training_speech_bubble','Hier kannst du die Parameter für das Training anpassen. Wähle eine Lernrate von 0.01, eine Batchgröße von 200 und 5 Epochen aus und klicke zum Fortfahren auf Start.');
+    //TODO: select from Sliders
+    await delay(2);
+    removeBubble('training_speech_bubble');
+
+
+    blurr_all_but('training_graph');
+    showBubble('training_graph_speech_bubble');
+    await waitForNextButton();
+
+    console.log("routine finished");
+    */
 
     //trainingparams -> activity
 
@@ -143,4 +235,5 @@ async function walkthrough(){
 
 
 
-document.addEventListener('DOMContentLoaded', walkthrough);
+//document.addEventListener('DOMContentLoaded', walkthrough);
+walkthrough();

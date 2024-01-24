@@ -294,4 +294,25 @@
     right:5px;
 }
 
+#training_speech_bubble{
+    position:absolute;
+    bottom: -5100px;
+    right: 400px;
+
+}
+
+#training_graph_speech_bubble{
+    position:absolute;
+    bottom: -5100px;
+    left: 400px;
+}
+
+#testing_speech_bubble{
+    position:absolute;
+    bottom: -5300px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ccc;
+    padding: 20px;
+}
 /*End of Section*/
