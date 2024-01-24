@@ -268,8 +268,9 @@
 }
 
 .blurred-section {
-    filter: blur(5px); /* Ändere die Zahl entsprechend der gewünschten Unschärfe */
-    transition: filter 0.3s ease; /* Füge eine Übergangsanimation hinzu */
+    filter: blur(10px); 
+    transition: filter 0.3s ease;
+    pointer-events: none;
   }
 
 
@@ -279,7 +280,7 @@
     background-color: #fff;
     padding: 10px;
     border-radius: 10px;
-    max-width: 500px; /* Maximalbreite der Sprechblase */
+    max-width: 500px;
     bottom: -10px;
     display: none;
 
@@ -309,17 +310,21 @@
     bottom: -5700px;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #ccc;
-    padding: 20px;
+    background-color: #fff;
 
 }
 
 #testing_speech_bubble{
     position:absolute;
-    bottom: -5300px;
+    bottom: -5400px;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #ccc;
-    padding: 20px;
+    background-color: #fff;
+    z-index: 2;
+}
+
+#testing_next_button{
+    display: none;
+
 }
 /*End of Section*/
