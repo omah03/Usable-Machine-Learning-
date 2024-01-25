@@ -183,6 +183,8 @@ async function walkthrough(){
     await bubbleRoutine('graph');
     console.log('endddd');
     await bubbleRoutine('testing');
+
+    walkthroughTargets.forEach(id => highlight_section(id));
     document.getElementById('skip_tut').innerText ='Start Tutorial';
 
 }
