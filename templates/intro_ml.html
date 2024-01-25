@@ -19,12 +19,12 @@
 </head>
 <body>
     <div class = "infobox" id = "infobox">
-        <img class = "info-icon" src="../static/include/Images/info.png" alt="Information Box" width="50px">
+        <div class= "infobox-header">
+            <img class = "info-icon" src="../static/include/Images/info.png" alt="Information Box" width="50px">
+            <h2> Info </h2>
+            <button id = "hide" class="HideButton"> HIDE</button>
+        </div>
         <p id="infotext" class = "infotext"></p>
-        <button id = "hide" class="button" style="position: absolute; top: 25%; right: 10px; transform: translateY(-50%)"> HIDE </button>
-        <br>
-        <br>
-        <button id = "show_more" class="button" style="position: absolute; top: 75%; right: 10px; transform: translateY(-50%)">SHOW MORE</button>
     </div>
     <div id="section-indicators" class="section-indicators">
         <!-- Indicators will be added here dynamically -->

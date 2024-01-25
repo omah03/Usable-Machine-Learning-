@@ -164,6 +164,10 @@
     text-align: center;
 }
 
+.dropdown-content{
+    z-index: 10;
+}
+
 .KSizeSliderDisplay {
     width: 100%;
     border: 2px #000000 solid;

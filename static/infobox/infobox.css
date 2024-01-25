@@ -1,19 +1,15 @@
-
-
 .infobox {
   position: absolute;
 
   border: 2px solid #333;
   border-radius: 5px;
-  padding: 10px;
-  width: 30vw; /* ALSO CHANGE IN JS*/
-  height: 30vh; /* ALSO CHANGE IN JS*/
+  width: 30vw; /* !ALSO CHANGE IN JS*/
+  height: 30vh; /* !ALSO CHANGE IN JS*/
   text-align: center;
-  font-family: Arial, sans-serif;
-  background-color: #FFFFFFDD;;
+  background-color: #FFFFFFF5;;
   transition: transform 0.3s, box-shadow 0.3s;
   display:none;
-  flex-direction: row;
+  flex-direction: column;
   
   text-align: center;
   align-items: center;
@@ -24,10 +20,20 @@
   color: #000000;  
 }
 
+.infobox-header{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 15%;
+  justify-content: space-between;
+  margin-top: 0;
+}
+
 .info-icon {
   margin-right: 0%;
   align-self:flex-start;
   float:left;
+  height: 100%;
 }
 
 .info-small{
@@ -38,15 +44,15 @@
   margin-top: 5px;
   align-self:flex-start;
   float:left;
-  z-index: 20;
+  z-index: 5;
 
   position: static
 }
 
 .infotext {
-  margin-right: 25%;
+  margin-right: 5%;
   margin-left: 5%;
-  width: 60%;
+  width: 90%;
   min-width: 300px;
 }
 
@@ -54,10 +60,10 @@
 
 /* Animation for changing text */
 @keyframes changeHighlight {
-  0%, 100% {transform:scale(1.00);   box-shadow:none; background-color:#FFFFFFCC;
+  0%, 100% {transform:scale(1.00);   box-shadow:none; background-color:#FFFFFFF5;
   }
   
-  50% {  transform: scale(1.05);   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); background-color:#FFFFFFCC;
+  50% {  transform: scale(1.05);   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); background-color:#FFFFFFF5;
 
   }
 }
@@ -66,16 +72,16 @@
   animation: changeHighlight 0.7s;
 }
 
-.button{
+.HideButton{
   display:flex;
   flex-direction: row;
   border: 2px solid #000000;
-  background-color: #FFFFFF;
-  height: 60px;
+  background-color: #f00000f5;
+  height: 100%;
   width: 20%;
   margin: 0%;
-  font-size: 100%;
+  color: #FFFFFF;
+  font-size: 150%;
   text-transform:uppercase;
-  align-items: center;
-  align-self:stretch;
+  justify-content: center;
 }
