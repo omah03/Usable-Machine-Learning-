@@ -51,7 +51,7 @@ section{
     padding: 0; 
 }
 header {
-    background: url('include/image_recognition.gif') center/cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('include/Images/intropic.png') center/cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
