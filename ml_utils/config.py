@@ -1,4 +1,3 @@
-import torch
 import torch.nn as nn
 
 # Define characteristics for all the layers as lists of dictionaries

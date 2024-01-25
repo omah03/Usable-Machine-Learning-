@@ -34,7 +34,7 @@ class Trainer():
     def add_model_and_config(self, config):
         settings= self.convert_config_for_modelbuilder(config)
         block_n = settings["NBlocks"]
-        self.model= ModelBuilder(block_n, config["ActivationFunc"])
+        self.model= ModelBuilder( k_size=settings["KSize"],num_blocks=block_n, activation_fn_choice=config["ActivationFunc"],)
         self.config["NBlocks"]=block_n
 
         self.optimizer= SGD(self.model.parameters(), lr=float(settings["LRate"]), momentum=MOMENTUM)
@@ -107,7 +107,6 @@ class Trainer():
     def convert_config_for_modelbuilder(config:dict):
         res = {}
         string =config["LRate"]
-        string = "0."+string[5:]
         LRate = float(string)
         res.update({"LRate" : LRate})
         
@@ -119,6 +118,15 @@ class Trainer():
         
         string= config["NBlocks"]
         res.update({"NBlocks": int(string)})
+        
+        options=["small", "medium", "large"]
+        i = int(config["KSize"])
+        
+        res.update(
+            {"KSize": options[i-1]})
+        
+
+
 
         return res
         

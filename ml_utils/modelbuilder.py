@@ -1,4 +1,4 @@
-import ml_utils.config
+import ml_utils.config as config
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -54,7 +54,7 @@ class ModelBuilder(nn.Module):
         if activation_fn_choice not in config.activation_function:
             raise ValueError(f"Invalid activation function choice: {activation_fn_choice}")
         self.global_activation_fn = config.activation_function[activation_fn_choice]
-        self.conv_layers = self._create_conv_layers(num_blocks,self.global_activation_fn)
+        self.conv_layers = self._create_conv_layers(num_blocks,k_size,self.global_activation_fn)
         self.linear_layers = self._create_linear_layers(linear_params)
 
         # Validation checks 

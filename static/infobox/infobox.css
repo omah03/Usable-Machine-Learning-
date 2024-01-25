@@ -1,7 +1,7 @@
 
 
 .infobox {
-  position: fixed;
+  position: absolute;
 
   border: 2px solid #333;
   border-radius: 5px;

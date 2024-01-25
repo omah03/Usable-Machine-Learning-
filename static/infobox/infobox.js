@@ -1,5 +1,7 @@
 DEFAULT_STRING= "Click anything with the i icon to get more information about it!"
 
+infoboxShown= false;
+
 const hide = document.getElementById("hide");
 const show_more = document.getElementById("show_more")
 const infobox = document.getElementById("infobox");
@@ -79,6 +81,10 @@ function positionInfobox(element){
 }
 
 function changeInfoText(elementID) {
+    if (infoboxShown){
+        infoboxShown= false;
+        return
+    }
     if (infobox) {
     element = document.getElementById(elementID);
     
@@ -111,4 +117,5 @@ function changeInfoText(elementID) {
         infobox.classList.remove('highlight');
     }, 1000); // Duration should match the animation duration in CSS
     }
+
 }
