@@ -5,7 +5,7 @@ import webbrowser
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO
 
-from ml_utils.test_classify import classify_canvas_image
+from ml_utils.explain_classification import classify_canvas_image
 
 from ml_utils.trainingViz import Trainer
 
@@ -134,15 +134,15 @@ def toggle_training_US():
 
 
 #Get Canvas Image & classify it
-test_model = 'ml_utils/Untrained_modelbuilder_model.pkl'
-print(f"using {test_model}")
+modelbuilder_model = 'ml_utils/Trained_modelbuilder_model.pkl'
+#print(f"using {test_model}")
 @socketio.on('classify')
 def classify(data):
     print("Die classify(data) Funktion wird ausgeführt")
     print("Empfangene Daten:", data)
     canvas_data = data['canvasData']
     print("Canvas data: ", canvas_data)
-    classification_result = classify_canvas_image(canvas_data, test_model)
+    classification_result = classify_canvas_image(canvas_data, modelbuilder_model)
     print("classification result = ", classification_result)
     socketio.emit('classification_result', classification_result)
 
