@@ -116,16 +116,32 @@ function showElement(element_id){
         highlight_section(element_id);
     }
 }
-
+/*
+async function waitForSlider(slider_id,value){
+    var slider = document.getElementById(slider_id);
+    return new Promise(resolve => {
+        
+        if(slider.value == value){
+            console.log('Slider ajusted correctly!');
+            resolve();
+        })
+}
+*/
+/*
+async function waitForInteraction(button_ids,slider_ids){
+    wait handleButton();
+    wait handleSlider();
+}
+*/
 
 async function bubbleRoutine(keyword){
     console.log('bubbleRoutine...');
     var walkthrough = {
-        /*key: [[targets],BubbleId,BubbleText,[button_ids]] */
+        /*key: [[targets],BubbleId,BubbleText,[button_ids],[slider_ids],[slider_values]] */
         'input':[['inputbox'],'modelbuilder_speech_bubble','Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet.',['next_button']],
         'modelbuilder':[['rectanglelayer'],'modelbuilder_speech_bubble','Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernel Complexity, ReLu als Aktivierungsfunktion und 3 Blöcken um fortzufahren.',['act_reluOption']],
         'output':[['outputbox'],'modelbuilder_speech_bubble','Die letzte Schicht des Modells wird jedes Eingabebild auf eine Ziffer abbilden können.',['next_button']],
-        'training':[['training_params'],'training_speech_bubble','Hier kannst du die Parameter für das Training anpassen. Wähle eine Lernrate von 0.01, eine Batchgröße von 200 und 5 Epochen aus und klicke zum Fortfahren auf Start.',['starttraining']],
+        'training':[['training_params'],'training_speech_bubble','Hier kannst du die Parameter für das Training anpassen. Wähle eine Lernrate von 0.01, eine Batchgröße von 200 und 5 Epochen aus und klicke zum Fortfahren auf Start.',['starttraining','resettraining']],
         'graph':[['training_graph','training_params'],'training_graph_speech_bubble',"Dieser Graph zeigt dir, wie sich die Performance des Modells im Laufe des Trainings verändert. Sobald das Training abgeschlossen ist, clicke auf 'next'",['graph_next_button']],
         'testing':[['testing_section'],'testing_speech_bubble','Das Modell wurde fertig trainiert. Jetzt kannst du selber eine Ziffer zeichnen, um sie von deinem Modell klassifizieren zu lassen.',['classify']]
     }
@@ -133,27 +149,38 @@ async function bubbleRoutine(keyword){
     var bubble_id = walkthrough[keyword][1];
     var bubble_text = walkthrough[keyword][2];
     var button_ids = walkthrough[keyword][3];
+    var slider_ids = walkthrough[keyword[4]];
+    var slider_values = walkthrough[keyword[5]];
+
+
     console.log(target_ids);
     console.log(bubble_id);
     console.log(bubble_text);
+    console.log(slider_ids);
+    console.log(slider_values);
 
     console.log('init successful.');
-
+    
+    //show Speechbubble
     showElement(bubble_id);
     console.log('show done');
     
+    //show SpeechBubble Text
     changeText(bubble_id, bubble_text);
-    
     console.log('change done');
     
+    //blurr other sections
     blurr_all_but(target_ids);
     console.log('blurr done');
 
-
-
-    await waitForClick(button_ids[0]);
+    //Wait for all button actions
+    await handleClicks(button_ids);
     console.log('click done');
 
+    //Wait for all slider actions
+
+
+    //Special Case for last step only
     if (keyword == 'testing'){
         changeText(bubble_id,'Geschafft! Die Rotfärbung der Pixel gibt diejenigen Pixel an, die besonders ins Gewicht fallen. Probiere jetzt gerne noch weiter rum :)');
         showElement('testing_next_button');
@@ -162,26 +189,38 @@ async function bubbleRoutine(keyword){
 
     }
 
+    //hide Speechbubble
     removeElement(bubble_id);
     console.log('remove done');
 
     console.log('bubbleRoutine end');
-    
 }
+
 async function walkthrough(){
     console.log('starting walkthrough...');
-
+/*
+    //input section
+    showElement('next_button');
     await bubbleRoutine('input');
+    
+    //modelbuilder section
     removeElement('next_button');
     await bubbleRoutine('modelbuilder');
+
+    //output section
     showElement('next_button');
     await bubbleRoutine('output');
+*/ 
+    //training params section
     scrollTo_page(5);
-
     await bubbleRoutine('training');
     console.log('here');
+
+    //graph section
     await bubbleRoutine('graph');
     console.log('endddd');
+
+    //testing section
     await bubbleRoutine('testing');
 
     walkthroughTargets.forEach(id => highlight_section(id));
