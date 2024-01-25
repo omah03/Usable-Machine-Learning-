@@ -24,7 +24,7 @@ session={"config": {"ActivationFunc": "act_reluOption",
                             "BSize":1,
                             "NEpochs":1,
                             "NBlocks": 2,
-                            "KSize": "medium",
+                            "KSize": "2",
                             "Epochs_Trained": 0,
                             "training_active": False,
                             "training_stop_signal": False}}

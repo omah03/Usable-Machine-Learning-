@@ -1,3 +1,7 @@
+
+//alert('Das ist ein Test');
+console.log('Das ist ein Test');
+
 // Verbindung zum WebSocket-Server herstellen
 const socket = io('http://127.0.0.1:5000');    //Muss in html eingebunden sein!
 //const socket = io('127.0.0.1:5000');    //Muss in html eingebunden sein!
@@ -11,6 +15,10 @@ socket.on('connect', () => {
 socket.on('disconnect', () => {
     console.log('Verbindung zum Socket.io-Server unterbrochen');
 });
+
+
+
+
 
 
 //code for the canvas
@@ -75,12 +83,55 @@ function stopDrawing() {
     ctx.closePath();
 }
 
+
+
 canvas.addEventListener('mousedown', startDrawing);
 canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mouseup', stopDrawing);
 canvas.addEventListener('mouseout', stopDrawing);
 
 displayText();
+
+
+
+
+//----------------------------------------------------------
+//Canvas Prediction
+/*
+function sendToModel(canvasData) {
+//diese Funktion benutzt keine Websockets 
+
+        // Erstelle ein Objekt mit den Daten, die du an den Server senden möchtest
+        const data = {
+          canvasData: canvasData // Die Bilddaten aus dem Canvas
+    };
+
+        // Sende eine POST-Anfrage an deinen Server mit den Bilddaten
+        fetch('/classify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+      },
+          body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(result => {
+          // Hier erhältst du das Ergebnis von der Serverantwort
+          console.log('Klassifiziertes Ergebnis:', result);
+          // Führe hier weitere Aktionen basierend auf dem Ergebnis aus
+    })
+        .catch(error => {
+          console.error('Fehler beim Senden der Daten:', error);
+    });
+  }
+
+*/
+
+
+
+//const softmaxValues = [0.1, 0.5, 0.8, 0.3, 0.6, 0.9, 0.2, 0.4, 0.7, 0.55]; // Beispielwerte
+
+
 
 
 function printPrediction(predicted_digit){
@@ -94,19 +145,80 @@ function printPrediction(predicted_digit){
 function sendAndReceiveClassification(canvasData){
     return new Promise((resolve, reject) => {
         socket.emit('classify', { canvasData });
-        socket.on('classification_result', (result) => {
+        socket.on('classification_result', (result,heatmap) => {
             console.log('Klassifizierungsergebnis', result);
-            resolve(result); // Ergebnis an die Aufrufer-Funktion übergeben
+            resolve([result,heatmap]); // Ergebnis an die Aufrufer-Funktion übergeben
         });
     });
 }
 
+// Funktion, um Farbwerte entsprechend der Intensität zu generieren
+function mapIntensityToColor(intensity) {
+    const colorIntensity = Math.floor(245 * intensity); // Skalierung auf den Wertebereich von 0 bis 255
+    const Intensity = colorIntensity + 10;
+    console.log('mapIntensity ausgeführt');
+
+    return `rgb(0, ${Intensity}, 0)`;
+}
 
 
-function classificationResult(predicted_digit){
-    const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
-    const resultClass = classes[predicted_digit];
-    resultClass.style.backgroundColor = 'red';
+function classificationResult(softmaxValues){
+    //const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
+    //const resultClass = classes[predicted_digit];
+    //resultClass.style.backgroundColor = 'red';
+    const classifierClasses = document.querySelectorAll('.classifier_class');
+
+    classifierClasses.forEach((element, index) => {
+        const intensity = softmaxValues[index];
+        console.log(`Intensität für Klasse ${index}:`, intensity); // Überprüfen der Intensität für jede Klasse
+        const color = mapIntensityToColor(intensity);
+        console.log(`Farbe für Klasse ${index}:`, color); // Überprüfen der generierten Farbe
+        element.style.backgroundColor = color;
+    });
+    console.log('classificationResult ausgeführt');
+}
+
+
+function calculateColor(value) {
+    // Hier kannst du die Logik implementieren, um die Farbe basierend auf dem Wert zu berechnen
+    // Zum Beispiel könntest du eine Farbpalette erstellen und die Farbe entsprechend des Werts auswählen.
+    // Dies hängt von der Art der Heatmap ab, die du erstellt hast.
+    // Hier ist ein einfaches Beispiel:
+    //const intensity = Math.floor(value * 255);
+    return `rgb(${value}, 0, 0)`; // Rote Farbtöne, je nach Intensität
+}
+
+//This function reeceives the heatmap from python and shows it on the canvas
+function showHeatmap(heatmap){
+    console.log('showHeatmap...');
+    //clearCanvas();
+    const canvas = document.getElementById('canvas'); // Ersetze 'meinCanvas' durch die tatsächliche ID deines Canvas-Elements
+    const context = canvas.getContext('2d');
+
+    const rows = heatmap.length;
+    const columns = heatmap[0].length;
+
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+
+    const cellWidth = canvasWidth / columns;
+    const cellHeight = canvasHeight / rows;
+
+   
+
+    for (let i = 0; i < heatmap.length; i++) {
+        for (let j = 0; j < heatmap[i].length; j++) {
+            const value = heatmap[i][j];
+            if (value > 0.0){
+                const color = calculateColor(value); // Funktion, um die Farbe basierend auf dem Wert zu berechnen
+                context.fillStyle = color;
+                context.fillRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+            }
+
+            
+        }
+    }
+    console.log('heatmap on canvas')
 }
 
 async function classifyImage(){
@@ -116,10 +228,12 @@ async function classifyImage(){
     const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
     classes.forEach(container => {container.style.backgroundColor = 'transparent';});
     try {
-        const classification = await sendAndReceiveClassification(canvasData);
-        console.log('Die Klassifizierung ergibt:', classification);
+        const [resultArray, heatmap] = await sendAndReceiveClassification(canvasData);
+        console.log('Die Klassifizierung ergibt:', resultArray);
         //printPrediction(classification); not needed anymore as containers are colored
-        classificationResult(classification);
+        classificationResult(resultArray);
+        showHeatmap(heatmap);
+        
     } catch(error) {
         console.error('Fehler bei der Klassifizierung:', error);
     }
@@ -138,6 +252,3 @@ function clearCanvas(){
     const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
     classes.forEach(container => {container.style.backgroundColor = 'transparent';});
 }
-
-//Reset Button for Canvas
-document.getElementById('reset').addEventListener('click', clearCanvas);
