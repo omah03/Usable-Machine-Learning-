@@ -23,26 +23,13 @@
 }
 
 
-.inputCanvas{
-  height: 100%;
-  width: 100%;
-  
-  background: none;
-  
-  position: relative;
-  z-index: 2; /* Canvas liegt standardmäßig über anderen Elementen */
-}
-
-
 .controls_column{
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
 
-  justify-content: space-around;
-  
-  width: 10px;
 
-  margin-left: -2%;
 }
 
 .blockcolumn {
@@ -57,8 +44,6 @@
 }
 
 .resetButton{
-  bottom: 15px;
-  left: 35px;
   padding: 8px;
   background: none;
   border: none;

@@ -14,7 +14,7 @@ socket.on('disconnect', () => {
 
 
 //code for the canvas
-const canvas = document.getElementById('inputbox');
+const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let isDrawing = false;
 

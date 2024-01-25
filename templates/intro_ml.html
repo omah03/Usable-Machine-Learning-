@@ -6,7 +6,7 @@
     <title>Usable Machine Learning</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='intro_ml.css') }}">
-    <!--<link rel="stylesheet" href="{{ url_for('static', filename='blocks/blocks.css') }}">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='blocks/blocks.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='infobox/infobox.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='options/options.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='training/training.css') }}">
@@ -172,7 +172,7 @@
                 <button id = "graph_next_button">next</button>
             </div>
             <div class="modelbuilder-text">
-            <h2> Training and Testing the Model</h2>            
+            <h2 style= 'color: var(--text-color-playground); display: flex; align-items: center; justify-content: center;'> Training and Testing the Model</h2>            
             </div>
             
                 <div class="training-container">
@@ -181,7 +181,7 @@
                             <div class="parameters-container">
                                 <div class="LearningRate">
                                     <div class = "slider-text" id= "LRateCol">
-                                        <label for="LRateSlider">Learning Rate</label>
+                                        <label for="LRateSlider"> Learning Rate</label>
                                         <div class= "sliderDisplay">
                                             <input type="range" id="LRateSlider" min="1" max="4" value="{{ 2 }}">
                                             <span id="LRateDisplay"></span>
@@ -240,8 +240,9 @@
                 <div class="testing-container" id = "testing_section">
                     
                     <div class="canvas-container">
-                        <div class="inputbox">
-                            <canvas id="inputbox" class = "inputCanvas"></canvas>
+                        <div class="canvas-box">
+                            <canvas id="canvas" class = "inputCanvas"></canvas>
+                        </div>
                             <div class = "controls_column">
                                 <button id ="reset" class = "resetButton" aria-label="Reset" style="margin-bottom : -50px; margin-left: 50px">
                                     <!-- SVG für das Reset-Symbol -->
@@ -256,8 +257,7 @@
                                     </svg>
                                 </button>
                             </div>
-                        </div>
-
+                        
                     </div>
                     <div class="magic-container">
 
@@ -305,7 +305,7 @@
     <script src="{{ url_for('static', filename='blocks/blocks.js') }}"></script>
     <script src="{{ url_for('static', filename='infobox/infobox.js') }}"></script>
     <script src="{{ url_for('static', filename='options/options.js') }}"></script>
-    <!--<script src="{{ url_for('static', filename='test.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='test.js') }}"></script>
     <script src="{{ url_for('static', filename='training/training.js') }}"></script>
     <script src="{{ url_for('static', filename='scroll-animation.js') }}"></script>
     <script src="{{ url_for('static', filename='walkthrough.js') }}"></script>

@@ -5,6 +5,7 @@ input[type="range"] {
   .sliderDisplay {
     display: flex;
     flex-direction: row;
+    color: var(--text-color-playground);
   }
   
   .column {
@@ -82,10 +83,6 @@ input[type="range"] {
   /* Change the background color of the dropdown button when the dropdown content is shown */
   .dropdown:hover .dropbtn {background-color: #3e8e41;} 
   
-  .sliderDisplay {
-    display: flex;
-    flex-direction: row;
-  }
 
   .slider-text {
     justify-content: center;
@@ -93,7 +90,7 @@ input[type="range"] {
     display: flex;
     flex-direction: column;
     font-size: 200%; 
-    color: #ffffff;
+    color: var(--text-color-playground);
   }
 
   .startbutton {

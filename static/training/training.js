@@ -1,8 +1,8 @@
-const socket = io('http://127.0.0.1:5000');
+// const socket = io('http://127.0.0.1:5000');
 //-----------------------------------------------------------------
 //CHART
 Chart.defaults.font.size = 20; // Sets the global font size
-Chart.defaults.color = '#FFFFFF'
+Chart.defaults.color = '#000000'
 
 var epochs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 var losses = [];
@@ -32,6 +32,7 @@ const myChart = new Chart(ctxs, {
             },
             {
                 label: 'Parameters changed',
+                color: 'rgba(0,0,0,1)',
                 borderColor: 'rgb(0, 0, 0)',
                 data: [],
                 borderWidth: 5,
@@ -44,6 +45,9 @@ const myChart = new Chart(ctxs, {
                 type: 'category',
                 position: 'bottom',
                 labels: epochs,
+                ticks: {
+                color: 'rgba(0,0,0,1',
+                },
             },
             y: {
                 min: 0,
