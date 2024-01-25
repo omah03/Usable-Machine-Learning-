@@ -91,7 +91,7 @@ class Trainer():
         self.loss.append(test_loss)  
         self.send_results_to_frontend()
         
-        model_pkl_file = "ml_utils/Train_modelbuilder_model.pkl"  
+        model_pkl_file = "ml_utils/Trained_modelbuilder_model.pkl"  
 
         with open(model_pkl_file, 'wb') as file:  
             pickle.dump(self.model, file) 
