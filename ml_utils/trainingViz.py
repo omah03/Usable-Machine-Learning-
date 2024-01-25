@@ -90,6 +90,12 @@ class Trainer():
         self.accs.append(test_acc)
         self.loss.append(test_loss)  
         self.send_results_to_frontend()
+        
+        model_pkl_file = "ml_utils/Train_modelbuilder_model.pkl"  
+
+        with open(model_pkl_file, 'wb') as file:  
+            pickle.dump(self.model, file) 
+        print(f"model saved to {file}") 
 
     def reset(self):
         self.model=None
@@ -177,7 +183,7 @@ def main(seed):
 
     with open(model_pkl_file, 'wb') as file:  
         pickle.dump(model, file) 
-    print(f"model saved to {file}")    
+    print(f"model saved to {file}")  
     """
 
 if __name__ == "__main__":

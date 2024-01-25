@@ -1,10 +1,17 @@
 DEFAULT_STRING= "Click anything with the i icon to get more information about it!"
 
 infoboxShown= false;
+const infobox = document.getElementById("infobox");
+
+vheight= window.innerHeight;
+vwidth= window.innerWidth;
+var infoheight    = 0.3*vheight;
+var infowidth     = 0.3*vwidth;
+
+
 
 const hide = document.getElementById("hide");
 const show_more = document.getElementById("show_more")
-const infobox = document.getElementById("infobox");
 var infotext = document.getElementById("infotext");
 
 if (infobox&&infotext){ infotext.innerHTML = DEFAULT_STRING;}
@@ -55,36 +62,46 @@ function positionInfobox(element){
     
     ElementRect = element.getBoundingClientRect();
 
-    InfoboxRect = infobox.getBoundingClientRect();
+    //InfoboxRect = infobox.getBoundingClientRect();
 
     vheight= window.innerHeight;
     vwidth= window.innerWidth;
-
-    infoheight= InfoboxRect.height;
-    infowidth= InfoboxRect.width;
-
-    CanFitLeftBound = ElementRect.left + InfoboxRect.width < vwidth * 0.9;
-    leftNUM = (CanFitLeftBound) ? ElementRect.left: ElementRect.right - InfoboxRect.width;
-
-    CanFitBelow = ElementRect.bottom + InfoboxRect.height < vheight * 0.9;
-    topNUM = (CanFitBelow) ? ElementRect.bottom : ElementRect.top - InfoboxRect.height
+    infoheight    = 0.3*vheight;
+    infowidth     = 0.3*vwidth;
     
-    // Special cases
-    if (element.id == "actFuncCol"){
-        topNUM = ElementRect.top - InfoboxRect.height;
+    
+
+    // if (infoheight==0 || !infoheight){
+    // InfoboxRect = infobox.getBoundingClientRect()
+    // var infoheight    = InfoboxRect.height;
+    // var infowidth     = InfoboxRect.width;
+    // }
+
+    CanFitLeftBound = ElementRect.left + infowidth < vwidth * 0.9;
+
+    CanFitBelow = ElementRect.bottom + infoheight < vheight * 0.9;
+    
+    infobox.style.position = "fixed";
+
+    if (CanFitBelow && element.id != "actFuncCol"){
+        infobox.style.top = ElementRect.bottom + "px";
+    }
+    else{
+        infobox.style.top = ElementRect.top- infoheight +"px";
     }
 
-    infobox.style.position = "fixed";
-    infobox.style.top = topNUM + "px";
-    infobox.style.left= leftNUM +"px"; 
+    if (CanFitLeftBound){
+        infobox.style.left= ElementRect.left +"px"; 
+    }
+    else {
+        infobox.style.left = ElementRect.right - infowidth+"px";
+    }
     infobox.focus();
 }
 
 function changeInfoText(elementID) {
-    if (infoboxShown){
-        infoboxShown= false;
-        return
-    }
+    infobox.style.display= "flex"
+
     if (infobox) {
     element = document.getElementById(elementID);
     
