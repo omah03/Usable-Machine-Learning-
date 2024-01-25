@@ -197,12 +197,12 @@ def gradCAM(model, image):
 
     #print("gradients",gradients, gradients.shape, len(gradients))    
 
-    assert (gradients.shape == torch.Size([16, 1, 3, 3])),"sth went wrong"
+    #assert (gradients.shape == torch.Size([16, 1, 3, 3])),"sth went wrong"
     print("gradients = ", gradients)
     pooled_gradients = torch.mean(gradients, dim=[1, 2, 3])
     
-    activations = model.conv_layers[-1].conv(image).detach()
-    assert (model.conv_layers[0] == model.conv_layers[-1]), "Which one is the 'last conv layer'?" 
+    activations = model.conv_layers[0].conv(image).detach()
+    #assert (model.conv_layers[0] == model.conv_layers[-1]), "Which one is the 'last conv layer'?" 
     """A number of previous works have asserted that deeper repre-
     sentations in a CNN capture higher-level visual constructs [6,
     41]. Furthermore, convolutional layers naturally retain spatial

@@ -122,12 +122,23 @@
     margin: auto;
     align-self: center;
     border: 2px #000000 solid;
+    width: 30%;
+    height:20%;
+    border-radius: 20%;
+    text-align: center;
+    justify-content: center;
+    font-size: 180%;
 }
 
 .MinusButton {
     margin: auto;
     align-self: center;
     border: 2px #000000 solid;
+    width: 30%;
+    height: 20%;
+    border-radius: 20%;
+    justify-content: center;
+    font-size: 180%;
 }
 
 .container-dropdown {
@@ -247,12 +258,35 @@
 }
 
 
-.classifier_class {
+.class {
     height:8%;
     border: 2px #000000 solid;
     color: var(--text-color-playground)
 } 
 
+
+.block_info {
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.block_label{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin:auto;
+    padding-left: 10%;
+    width: 100%;
+}
+
+.block-icon {
+    width: 5vh;
+    margin: auto;
+    margin-right:0;
+    margin-top:-3%;
+}
 
 /*This section is for the walkthrough*/
 #skip_tut{
