@@ -112,9 +112,11 @@ class Trainer():
     @staticmethod
     def convert_config_for_modelbuilder(config:dict):
         res = {}
+
+        options = [0.5, 0.3, 0.1, 0.01]
         string =config["LRate"]
-        LRate = float(string)
-        res.update({"LRate" : LRate})
+        LRate = int(string)
+        res.update({"LRate" : options[LRate-1]})
         
         BSize = int(config["BSize"])
         res.update({"BSize": BSize})

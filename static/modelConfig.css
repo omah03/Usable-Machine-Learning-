@@ -295,3 +295,19 @@
     margin-right:0;
     margin-top:-3%;
 }
+
+.popup {
+    display: None;
+    position:absolute;
+    justify-self: center;
+    width : 20vw;
+    height: 20vh;
+    margin:auto;
+    margin-left: 40vw;
+
+    background-color: rgba(255,255,255, 200);
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    z-index: 100;
+}

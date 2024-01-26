@@ -11,7 +11,6 @@ var accuracies = [];
 // Get the canvas element
 const ctxs = document.getElementById('myChart').getContext('2d');
 
-
 // Create the chart
 const myChart = new Chart(ctxs, {
     type: 'line',
@@ -88,19 +87,20 @@ startbutton = document.getElementById("starttraining");
 startbutton.addEventListener("click", handleStartButton);
 progressbar = document.getElementById("progressbar");
 progress = document.getElementById("progress");
-//for US only
-var training = false;
-var sleepSetTimeout_ctrl;
 
-function sleep(ms) {
-    clearInterval(sleepSetTimeout_ctrl);
-    return new Promise(resolve => sleepSetTimeout_ctrl = setTimeout(resolve, ms));
-}
-//end for US only
+modelPopup = document.getElementById("modelPopup");
+discardButton = document.getElementById("discardButton");
+returnButton = document.getElementById("returnButton");
 
+discardButton.addEventListener("click", resetTraining)
+returnButton.addEventListener("click", () => {
+    window.scrollBy(0,100);
+})
 
 async function handleStartButton() {
-    //ACTUAL IMPLEMENTATION
+    modelPopup.style.display= "flex";
+
+
     fetch('/button_press', {
         method: 'POST',
         headers: {
@@ -188,7 +188,11 @@ function handleTrainingData(training_config) {
 
 
 resetbutton = document.getElementById("resettraining");
-resetbutton.addEventListener("click", () => {
+resetbutton.addEventListener("click", resetTraining);
+
+
+function resetTraining(){
+    modelPopup.style.display="none";
     handleButton(resetbutton.id);
     progress.style.width = "0%";
     blockBatchData = true;
@@ -198,7 +202,7 @@ resetbutton.addEventListener("click", () => {
     myChart.data.datasets[1].data=[]
     myChart.options.plugins.annotation.annotations={}
     myChart.update()
-})
+}
 
 function handleButton(buttonName) {
     // Call the backend
@@ -213,5 +217,5 @@ function handleButton(buttonName) {
         })
     })
         .then(response => response.json());
-
 }
+

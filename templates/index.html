@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='walkthrough/walkthrough.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='options/options.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='training/training.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='new.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='modelConfig.css') }}">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/socket.io/client-dist/socket.io.js"></script>
@@ -59,6 +59,7 @@
                 </div>
             </div>
         </section>
+
         <section id="How CNNs work" class="gif-explanation">
             <div class="explanation-container">
                 <p>The moving red box in the animation is called a <strong>kernel</strong> or <strong>filter</strong>, and it slides over the image to detect features like edges and patterns. The result of this process is what we call a <strong>feature map</strong>, shown on the right, which highlights important details the network will use to make decisions.</p>
@@ -66,7 +67,6 @@
         </section> 
 
         <section>
-
             <div class="container-model-builder">
                 <div class="modelbuilder-text">
                     <h2>Configure your own Model!</h2>
@@ -74,6 +74,11 @@
                 <div class = "speech_bubble" id = "modelbuilder_speech_bubble">
                     <p class = "walkthrough_text">Dies ist die modelbuilder_speech_bubble</p>
                     <button id = "next_button">next</button>
+                </div>
+                <div class= "popup infobox" id = "modelPopup">
+                    By changing the model, your Training progress is reset. You can return to Training and keep your Progress or continue to Model Configuration, while your Progress is discarded
+                    <button id= "discardButton">Discard</button>
+                    <button id= "returnButton">Return</button>
                 </div>
                 <div class= "container-blockVisualization" >
                     <div class= "container-MNIST">
