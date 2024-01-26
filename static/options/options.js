@@ -127,16 +127,16 @@ function updateSliderValue(slider) {
     else if (sliderName == 'LRate') {
         switch (sliderValue) {
             case "1":
-                display.innerHTML = "0.1"
+                display.innerHTML = "0.5"
                 break
             case "2":
-                display.innerHTML = "0.01"
+                display.innerHTML = "0.3"
                 break
             case "3":
-                display.innerHTML = "0.001"
+                display.innerHTML = "0.1"
                 break
             case "4":
-                display.innerHTML = "0.0001"
+                display.innerHTML = "0.01"
                 break
         }
     }

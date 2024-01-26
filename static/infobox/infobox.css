@@ -37,16 +37,15 @@
 }
 
 .info-small{
-  width:25px;
-  margin-right: -30px;
-  margin-bottom: -30px;
-  margin-left: 5px;
-  margin-top: 5px;
+  width:2vw;
+  margin-left: 0.1vw;
+  margin-top: 0.05vh;
   align-self:flex-start;
   float:left;
+  vertical-align: top;
   z-index: 5;
 
-  position: static
+  position: absolute;
 }
 
 .infotext {

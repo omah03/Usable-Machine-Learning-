@@ -34,15 +34,18 @@ if (show_more) {
     })
 }
 
-const elementIDs = ["inputbox", "block1", "block2", "block3", "block4", "block5", "outputbox", "actFuncCol", "LRateCol", "EpochsCol", "BSizeCol"]
+const elementIDs = ["inputbox", "block1", "block2", "block3", "block4", "block5", "outputbox", "actFuncCol", "LRateCol", "EpochsCol", "BSizeCol", "KSizeCol"]
 
 for (const ID of elementIDs) {
     var element = document.getElementById(ID);
     if (element) {
-        element.innerHTML = '<img class = "info-small" width= "25px" src="../static/include/Images/info.png" alt="Information Box">'
+        element.innerHTML = `<img class = "info-small" id="infoIcon_${ID}" width= "25px" src="../static/include/Images/info.png" alt="Information Box">`
             + element.innerHTML
 
-        element.addEventListener("click", () => { changeInfoText(ID); })
+        infoicon= document.getElementById(`infoIcon_${ID}`)
+        infoicon.left = 0;
+        infoicon.top = 0;
+        infoicon.addEventListener("click", () => { changeInfoText(ID); })
 
     }
 
