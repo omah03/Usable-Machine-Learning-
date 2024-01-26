@@ -18,6 +18,9 @@
 
 </head>
 <body>
+    <div id="section-indicators" class="section-indicators">
+        <!-- Indicators will be added here dynamically -->
+    </div>
     <div class = "infobox" id = "infobox">
         <div class= "infobox-header">
             <img class = "info-icon" src="../static/include/Images/info.png" alt="Information Box" width="50px">
@@ -26,15 +29,14 @@
         </div>
         <p id="infotext" class = "infotext"></p>
     </div>
-    <div id="section-indicators" class="section-indicators">
-        <!-- Indicators will be added here dynamically -->
-    </div>
+
     <header class="header-background">
         <div class="container header-content">
             <h1>Cupcakes for Machine Learning</h1>
         </div>
         <button id = skip_tut>Skip Tutorial</button>
     </header>
+
     <section id ="What is ML" class="ml-fullscreen">
         <div class="container">
             <div class="ml-text">
@@ -64,7 +66,7 @@
             </div>
         </section> 
 
-        <section>
+        <section id ="Model Builder">
 
             <div class="container-model-builder">
                 <div class="modelbuilder-text">
@@ -203,7 +205,7 @@
                 </div>
             </div>
         </section>
-        <section class="model-builder">
+        <section id = "Train & Test" class="model-builder">
             <div class = "speech_bubble" id = "training_speech_bubble">
                 <p class = "walkthrough_text">Dies ist die training_speech_bubble</p>
             </div>

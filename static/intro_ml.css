@@ -6,10 +6,10 @@
     width: 12px;
 }
 ::-webkit-scrollbar-track {
-    background: #243958;
+    background: #333333;
 }
 ::-webkit-scrollbar-thumb {
-    background: #5D93E1; 
+    background: var(--secondary-color); 
     border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -51,7 +51,7 @@ section{
     padding: 0; 
 }
 header {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('include/Images/intropic.png') center/cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('include/Images/lastoneipromise.png') center/cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -98,7 +98,7 @@ header h1 {
 .ml-basics-centered {
     text-align: center; 
     padding: 4rem 0; 
-    background-color: #5D93E1;
+    background-color:  rgb(229,238,253);
     color: #ffffff;
 }
 
@@ -109,12 +109,12 @@ header h1 {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 50vh;
-    background-color: var(--primary-color); 
+    padding: 30vh;
+    background-color: rgb(229,238,253); 
 }
 
 .ml-fullscreen .container {
-    max-width: 1600px; 
+    max-width: 1800px; 
 }
 
 .ml-fullscreen h2 {
@@ -138,20 +138,21 @@ header h1 {
     margin: 0;
     padding: 1rem;
     flex: 1 1 50%; 
-    background-color: #243958; 
+    background-color: rgb(229,238,253); 
     color: #ffffff; 
     text-align: center;
 }
 
 .cnn-text h2 {
-    font-size: 3vw; 
-    color: #ffffff;
+    font-size: 3.5vw; 
+    color: #000000;
 }
 
 .cnn-text p {
+    margin-top: 50px;
     max-width: 100%;
     font-size: 1.5vw; 
-    color: #ffffff;
+    color: #000000;
 }
 .gif-container {
     position: relative;
@@ -194,21 +195,21 @@ header h1 {
 }
 
 .explanation-container p {
-    color: #ffffff; 
+    color: #000000; 
     line-height: 1.6; 
     font-size: 1.5vw; 
     position: absolute; 
     bottom: 0;        
     left: 0;           
     width: 100%;      
-    top: 1000px;
+    top: 800px ;
 }
 
 
 .section-indicators {
     position: fixed;
     top: 50%;
-    left: 10px;
+    right: 10px;
     transform: translateY(-50%);
     z-index: 10;
 }
@@ -220,19 +221,17 @@ header h1 {
     margin: 5px 0;
     opacity: 0.5;
     transition: opacity 0.3s;
-}
-.section-indicator.active {
-    opacity: 1;
-}
-
-.section-indicator {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-end;
     margin-bottom: 40px;
     cursor: pointer; 
     --animation: pulse 2s infinite;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+.section-indicator.active {
+    opacity: 1;
 }
 
 .section-name {
@@ -247,14 +246,24 @@ header h1 {
     order: -1;
     font-size:  2.0em;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    visibility: hidden;
+    
 }
 
-.section-indicator:hover .section-name,
+.section-indicator:hover .section-name {
+    opacity: 1;
+    visibility: visible; 
+    transform: translateY(-50%) translateX(-10px);
+    animation: fadeOut 1s ease-in 1s forwards;
+}
+
 .section-indicator.active .section-name {
     opacity: 1;
-    animation: fadeOut 2s ease-in 2s forwards;
+    visibility: visible; 
+    transform: translateY(-50%) translateX(-10px);
+    animation: fadeOut 1s ease-in 1s forwards;
 }
-    
+
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
