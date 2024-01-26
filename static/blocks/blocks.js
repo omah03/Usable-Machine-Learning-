@@ -27,9 +27,7 @@ for (let i = 1; i <= 3; i++) {
 
     if (block) {
         block.style.setProperty("display", "none");
-        block.addEventListener("click", () => {
-            changeInfoText(Blocks[i].id);
-        });
+
     }
 
     if (Add_block) {

@@ -31,7 +31,7 @@ session={"config": {"ActivationFunc": "act_reluOption",
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("intro_ml.html")
+    return render_template("index.html")
     
 @app.route('/model')
 def model_page():
