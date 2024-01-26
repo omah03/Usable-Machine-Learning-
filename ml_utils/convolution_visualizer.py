@@ -15,7 +15,7 @@ cnn = ConvolutionalNeuralNetwork()
 # Load a sample image from the MNIST dataset
 transform = transforms.Compose([transforms.ToTensor()])
 mnist_data = torchvision.datasets.MNIST(root='./data', train=True, download=True, transform=transform)
-sample_image, _ = mnist_data[0]
+sample_image, _ = mnist_data[1]
 sample_image = sample_image.unsqueeze(0)  # Add batch dimension
 
 # Extract the first kernel from the first convolutional layer
