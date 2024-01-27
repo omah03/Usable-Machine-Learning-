@@ -9,11 +9,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='infobox/infobox.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='options/options.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='training/training.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='modelConfig.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='traintest/traintest.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='walkthrough/walkthrough.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='traintest/traintest.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='new.css') }}">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/socket.io/client-dist/socket.io.js"></script>
@@ -38,7 +34,7 @@
         <div class="container header-content">
             <h1>Cupcakes for Machine Learning</h1>
         </div>
-        <button id = "skip_tut">Skip Tutorial</button>
+        <button id = skip_tut>Skip Tutorial</button>
     </header>
 
     <section id ="What is ML" class="ml-fullscreen">
@@ -60,7 +56,7 @@
                     </p>
                 </div>
                 <div class="gif-container">
-                    <img src="{{ url_for('static', filename='include/convolution_animation0.gif') }}" alt="cnn-gif">
+                    <img src="{{ url_for('static', filename='include/convolution_animation.gif') }}" alt="cnn-gif">
                 </div>
             </div>
         </section>
@@ -79,11 +75,6 @@
                 <div class = "speech_bubble" id = "modelbuilder_speech_bubble">
                     <p class = "walkthrough_text">Dies ist die modelbuilder_speech_bubble</p>
                     <button id = "next_button">next</button>
-                </div>                
-                <div class= "popup infobox" id = "modelPopup">
-                    By changing the model, your Training progress is reset. You can return to Training and keep your Progress or continue to Model Configuration, while your Progress is discarded
-                    <button id= "discardButton">Discard</button>
-                    <button id= "returnButton">Return</button>
                 </div>
                 <div class= "container-blockVisualization" >
                     <div class= "container-MNIST">
@@ -113,13 +104,13 @@
                                     <label for="KSizeSlider">Kernel Complexity</label>
                                     <div class= "KSizeSliderDisplay">
                                         <input type="range" id="KSizeSlider" min="1" max="3" value="{{ 2 }}">
-                                        <span id="KSizeDisplay">medium</span>
+                                        <span id="KSizeDisplay">2</span>
                                     </div>
                             </div>
                         </div>
                         <div class="container-blocks">
                             <div class = "blockcolumn">
-                                <div id="block1"class = "BlockButton">
+                                <button id="block1"class = "BlockButton">
                                     <div class="block_info">
                                         <div class= "block_label"> 
                                             Convolutional Layer 
@@ -134,12 +125,12 @@
                                             <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                         </div>                                    
                                     </div>
-                                </div>
+                                </button>
                                 <button id="Add_block1", class="AddButton"> + </button>
                                 <button id="Minus_block1" class="MinusButton"> - </button>
                             </div>
                             <div class = "blockcolumn">
-                                <div id="block2"class = "BlockButton">
+                                <button id="block2"class = "BlockButton">
                                     <div class="block_info">
                                         <div class= "block_label"> 
                                             Convolutional Layer 
@@ -154,12 +145,12 @@
                                             <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                         </div>                                    
                                     </div>
-                                </div>
+                                </button>
                                 <button id="Add_block2" class="AddButton"> + </button>
                                 <button id="Minus_block2" class="MinusButton"> - </button>
                             </div>
                             <div class = "blockcolumn">
-                                <div id="block3"class = "BlockButton">
+                                <button id="block3"class = "BlockButton">
                                     <div class="block_info">
                                         <div class= "block_label"> 
                                             Convolutional Layer 
@@ -174,7 +165,7 @@
                                             <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                         </div>                                    
                                     </div>
-                                </div>
+                                </button>
                                 <button id="Add_block3" class="AddButton"> + </button>
                                 <button id="Minus_block3" class="MinusButton"> - </button>
                             </div>
@@ -272,7 +263,7 @@
 
                                 </div>
                                 <div class="reset">
-                                    <button disabled id = "resettraining" name="restarttraining" class="startbutton"> RESET </button>
+                                    <button id = "resettraining" name="restarttraining" class="startbutton"> RESET </button>
                                 </div>
                                 <div class="progress-container">
                                     <p id="trainingdisplay"> </p>
@@ -363,7 +354,7 @@
     <script src="{{ url_for('static', filename='test.js') }}"></script>
     <script src="{{ url_for('static', filename='training/training.js') }}"></script>
     <script src="{{ url_for('static', filename='scroll-animation.js') }}"></script>
-    <script src="{{ url_for('static', filename='walkthrough/walkthrough.js') }}"></script>
+    <script src="{{ url_for('static', filename='walkthrough.js') }}"></script>
 
 
 </body>
