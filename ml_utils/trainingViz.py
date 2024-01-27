@@ -132,10 +132,8 @@ class Trainer():
         
         res.update(
             {"KSize": options[i-1]})
-        
 
-
-
+        print(res)
         return res
         
 

@@ -20,7 +20,7 @@ trainer= Trainer(socketio)
 # moved config to session["config"} to prepare for storing the data ina flask session variable (I hope thats possible)
 # this would allow multiple users + fix some thread safety concerns
 session={"config": {"ActivationFunc": "act_reluOption",  
-                            "LRate": 0.01,
+                            "LRate": 2,
                             "BSize":1,
                             "NEpochs":1,
                             "NBlocks": 2,

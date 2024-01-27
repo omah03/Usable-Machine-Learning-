@@ -97,9 +97,12 @@ returnButton.addEventListener("click", () => {
     window.scrollBy(0,100);
 })
 
-async function handleStartButton() {
-    modelPopup.style.display= "flex";
+resetbutton = document.getElementById("resettraining");
+resetbutton.addEventListener("click", resetTraining);
 
+async function handleStartButton() {
+    resetbutton.disabled=true
+    modelPopup.style.display= "flex";
 
     fetch('/button_press', {
         method: 'POST',
@@ -173,6 +176,7 @@ function handleTrainingData(training_config) {
         progress.style.width = "0%"
         startbutton.innerHTML = "CONTINUE"
         trainingdisplay.innerHTML = `Trained ${training_config["Epochs_Trained"]} Epochs`
+        resetbutton.disabled=false
     }
     else {
         progress.style.width = "0%"
@@ -187,8 +191,7 @@ function handleTrainingData(training_config) {
 }
 
 
-resetbutton = document.getElementById("resettraining");
-resetbutton.addEventListener("click", resetTraining);
+
 
 
 function resetTraining(){
