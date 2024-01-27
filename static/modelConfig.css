@@ -71,6 +71,8 @@
     margin: auto;
     margin-right: 2%;
     border: 5px solid var(--background-color);
+    background-color: var(--container-color);
+
 }
 
 .container-modelconfiguration-options {
@@ -150,6 +152,7 @@
     margin-left: 5%;
     border: 5px solid var(--background-color);
     border-radius: 5%;
+    background-color: var(--container-color);
 
     padding:1%
 }
