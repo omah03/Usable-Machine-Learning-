@@ -151,7 +151,8 @@
     border: 5px solid var(--background-color);
     border-radius: 5%;
 
-    padding:1%
+    display: flex;
+    justify-content: center;
 }
 
 .container-slider {
@@ -159,18 +160,11 @@
     height: 80%;
     margin: auto;
     margin-right:5%;
-    display:flex;
-    flex-direction: column;
 
     border: 5px solid var(--background-color);
     color: var(--text-on-highlight);
     background-color: var(--container-color);
     text-align: center;
-    padding: 1%;
-}
-
-.dropdown-content{
-    z-index: 10;
 }
 
 .KSizeSliderDisplay {
@@ -205,7 +199,7 @@
     height: 100%;
     margin: auto;
     width: 100%;
-    border: 5px solid var(--background-color);
+    border: 5px solid var(--background-color);                  
     color: var(--text-color-playground);
     background-color: var(--container-color);
 }
@@ -298,18 +292,77 @@
     margin-top:-3%;
 }
 
-.popup {
-    display: None;
-    position:absolute;
-    justify-self: center;
-    width : 20vw;
-    height: 20vh;
-    margin:auto;
-    margin-left: 40vw;
-
-    background-color: rgba(255,255,255, 200);
-    flex-direction: column;
-    justify-content: space-evenly;
-
-    z-index: 100;
+/*This section is for the walkthrough*/
+#skip_tut{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
+
+.blurred-section {
+    filter: blur(10px); 
+    transition: filter 0.3s ease;
+    pointer-events: none;
+  }
+
+
+.speech_bubble{
+    position: relative;
+    align-self: center;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 500px;
+    bottom: -10px;
+    display: none;
+
+}
+
+.walkthrough_text{
+    color:black;
+    align-items: center;
+}
+
+#next_button{
+    position: relative;
+    bottom:5px;
+    right:5px;
+}
+
+#training_speech_bubble{
+    position:absolute;
+    bottom: -5100px;
+    right: 400px;
+
+
+}
+
+#training_graph_speech_bubble{
+    position:absolute;
+    bottom: -5700px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+
+}
+
+#testing_speech_bubble{
+    position:absolute;
+    bottom: -5400px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    z-index: 2;
+}
+
+#testing_next_button{
+    display: none;
+
+}
+/*End of Section*/
