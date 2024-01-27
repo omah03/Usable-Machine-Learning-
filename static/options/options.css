@@ -49,6 +49,8 @@ input[type="range"] {
   .dropdown {
     position: relative;
     display: inline-block;
+    color: var(--text-color-playground);
+    /* background-color: var(--container-color); */
     width: 100%;
     height: 100%;
 
@@ -56,6 +58,7 @@ input[type="range"] {
   
   /* Dropdown Content (Hidden by Default) */
   .dropdown-content {
+    color: var(--text-color-playground);
     display: none;
     position: absolute;
     background-color: #f1f1f1;

@@ -74,7 +74,7 @@
 
             <div class="container-model-builder">
                 <div class="modelbuilder-text">
-                    <h2>Configure your own Model!</h2>
+                    <h2 style="color: var(--text-color-playground);">Configure your own Model!</h2>
                 </div>
                 <div class = "speech_bubble" id = "modelbuilder_speech_bubble">
                     <p class = "walkthrough_text">Dies ist die modelbuilder_speech_bubble</p>
@@ -113,7 +113,7 @@
                                     <label for="KSizeSlider">Kernel Complexity</label>
                                     <div class= "KSizeSliderDisplay">
                                         <input type="range" id="KSizeSlider" min="1" max="3" value="{{ 2 }}">
-                                        <span id="KSizeDisplay">medium</span>
+                                        <span style="margin-left: 5%;" id="KSizeDisplay">medium</span>
                                     </div>
                             </div>
                         </div>
@@ -136,6 +136,7 @@
                                     </div>
                                 </div>
                                 <button id="Add_block1", class="AddButton"> + </button>
+                                <div class="interception"></div>
                                 <button id="Minus_block1" class="MinusButton"> - </button>
                             </div>
                             <div class = "blockcolumn">
@@ -156,6 +157,7 @@
                                     </div>
                                 </div>
                                 <button id="Add_block2" class="AddButton"> + </button>
+                                <div class="interception"></div>
                                 <button id="Minus_block2" class="MinusButton"> - </button>
                             </div>
                             <div class = "blockcolumn">
@@ -175,14 +177,16 @@
                                         </div>                                    
                                     </div>
                                 </div>
+                                
                                 <button id="Add_block3" class="AddButton"> + </button>
+                                <div class="interception"></div>
                                 <button id="Minus_block3" class="MinusButton"> - </button>
                             </div>
                         </div>
                     </div>
                     <div class= "container-classification" id= "outputbox" >
                         <div class="LinearLayer_Header" >
-                            <h2> Linear Layer </h2> <h2>Output</h2>
+                            <h2> Linear Layer </h2> <h2> Output</h2>
                         </div>
                         <div class = "staticClassifier">
                             <div class="linear_layer">
@@ -239,7 +243,7 @@
                                         <label for="LRateSlider"> Learning Rate</label>
                                         <div class= "sliderDisplay">
                                             <input type="range" id="LRateSlider" min="1" max="4" value="{{ 2 }}">
-                                            <span id="LRateDisplay"></span>
+                                            <span style="margin-left: 5%;" id="LRateDisplay"></span>
                                         </div>
                                 </div>
                                 </div> 
@@ -248,7 +252,7 @@
                                         <label for="BSizeSlider">Batch Size</label>
                                         <div class= "sliderDisplay">
                                             <input type="range" id="BSizeSlider" min="1" max="256" value="{{ 32 }}">
-                                            <span id="BSizeDisplay"></span>
+                                            <span style="margin-left: 5%;" id="BSizeDisplay"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -257,7 +261,7 @@
                                         <label for="NEpochsSlider">Epochs</label>
                                         <div class= "sliderDisplay">
                                             <input type="range" id="NEpochsSlider" min="1" max="10" value="{{ 4 }}">
-                                            <span id="NEpochsDisplay"></span>
+                                            <span style="margin-left: 5%;" id="NEpochsDisplay"></span>
                                         </div>
                                     </div>
                                 </div>
