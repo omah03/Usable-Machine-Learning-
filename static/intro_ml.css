@@ -150,7 +150,7 @@ header h1 {
 }
 
 .cnn-text p {
-    margin-top: 50px;
+    margin-top: 0.5vh;
     max-width: 100%;
     font-size: 1.5vw; 
     color: #000000;
@@ -160,9 +160,10 @@ header h1 {
 }
 .gif-container img {
     position: absolute;
-    margin-top: 500px;
+    margin-top: 50vh;
     top: 50%; 
     left: 50%;
+    width: 70vw;
     transform: translate(-50%, -50%);
     transition: top 0.5s ease;
 }
@@ -186,7 +187,6 @@ header h1 {
     font-family: Arial, sans-serif; 
 }
 .explanation-container {
-    margin-top: 20px;
     padding: 1.5rem;
     max-width: 70%;
     text-align: left;
@@ -203,7 +203,7 @@ header h1 {
     bottom: 0;        
     left: 0;           
     width: 100%;      
-    top: 800px ;
+    top: 70vh ;
 }
 
 

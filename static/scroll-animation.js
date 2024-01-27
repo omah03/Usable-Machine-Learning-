@@ -1,13 +1,13 @@
 // NavScrolling
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    var gifElement = document.querySelector('.gif-container img'); 
+document.addEventListener('DOMContentLoaded', function () {
+    var gifElement = document.querySelector('.gif-container img');
     var cnnSection = document.querySelector('.cnn-explanation');
     var gifSection = document.querySelector('.gif-explanation');
     var gifContainer = document.querySelector('.gif-container');
 
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
         var containerRect = gifContainer.getBoundingClientRect();
         var cnnRect = cnnSection.getBoundingClientRect();
         var gifRect = gifSection.getBoundingClientRect();
@@ -16,8 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (window.scrollY + window.innerHeight > gifRect.top + window.scrollY) {
             newPosition = gifRect.top - containerRect.top;
+            gifElement.style.marginTop = "30vh"
         } else {
             newPosition = cnnRect.top - containerRect.top;
+            gifElement.style.marginTop = "60vh"
+
         }
         gifElement.style.top = newPosition + 'px';
     });
@@ -25,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('section');
     const indicatorContainer = document.getElementById('section-indicators');
-    
+
     sections.forEach((section, index) => {
         const indicator = document.createElement('div');
         indicator.classList.add('section-indicator');
@@ -33,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const sectionName = document.createElement('span');
         sectionName.classList.add('section-name');
-        sectionName.textContent = section.id || `Section ${index + 1}`; 
+        sectionName.textContent = section.id || `Section ${index + 1}`;
         indicator.appendChild(sectionName);
 
         indicator.addEventListener('click', () => {
