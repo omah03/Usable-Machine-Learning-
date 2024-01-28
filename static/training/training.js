@@ -36,6 +36,14 @@ const myChart = new Chart(ctxs, {
                 data: [],
                 borderWidth: 5,
             },
+            {
+                label: "",
+                color: 'rgba(0,0,0,0)',
+                borderColor: 'rgba(0, 0, 0,0)',
+                backgroundColor: 'rgba(0,0,0,0)',
+                data: [1,100],
+                borderWidth: 5,
+            },
         ],
     },
     options: {
@@ -51,7 +59,7 @@ const myChart = new Chart(ctxs, {
                 drawborder: true,
                 ticks: {
                     // Callback to format tick labels as percentages
-                    callback: function (value, index, values) {
+                    callback: function (value) {
                         return value + '%';
                     },
                 }
