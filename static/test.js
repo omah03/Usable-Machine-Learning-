@@ -227,8 +227,8 @@ function showHeatmap(heatmap){
     const rows = heatmap.length;
     const columns = heatmap[0].length;
 
-    const canvasWidth = 280//canvas.width;
-    const canvasHeight = 280//canvas.height;
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
 
     const cellWidth = canvasWidth / columns;
     const cellHeight = canvasHeight / rows;
