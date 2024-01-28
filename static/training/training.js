@@ -53,7 +53,7 @@ const myChart = new Chart(ctxs, {
                 position: 'bottom',
                 labels: epochs,
             },
-            y: [{
+            y: {
                 min: 0,
                 max: 100,
                 drawborder: true,
@@ -63,7 +63,7 @@ const myChart = new Chart(ctxs, {
                         return value + '%';
                     },
                 }
-            }],
+            },
         },
         font: {
             size: 20,
