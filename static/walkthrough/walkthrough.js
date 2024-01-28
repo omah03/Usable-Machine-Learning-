@@ -1,17 +1,3 @@
-import {NumBLocks} from '../blocks/blocks.js';
-
-function imported(name){
-    if (name){
-        console.log('if');
-        console.log('NumBlocks = ' + name);
-    }else{
-        console.log('NumBlocks not defined yet');
-    }
-
-}
-
-imported(NumBLocks);
-
 const walkthroughTargets = ['inputbox','rectanglelayer','outputbox','training_params','training_graph','testing_section'];
 
 
@@ -66,40 +52,11 @@ function blurr_all_but(nottarget_ids){
     });
 }
 
-function waitForDropdownSelection(desiredOption_id) {
-    console.log('waitForDropdownSelection');
-    return new Promise(resolve => {
-        /*might reuse this if dropdown is actual dropdown and not buttons anymore
-        const dropdown = document.getElementById(dropdown_id);
-        console.log('const...')
-        function handleChange() {
-            console.log('handleChange');
-            if (dropdown.value === desiredValue) {
-                resolve();
-                dropdown.removeEventListener('change', handleChange);
-            }else{
-                console.log('else');
-            }
-        }             
-        */
-        document.getElementById(desiredOption_id).addEventListener('click',resolve);
-        //dropdown.addEventListener('change', handleChange);
-        console.log('EventListener added');
-    });
-}
-
 function waitForClick(button_id){
+    showElement(button_id);
     console.log('wait for click...');
     return new Promise(resolve => {
         document.getElementById(button_id).addEventListener('click',resolve);
-    });
-}
-
-async function delay(seconds) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve();
-        }, seconds * 1000);
     });
 }
 
@@ -132,124 +89,57 @@ function showElement(element_id){
     }
 }
 
-async function waitForSlider(slider_id,value){
+
+function sliderCondition(slider_id,value){
     var slider = document.getElementById(slider_id);
-    return new Promise(resolve => {
-        
-        if(slider.value == value){
-            console.log('Slider ajusted correctly!');
-            resolve();
-        }})
-}
-
-
-async function waitForInteraction(button_ids,slider_ids){
-    //wait handleButton();
-    //wait handleSlider();
-}
-
-
-
-
-
-
-async function handleSliders(slider_id, new_value){
-    slider = document.getElementById(slider_id);
-    
-    console.log('inside handleSliders');
-    console.log('slider.value = ' + slider.value);
-    return new Promise(resolve => {
-        slider.addEventListener("input",(event) => {
-            if(slider.value == new_value){
-                console.log('new_value :)');
-                resolve();
-            }
-        })
-    })        
-}
-
-const walkthroughValues = ['']
-//[ActivationFun, KernelComplexity, #Blocks, LR,Batch_size, #Epochs]
-//async function anyAction(buttons, sliders, block_selection, training, drawing){
-//    //everytime that an action made, we test all conditions
-//    return new Promise(resolve => {
-//        
-//
-//    })
-//}
-
-function sliderCondition(slider,value){
+    console.log('sldiercond');
+    console.log('slider value = ' + slider.value);
     var condition = slider.value == value;
     return condition;
 }
 
 
-//THIS IS THE FUNCTION IM WORKING ON
-async function checkNumBlocks(){
-    console.log('handleModelbuilder...');
-    const block1 = document.getElementById(`block1`);
-    const block2 = document.getElementById(`block2`);
 
-
-    return new Promise(resolve => {
-        
-        if(NumBLocks){
-            if(NumBLocks == 1){
-                    resolve();
-                }
-            }
-    })
-}
-
-function conditions(){
+function conditions(keyword){
     var numBlocks_condition = block1.style.display == 'flex' && block2.style.display == 'none';
     var act_fun = document.getElementById('act_Label').innerText.slice(-6)=='(ReLU)';
-    //var sliderConditions = sliderCondition(slider_id, slider_value);
+    var sliderConditions = sliderCondition('KSizeSlider', '3');
+    
+    if(keyword == 'training'){
+        var sliderConditions = sliderConditions && sliderCondition('LRateSlider','4') && sliderCondition('BSizeSlider','256') && sliderCondition('NEpochsSlider','1');
+
+    }
+    
     console.log(document.getElementById('act_Label').innerText.slice(-6)=='(ReLU)');
     console.log(numBlocks_condition + 'fun = ' + act_fun );
-    return numBlocks_condition && act_fun;
+    return numBlocks_condition && act_fun && sliderConditions;
 }
 
 
 
-//document.getElementById('LRateSlider').addEventListener('click',test);
-//document.getElementById('BSizeSlider').addEventListener('click',test);
-//document.getElementById('NEpochsSlider').addEventListener('click',test);
 
-
-//END TESTS
-
-
-async function anyAction(){
+async function anyAction(keyword){
 
 
 
     return new Promise(resolve => {
         
         //THIS SECTION IS FOR TESTS
-        function test(){
+        function checkConditions(){
             console.log('successful');
         
-            if(conditions()){
+            if(conditions(keyword)){
                 console.log('resolving...');
                 resolve();
             }
         }
-        document.getElementById('act_reluOption').addEventListener('click',test);
-        document.getElementById('KSizeSlider').addEventListener('input',test);
-        document.getElementById('Minus_block2').addEventListener('click',test);
-        document.getElementById('LRateSlider').addEventListener('click',test);
-        document.getElementById('BSizeSlider').addEventListener('click',test);
-        document.getElementById('NEpochsSlider').addEventListener('click',test);
-
-
-        //document.getElementById('')        
-        //document.getElementById('')       
-        //document.getElementById('')    
-        
+        document.getElementById('act_reluOption').addEventListener('click',checkConditions);
+        document.getElementById('KSizeSlider').addEventListener('input',checkConditions);
+        document.getElementById('Minus_block2').addEventListener('click',checkConditions);
+        document.getElementById('LRateSlider').addEventListener('click',checkConditions);
+        document.getElementById('BSizeSlider').addEventListener('click',checkConditions);
+        document.getElementById('NEpochsSlider').addEventListener('click',checkConditions);        
     })
-    
-
 }
 
 
@@ -257,18 +147,18 @@ async function anyAction(){
 async function bubbleRoutine(keyword){
     console.log('bubbleRoutine...' + keyword);
     var walkthrough = {
-        /*key: [[targets],BubbleId,BubbleText,[button_ids],[slider_ids],[slider_values]] */
-        'input':[['inputbox'],'modelbuilder_speech_bubble','Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet.',['next_button']],
-        'modelbuilder':[['rectanglelayer'],'modelbuilder_speech_bubble','Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernel Complexity, ReLu als Aktivierungsfunktion und 3 Blöcken um fortzufahren.',['act_reluOption']],
-        'output':[['outputbox'],'modelbuilder_speech_bubble','Die letzte Schicht des Modells wird jedes Eingabebild auf eine Ziffer abbilden können.',['next_button']],
-        'training':[['training_params'],'training_speech_bubble','Hier kannst du die Parameter für das Training anpassen. Wähle eine Lernrate von 0.01, eine Batchgröße von 200 und 5 Epochen aus und klicke zum Fortfahren auf Start.',['starttraining','resettraining']],
-        'graph':[['training_graph','training_params'],'training_graph_speech_bubble',"Dieser Graph zeigt dir, wie sich die Performance des Modells im Laufe des Trainings verändert. Sobald das Training abgeschlossen ist, clicke auf 'next'",['graph_next_button']],
-        'testing':[['testing_section'],'testing_speech_bubble','Das Modell wurde fertig trainiert. Jetzt kannst du selber eine Ziffer zeichnen, um sie von deinem Modell klassifizieren zu lassen.',['classify']]
+        /*key: [[targets],BubbleId,BubbleText,button_id,[slider_ids],[slider_values]] */
+        'input':[['inputbox'],'modelbuilder_speech_bubble','Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet.','next_button'],
+        'modelbuilder':[['rectanglelayer'],'modelbuilder_speech_bubble','Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernel Complexity, ReLu als Aktivierungsfunktion und 3 Blöcken um fortzufahren.','next_button'],
+        'output':[['outputbox'],'modelbuilder_speech_bubble','Die letzte Schicht des Modells wird jedes Eingabebild auf eine Ziffer abbilden können.','next_button'],
+        'training':[['training_params'],'training_speech_bubble','Hier kannst du die Parameter für das Training anpassen. Wähle eine Lernrate von 0.01, eine Batchgröße von 256 und 1 Epoche aus und klicke zum Fortfahren auf Start.',"starttraining"],
+        'graph':[['training_graph','training_params'],'training_graph_speech_bubble',"Dieser Graph zeigt dir, wie sich die Performance des Modells im Laufe des Trainings verändert. Sobald das Training abgeschlossen ist, klicke auf 'next'",'graph_next_button'],
+        'testing':[['testing_section'],'testing_speech_bubble','Das Modell wurde fertig trainiert. Jetzt kannst du selber eine Ziffer zeichnen, um sie von deinem Modell klassifizieren zu lassen.','classify']
     }
     var target_ids = walkthrough[keyword][0];
     var bubble_id = walkthrough[keyword][1];
     var bubble_text = walkthrough[keyword][2];
-    var button_ids = walkthrough[keyword][3];
+    var button_id = walkthrough[keyword][3];
     var slider_ids = walkthrough[keyword[4]];
     var slider_values = walkthrough[keyword[5]];
 
@@ -296,23 +186,38 @@ async function bubbleRoutine(keyword){
     //CheckConditions
     if(keyword == 'input' || keyword == 'output'){
         //show next button directly
+        await waitForClick(button_id);
     }
     else if(keyword == 'modelbuilder'){
         //relu, kernelCompl,#blocks selection
-        //await modelbuilder_Condition(){}
-        var numBlocks_condition = block1.style.display == 'flex' && block2.style.display == 'none';
-        //var slider.value == new_value;
+        await anyAction(keyword);
+        await waitForClick(button_id);
 
     }
     else if(keyword == 'training'){
         //lr, bs, e selection -> then show and wait for start button
+        console.log('training');
+        console.log('button_id = ' + button_id);
+        var button = document.getElementById(button_id);
+        if (button){
+            console.log('yes');
+        }else{
+            console.log('no');
 
+        }
+        button.classList.add('avoid-clicks');
+        console.log('avoid-clicks');
+        await anyAction(keyword);
+        button.classList.remove('avoid-clicks');
+        console.log('ready for click');
+        await waitForClick(button_id);
     }else if(keyword == 'graph'){
         //wait until training has finished -> then show and wait for next button
+        await waitForClick(button_id);
 
     }else if(keyword == 'testing'){
         //wait for drawing -> then show and wait for classify button
-    
+        await waitForClick(button_id);
         //Special Case for last step only
 
         changeText(bubble_id,'Geschafft! Die Rotfärbung der Pixel gibt diejenigen Pixel an, die besonders ins Gewicht fallen. Probiere jetzt gerne noch weiter rum :)');
@@ -320,7 +225,7 @@ async function bubbleRoutine(keyword){
         await waitForClick('testing_next_button');
         removeElement('testing_next_button');
     }else{
-        console.log('else');
+        throw new Error("An invalid keyword was given!");
     }
 
 
@@ -331,9 +236,7 @@ async function bubbleRoutine(keyword){
 
     //Wait for all button actions
     //await handleClicks(button_ids);
-    console.log('await any action...');
-    await anyAction();
-    console.log('click done');
+   
 
     //Wait for all slider actions
 
@@ -350,8 +253,7 @@ async function walkthrough(){
     console.log('starting walkthrough...');
 
     //input section
-    //showElement('next_button');
-    //await bubbleRoutine('input');
+    await bubbleRoutine('input');
     
 
     console.log('bubble 1');
@@ -369,7 +271,6 @@ async function walkthrough(){
     //training params section
     scrollTo_page(5);
     await bubbleRoutine('training');
-    console.log('here');
 
     //graph section
     await bubbleRoutine('graph');
@@ -412,5 +313,4 @@ document.getElementById('skip_tut').addEventListener('click', skip_start_walkthr
 
 
 
-//document.addEventListener('DOMContentLoaded', walkthrough);
-walkthrough();
+document.addEventListener('DOMContentLoaded', walkthrough);

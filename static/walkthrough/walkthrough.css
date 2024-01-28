@@ -18,6 +18,10 @@
     pointer-events: none;
   }
 
+.avoid-clicks{
+    pointer-events:none;
+}
+
 
 .speech_bubble{
     position: relative;
