@@ -4,7 +4,7 @@
 Chart.defaults.font.size = 20; // Sets the global font size
 Chart.defaults.color = '#000000'
 
-var epochs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+var epochs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 var losses = [];
 var accuracies = [];
 
@@ -44,11 +44,8 @@ const myChart = new Chart(ctxs, {
                 type: 'category',
                 position: 'bottom',
                 labels: epochs,
-                ticks: {
-                color: 'rgba(0,0,0,1',
-                },
             },
-            y: {
+            y: [{
                 min: 0,
                 max: 100,
                 drawborder: true,
@@ -58,7 +55,7 @@ const myChart = new Chart(ctxs, {
                         return value + '%';
                     },
                 }
-            },
+            }],
         },
         font: {
             size: 20,

@@ -26,8 +26,8 @@ class Trainer():
         self.train_loader=None
         self.test_loader=None
         self.nextEpoch=1
-        self.accs= []
-        self.loss= []
+        self.accs= [0]
+        self.loss= [0]
         self.config={}
         self.changes=set()
 
@@ -103,8 +103,8 @@ class Trainer():
         self.train_loader=None
         self.test_loader=None
         self.nextEpoch=1
-        self.accs= []
-        self.loss= []
+        self.accs= [0]
+        self.loss= [0]
         self.config={}
         self.changes=set()
 

@@ -116,7 +116,9 @@
     color: var(--text-color-playground);
     height: 33.3%;
     width: 100%;
+    align-items: center;
     display: flex;
+    justify-content: center;
     border: 5px solid var(--background-color);
     border-radius: 5%;
     background-color: var(--container-color);
@@ -130,7 +132,9 @@
     color: var(--text-color-playground);
     height: 33.3%;
     width: 100%;
+    align-items: center;
     display: flex;
+    justify-content: center;
     border: 5px solid var(--background-color);
     border-radius: 5%;
     background-color: var(--container-color);
@@ -212,18 +216,18 @@
     display:flex;
     position: relative;
     align-items: center;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
   
-  
+    align-self: center;
+
     width: 100%;
     height: 80%;
   
-    border: 5px solid var(--background-color);
+    /* border: 5px solid var(--background-color); */
     border-radius: 5%;
 
     -webkit-background-clip: padding-box; /* for Safari */
     background-clip: padding-box;
-    border-radius: 30px;
     z-index: 1;
   
   }
@@ -233,10 +237,10 @@
     color: var(--text-color-playground);
     height: 280px;
     width: 280px;
-    
+
     background: var(--container-color);
     border-radius: 5%;
-    margin-left: 20%;
+    /* margin-left: 20%; */
     z-index: 2; /* Canvas liegt standardmäßig über anderen Elementen */
 }
 
@@ -283,6 +287,21 @@
 
 }
 
+.classification-numbers-container {
+    width: 100%;
+    height: 80%;
+    /* margin-top: 20%; */
+    display: flex;
+    flex-direction: row;
+}
+
+.classification-numbers {
+    height: 100%;
+    width: 50%;
+    
+    display: flex;
+    flex-direction: column;
+}
 .controls_column{
     display: flex;
     flex-direction: row;
@@ -300,30 +319,38 @@
 
 
 .classifier_class {
-    width: 40%;
-    height: 8%;
-    margin:0;
-    box-sizing: border-box;
+    width: 100%;
+    height: 20%;
+    border: 5px solid var(--background-color);
+    border-radius: 5%;
     display: flex;
     justify-content: start;
     flex-direction: row;
     color: #000000;
-    align-items: center;
-    margin-left: 10%;
+    /* margin-left: 10%; */
   }
 
 .classifier_class p {
-    margin-left: 0;
+    margin-left: 10%;
     margin-right: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 
 .percentage-bar{
     background-color: #00FF00;
-    width : 0%;
-    height : 90%;
+    width : 20%;
+    height : 100%;
 }
 
 .percentage {
     font-size: 75%;
 
+}
+
+.number-bracket {
+    display: flex;
+    flex-direction: row;
 }
