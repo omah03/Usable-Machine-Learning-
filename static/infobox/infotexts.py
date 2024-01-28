@@ -4,15 +4,8 @@ infotexts={
     "inputbox":r""" 
                         Die Trainingsdaten stammen aus dem MNIST Datensatz, bestehend aus 28x28 Pixel großen Bildern handgeschriebener Zahlen 
                         und ihren dazugehörigen Labels von 0 bis 9. 
-                        Da die Bilder in Graustufen vorliegen, wird jeder Pixel durch einen Wert zwischen 0(weiß) und 1(schwarz) reprästentiert.
-                        
-                    
-                        
-                        <div class= "container-grayscale">
-                            <p class= "grayscale-text"> Die Bilder des MNIST Datensatzes werden durch eine Matrix mit 
-                                Zahlen von 0 (weiß) bis 1 (schwarz) dargestellt </p>
-                            <img class= "grayscale-image" src="../static/include/grayscale_number.png">
-                        </div>
+                        Da die Bilder in Graustufen vorliegen, wird jeder Pixel durch einen Wert zwischen 0(weiß) und 1(schwarz) reprästentiert. <br>
+                        <img class= "grayscale-image" src="../static/include/grayscale_number.png" alt = "schmematische Darstellung eines Bilds der Ziffer 1 als Grayscale matrix">
                
                """,
     "block1": r""" 
@@ -55,5 +48,7 @@ infotexts={
     """,
     "BSizeCol":r"""
         Wieviele Daten betrachtet werden, bevor das Modell seine Gewichte anpasst. Dadurch sinkt der Rechenaufwand und der Einfluss von Ausreißern wird verringert.
-    """
+    """,
+    "KSizeCol":r"""
+        Wie groß die Filter der einzelnen Layer sind. Generell gilt, spätere Filter sind kleiner als vorhergehende. Je nach größe des Filters werden auch automatisch Stride und Padding angepasst."""
 }
