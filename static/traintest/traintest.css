@@ -297,3 +297,33 @@
     cursor: pointer;
     z-index: 2; /* Canvas liegt standardmäßig über anderen Elementen */
 }   
+
+
+.classifier_class {
+    width: 40%;
+    height: 8%;
+    margin:0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+    color: #000000;
+    align-items: center;
+    margin-left: 10%;
+  }
+
+.classifier_class p {
+    margin-left: 0;
+    margin-right: 10%;
+  }
+
+.percentage-bar{
+    background-color: #00FF00;
+    width : 0%;
+    height : 90%;
+}
+
+.percentage {
+    font-size: 75%;
+
+}

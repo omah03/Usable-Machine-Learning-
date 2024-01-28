@@ -154,11 +154,11 @@ function sendAndReceiveClassification(canvasData){
 
 // Funktion, um Farbwerte entsprechend der Intensität zu generieren
 function mapIntensityToColor(intensity) {
-    const colorIntensity = Math.floor(245 * intensity); // Skalierung auf den Wertebereich von 0 bis 255
-    const Intensity = colorIntensity + 10;
+    //const colorIntensity = Math.floor(245 * intensity); // Skalierung auf den Wertebereich von 0 bis 255
+    //const Intensity = colorIntensity + 10;
     console.log('mapIntensity ausgeführt');
 
-    return `rgb(0, ${Intensity}, 0)`;
+    return `rgba(0, 255, 0, ${intensity})`;//${Intensity})`;
 }
 
 
@@ -171,12 +171,41 @@ function classificationResult(softmaxValues){
     classifierClasses.forEach((element, index) => {
         const intensity = softmaxValues[index];
         console.log(`Intensität für Klasse ${index}:`, intensity); // Überprüfen der Intensität für jede Klasse
-        const color = mapIntensityToColor(intensity);
-        console.log(`Farbe für Klasse ${index}:`, color); // Überprüfen der generierten Farbe
-        element.style.backgroundColor = color;
+        percentage = (""+intensity*100).slice(0,4)
+        bar= element.getElementsByClassName("percentage-bar")[0]
+        bar.style.width= percentage + "%";
+        number = element.getElementsByClassName("percentage")[0]
+        number.innerHTML= percentage + "%";
     });
     console.log('classificationResult ausgeführt');
 }
+
+var percentColors = [
+    { pct: 0.0, color: { r: 0xff, g: 0x00, b: 0 } },
+    { pct: 0.5, color: { r: 0xff, g: 0xff, b: 0 } },
+    { pct: 1.0, color: { r: 0x00, g: 0xff, b: 0 } } ];
+
+var getColorForPercentage = function(pct) {
+    for (var i = 1; i < percentColors.length - 1; i++) {
+        if (pct < percentColors[i].pct) {
+            break;
+        }
+    }
+    var lower = percentColors[i - 1];
+    var upper = percentColors[i];
+    var range = upper.pct - lower.pct;
+    var rangePct = (pct - lower.pct) / range;
+    var pctLower = 1 - rangePct;
+    var pctUpper = rangePct;
+    var color = {
+        r: Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
+        g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
+        b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
+    };
+    return 'rgba(' + [color.r, color.g, color.b].join(',') + ', 0.8)';
+    // or output as hex if preferred
+};
+
 
 
 function calculateColor(value) {
@@ -185,7 +214,7 @@ function calculateColor(value) {
     // Dies hängt von der Art der Heatmap ab, die du erstellt hast.
     // Hier ist ein einfaches Beispiel:
     //const intensity = Math.floor(value * 255);
-    return `rgb(${value}, 0, 0)`; // Rote Farbtöne, je nach Intensität
+    return `rgba(255, 0, 0, ${value})`; // Rote Farbtöne, je nach Intensität
 }
 
 //This function reeceives the heatmap from python and shows it on the canvas
@@ -198,8 +227,8 @@ function showHeatmap(heatmap){
     const rows = heatmap.length;
     const columns = heatmap[0].length;
 
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
+    const canvasWidth = 280//canvas.width;
+    const canvasHeight = 280//canvas.height;
 
     const cellWidth = canvasWidth / columns;
     const cellHeight = canvasHeight / rows;
@@ -210,10 +239,13 @@ function showHeatmap(heatmap){
         for (let j = 0; j < heatmap[i].length; j++) {
             const value = heatmap[i][j];
             if (value > 0.0){
-                const color = calculateColor(value); // Funktion, um die Farbe basierend auf dem Wert zu berechnen
+                color = getColorForPercentage(1-value/255); // Funktion, um die Farbe basierend auf dem Wert zu berechnen
+            }else{
+                color = getColorForPercentage(1);
+            }
                 context.fillStyle = color;
                 context.fillRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
-            }
+            
 
             
         }
@@ -242,13 +274,23 @@ async function classifyImage(){
 const classifyButton = document.getElementById('classify');
 classifyButton.addEventListener('click',classifyImage);
 
+const resetCanvasButton = document.getElementById('reset');
+resetCanvasButton.addEventListener('click', clearCanvas)
 
 function clearCanvas(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     displayText();
-    var predictionText = document.getElementById('predictionText');
-    predictionText.innerText = ''; // Leere den Text
-    predictionText.style.display = 'none'; // Verberge das Element
+    //var predictionText = document.getElementById('predictionText');
+    //predictionText.innerText = ''; // Leere den Text
+    //predictionText.style.display = 'none'; // Verberge das Element
     const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
-    classes.forEach(container => {container.style.backgroundColor = 'transparent';});
+    classes.forEach(container => 
+        {
+            container.style.backgroundColor = 'transparent';
+            bar= container.getElementsByClassName("percentage-bar")[0]
+            bar.style.width= 0 + "%";
+            number = container.getElementsByClassName("percentage")[0]
+            number.innerHTML="";        
+        }
+        );
 }
