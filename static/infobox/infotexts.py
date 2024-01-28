@@ -8,30 +8,26 @@ infotexts={
                         <img class= "grayscale-image" src="../static/include/grayscale_number.png" alt = "schmematische Darstellung eines Bilds der Ziffer 1 als Grayscale matrix">
                
                """,
-    "block1": r""" 
+    "block3": r"""
                         Besteht aus einer Filterschicht, einer Aktivierungsfunktion und einer MaxPool-Schicht. 
                          
-                        <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite.
+                        <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite. 
+                        <br> Das Max-Pooling Layer funktioniert im Kern wie ein Filter, nur dass immer einfach der größte der betrachteten Werte als Wert der Merkmalskarte genommen wird.
+                        So sollen erkannte Merkmale verschärft und komprimiert werden.
             """,
-    "block2": r""" 
+    "block3": r"""
                         Besteht aus einer Filterschicht, einer Aktivierungsfunktion und einer MaxPool-Schicht. 
                          
-                        <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite.
+                        <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite. 
+                        <br> Das Max-Pooling Layer funktioniert im Kern wie ein Filter, nur dass immer einfach der größte der betrachteten Werte als Wert der Merkmalskarte genommen wird.
+                        So sollen erkannte Merkmale verschärft und komprimiert werden.
     """,
     "block3": r"""
                         Besteht aus einer Filterschicht, einer Aktivierungsfunktion und einer MaxPool-Schicht. 
                          
-                        <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite.
-    """,
-    "block4": r"""
-                        Besteht aus einer Filterschicht, einer Aktivierungsfunktion und einer MaxPool-Schicht. 
-                         
-                        <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite.
-    """,
-    "block5":r"""
-                        Besteht aus einer Filterschicht, einer Aktivierungsfunktion und einer MaxPool-Schicht. 
-                         
-                        <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite.
+                        <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite. 
+                        <br> Das Max-Pooling Layer funktioniert im Kern wie ein Filter, nur dass immer einfach der größte der betrachteten Werte als Wert der Merkmalskarte genommen wird.
+                        So sollen erkannte Merkmale verschärft und komprimiert werden.
     """,
     "outputbox":r"""
         Lineare Schichten kombinieren die erlernten Merkmale vorheriger Schichten. Aufeinandergestapelt erlauben sie es, zunehmend komplexe Zusammenhänge zu lernen.
