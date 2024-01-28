@@ -14,6 +14,7 @@
     background-clip: padding-box;
     display: flex;
     flex-direction: row;
+    z-index: 99;
 
 }
 
@@ -25,7 +26,7 @@
     color: var(--text-color-playground);
 }
 .parameter-control-container {
-    height: 100%;
+    height: 90%;
     width: 100%;
     display: flex;
     color: var(--text-color-playground);
@@ -175,6 +176,7 @@
     background-clip: padding-box;
     display: flex;
     flex-direction: column;
+    z-index: 99;
 }
 
 .graph-container {
@@ -214,7 +216,7 @@
     color: var(--text-color-playground);
     
     display:flex;
-    position: relative;
+    /* position: relative; */
     align-items: center;
     /* box-sizing: border-box; */
   
@@ -237,6 +239,7 @@
     color: var(--text-color-playground);
     height: 280px;
     width: 280px;
+    margin-top: 10%;
 
     background: var(--container-color);
     border-radius: 5%;
@@ -320,7 +323,7 @@
 
 .classifier_class {
     width: 100%;
-    height: 20%;
+    height: 18%;
     border: 5px solid var(--background-color);
     border-radius: 5%;
     display: flex;
