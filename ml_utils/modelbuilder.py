@@ -1,4 +1,4 @@
-import config
+import ml_utils.config as config
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

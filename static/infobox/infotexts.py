@@ -8,14 +8,14 @@ infotexts={
                         <img class= "grayscale-image" src="../static/include/grayscale_number.png" alt = "schmematische Darstellung eines Bilds der Ziffer 1 als Grayscale matrix">
                
                """,
-    "block3": r"""
+    "block1": r"""
                         Besteht aus einer Filterschicht, einer Aktivierungsfunktion und einer MaxPool-Schicht. 
                          
                         <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite. 
                         <br> Das Max-Pooling Layer funktioniert im Kern wie ein Filter, nur dass immer einfach der größte der betrachteten Werte als Wert der Merkmalskarte genommen wird.
                         So sollen erkannte Merkmale verschärft und komprimiert werden.
             """,
-    "block3": r"""
+    "block2": r"""
                         Besteht aus einer Filterschicht, einer Aktivierungsfunktion und einer MaxPool-Schicht. 
                          
                         <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite. 
