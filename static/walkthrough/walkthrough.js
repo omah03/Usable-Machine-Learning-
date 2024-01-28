@@ -1,4 +1,21 @@
+import {NumBLocks} from '../blocks/blocks.js';
+
+function imported(name){
+    if (name){
+        console.log('if');
+        console.log('NumBlocks = ' + name);
+    }else{
+        console.log('NumBlocks not defined yet');
+    }
+
+}
+
+imported(NumBLocks);
+
+
+
 const walkthroughTargets = ['inputbox','rectanglelayer','outputbox','training_params','training_graph','testing_section'];
+
 
 
 
@@ -21,7 +38,7 @@ function scrollTo_page(page_nr){
 
 
 function highlight_section(target_id){
-    console.log('highlight_section...')
+    console.log('highlight_section...' + target_id)
     const target = document.getElementById(target_id);
 
     if (target.classList.contains('blurred-section')){
@@ -109,7 +126,7 @@ function removeElement(element_id){
 }
 
 function showElement(element_id){
-    console.log('removeBubble...');
+    console.log('showBubble...' + element_id);
     const element = document.getElementById(element_id);
     if (element) {
         element.style.display = 'block';
@@ -134,8 +151,62 @@ async function waitForInteraction(button_ids,slider_ids){
 }
 */
 
+async function handleSliders(slider_id, new_value){
+    slider = document.getElementById(slider_id);
+    
+    console.log('inside handleSliders');
+    console.log('slider.value = ' + slider.value);
+    return new Promise(resolve => {
+        slider.addEventListener("input",(event) => {
+            if(slider.value == new_value){
+                console.log('new_value :)');
+                resolve();
+            }
+        })
+    })        
+}
+
+const walkthroughValues = ['']
+//[ActivationFun, KernelComplexity, #Blocks, LR,Batch_size, #Epochs]
+async function anyAction(buttons, sliders, block_selection, training, drawing){
+    //everytime that an action made, we test all conditions
+    return new Promise(resolve => {
+        
+
+    })
+
+}
+
+async function checkConditions(){
+    
+    
+    //all conditions to be met
+    var numBlocks_condition = block1.style.display == 'flex' && block2.style.display == 'none';
+    var slider.value == new_value;
+    
+}
+
+
+async function checkNumBlocks(){
+    console.log('handleModelbuilder...');
+    const block1 = document.getElementById(`block1`);
+    const block2 = document.getElementById(`block2`);
+
+
+    return new Promise(resolve => {
+        
+        if(NumBLocks){
+            if(NumBLocks == 1){
+                    resolve();
+                }
+            }
+    })
+}
+    
+    
+
 async function bubbleRoutine(keyword){
-    console.log('bubbleRoutine...');
+    console.log('bubbleRoutine...' + keyword);
     var walkthrough = {
         /*key: [[targets],BubbleId,BubbleText,[button_ids],[slider_ids],[slider_values]] */
         'input':[['inputbox'],'modelbuilder_speech_bubble','Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet.',['next_button']],
@@ -173,8 +244,32 @@ async function bubbleRoutine(keyword){
     blurr_all_but(target_ids);
     console.log('blurr done');
 
+    //CheckConditions
+    if(keyword == 'input' || keyword == 'output'){
+        //show next button directly
+    }
+    else if(keyword == 'modelbuilder'){
+        //relu, kernelCompl,#blocks selection
+
+    }
+    else if(keyword == 'training'){
+        //lr, bs, e selection -> then show and wait for start button
+
+    }else if(keyword == 'graph'){
+        //wait until training has finished -> then show and wait for next button
+
+    }else if(keyword == 'testing'){
+        //wait for drawing -> then show and wait for classify button
+    }
+
+
+    //console.log('await handleSliders');
+    //await handleSliders('KSizeSlider',3);
+
+    await handleModelbuilder();
+
     //Wait for all button actions
-    await handleClicks(button_ids);
+    //await handleClicks(button_ids);
     console.log('click done');
 
     //Wait for all slider actions
@@ -198,19 +293,24 @@ async function bubbleRoutine(keyword){
 
 async function walkthrough(){
     console.log('starting walkthrough...');
-/*
+
     //input section
-    showElement('next_button');
-    await bubbleRoutine('input');
+    //showElement('next_button');
+    //await bubbleRoutine('input');
+    
+
+    console.log('bubble 1');
     
     //modelbuilder section
     removeElement('next_button');
     await bubbleRoutine('modelbuilder');
 
+    console.log('bubble2');
+
     //output section
     showElement('next_button');
     await bubbleRoutine('output');
-*/ 
+
     //training params section
     scrollTo_page(5);
     await bubbleRoutine('training');
@@ -253,6 +353,8 @@ async function skip_start_walkthrough(){
 
 
 document.getElementById('skip_tut').addEventListener('click', skip_start_walkthrough);
+
+
 
 
 //document.addEventListener('DOMContentLoaded', walkthrough);
