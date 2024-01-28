@@ -86,6 +86,10 @@ function showElement(element_id){
     if (element) {
         element.style.display = 'block';
         highlight_section(element_id);
+        element.classList.add('highlight');
+        setTimeout(function () {
+            element.classList.remove('highlight');
+        }, 1000); 
     }
 }
 

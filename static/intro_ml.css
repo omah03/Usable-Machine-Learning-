@@ -331,6 +331,30 @@ header h1 {
     background-color: #3498db;
     color: #fff;
     border: none;
+    min-width: 1vw;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.optimization-explanation {
+    width : 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.optimization-explanation h2{
+    font-size: 5rem;
+}
+
+.optimization-explanation img{
+   margin-left: 30vw;
+    width: 40vw;
+}
+
+.optimization-explanation p {
+    margin:auto;
+    max-width: 80vw;
+    font-size: 2rem;
 }

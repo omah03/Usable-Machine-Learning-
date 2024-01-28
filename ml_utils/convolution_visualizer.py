@@ -24,7 +24,10 @@ print(list(cnn.convolutional_layers[0].weight.data[0][1:3]))
 
 def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride=1, padding=1):
     # Apply padding to the image
-    padded_image = F.pad(image, (padding, padding, padding, padding), mode='constant', value=0)
+    padded_image = F.pad(image, (padding, padding, padding, padding), mode='constant', value=0) 
+    shown_image = F.pad(padded_image, (2-padding, 2-padding, 2-padding, 2-padding), mode='constant', value=1) # pad with white to make the thing center and stuff
+    shown_image = shown_image.squeeze().numpy()
+
     padded_image = padded_image.squeeze().numpy()
 
     # Prepare for animation
@@ -42,11 +45,14 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride
             ax.clear()
 
         # Display the original image with highlighted region
-        axes[0].imshow(padded_image, cmap='gray')
-        axes[0].add_patch(plt.Rectangle((j, i), kernel_size, kernel_size, edgecolor='red', facecolor='none'))
+        axes[0].set_xlim(-1,32)
+        axes[0].set_ylim(-1,32)
+        axes[0].imshow(shown_image, cmap='gray')
+        axes[0].add_patch(plt.Rectangle((j+2-padding, i+2-padding), kernel_size, kernel_size, edgecolor='red', facecolor='none'))
         axes[0].set_title("Originalbild")
 
         # Display the current window (kernel region)
+
         window = padded_image[i:i+kernel_size, j:j+kernel_size]
         axes[1].imshow(window, cmap='gray')
         axes[1].set_title("Ausschnitt")
@@ -73,13 +79,14 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride
 
     # Create animation
     ani = FuncAnimation(fig, lambda x: update(*x), frames=frames, interval=50, repeat=False)
-    
+
     print(f'Saving: cnnK{kernel_size}S{stride}P{padding}.gif')
-    ani.save(f'cnnK{kernel_size}S{stride}P{padding}.gif', writer='pillow', fps=10)
+    #plt.show()
+    ani.save(f'cnnK{kernel_size}S{stride}P{padding}.gif', writer='pillow', fps=5)
 
     #plt.show(block=True)  # Display the animation
     #plt.pause(10)
-    #plt.close()
+    plt.close()
 
 kernels =   [4, 6, 8]
 strides =   [1, 2, 3]

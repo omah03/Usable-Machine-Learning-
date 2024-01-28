@@ -29,9 +29,12 @@
     background-color: #fff;
     padding: 10px;
     border-radius: 10px;
-    max-width: 500px;
+    max-width: 25vw;
+    height: auto;
     bottom: -10px;
     display: none;
+    z-index: 1000;
+    font-size: 1.5rem;
 
 }
 
@@ -48,26 +51,23 @@
 
 #training_speech_bubble{
     position:absolute;
-    bottom: -5100px;
-    right: 400px;
-
+    bottom: -530vh;
+    right: 30vw;
 
 }
 
 #training_graph_speech_bubble{
     position:absolute;
-    bottom: -5700px;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom:-550vh;
+    left: 70vw;
     background-color: #fff;
 
 }
 
 #testing_speech_bubble{
     position:absolute;
-    bottom: -5400px;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: -550vh;
+    left: 40vw;
     background-color: #fff;
     z-index: 2;
 }
