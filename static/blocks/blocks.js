@@ -6,7 +6,6 @@
 //To hide Block, set block.style.display = "none"
 //To display set block.className = "block"
 
-
 var Blocks = [];
 //get input block
 Blocks[0] = document.getElementById("inputbox");
@@ -40,6 +39,7 @@ for (let i = 1; i <= 3; i++) {
         Minus_block.addEventListener("click", () => { removeBlock(i) });
     }
 }
+
 
 function addBlock(i) {
 
@@ -95,7 +95,7 @@ function removeBlock(i) {
 
 }
 
-var NumBLocks;
+export var NumBLocks;
 
 // Call the backend
 
