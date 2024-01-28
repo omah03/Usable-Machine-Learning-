@@ -12,8 +12,6 @@ function imported(name){
 
 imported(NumBLocks);
 
-
-
 const walkthroughTargets = ['inputbox','rectanglelayer','outputbox','training_params','training_graph','testing_section'];
 
 
@@ -133,7 +131,7 @@ function showElement(element_id){
         highlight_section(element_id);
     }
 }
-/*
+
 async function waitForSlider(slider_id,value){
     var slider = document.getElementById(slider_id);
     return new Promise(resolve => {
@@ -141,15 +139,19 @@ async function waitForSlider(slider_id,value){
         if(slider.value == value){
             console.log('Slider ajusted correctly!');
             resolve();
-        })
+        }})
 }
-*/
-/*
+
+
 async function waitForInteraction(button_ids,slider_ids){
-    wait handleButton();
-    wait handleSlider();
+    //wait handleButton();
+    //wait handleSlider();
 }
-*/
+
+
+
+
+
 
 async function handleSliders(slider_id, new_value){
     slider = document.getElementById(slider_id);
@@ -168,25 +170,21 @@ async function handleSliders(slider_id, new_value){
 
 const walkthroughValues = ['']
 //[ActivationFun, KernelComplexity, #Blocks, LR,Batch_size, #Epochs]
-async function anyAction(buttons, sliders, block_selection, training, drawing){
-    //everytime that an action made, we test all conditions
-    return new Promise(resolve => {
-        
+//async function anyAction(buttons, sliders, block_selection, training, drawing){
+//    //everytime that an action made, we test all conditions
+//    return new Promise(resolve => {
+//        
+//
+//    })
+//}
 
-    })
-
-}
-
-async function checkConditions(){
-    
-    
-    //all conditions to be met
-    var numBlocks_condition = block1.style.display == 'flex' && block2.style.display == 'none';
-    var slider.value == new_value;
-    
+function sliderCondition(slider,value){
+    var condition = slider.value == value;
+    return condition;
 }
 
 
+//THIS IS THE FUNCTION IM WORKING ON
 async function checkNumBlocks(){
     console.log('handleModelbuilder...');
     const block1 = document.getElementById(`block1`);
@@ -202,8 +200,59 @@ async function checkNumBlocks(){
             }
     })
 }
+
+function conditions(){
+    var numBlocks_condition = block1.style.display == 'flex' && block2.style.display == 'none';
+    var act_fun = document.getElementById('act_Label').innerText.slice(-6)=='(ReLU)';
+    //var sliderConditions = sliderCondition(slider_id, slider_value);
+    console.log(document.getElementById('act_Label').innerText.slice(-6)=='(ReLU)');
+    console.log(numBlocks_condition + 'fun = ' + act_fun );
+    return numBlocks_condition && act_fun;
+}
+
+
+
+//document.getElementById('LRateSlider').addEventListener('click',test);
+//document.getElementById('BSizeSlider').addEventListener('click',test);
+//document.getElementById('NEpochsSlider').addEventListener('click',test);
+
+
+//END TESTS
+
+
+async function anyAction(){
+
+
+
+    return new Promise(resolve => {
+        
+        //THIS SECTION IS FOR TESTS
+        function test(){
+            console.log('successful');
+        
+            if(conditions()){
+                console.log('resolving...');
+                resolve();
+            }
+        }
+        document.getElementById('act_reluOption').addEventListener('click',test);
+        document.getElementById('KSizeSlider').addEventListener('input',test);
+        document.getElementById('Minus_block2').addEventListener('click',test);
+        document.getElementById('LRateSlider').addEventListener('click',test);
+        document.getElementById('BSizeSlider').addEventListener('click',test);
+        document.getElementById('NEpochsSlider').addEventListener('click',test);
+
+
+        //document.getElementById('')        
+        //document.getElementById('')       
+        //document.getElementById('')    
+        
+    })
     
-    
+
+}
+
+
 
 async function bubbleRoutine(keyword){
     console.log('bubbleRoutine...' + keyword);
@@ -250,6 +299,9 @@ async function bubbleRoutine(keyword){
     }
     else if(keyword == 'modelbuilder'){
         //relu, kernelCompl,#blocks selection
+        //await modelbuilder_Condition(){}
+        var numBlocks_condition = block1.style.display == 'flex' && block2.style.display == 'none';
+        //var slider.value == new_value;
 
     }
     else if(keyword == 'training'){
@@ -260,29 +312,32 @@ async function bubbleRoutine(keyword){
 
     }else if(keyword == 'testing'){
         //wait for drawing -> then show and wait for classify button
+    
+        //Special Case for last step only
+
+        changeText(bubble_id,'Geschafft! Die Rotfärbung der Pixel gibt diejenigen Pixel an, die besonders ins Gewicht fallen. Probiere jetzt gerne noch weiter rum :)');
+        showElement('testing_next_button');
+        await waitForClick('testing_next_button');
+        removeElement('testing_next_button');
+    }else{
+        console.log('else');
     }
 
 
     //console.log('await handleSliders');
     //await handleSliders('KSizeSlider',3);
 
-    await handleModelbuilder();
+    //await handleModelbuilder();
 
     //Wait for all button actions
     //await handleClicks(button_ids);
+    console.log('await any action...');
+    await anyAction();
     console.log('click done');
 
     //Wait for all slider actions
 
 
-    //Special Case for last step only
-    if (keyword == 'testing'){
-        changeText(bubble_id,'Geschafft! Die Rotfärbung der Pixel gibt diejenigen Pixel an, die besonders ins Gewicht fallen. Probiere jetzt gerne noch weiter rum :)');
-        showElement('testing_next_button');
-        await waitForClick('testing_next_button');
-        removeElement('testing_next_button');
-
-    }
 
     //hide Speechbubble
     removeElement(bubble_id);
