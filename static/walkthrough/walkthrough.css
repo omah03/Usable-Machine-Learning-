@@ -1,0 +1,79 @@
+
+/*This section is for the walkthrough*/
+#skip_tut{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.blurred-section {
+    filter: blur(10px); 
+    transition: filter 0.3s ease;
+    pointer-events: none;
+  }
+
+.avoid-clicks{
+    pointer-events:none;
+}
+
+
+.speech_bubble{
+    position: relative;
+    align-self: center;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 25vw;
+    height: auto;
+    bottom: -10px;
+    display: none;
+    z-index: 1000;
+    font-size: 1.5rem;
+
+}
+
+.walkthrough_text{
+    color:black;
+    align-items: center;
+}
+
+#next_button{
+    position: relative;
+    bottom:5px;
+    right:5px;
+}
+
+#training_speech_bubble{
+    position:absolute;
+    bottom: -530vh;
+    right: 30vw;
+
+}
+
+#training_graph_speech_bubble{
+    position:absolute;
+    bottom:-550vh;
+    left: 70vw;
+    background-color: #fff;
+
+}
+
+#testing_speech_bubble{
+    position:absolute;
+    bottom: -550vh;
+    left: 40vw;
+    background-color: #fff;
+    z-index: 2;
+}
+
+#testing_next_button{
+    display: none;
+
+}
+/*End of Section*/

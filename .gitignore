@@ -3,3 +3,5 @@
 **/**.pyc
 *-ubyte
 *.gz
+.DS_Store
+**/**.pkl

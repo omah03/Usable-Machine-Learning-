@@ -2,47 +2,49 @@
 
 infotexts={
     "inputbox":r""" 
-                        The input of the datamodel is the MNIST dataset. 
-                        This dataset is already preprocessed and consists of 28x28 images of handdrawn images.
+                        Die Trainingsdaten stammen aus dem MNIST Datensatz, bestehend aus 28x28 Pixel großen Bildern handgeschriebener Zahlen 
+                        und ihren dazugehörigen Labels von 0 bis 9. 
+                        Da die Bilder in Graustufen vorliegen, wird jeder Pixel durch einen Wert zwischen 0(weiß) und 1(schwarz) reprästentiert. <br>
+                        <img class= "grayscale-image" src="../static/include/grayscale_number.png" alt = "schmematische Darstellung eines Bilds der Ziffer 1 als Grayscale matrix">
+               
                """,
-    "block1": r""" 
-                        This is a convolutional block. It consists of a convolutial layer, a non-linear activation function and a MaxPoolLayer.
-                        Its input is a batch of grayscale images of the dataset. These images are 28 x 28 pixels. 
-                        <br> Its output depends on the kernel size and stride parameters. 
+    "block1": r"""
+                        Besteht aus einer Filterschicht, einer Aktivierungsfunktion und einer MaxPool-Schicht. 
+                         
+                        <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite. 
+                        <br> Das Max-Pooling Layer funktioniert im Kern wie ein Filter, nur dass immer einfach der größte der betrachteten Werte als Wert der Merkmalskarte genommen wird.
+                        So sollen erkannte Merkmale verschärft und komprimiert werden.
             """,
-    "block2": r""" 
-        This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.
-        Its input is the output of the previous block. 
-        <br> Its output depends on the kernel size and stride parameters.
+    "block2": r"""
+                        Besteht aus einer Filterschicht, einer Aktivierungsfunktion und einer MaxPool-Schicht. 
+                         
+                        <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite. 
+                        <br> Das Max-Pooling Layer funktioniert im Kern wie ein Filter, nur dass immer einfach der größte der betrachteten Werte als Wert der Merkmalskarte genommen wird.
+                        So sollen erkannte Merkmale verschärft und komprimiert werden.
     """,
     "block3": r"""
-        This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.
-        Its input is the output of the previous block. 
-        <br> Its output depends on the kernel size and stride parameters.
-    """,
-    "block4": r"""
-        This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.
-        Its input is the output of the previous block. 
-        <br> Its output depends on the kernel size and stride parameters.
-    """,
-    "block5":r"""
-        This is a convolutional block. It consists of a convolutial Layer, a non-linear activation function and a MaxPoolLayer.
-        Its input is the output of the previous block. 
-        <br> Its output depends on the kernel size and stride parameters.
+                        Besteht aus einer Filterschicht, einer Aktivierungsfunktion und einer MaxPool-Schicht. 
+                         
+                        <br> Die Größe der Ausgabe unterscheidet sich je nach Größe des Filters und seiner Schrittweite. 
+                        <br> Das Max-Pooling Layer funktioniert im Kern wie ein Filter, nur dass immer einfach der größte der betrachteten Werte als Wert der Merkmalskarte genommen wird.
+                        So sollen erkannte Merkmale verschärft und komprimiert werden.
     """,
     "outputbox":r"""
-        Linear layers make up the final layers in neural networks for classification. As input, they take a vector which in a CNN is a flattened matrix from the previous layer. While data passes through the network, the linear layers perform a linear transformation by multiplying each input neuron by a weight and adding a bias. Several of these layers can be connected sequentially to reduce the number of inputs. Finally, the output consists of a neuron for each class and a corresponding probability determining how likely the input belongs to each class.  
+        Lineare Schichten kombinieren die erlernten Merkmale vorheriger Schichten. Aufeinandergestapelt erlauben sie es, zunehmend komplexe Zusammenhänge zu lernen.
+        Zu viele Schichten führen jedoch dazu, dass das Modell Trainingsdaten auswendig lernt und mit neuen Daten nicht umgehen kann. 
     """,
     "actFuncCol":r"""
-        Activations functions play a critical in neural networks as they add nonlinearity to the models hidden layers. This is necessary as it allows for more complex functions inside the model that can also capture nonlinear relationships. Typically, the same activation function is chosen for the entire network.
+        Nicht alle Daten lassen sich linear separieren, daher nutzen neuronale Netzwerke nichtlineare Aktivierungsfunktionen, um auch solche Daten zu klassifizieren.
     """,
     "EpochsCol":r"""
-        How often the learning algorithm works through the entire training dataset.
+        Wie oft das Modell den gesamten Trainingsdatensatz durchläuft.
     """,
     "LRateCol":r"""
-        By how much to adjust the internal parameters of a neural network during training. Choosing a learning rate that’s too large will lead to over- or undershooting the true optimum while a learning rate that’s too small will increase the time to see improvements dramatically.
+        Wie stark die Gewichte des Modells bei jedem Update angepasst werden. Eine niedrigere Lernrate führt eher zu einer genaueren Optimierung, benötigt jedoch mehr Rechenaufwand und kann in lokalen Minima stecken bleiben.
     """,
     "BSizeCol":r"""
-        How many samples to run through before updating the model parameters. Done both to preserve memory (large datasets can be split into several batches) and improve optimization (individual samples can be noisy, regularizes over a batch of samples).                
-    """
+        Wieviele Daten betrachtet werden, bevor das Modell seine Gewichte anpasst. Dadurch sinkt der Rechenaufwand und der Einfluss von Ausreißern wird verringert.
+    """,
+    "KSizeCol":r"""
+        Wie groß die Filter der einzelnen Layer sind. Generell gilt, spätere Filter sind kleiner als vorhergehende. Je nach größe des Filters werden auch automatisch Stride und Padding angepasst."""
 }

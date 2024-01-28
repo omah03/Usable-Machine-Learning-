@@ -1,16 +1,15 @@
-const socket = io('http://127.0.0.1:5000');
+// const socket = io('http://127.0.0.1:5000');
 //-----------------------------------------------------------------
 //CHART
 Chart.defaults.font.size = 20; // Sets the global font size
-Chart.defaults.color = '#333333'
+Chart.defaults.color = '#000000'
 
-var epochs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+var epochs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 var losses = [];
 var accuracies = [];
 
 // Get the canvas element
 const ctxs = document.getElementById('myChart').getContext('2d');
-
 
 // Create the chart
 const myChart = new Chart(ctxs, {
@@ -32,8 +31,17 @@ const myChart = new Chart(ctxs, {
             },
             {
                 label: 'Parameters changed',
+                color: 'rgba(0,0,0,1)',
                 borderColor: 'rgb(0, 0, 0)',
                 data: [],
+                borderWidth: 5,
+            },
+            {
+                label: "",
+                color: 'rgba(0,0,0,0)',
+                borderColor: 'rgba(0, 0, 0,0)',
+                backgroundColor: 'rgba(0,0,0,0)',
+                data: [1,100],
                 borderWidth: 5,
             },
         ],
@@ -51,7 +59,7 @@ const myChart = new Chart(ctxs, {
                 drawborder: true,
                 ticks: {
                     // Callback to format tick labels as percentages
-                    callback: function (value, index, values) {
+                    callback: function (value) {
                         return value + '%';
                     },
                 }
@@ -84,19 +92,23 @@ startbutton = document.getElementById("starttraining");
 startbutton.addEventListener("click", handleStartButton);
 progressbar = document.getElementById("progressbar");
 progress = document.getElementById("progress");
-//for US only
-var training = false;
-var sleepSetTimeout_ctrl;
 
-function sleep(ms) {
-    clearInterval(sleepSetTimeout_ctrl);
-    return new Promise(resolve => sleepSetTimeout_ctrl = setTimeout(resolve, ms));
-}
-//end for US only
+modelPopup = document.getElementById("modelPopup");
+discardButton = document.getElementById("discardButton");
+returnButton = document.getElementById("returnButton");
 
+discardButton.addEventListener("click", resetTraining)
+returnButton.addEventListener("click", () => {
+    window.scrollBy(0,100);
+})
+
+resetbutton = document.getElementById("resettraining");
+resetbutton.addEventListener("click", resetTraining);
 
 async function handleStartButton() {
-    //ACTUAL IMPLEMENTATION
+    resetbutton.disabled=true
+    modelPopup.style.display= "flex";
+
     fetch('/button_press', {
         method: 'POST',
         headers: {
@@ -136,8 +148,8 @@ function handleChartUpdate(data) {
         idx = 0 + i
         myChart.options.plugins.annotation.annotations[idx] = {
             type: 'line',
-            xMin: idx-0.5,
-            xMax: idx-0.5, // Same as xMin for a vertical line
+            xMin: idx-1,
+            xMax: idx-1, // Same as xMin for a vertical line
             borderColor: 'black',
             borderWidth: 4,
         }
@@ -169,6 +181,7 @@ function handleTrainingData(training_config) {
         progress.style.width = "0%"
         startbutton.innerHTML = "CONTINUE"
         trainingdisplay.innerHTML = `Trained ${training_config["Epochs_Trained"]} Epochs`
+        resetbutton.disabled=false
     }
     else {
         progress.style.width = "0%"
@@ -183,8 +196,11 @@ function handleTrainingData(training_config) {
 }
 
 
-resetbutton = document.getElementById("resettraining");
-resetbutton.addEventListener("click", () => {
+
+
+
+function resetTraining(){
+    modelPopup.style.display="none";
     handleButton(resetbutton.id);
     progress.style.width = "0%";
     blockBatchData = true;
@@ -194,7 +210,7 @@ resetbutton.addEventListener("click", () => {
     myChart.data.datasets[1].data=[]
     myChart.options.plugins.annotation.annotations={}
     myChart.update()
-})
+}
 
 function handleButton(buttonName) {
     // Call the backend
@@ -209,5 +225,5 @@ function handleButton(buttonName) {
         })
     })
         .then(response => response.json());
-
 }
+

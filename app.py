@@ -3,14 +3,14 @@ import queue
 import webbrowser
 
 from flask import Flask, render_template, request, jsonify
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
+from flask import send_file
 
-from ml_utils.test_classify import classify_canvas_image
+from ml_utils.explain_classification import classify_canvas_image
 
 from ml_utils.trainingViz import Trainer
 
 from static.infobox.infotexts import infotexts
-
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -19,18 +19,19 @@ trainer= Trainer(socketio)
 
 # moved config to session["config"} to prepare for storing the data ina flask session variable (I hope thats possible)
 # this would allow multiple users + fix some thread safety concerns
-session={"config": {"ActivationFunc": "",  
-                            "LRate": "",
+session={"config": {"ActivationFunc": "act_reluOption",  
+                            "LRate": 2,
                             "BSize":1,
                             "NEpochs":1,
                             "NBlocks": 2,
+                            "KSize": "2",
                             "Epochs_Trained": 0,
                             "training_active": False,
                             "training_stop_signal": False}}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("model.html")
+    return render_template("index.html")
     
 @app.route('/model')
 def model_page():
@@ -53,8 +54,6 @@ def test_page():
 seed = 42
 acc = -1
 q = queue.Queue()
-
-
 
 def listener():
     global q, acc
@@ -130,20 +129,26 @@ def toggle_training_US():
     socketio.emit("training_data", session["config"])
     
 
-
-
+@app.route("/get_gif", methods=["POST"])
+def return_gif():
+    gifpath = "static/include/cnngifs/"
+    data=request.get_json()
+    k = data.get("kernel")
+    s = data.get("stride")
+    p = data.get("padding")
+    return send_file(gifpath+f'cnnK{k}S{s}P{p}.gif', mimetype='image/gif')
 
 
 #Get Canvas Image & classify it
-test_model = 'ml_utils/Untrained_modelbuilder_model.pkl'
-print(f"using {test_model}")
+modelbuilder_model = 'ml_utils/Trained_modelbuilder_model.pkl'
+#print(f"using {test_model}")
 @socketio.on('classify')
 def classify(data):
     print("Die classify(data) Funktion wird ausgeführt")
     print("Empfangene Daten:", data)
     canvas_data = data['canvasData']
     print("Canvas data: ", canvas_data)
-    classification_result = classify_canvas_image(canvas_data, test_model)
+    classification_result = classify_canvas_image(canvas_data, modelbuilder_model)
     print("classification result = ", classification_result)
     socketio.emit('classification_result', classification_result)
 
@@ -170,4 +175,4 @@ if __name__ == "__main__":
     print("App started")
     threading.Thread(target=listener, daemon=True).start()
     webbrowser.open_new_tab(f"http://{host}:{port}")
-    socketio.run(app, host=host, port=port, debug=False)
+    socketio.run(app, host=host, port=port, debug=True)

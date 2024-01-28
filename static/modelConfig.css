@@ -1,0 +1,337 @@
+.container-blockVisualization {
+    width: 100%;
+    height: 60%;
+
+    margin-top: 1%;
+    margin-bottom: 1%;
+
+    margin-left: 0%;
+
+    /* border: 5px solid var(--background-color); */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container-triangle {
+    width: 30%;
+    height: 10%;
+    margin:auto;
+    margin-top:-2.2%;
+
+    border-bottom: 17vh solid var(--model-background);
+	border-left: 15vh solid transparent;
+	border-right: 15vh solid transparent;
+	height: 0;
+	width: 30%;
+
+}
+
+.container-modelconfiguration {
+    width: 60%;
+    height: 80%;
+    margin: auto;
+
+    border: 5px solid var(--background-color);
+
+    background-color: var(--model-background);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.container-MNIST {
+    width: 10%;
+    height:80%;
+
+    margin: auto;
+    margin-left: 2%;
+    /* border: 5px solid var(--background-color); */
+
+    display: flex;
+    flex-direction: row;
+}
+
+.container-model {
+    width: 20%;
+    height: 90%;
+
+    margin: 1%;
+    background-color: var(--model-background);
+    border: 5px solid var(--background-color);
+    color: white;
+}
+
+.container-classification {
+    width: 18%;
+    height: 80%;
+
+    margin: auto;
+    margin-right: 2%;
+    border: 5px solid var(--background-color);
+    border-radius: 5%;
+    background-color: var(--container-color);
+
+}
+
+.container-modelconfiguration-options {
+    width: 90%;
+    height: 30%;
+
+    margin: auto;
+    margin-left: 5%;
+    /* border: 5px solid var(--background-color); */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container-blocks {
+    width: 90%;
+    height: 60%;
+    margin: auto;
+    margin-left: 5%;
+    margin-bottom:2%;
+    /* border: 5px solid var(--background-color); */
+    border-radius: 5%;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.blockcolumn {
+    width: 33.333333%;
+    height: 100%;
+
+    /* margin: auto;
+    margin-left: 2%;
+    margin-right: 2%; */
+    border: 5px solid var(--background-color);
+    background-color: var(--container-color);
+    border-radius: 5%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.BlockButton {
+    width: 100%;
+    height: 80%;
+    /* border: 5px solid var(--background-color); */
+    border-radius: 5%;
+}
+
+.AddButton {
+    margin: auto;
+    align-self: center;
+    border: 5px solid var(--background-color);
+    width: 30%;
+    height:20%;
+    border-radius: 5%;
+    text-align: center;
+    justify-content: center;
+    font-size: 180%;
+    align-items: center;
+    color: var(--text-color-playground);
+
+}
+
+.interception {
+    height: 5%;
+    background-color: var(--background-color);
+}
+.MinusButton {
+    margin: auto;
+    align-self: center;
+    border: 5px solid var(--background-color);
+    width: 30%;
+    height: 20%;
+    border-radius: 5%;
+    justify-content: center;
+    font-size: 180%;
+    align-items: center;
+    color: var(--text-color-playground);
+
+}
+
+.container-dropdown {
+    width: 40%;
+    height: 80%;
+    margin: auto;
+    margin-left: 5%;
+    /* border: 5px solid var(--background-color); */
+    border-radius: 5%;
+    /* background-color: var(--container-color); */
+
+    /* padding:1% */
+}
+
+.container-slider {
+    width: 40%;
+    height: 80%;
+    margin: auto;
+    margin-right:5%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* border: 5px solid var(--background-color); */
+    /* border-radius: 5%; */
+    color: var(--text-color-playground);
+    background-color: var(--container-color);
+    text-align: center;
+    /* padding: 1%; */
+}
+
+.dropdown-content{
+    z-index: 10;
+}
+
+.KSizeSliderDisplay {
+    width: 80%;
+    /* border: 5px solid var(--background-color); */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container-grayscale {
+    height: 100%;
+    box-sizing: border-box;
+    color: var(--text-color-playground);
+    display: flex;
+    flex-direction: column;
+}
+
+.grayscale-text {
+    margin: auto;
+    width: 90%;
+    height: 20%;
+}
+
+.grayscale-image {
+    margin: auto;
+    margin-top: 1%;
+    height:15%;
+}
+
+.MNIST {
+    height: 100%;
+    margin: auto;
+    width: 100%;
+    border: 5px solid var(--background-color);
+    border-radius: 5%;
+    color: var(--text-color-playground);
+    background-color: var(--container-color);
+}
+
+.MNIST_picture {
+    width: 90%;
+    margin: 10%;
+}
+
+.MNIST h2 {
+    margin-top: 10%;
+    margin-left: 20%;
+}
+
+.staticClassifier {
+    height: 80%;
+    width: 90%;
+    margin: auto;
+    border: 5px solid var(--background-color);
+    border-radius: 5%;
+    background-color: rgba(255,255,255,1);
+
+    display: flex;
+    flex-direction: row;
+    color: var(--text-color-playground)
+}
+
+.linear_layer {
+    background: url('include/linear_layer.gif');
+    background-size: 180% 175%;
+    background-position: 29% 45%;
+    background-repeat: no-repeat;
+    width: 70%;
+    height: 100%;
+    justify-content: center;
+    align-self: flex-start;
+    margin-right: 0%;
+    z-index: 0;
+}
+
+.container-classification h2 {
+    color: var(--text-color-playground);
+}
+
+.LinearLayer_Header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.classes-column{
+    width: 40%;
+    margin-top: 18%;
+    margin-left: 1%;
+    height: 80%;
+    /* border: 5px solid var(--background-color); */
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+.class {
+    height:8%;
+    /* border: 5px solid var(--background-color); */
+    color: var(--text-color-playground)
+} 
+
+
+.block_info {
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.block_label{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin:auto;
+    padding-left: 20%;
+    width: 100%;
+}
+
+.block-icon {
+    width: 5vh;
+    margin: auto;
+    margin-right:0;
+    margin-top:-3%;
+}
+
+.popup {
+    display: None;
+    position:absolute;
+    justify-self: center;
+    width : 20vw;
+    height: 20vh;
+    margin:auto;
+    margin-left: 40vw;
+
+    background-color: rgba(255,255,255, 200);
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    z-index: 100;
+}

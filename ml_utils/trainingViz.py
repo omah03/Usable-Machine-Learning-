@@ -26,15 +26,15 @@ class Trainer():
         self.train_loader=None
         self.test_loader=None
         self.nextEpoch=1
-        self.accs= []
-        self.loss= []
+        self.accs= [0]
+        self.loss= [0]
         self.config={}
         self.changes=set()
 
     def add_model_and_config(self, config):
         settings= self.convert_config_for_modelbuilder(config)
         block_n = settings["NBlocks"]
-        self.model= ModelBuilder(block_n, config["ActivationFunc"])
+        self.model= ModelBuilder( k_size=settings["KSize"],num_blocks=block_n, activation_fn_choice=config["ActivationFunc"],)
         self.config["NBlocks"]=block_n
 
         self.optimizer= SGD(self.model.parameters(), lr=float(settings["LRate"]), momentum=MOMENTUM)
@@ -90,6 +90,12 @@ class Trainer():
         self.accs.append(test_acc)
         self.loss.append(test_loss)  
         self.send_results_to_frontend()
+        
+        model_pkl_file = "ml_utils/Trained_modelbuilder_model.pkl"  
+
+        with open(model_pkl_file, 'wb') as file:  
+            pickle.dump(self.model, file) 
+        print(f"model saved to {file}") 
 
     def reset(self):
         self.model=None
@@ -97,8 +103,8 @@ class Trainer():
         self.train_loader=None
         self.test_loader=None
         self.nextEpoch=1
-        self.accs= []
-        self.loss= []
+        self.accs= [0]
+        self.loss= [0]
         self.config={}
         self.changes=set()
 
@@ -106,10 +112,11 @@ class Trainer():
     @staticmethod
     def convert_config_for_modelbuilder(config:dict):
         res = {}
+
+        options = [0.5, 0.3, 0.1, 0.01]
         string =config["LRate"]
-        string = "0."+string[5:]
-        LRate = float(string)
-        res.update({"LRate" : LRate})
+        LRate = int(string)
+        res.update({"LRate" : options[LRate-1]})
         
         BSize = int(config["BSize"])
         res.update({"BSize": BSize})
@@ -119,7 +126,14 @@ class Trainer():
         
         string= config["NBlocks"]
         res.update({"NBlocks": int(string)})
+        
+        options=["small", "medium", "large"]
+        i = int(config["KSize"])
+        
+        res.update(
+            {"KSize": options[i-1]})
 
+        print(res)
         return res
         
 
@@ -160,15 +174,6 @@ def main(seed):
     config= {}
     
     print("train...")
-    Trainer.training(
-        model=model,
-        optimizer=opt,
-        cuda=False,     # change to True to run on nvidia gpu
-        #n_epochs=10,
-        batch_size=256,
-        learning_rate=0.3,
-        momentum=0.5
-    )
     print("training finished")
     """
     # save the classification model as a pickle file
@@ -177,7 +182,7 @@ def main(seed):
 
     with open(model_pkl_file, 'wb') as file:  
         pickle.dump(model, file) 
-    print(f"model saved to {file}")    
+    print(f"model saved to {file}")  
     """
 
 if __name__ == "__main__":

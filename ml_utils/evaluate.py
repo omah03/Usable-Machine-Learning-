@@ -7,7 +7,7 @@ from torch.nn import Module
 from torch.utils.data import DataLoader
 
 
-def accuracy(model: Module, loader: DataLoader, cuda: bool) -> (float, float):
+def accuracy(model: Module, loader: DataLoader, cuda: bool) -> tuple[float, float]:
     model.eval()
     losses = []
     correct = 0
