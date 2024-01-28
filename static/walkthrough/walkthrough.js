@@ -228,20 +228,6 @@ async function bubbleRoutine(keyword){
         throw new Error("An invalid keyword was given!");
     }
 
-
-    //console.log('await handleSliders');
-    //await handleSliders('KSizeSlider',3);
-
-    //await handleModelbuilder();
-
-    //Wait for all button actions
-    //await handleClicks(button_ids);
-   
-
-    //Wait for all slider actions
-
-
-
     //hide Speechbubble
     removeElement(bubble_id);
     console.log('remove done');
@@ -284,8 +270,6 @@ async function walkthrough(){
 
 }
 
-
-
 async function skip_start_walkthrough(){
     console.log('skip/start walkthrough...');
 
@@ -300,8 +284,12 @@ async function skip_start_walkthrough(){
         console.log(skip_button_label);
         removeElement('modelbuilder_speech_bubble');
         walkthroughTargets.forEach(target => {
-            highlight_section(target);
+        highlight_section(target); 
         });
+        const starttraining_button = document.getElementById('starttraining')
+        if(starttraining_button.classList.contains('avoid-clicks')){
+            starttraining_button.classList.remove('avoid-clicks');
+        }
         document.getElementById('skip_tut').innerText ='Start Tutorial';
     }
     
@@ -309,8 +297,4 @@ async function skip_start_walkthrough(){
 
 
 document.getElementById('skip_tut').addEventListener('click', skip_start_walkthrough);
-
-
-
-
 document.addEventListener('DOMContentLoaded', walkthrough);
