@@ -195,6 +195,18 @@ header h1 {
     position: relative;
 }
 
+.gifoptions-container{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 60vw;
+    height:20vh;
+    margin:auto;
+    margin-bottom:0;
+    position: relative;
+    top: 50vh;
+}
+
 .explanation-container p {
     color: #000000; 
     line-height: 1.6; 
@@ -203,7 +215,7 @@ header h1 {
     bottom: 0;        
     left: 0;           
     width: 100%;      
-    top: 70vh ;
+    top: 50vh ;
 }
 
 

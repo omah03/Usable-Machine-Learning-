@@ -20,6 +20,7 @@ sample_image = sample_image.unsqueeze(0)  # Add batch dimension
 
 # Extract the first kernel from the first convolutional layer
 first_kernel = cnn.convolutional_layers[0].weight.data[0]
+print(list(cnn.convolutional_layers[0].weight.data[0][1:3]))
 
 def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride=1, padding=1):
     # Apply padding to the image
@@ -51,7 +52,12 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride
         axes[1].set_title("Ausschnitt")
 
         # Show the resulting feature map (condensed to actual size)
-        result = (window * kernel.numpy()).sum()
+        acc=0
+        for w in window.flatten():
+            for k in kernel.flatten():
+                acc+= w*k   
+
+        result = acc#(window * kernel.numpy()).sum()
         fm_i, fm_j = i // stride, j // stride
         feature_map[fm_i, fm_j] = result
         axes[2].imshow(feature_map, cmap='gray')
@@ -67,10 +73,19 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride
 
     # Create animation
     ani = FuncAnimation(fig, lambda x: update(*x), frames=frames, interval=50, repeat=False)
-    ani.save('convolution_animation.gif', writer='pillow')
+    
+    print(f'Saving: cnnK{kernel_size}S{stride}P{padding}.gif')
+    ani.save(f'cnnK{kernel_size}S{stride}P{padding}.gif', writer='pillow', fps=10)
 
-    plt.show(block=True)  # Display the animation
-    plt.pause(10)
-    plt.close()
+    #plt.show(block=True)  # Display the animation
+    #plt.pause(10)
+    #plt.close()
 
-visualize_adjustable_kernel_convolution(sample_image, first_kernel, kernel_size=8, stride=1, padding=0)
+kernels =   [4, 6, 8]
+strides =   [1, 2, 3]
+paddings =  [0, 1, 2]
+
+for kernel in kernels:
+    for stride in strides:
+        for padding in paddings:
+            visualize_adjustable_kernel_convolution(sample_image, first_kernel, kernel_size=kernel, stride=stride, padding=padding)

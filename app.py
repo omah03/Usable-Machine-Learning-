@@ -4,13 +4,13 @@ import webbrowser
 
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO
+from flask import send_file
 
 from ml_utils.explain_classification import classify_canvas_image
 
 from ml_utils.trainingViz import Trainer
 
 from static.infobox.infotexts import infotexts
-
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -129,8 +129,14 @@ def toggle_training_US():
     socketio.emit("training_data", session["config"])
     
 
-
-
+@app.route("/get_gif", methods=["POST"])
+def return_gif():
+    gifpath = "static/include/cnngifs/"
+    data=request.get_json()
+    k = data.get("kernel")
+    s = data.get("stride")
+    p = data.get("padding")
+    return send_file(gifpath+f'cnnK{k}S{s}P{p}.gif', mimetype='image/gif')
 
 
 #Get Canvas Image & classify it
