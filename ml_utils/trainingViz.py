@@ -174,7 +174,6 @@ def main(seed):
     config= {}
     
     print("train...")
-
     print("training finished")
     """
     # save the classification model as a pickle file
