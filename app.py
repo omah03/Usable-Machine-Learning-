@@ -2,7 +2,7 @@ import threading
 import queue
 import webbrowser
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 from flask_socketio import SocketIO
 from flask import send_file
 
@@ -17,9 +17,11 @@ socketio = SocketIO(app)
 
 trainer= Trainer(socketio)
 
+app.secret_key="TESTSECRET"
+
 # moved config to session["config"} to prepare for storing the data ina flask session variable (I hope thats possible)
 # this would allow multiple users + fix some thread safety concerns
-session={"config": {"ActivationFunc": "act_reluOption",  
+defaultconfig= {"ActivationFunc": "act_reluOption",  
                             "LRate": 2,
                             "BSize":1,
                             "NEpochs":1,
@@ -27,10 +29,14 @@ session={"config": {"ActivationFunc": "act_reluOption",
                             "KSize": "2",
                             "Epochs_Trained": 0,
                             "training_active": False,
-                            "training_stop_signal": False}}
+                            "training_stop_signal": False}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    global defaultconfig
+    if not session.get("config"):
+        session["config"]= defaultconfig
+    
     return render_template("index.html")
     
 @app.route('/model')
@@ -63,7 +69,8 @@ def listener():
 
 @app.route("/get_blocks")
 def get_blocks():
-    return jsonify({'number': session["config"]["NBlocks"]})
+    print(session["config"])
+    return jsonify({'number': session["config"]["config"]["NBlocks"]})
 
 @app.route("/update_value", methods=["POST"])
 def update_value():
