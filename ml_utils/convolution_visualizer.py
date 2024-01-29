@@ -46,7 +46,7 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride
 
         # Display the original image with highlighted region
         axes[0].set_xlim(-1,32)
-        axes[0].set_ylim(-1,32)
+        axes[0].set_ylim(32,-1)
         axes[0].imshow(shown_image, cmap='gray')
         axes[0].add_patch(plt.Rectangle((j+2-padding, i+2-padding), kernel_size, kernel_size, edgecolor='red', facecolor='none'))
         axes[0].set_title("Originalbild")
@@ -81,8 +81,8 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride
     ani = FuncAnimation(fig, lambda x: update(*x), frames=frames, interval=50, repeat=False)
 
     print(f'Saving: cnnK{kernel_size}S{stride}P{padding}.gif')
-    #plt.show()
-    ani.save(f'cnnK{kernel_size}S{stride}P{padding}.gif', writer='pillow', fps=5)
+    plt.show()
+    #ani.save(f'cnnK{kernel_size}S{stride}P{padding}.gif', writer='pillow', fps=5)
 
     #plt.show(block=True)  # Display the animation
     #plt.pause(10)
