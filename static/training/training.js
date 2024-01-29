@@ -148,8 +148,8 @@ function handleChartUpdate(data) {
         idx = 0 + i
         myChart.options.plugins.annotation.annotations[idx] = {
             type: 'line',
-            xMin: idx-1,
-            xMax: idx-1, // Same as xMin for a vertical line
+            xMin: idx,
+            xMax: idx, // Same as xMin for a vertical line
             borderColor: 'black',
             borderWidth: 4,
         }
