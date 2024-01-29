@@ -11,6 +11,7 @@ var accuracies = [];
 // Get the canvas element
 const ctxs = document.getElementById('myChart').getContext('2d');
 
+
 // Create the chart
 const myChart = new Chart(ctxs, {
     type: 'line',
@@ -77,9 +78,9 @@ const myChart = new Chart(ctxs, {
     },
 });
 
-rectangle = document.getElementById("rectanglelayer")
-inputbox = document.getElementById("inputbox")
-outputbox = document.getElementById("outputbox")
+const rectangle = document.getElementById("rectanglelayer")
+const inputbox = document.getElementById("inputbox")
+const outputbox = document.getElementById("outputbox")
 
 
 //------------------------------------------------------------------
@@ -88,7 +89,7 @@ outputbox = document.getElementById("outputbox")
 const buttonList = ["start", "reset"];
 
 //TRAINING CONTROLS
-startbutton = document.getElementById("starttraining");
+const startbutton = document.getElementById("starttraining");
 startbutton.addEventListener("click", handleStartButton);
 progressbar = document.getElementById("progressbar");
 progress = document.getElementById("progress");
@@ -102,7 +103,7 @@ returnButton.addEventListener("click", () => {
     window.scrollBy(0,100);
 })
 
-resetbutton = document.getElementById("resettraining");
+const resetbutton = document.getElementById("resettraining");
 resetbutton.addEventListener("click", resetTraining);
 
 async function handleStartButton() {
@@ -192,7 +193,6 @@ function handleTrainingData(training_config) {
     for (i = 1; i <= training_config["Epochs_Trained"]; i++) {
         epochs.push(i);
     }
-
 }
 
 
