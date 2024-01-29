@@ -1,5 +1,6 @@
 const walkthroughTargets = ['inputbox','rectanglelayer','outputbox','training_params','training_graph','testing_section'];
 
+const training_sliders = document.getElementById('training_sliders');
 
 
 
@@ -223,9 +224,14 @@ async function bubbleRoutine(keyword){
         button.classList.add('avoid-clicks');
         console.log('avoid-clicks');
         await anyAction(keyword);
+        console.log('conditions met');
         button.classList.remove('avoid-clicks');
-        console.log('ready for click');
+        console.log('should be able to click now');
+        training_sliders.classList.add('avoid-clicks');
+        console.log('ready for click but not on sliders');
         await waitForClick(button_id);
+        training_sliders.classList.remove('avoid-clicks');
+
     }else if(keyword == 'graph'){
         //wait until training has finished -> then show and wait for next button
         await waitForClick(button_id);
@@ -268,7 +274,7 @@ async function walkthrough(){
     //output section
     showElement('next_button');
     await bubbleRoutine('output');
-
+    
     //training params section
     scrollTo_page(5);
     await bubbleRoutine('training');
