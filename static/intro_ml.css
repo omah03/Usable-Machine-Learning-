@@ -345,7 +345,7 @@ header h1 {
     align-items: center;
 }
 .optimization-explanation h2{
-    font-size: 5rem;
+    font-size: 5vh;
 }
 
 .optimization-explanation img{
@@ -356,5 +356,5 @@ header h1 {
 .optimization-explanation p {
     margin:auto;
     max-width: 80vw;
-    font-size: 2rem;
+    font-size: 3vh;
 }

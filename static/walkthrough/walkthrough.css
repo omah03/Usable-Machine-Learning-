@@ -29,12 +29,12 @@
     background-color: #fff;
     padding: 10px;
     border-radius: 10px;
-    max-width: 25vw;
+    max-width: 40vw;
     height: auto;
     bottom: -10px;
     display: none;
     z-index: 1000;
-    font-size: 1.5rem;
+    font-size: 2vh;
 
 }
 
@@ -58,8 +58,8 @@
 
 #training_graph_speech_bubble{
     position:absolute;
-    bottom:-550vh;
-    left: 70vw;
+    bottom:-570vh;
+    left: 60vw;
     background-color: #fff;
 
 }
