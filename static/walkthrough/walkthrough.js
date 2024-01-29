@@ -111,7 +111,6 @@ function conditions(keyword){
     
     if(keyword == 'training'){
         var sliderConditions = sliderConditions && sliderCondition('LRateSlider','4') && sliderCondition('BSizeSlider','256') && sliderCondition('NEpochsSlider','1');
-
     }
     
     console.log(document.getElementById('act_Label').innerText.slice(-6)=='(ReLU)');
@@ -134,9 +133,16 @@ async function anyAction(keyword){
         
             if(conditions(keyword)){
                 console.log('resolving...');
+                document.getElementById('act_reluOption').removeEventListener('click',checkConditions);
+                document.getElementById('KSizeSlider').removeEventListener('input',checkConditions);
+                document.getElementById('Minus_block2').removeEventListener('click',checkConditions);
+                document.getElementById('LRateSlider').removeEventListener('click',checkConditions);
+                document.getElementById('BSizeSlider').removeEventListener('click',checkConditions);
+                document.getElementById('NEpochsSlider').removeEventListener('click',checkConditions);   
                 resolve();
             }
         }
+        
         document.getElementById('act_reluOption').addEventListener('click',checkConditions);
         document.getElementById('KSizeSlider').addEventListener('input',checkConditions);
         document.getElementById('Minus_block2').addEventListener('click',checkConditions);
