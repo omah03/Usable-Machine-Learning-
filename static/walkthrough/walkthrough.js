@@ -1,5 +1,6 @@
 const walkthroughTargets = ['inputbox','rectanglelayer','outputbox','training_params','training_graph','testing_section'];
 
+const training_sliders = document.getElementById('training_sliders');
 
 
 
@@ -67,6 +68,16 @@ function changeText(speech_bubble_id,new_text){
     //speechBubble.innerText = new_text;
     var textElement = speechBubble.querySelector('.walkthrough_text');
     textElement.innerText = new_text;
+
+    var boldWords = ["60.000 Bildern","hoher Kernelkomplexität","ReLU","1 Block","Lernrate von 0.01", "Batchgröße von 256","1 Epoche"];
+    boldWords.forEach(function(word){
+        console.log("innerHTML = " + textElement.innerHTML);
+        textElement.innerHTML = textElement.innerHTML.replace(word, "<b>" + word + "</b>");
+        console.log("innerHTML = " + textElement.innerHTML);
+
+    });
+   // textElement.innerHTML = textElement.innerHTML.replace(,);
+
     //speechBubble.innerHTML = '<p class="walkthrough_text">' + new_text + '</p>';
     console.log('Text changed');
 }
@@ -154,10 +165,10 @@ async function bubbleRoutine(keyword){
         /*key: [[targets],BubbleId,BubbleText,button_id,[slider_ids],[slider_values]] */
         'input':[['inputbox'],'modelbuilder_speech_bubble','Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet.','next_button'],
 
-        'modelbuilder':[['rectanglelayer'],'modelbuilder_speech_bubble','Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernel Complexity, ReLu als Aktivierungsfunktion und 1 Block um fortzufahren.','next_button'],
+        'modelbuilder':[['rectanglelayer'],'modelbuilder_speech_bubble','Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernelkomplexität, ReLU als Aktivierungsfunktion und 1 Block um fortzufahren.','next_button'],
         'output':[['outputbox'],'modelbuilder_speech_bubble','Die letzte Schicht des Modells wird jedes Eingabebild auf eine Ziffer abbilden können.','next_button'],
         'training':[['training_params'],'training_speech_bubble','Hier kannst du die Parameter für das Training anpassen. Wähle eine Lernrate von 0.01, eine Batchgröße von 256 und 1 Epoche aus und klicke zum Fortfahren auf Start.',"starttraining"],
-        'graph':[['training_graph','training_params'],'training_graph_speech_bubble',"Dieser Graph zeigt dir, wie sich die Performance des Modells im Laufe des Trainings verändert. Sobald das Training abgeschlossen ist, klicke auf 'next'",'graph_next_button'],
+        'graph':[['training_graph','training_params'],'training_graph_speech_bubble',"Dieser Graph zeigt dir, wie sich die Performance des Modells im Laufe des Trainings verändert. Sobald das Training abgeschlossen ist, klicke auf 'weiter'",'graph_next_button'],
         'testing':[['testing_section'],'testing_speech_bubble','Das Modell wurde fertig trainiert. Jetzt kannst du selber eine Ziffer zeichnen, um sie von deinem Modell klassifizieren zu lassen.','classify']
     }
     var target_ids = walkthrough[keyword][0];
@@ -213,9 +224,14 @@ async function bubbleRoutine(keyword){
         button.classList.add('avoid-clicks');
         console.log('avoid-clicks');
         await anyAction(keyword);
+        console.log('conditions met');
         button.classList.remove('avoid-clicks');
-        console.log('ready for click');
+        console.log('should be able to click now');
+        training_sliders.classList.add('avoid-clicks');
+        console.log('ready for click but not on sliders');
         await waitForClick(button_id);
+        training_sliders.classList.remove('avoid-clicks');
+
     }else if(keyword == 'graph'){
         //wait until training has finished -> then show and wait for next button
         await waitForClick(button_id);
@@ -258,7 +274,7 @@ async function walkthrough(){
     //output section
     showElement('next_button');
     await bubbleRoutine('output');
-
+    
     //training params section
     scrollTo_page(5);
     await bubbleRoutine('training');
