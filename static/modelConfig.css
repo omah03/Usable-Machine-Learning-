@@ -32,7 +32,8 @@
     width: 60%;
     height: 80%;
     margin: auto;
-
+    margin-left: 0;
+    margin-right: 0;
     border: 5px solid var(--background-color);
 
     background-color: var(--model-background);
@@ -48,10 +49,20 @@
 
     margin: auto;
     margin-left: 2%;
+    margin-right: 0;
     /* border: 5px solid var(--background-color); */
 
     display: flex;
     flex-direction: row;
+}
+
+.arrows-container {
+    height: 100%;
+    width: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .container-model {
@@ -70,6 +81,7 @@
 
     margin: auto;
     margin-right: 2%;
+    margin-left: 0;
     border: 5px solid var(--background-color);
     border-radius: 5%;
     background-color: var(--container-color);
