@@ -60,7 +60,7 @@ fetch("/get_config")
 function handleDropdownChange(option, type) {
     labelHTML = "error";                            // if überflüssig, da LRate weg?
     if (type == "act") {
-        labelHTML = "Activation Function: <br>"
+        labelHTML = "<br>"
         flask_type = "ActivationFunc"
     }
     var titleElement = document.getElementById(`${type}_Label`);
