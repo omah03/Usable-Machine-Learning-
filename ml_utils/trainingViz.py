@@ -9,10 +9,13 @@ from torch.cuda import empty_cache
 from torch.nn import Module, functional as F
 from torch import manual_seed, Tensor
 from torch.optim import Optimizer, SGD
+import torch
 
 from ml_utils.data import get_data_loaders
 from ml_utils.evaluate import accuracy
 from ml_utils.modelbuilder import ModelBuilder
+
+torch.autograd.set_detect_anomaly(True)
 
 import pickle #for saving the model
 

@@ -92,7 +92,9 @@ def update_value():
     data= request.get_json()
     type= data.get("type")
     value= data.get("value")
-    session["config"].update({type: value})
+    conf= session.get("config")
+    conf.update({type:value})
+    session["config"]= conf
     print(session["config"])
     return jsonify("True")
 
@@ -120,7 +122,7 @@ def handleButton():
 
     # Do match case statement for every button (python 3.10 doesnt support match case)
     if type=="starttraining":         
-        q.put(toggle_training_US())
+        q.put(toggle_training(session))
         return jsonify(session["config"]["training_active"])
     if type=="resettraining":
         print("RESET")
@@ -132,7 +134,8 @@ def handleButton():
         print(type)
     return jsonify(True)
 
-def toggle_training_US():
+def toggle_training(session):
+    global trainers
     trainer = trainers[session.get("room")]
     if session["config"]["training_active"]==False: #start training
         session["config"]["training_active"]=True
@@ -142,7 +145,7 @@ def toggle_training_US():
                 break
             session["config"]["Epochs_Trained"] += 1
             socketio.emit("training_data",session["config"], room= session.get("room"))
-            trainer.training(session["config"], cuda=False)
+            trainer.training(session.get("config"), cuda=False)
         session["config"]["training_active"]=False
     elif session["config"]["training_active"]==True and session["config"]["training_stop_signal"]==False:
         session["config"]["training_stop_signal"]=True

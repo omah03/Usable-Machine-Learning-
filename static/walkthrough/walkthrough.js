@@ -67,15 +67,6 @@ function changeText(speech_bubble_id,new_text){
     //speechBubble.innerText = new_text;
     var textElement = speechBubble.querySelector('.walkthrough_text');
     textElement.innerText = new_text;
-<<<<<<< HEAD
-    var boldWords = ["60.000 Bildern","hoher Kernelkomplexität","ReLU","1 Block","Lernrate von 0.01", "Batchgröße von 256","1 Epoche"];
-    boldWords.forEach(function(word){
-        console.log("innerHTML = " + textElement.innerHTML);
-        textElement.innerHTML = textElement.innerHTML.replace(word, "<b>" + word + "</b>");
-        console.log("innerHTML = " + textElement.innerHTML);
-
-    });
-=======
 
     var boldWords = ["60.000 Bildern","hoher Kernelkomplexität","ReLU","1 Block","Lernrate von 0.01", "Batchgröße von 256","1 Epoche"];
     boldWords.forEach(function(word){
@@ -83,7 +74,6 @@ function changeText(speech_bubble_id,new_text){
     });
    // textElement.innerHTML = textElement.innerHTML.replace(,);
 
->>>>>>> origin/main
     //speechBubble.innerHTML = '<p class="walkthrough_text">' + new_text + '</p>';
 }
 
@@ -129,7 +119,7 @@ async function anyAction(keyword){
             var conditions = 1;
         
             if(keyword == 'training'){
-                sliderConditions = sliderConditions && sliderCondition('LRateSlider','4') && sliderCondition('BSizeSlider','256') && sliderCondition('NEpochsSlider','1');
+                sliderConditions = sliderConditions && sliderCondition('LRateSlider','1') && sliderCondition('BSizeSlider','256') && sliderCondition('NEpochsSlider','1');
                 conditions = conditions && sliderConditions
             }else if(keyword == 'modelbuilder'){
                 sliderConditions = sliderConditions && sliderCondition('KSizeSlider', '3');
