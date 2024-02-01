@@ -1,3 +1,13 @@
+// assign labels to thier respective elements as attributes
+var labels = document.getElementsByTagName('LABEL');
+for (var i = 0; i < labels.length; i++) {
+    if (labels[i].htmlFor != '') {
+         var elem = document.getElementById(labels[i].htmlFor);
+         if (elem)
+            elem.label = labels[i];         
+    }
+}
+
 DEFAULT_STRING = "Click anything with the i icon to get more information about it!"
 
 var infoboxShown = false;
@@ -34,13 +44,17 @@ if (show_more) {
     })
 }
 
-const elementIDs = ["inputbox", "block1", "block2", "block3", "block4", "block5", "outputbox", "actFuncCol", "LRateCol", "EpochsCol", "BSizeCol", "KSizeCol"]
+const elementIDs = ["inputbox", "ConvInfo1", "ActFuncInfo1", "MaxPoolInfo1", 
+                                "ConvInfo2", "ActFuncInfo2", "MaxPoolInfo2",
+                                "ConvInfo3", "ActFuncInfo3", "MaxPoolInfo3",
+"outputbox", "actFunc", "LRateSlider", "NEpochsSlider", "BSizeSlider", "KSizeSlider"]
 
 for (const ID of elementIDs) {
     var element = document.getElementById(ID);
-    if (element) {
-        element.innerHTML = `<img class = "info-small" id="infoIcon_${ID}" width= "25px" src="../static/include/Images/info.png" alt="Information Box">`
-            + element.innerHTML
+    if (element && element.label) {
+        element.label.innerHTML = element.label.innerHTML + ` <button class = "info-small" id="infoIcon_${ID}">
+                                        <img width = "100%"src="../static/include/Images/info.png" alt="Information Box">
+                                    </button>`
 
         infoicon= document.getElementById(`infoIcon_${ID}`)
         infoicon.left = 0;
@@ -57,7 +71,8 @@ window.addEventListener("scroll", () => {
     }
 })
 
-function positionInfobox(element) {
+function positionInfobox(elementID) {
+    element= document.getElementById(elementID.replace("Slider", "Col"))
     element.parentNode.appendChild(infobox);
 
     ElementRect = element.getBoundingClientRect();
@@ -83,7 +98,7 @@ function positionInfobox(element) {
 
     infobox.style.position = "fixed";
 
-    if (CanFitBelow && element.id != "actFuncCol") {
+    if (CanFitBelow && element.id != "actFunc") {
         infobox.style.top = ElementRect.bottom + "px";
     }
     else {
@@ -103,12 +118,11 @@ function changeInfoText(elementID) {
     infobox.style.display = "flex"
     if (infobox) {
         element = document.getElementById(elementID);
-
         if (!element) {
             console.log("ABORTING")
             return
         }
-        positionInfobox(element);
+        positionInfobox(elementID);
 
         // Trigger the highlight animation and change the text
         infobox.classList.add('highlight');
@@ -118,7 +132,8 @@ function changeInfoText(elementID) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "item": elementID
+                "item":elementID.replace(/[0-9]/g, ''),
+
             })
         })
             .then(response => response.json())
@@ -141,7 +156,7 @@ function changeInfoText(elementID) {
 function removeInfoboxOnAnyClick(event) {
     isClickableElement = false
     for (const el of elementIDs){
-        element= document.getElementById(el);
+        element= document.getElementById(el.replace("Slider", "Col"));
         if (element && element.contains(event.target)){
             isClickableElement=true;
     }}

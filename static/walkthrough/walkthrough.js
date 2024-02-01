@@ -67,6 +67,13 @@ function changeText(speech_bubble_id,new_text){
     //speechBubble.innerText = new_text;
     var textElement = speechBubble.querySelector('.walkthrough_text');
     textElement.innerText = new_text;
+    var boldWords = ["60.000 Bildern","hoher Kernelkomplexität","ReLU","1 Block","Lernrate von 0.01", "Batchgröße von 256","1 Epoche"];
+    boldWords.forEach(function(word){
+        console.log("innerHTML = " + textElement.innerHTML);
+        textElement.innerHTML = textElement.innerHTML.replace(word, "<b>" + word + "</b>");
+        console.log("innerHTML = " + textElement.innerHTML);
+
+    });
     //speechBubble.innerHTML = '<p class="walkthrough_text">' + new_text + '</p>';
     console.log('Text changed');
 }
@@ -110,8 +117,7 @@ function conditions(keyword){
     var sliderConditions = sliderCondition('KSizeSlider', '3');
     
     if(keyword == 'training'){
-        var sliderConditions = sliderConditions && sliderCondition('LRateSlider','4') && sliderCondition('BSizeSlider','256') && sliderCondition('NEpochsSlider','1');
-
+        var sliderConditions = sliderConditions && sliderCondition('LRateSlider','1') && sliderCondition('BSizeSlider','256') && sliderCondition('NEpochsSlider','1');
     }
     
     console.log(document.getElementById('act_Label').innerText.slice(-6)=='(ReLU)');
@@ -134,9 +140,20 @@ async function anyAction(keyword){
         
             if(conditions(keyword)){
                 console.log('resolving...');
+                document.getElementById('act_reluOption').removeEventListener('click',checkConditions);
+                document.getElementById('KSizeSlider').removeEventListener('input',checkConditions);
+                document.getElementById('Minus_block2').removeEventListener('click',checkConditions);
+                document.getElementById('LRateSlider').removeEventListener('click',checkConditions);
+                document.getElementById('BSizeSlider').removeEventListener('click',checkConditions);
+                document.getElementById('NEpochsSlider').removeEventListener('click',checkConditions);   
+                if(keyword=='modelbuilder'){
+                    document.getElementById('rectanglelayer').classList.add('avoid-clicks');
+                }
                 resolve();
             }
+
         }
+        
         document.getElementById('act_reluOption').addEventListener('click',checkConditions);
         document.getElementById('KSizeSlider').addEventListener('input',checkConditions);
         document.getElementById('Minus_block2').addEventListener('click',checkConditions);
@@ -197,6 +214,8 @@ async function bubbleRoutine(keyword){
         //relu, kernelCompl,#blocks selection
         await anyAction(keyword);
         await waitForClick(button_id);
+        document.getElementById('rectanglelayer').classList.remove('avoid-clicks');
+
 
     }
     else if(keyword == 'training'){
@@ -260,7 +279,7 @@ async function walkthrough(){
     await bubbleRoutine('output');
 
     //training params section
-    scrollTo_page(5);
+    scrollTo_page(6);
     await bubbleRoutine('training');
 
     //graph section
@@ -278,7 +297,7 @@ async function walkthrough(){
 async function skip_start_walkthrough(){
     console.log('skip/start walkthrough...');
 
-    scrollTo_page(4);
+    scrollTo_page(5);
     var skip_button_label = document.getElementById('skip_tut').innerText;
     if(skip_button_label =='Start Tutorial'){
         console.log('if');

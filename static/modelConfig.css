@@ -32,7 +32,8 @@
     width: 60%;
     height: 80%;
     margin: auto;
-
+    margin-left: 0;
+    margin-right: 0;
     border: 5px solid var(--background-color);
 
     background-color: var(--model-background);
@@ -48,10 +49,20 @@
 
     margin: auto;
     margin-left: 2%;
+    margin-right: 0;
     /* border: 5px solid var(--background-color); */
 
     display: flex;
     flex-direction: row;
+}
+
+.arrows-container {
+    height: 100%;
+    width: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .container-model {
@@ -70,6 +81,7 @@
 
     margin: auto;
     margin-right: 2%;
+    margin-left: 0;
     border: 5px solid var(--background-color);
     border-radius: 5%;
     background-color: var(--container-color);
@@ -121,6 +133,8 @@
 .BlockButton {
     width: 100%;
     height: 80%;
+    display: flex;
+    flex-direction: column;
     /* border: 5px solid var(--background-color); */
     border-radius: 5%;
 }
@@ -234,9 +248,9 @@
     margin: 10%;
 }
 
-.MNIST h2 {
-    margin-top: 10%;
-    margin-left: 20%;
+.MNIST label {
+    margin-left: 10%;
+    font-size: 3vh;
 }
 
 .staticClassifier {
@@ -274,8 +288,11 @@
     flex-direction: row;
     justify-content: space-between;
     margin-top: 10%;
-    margin-left: 10%;
+    margin-left: 0%;
     margin-right: 10%;
+}
+.LinearLayer_Header button {
+    margin-top: -3vh;
 }
 
 .classes-column{
@@ -300,17 +317,18 @@
 .block_info {
     width:100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-evenly;
 }
 
 .block_label{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     margin:auto;
-    padding-left: 20%;
+    padding-left: 0%;
     width: 100%;
+    border: 5px solid var(--background-color);
 }
 
 .block-icon {
