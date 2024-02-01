@@ -46,7 +46,7 @@
             <div class="ml-text">
                 <h2>Was ist Machine Learning?</h2>
                 <p>
-                    Machine Learning (ML) ist ein Teilbereich von Künstlicher Intelligenz, in dem Algorithmen automatisch lernen, in Daten Muster zu erkennen. Dazu gehören Applikationen wie Google Translate, Bildgeneratoren wie DALL-E oder Chatbots wie ChatGPT. Diese Applikation stellt das erste Problem der meisten ML-Vorlesungen vor: handgeschriebene Ziffern zu erkennen.  </p>
+                    Machine Learning (ML) ist ein Teilbereich von Künstlicher Intelligenz, in dem Algorithmen automatisch lernen, in Daten Muster zu erkennen. Dazu gehören Applikationen wie Google Translate, Bildgeneratoren wie DALL-E oder Chatbots wie ChatGPT. Diese Applikation stellt die erste Aufgabe der meisten ML-Vorlesungen vor: handgeschriebene Ziffern zu erkennen.  </p>
             </div>
         </div>
     </section>
@@ -67,21 +67,21 @@
         <section id="How CNNs work" class="gif-explanation">
             <div class="gifoptions-container">
                 <div class = "slider-text"> 
-                    <label for="KernelGifSlider">Kernel Size</label>
+                    <label for="KernelGifSlider">Filtergröße</label>
                     <div class= "sliderDisplay">
                         <input type="range" id="KernelGifSlider" min="1" max="3" value="{{ 2 }}">
                         <span style="margin-left: 5%;" id="KernelGifDisplay">6</span>
                     </div>
                 </div>
                 <div class = "slider-text"> 
-                    <label for="StrideGifSlider">Stride</label>
+                    <label for="StrideGifSlider">Schrittweite</label>
                     <div class= "sliderDisplay">
                         <input type="range" id="StrideGifSlider" min="1" max="3" value="{{ 2 }}">
                         <span style="margin-left: 5%;" id="StrideGifDisplay">2</span>
                     </div>
                 </div>
                 <div class = "slider-text"> 
-                    <label for="PaddingGifSlider">Padding</label>
+                    <label for="PaddingGifSlider">Polsterung</label>
                     <div class= "sliderDisplay">
                         <input type="range" id="PaddingGifSlider" min="0" max="2" value="{{ 1 }}">
                         <span style="margin-left: 5%;" id="PaddingGifDisplay">1</span>
@@ -89,21 +89,20 @@
                 </div>
             </div>
             <div class="explanation-container">
-                <p>Der rote Ausschnitt ist ein <strong> Filter</strong>, der über die Pixel und seinen umliegenden Nachbarn schreitet, dabei Merkmale wie Kanten oder Kreise erkennt und eine <strong> Merkmalskarte</strong> erstellt.
-                    Ein neuronales Netz verwendet mehrere Filter für unterschiedliche Merkmale. Über die Merkmalskarten laufen daraufhin wieder Filter, sodass das Network zunehmend abstrake Muster erkennt. 
-                    Hier kannst du entscheiden, wie groß der Filter sein soll, ob er dabei jeden Pixel betrachtet oder mal einen überspringt und ob am Rand noch mehr Pixel hinzugefügt werden, um Randpixel mehr zu berücksichtigen.     
+                <p>Der rote Ausschnitt ist ein <strong> Filter</strong>, der über die Pixel eines Bildes und seinen umliegenden Nachbarn schreitet, dabei Merkmale wie Kanten oder Kreise erkennt und eine <strong> Merkmalskarte</strong> erstellt.
+                    Mit diesen Merkmalskarten passiert wiederum dasselbe, sodass das Netz zunehmend abstrake Muster erkennt. 
+                    Hier kannst du über die Größe des Filters entscheiden, wie weit er voranschreitet und ob am Rand Pixel hinzugefügt werden, um Randpixel mehr zu berücksichtigen.     
                 </p>
             </div>
-        </section> 
+        </section> x
 
 
         <section id="Wie lernt ein Modell?" class="optimization-explanation">
-            <h2> Was bedeutet "lernen" für ein Neuronales Netz? </h2>
+            <h2> Was bedeutet "Lernen" in Machine Learning?</h2>
             <div class="container">
                 <img src="{{ url_for('static', filename='include/cnn_graph.png') }}" alt="Optimization Visualization" class="optimization-image">
                 <p>
-                    Mit Lernen ist in ML die Optimierung von dem jeweiligen Modell gemeint. Für dieses Beispiel bedeutet das, die richtigen Filter zu finden sowie für jedes Bild anzugeben, welche Merkmale am wichtigsten für die Klassifizierung sind. Zu Beginn sind diese Einstellungen noch zufällig, während des Trainingsprozesses werden sie iterativ angepasst, um ihre Leistung zu verbessern.
-                </p>
+                    Mit Lernen ist in ML die Optimierung gemeint. Für dieses Beispiel bedeutet das, die richtigen Filter zu erstellen sowie herauszufinden, welche Merkmale am wichtigsten für die Klassifizierung sind. Zu Beginn sind diese Einstellungen noch zufällig, während des Trainingsprozesses werden sie dann angepasst.
             </div>
         </section>
 
