@@ -144,8 +144,14 @@ function printPrediction(predicted_digit){
 
 function sendAndReceiveClassification(canvasData){
     return new Promise((resolve, reject) => {
-        socket.emit('classify', { canvasData });
-        socket.on('classification_result', (result,heatmap) => {
+        fetch('/classify', {
+            method: 'POST', // or 'GET' depending on your server's API
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ canvasData }),
+          });
+            socket.on('classification_result', (result,heatmap) => {
             console.log('Klassifizierungsergebnis', result);
             resolve([result,heatmap]); // Ergebnis an die Aufrufer-Funktion übergeben
         });

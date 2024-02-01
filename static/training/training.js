@@ -189,10 +189,6 @@ function handleTrainingData(training_config) {
         startbutton.innerHTML = "START"
         trainingdisplay.innerHTML = ""
     }
-    epochs = []
-    for (i = 1; i <= training_config["Epochs_Trained"]; i++) {
-        epochs.push(i);
-    }
 }
 
 
