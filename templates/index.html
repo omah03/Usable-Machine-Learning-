@@ -148,8 +148,8 @@
                                     </button>
                                     <div class="dropdown-content" id = "act_dropdown">
                                         <button href="#" class="act_Option" id="act_reluOption" value = "relu">Rectified Linear Activation (ReLU)</button>
-                                        <button href="#" class="act_Option" id="act_sigmoidOption" value = "sigm">Logistics (Sigmoid)</button>
-                                        <button href="#" class="act_Option" id="act_tanhOption" value = "tanh">Hyperbolic Tangent (tanh)</button>
+                                        <button href="#" class="act_Option" id="act_sigmoidOption" value = "sigm">Sigmoid-Funktion</button>
+                                        <button href="#" class="act_Option" id="act_tanhOption" value = "tanh">Hyperbolische Tangente (tanh)</button>
                                     </div>
                                 </div>
                             </div>
@@ -312,7 +312,7 @@
                             <div class="parameters-container">
                                 <div class="LearningRate">
                                     <div class = "slider-text" id= "LRateCol">
-                                        <label for="LRateSlider"> Learning Rate</label>
+                                        <label for="LRateSlider"> Lernrate</label>
                                         <div class= "sliderDisplay">
                                             <input type="range" id="LRateSlider" min="1" max="4" value="{{ 2 }}">
                                             <span style="margin-left: 5%;" id="LRateDisplay"></span>
@@ -321,7 +321,7 @@
                                 </div> 
                                 <div class="BatchSize">
                                     <div class="slider-text" id= "BSizeCol">
-                                        <label for="BSizeSlider">Batch Size</label>
+                                        <label for="BSizeSlider">Trainingseinheiten</label>
                                         <div class= "sliderDisplay">
                                             <input type="range" id="BSizeSlider" min="1" max="256" value="{{ 32 }}">
                                             <span style="margin-left: 5%;" id="BSizeDisplay"></span>
@@ -330,7 +330,7 @@
                                 </div>
                                 <div class="Epochs">
                                     <div class = "slider-text" id= "NEpochsCol"> 
-                                        <label for="NEpochsSlider">Epochs</label>
+                                        <label for="NEpochsSlider">Epochen</label>
                                         <div class= "sliderDisplay">
                                             <input type="range" id="NEpochsSlider" min="1" max="10" value="{{ 4 }}">
                                             <span style="margin-left: 5%;" id="NEpochsDisplay"></span>
