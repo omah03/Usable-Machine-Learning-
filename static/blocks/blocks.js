@@ -95,7 +95,7 @@ function removeBlock(i) {
 
 }
 
-export var NumBLocks;
+var NumBLocks;
 
 // Call the backend
 

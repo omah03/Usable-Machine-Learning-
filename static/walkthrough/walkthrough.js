@@ -1,5 +1,6 @@
 const walkthroughTargets = ['inputbox','rectanglelayer','outputbox','training_params','training_graph','testing_section'];
 
+const training_sliders = document.getElementById('training_sliders');
 
 
 
@@ -62,11 +63,11 @@ function waitForClick(button_id){
 
 
 function changeText(speech_bubble_id,new_text){
-    console.log('changeText...');
     var speechBubble = document.getElementById(speech_bubble_id);
     //speechBubble.innerText = new_text;
     var textElement = speechBubble.querySelector('.walkthrough_text');
     textElement.innerText = new_text;
+<<<<<<< HEAD
     var boldWords = ["60.000 Bildern","hoher Kernelkomplexität","ReLU","1 Block","Lernrate von 0.01", "Batchgröße von 256","1 Epoche"];
     boldWords.forEach(function(word){
         console.log("innerHTML = " + textElement.innerHTML);
@@ -74,12 +75,19 @@ function changeText(speech_bubble_id,new_text){
         console.log("innerHTML = " + textElement.innerHTML);
 
     });
+=======
+
+    var boldWords = ["60.000 Bildern","hoher Kernelkomplexität","ReLU","1 Block","Lernrate von 0.01", "Batchgröße von 256","1 Epoche"];
+    boldWords.forEach(function(word){
+        textElement.innerHTML = textElement.innerHTML.replace(word, "<b>" + word + "</b>");
+    });
+   // textElement.innerHTML = textElement.innerHTML.replace(,);
+
+>>>>>>> origin/main
     //speechBubble.innerHTML = '<p class="walkthrough_text">' + new_text + '</p>';
-    console.log('Text changed');
 }
 
 function removeElement(element_id){
-    console.log('removeBubble...');
     const element = document.getElementById(element_id);
     if (element) {
         element.style.display = 'none';
@@ -110,48 +118,39 @@ function sliderCondition(slider_id,value){
 }
 
 
-
-function conditions(keyword){
-    var numBlocks_condition = block1.style.display == 'flex' && block2.style.display == 'none';
-    var act_fun = document.getElementById('act_Label').innerText.slice(-6)=='(ReLU)';
-    var sliderConditions = sliderCondition('KSizeSlider', '3');
-    
-    if(keyword == 'training'){
-        var sliderConditions = sliderConditions && sliderCondition('LRateSlider','1') && sliderCondition('BSizeSlider','256') && sliderCondition('NEpochsSlider','1');
-    }
-    
-    console.log(document.getElementById('act_Label').innerText.slice(-6)=='(ReLU)');
-    console.log(numBlocks_condition + 'fun = ' + act_fun );
-    return numBlocks_condition && act_fun && sliderConditions;
-}
-
-
-
-
 async function anyAction(keyword){
-
-
-
     return new Promise(resolve => {
-        
+
         //THIS SECTION IS FOR TESTS
         function checkConditions(){
-            console.log('successful');
+            var numBlocksCondition = block1.style.display == 'flex' && block2.style.display == 'none';
+            var reluCondition = document.getElementById('act_Label').innerText.slice(-6)=='(ReLU)';
+            var sliderConditions = 1;
+            var conditions = 1;
         
-            if(conditions(keyword)){
-                console.log('resolving...');
-                document.getElementById('act_reluOption').removeEventListener('click',checkConditions);
-                document.getElementById('KSizeSlider').removeEventListener('input',checkConditions);
-                document.getElementById('Minus_block2').removeEventListener('click',checkConditions);
-                document.getElementById('LRateSlider').removeEventListener('click',checkConditions);
-                document.getElementById('BSizeSlider').removeEventListener('click',checkConditions);
-                document.getElementById('NEpochsSlider').removeEventListener('click',checkConditions);   
-                if(keyword=='modelbuilder'){
-                    document.getElementById('rectanglelayer').classList.add('avoid-clicks');
-                }
-                resolve();
-            }
+            if(keyword == 'training'){
+                sliderConditions = sliderConditions && sliderCondition('LRateSlider','4') && sliderCondition('BSizeSlider','256') && sliderCondition('NEpochsSlider','1');
+                conditions = conditions && sliderConditions
+            }else if(keyword == 'modelbuilder'){
+                sliderConditions = sliderConditions && sliderCondition('KSizeSlider', '3');
+                conditions = conditions && sliderConditions && reluCondition && numBlocksCondition
+            }else if (keyword == 'graph'){
+                trainingdisplay=document.getElementById("trainingdisplay");
+                console.log('trainig display = ' + trainingdisplay.innerHTML.slice(0,7));
+                trainingdisplay.innerHTML.slice(0,7) == 'Trained';
 
+                conditions = conditions && trainingdisplay.innerHTML.slice(0,7) == 'Trained'
+            }else{
+                throw new Error("An invalid keyword was given at checkConditions!");
+            }
+            
+            if(conditions){
+                console.log('conditions met.');
+                resolve();
+            }else{
+                console.log('conditions not met!')
+            }
+            
         }
         
         document.getElementById('act_reluOption').addEventListener('click',checkConditions);
@@ -159,11 +158,11 @@ async function anyAction(keyword){
         document.getElementById('Minus_block2').addEventListener('click',checkConditions);
         document.getElementById('LRateSlider').addEventListener('click',checkConditions);
         document.getElementById('BSizeSlider').addEventListener('click',checkConditions);
-        document.getElementById('NEpochsSlider').addEventListener('click',checkConditions);        
+        document.getElementById('NEpochsSlider').addEventListener('click',checkConditions);  
+        document.getElementById('graph_next_button').addEventListener('click',checkConditions)
+
     })
 }
-
-
 
 async function bubbleRoutine(keyword){
     console.log('bubbleRoutine...' + keyword);
@@ -171,10 +170,10 @@ async function bubbleRoutine(keyword){
         /*key: [[targets],BubbleId,BubbleText,button_id,[slider_ids],[slider_values]] */
         'input':[['inputbox'],'modelbuilder_speech_bubble','Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet.','next_button'],
 
-        'modelbuilder':[['rectanglelayer'],'modelbuilder_speech_bubble','Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernel Complexity, ReLu als Aktivierungsfunktion und 1 Block um fortzufahren.','next_button'],
+        'modelbuilder':[['rectanglelayer'],'modelbuilder_speech_bubble','Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernelkomplexität, ReLU als Aktivierungsfunktion und 1 Block um fortzufahren.','next_button'],
         'output':[['outputbox'],'modelbuilder_speech_bubble','Die letzte Schicht des Modells wird jedes Eingabebild auf eine Ziffer abbilden können.','next_button'],
         'training':[['training_params'],'training_speech_bubble','Hier kannst du die Parameter für das Training anpassen. Wähle eine Lernrate von 0.01, eine Batchgröße von 256 und 1 Epoche aus und klicke zum Fortfahren auf Start.',"starttraining"],
-        'graph':[['training_graph','training_params'],'training_graph_speech_bubble',"Dieser Graph zeigt dir, wie sich die Performance des Modells im Laufe des Trainings verändert. Sobald das Training abgeschlossen ist, klicke auf 'next'",'graph_next_button'],
+        'graph':[['training_graph','training_params'],'training_graph_speech_bubble',"Dieser Graph zeigt dir, wie sich die Performance des Modells im Laufe des Trainings verändert. Sobald das Training abgeschlossen ist, klicke auf 'weiter'",'graph_next_button'],
         'testing':[['testing_section'],'testing_speech_bubble','Das Modell wurde fertig trainiert. Jetzt kannst du selber eine Ziffer zeichnen, um sie von deinem Modell klassifizieren zu lassen.','classify']
     }
     var target_ids = walkthrough[keyword][0];
@@ -183,13 +182,6 @@ async function bubbleRoutine(keyword){
     var button_id = walkthrough[keyword][3];
     var slider_ids = walkthrough[keyword[4]];
     var slider_values = walkthrough[keyword[5]];
-
-
-    console.log(target_ids);
-    console.log(bubble_id);
-    console.log(bubble_text);
-    console.log(slider_ids);
-    console.log(slider_values);
 
     console.log('init successful.');
     
@@ -232,12 +224,19 @@ async function bubbleRoutine(keyword){
         button.classList.add('avoid-clicks');
         console.log('avoid-clicks');
         await anyAction(keyword);
+        console.log('conditions met');
         button.classList.remove('avoid-clicks');
-        console.log('ready for click');
+        training_sliders.classList.add('avoid-clicks');
+        console.log('ready for click but not on sliders');
         await waitForClick(button_id);
+        training_sliders.classList.remove('avoid-clicks');
+        
+
+
     }else if(keyword == 'graph'){
         //wait until training has finished -> then show and wait for next button
-        await waitForClick(button_id);
+        console.log('call anyAction graph');
+        await anyAction('graph');
 
     }else if(keyword == 'testing'){
         //wait for drawing -> then show and wait for classify button
@@ -261,7 +260,7 @@ async function bubbleRoutine(keyword){
 
 async function walkthrough(){
     console.log('starting walkthrough...');
-
+    
     //input section
     await bubbleRoutine('input');
     
@@ -277,7 +276,7 @@ async function walkthrough(){
     //output section
     showElement('next_button');
     await bubbleRoutine('output');
-
+    
     //training params section
     scrollTo_page(6);
     await bubbleRoutine('training');

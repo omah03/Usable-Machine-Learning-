@@ -1,4 +1,3 @@
-
 //alert('Das ist ein Test');
 console.log('Das ist ein Test');
 
