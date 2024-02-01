@@ -69,7 +69,7 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride
         axes[2].imshow(feature_map, cmap='gray')
         axes[2].set_title("Merkmalskarte")
 
-        plt.tight_layout()
+        #plt.tight_layout()
 
     # Create animation frames
     frames = []
@@ -81,8 +81,8 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride
     ani = FuncAnimation(fig, lambda x: update(*x), frames=frames, interval=50, repeat=False)
 
     print(f'Saving: cnnK{kernel_size}S{stride}P{padding}.gif')
-    plt.show()
-    #ani.save(f'cnnK{kernel_size}S{stride}P{padding}.gif', writer='pillow', fps=5)
+    #plt.show()
+    ani.save(f'cnnK{kernel_size}S{stride}P{padding}.gif', writer='pillow', fps=5)
 
     #plt.show(block=True)  # Display the animation
     #plt.pause(10)
