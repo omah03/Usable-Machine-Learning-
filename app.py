@@ -1,9 +1,10 @@
 import threading
 import queue
 import webbrowser
+import random
 
 from flask import Flask, render_template, request, jsonify, session
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, join_room, leave_room
 from flask import send_file
 
 from ml_utils.explain_classification import classify_canvas_image
@@ -15,8 +16,8 @@ from static.infobox.infotexts import infotexts
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-trainer= Trainer(socketio)
 
+trainers={}
 app.secret_key="TESTSECRET"
 
 # moved config to session["config"} to prepare for storing the data ina flask session variable (I hope thats possible)
@@ -33,11 +34,24 @@ defaultconfig= {"ActivationFunc": "act_reluOption",
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global defaultconfig
+    global defaultconfig,trainers
     if not session.get("config"):
         session["config"]= defaultconfig
+    session["room"]= str(random.randint(0,10000))
+    trainers[session.get("room")]= Trainer(socketio, session.get("room"))
     
     return render_template("index.html")
+    
+
+@socketio.on('connect')
+def on_connect():
+    room = session.get('room')  # Define how you assign rooms
+    join_room(room)
+
+@socketio.on('disconnect')
+def on_disconnect():
+    room = session.get('room')
+    leave_room(room)
     
 @app.route('/model')
 def model_page():
@@ -70,7 +84,7 @@ def listener():
 @app.route("/get_blocks")
 def get_blocks():
     print(session["config"])
-    return jsonify({'number': session["config"]["config"]["NBlocks"]})
+    return jsonify({'number': session.get("config")["NBlocks"]})
 
 @app.route("/update_value", methods=["POST"])
 def update_value():
@@ -111,15 +125,15 @@ def handleButton():
     if type=="resettraining":
         print("RESET")
         session["config"].update({"training_active":False, "training_stop_signal":True, "Epochs_Trained":0, "acc":[], "loss":[] })
-        socketio.emit("training_data", session["config"])       
-        global trainer
+        socketio.emit("training_data", session["config"], room = session.get("room"))       
+        trainer= trainers[session.get("room")]
         trainer.reset()
     else:
         print(type)
     return jsonify(True)
 
 def toggle_training_US():
-    global trainer  
+    trainer = trainers[session.get("room")]
     if session["config"]["training_active"]==False: #start training
         session["config"]["training_active"]=True
         session["config"]["training_stop_signal"]=False
@@ -127,7 +141,7 @@ def toggle_training_US():
             if session["config"]["training_stop_signal"]==True:
                 break
             session["config"]["Epochs_Trained"] += 1
-            socketio.emit("training_data",session["config"])
+            socketio.emit("training_data",session["config"], room= session.get("room"))
             trainer.training(session["config"], cuda=False)
         session["config"]["training_active"]=False
     elif session["config"]["training_active"]==True and session["config"]["training_stop_signal"]==False:

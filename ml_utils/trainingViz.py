@@ -19,8 +19,9 @@ import pickle #for saving the model
 MOMENTUM = 0.5
 
 class Trainer():
-    def __init__(self, socketio) -> None:
+    def __init__(self, socketio, socketioRoom) -> None:
         self.sio= socketio
+        self.sioRoom = socketioRoom
         self.model=None
         self.optimizer=None
         self.train_loader=None
@@ -149,9 +150,8 @@ class Trainer():
         self.optimizer.step()
         self.optimizer.zero_grad()
 
-    @staticmethod
-    def send_data_to_frontend(socketio,batch_data):
-        socketio.emit("batch_data", batch_data)
+    def send_data_to_frontend(self,socketio, batch_data):
+        socketio.emit("batch_data", batch_data, room= self.sioRoom)
 
     def send_results_to_frontend(self):
         data= {
@@ -161,7 +161,7 @@ class Trainer():
             "changes": list(self.changes)
         }
         print(data)
-        self.sio.emit("chart_data", data)
+        self.sio.emit("chart_data", data, room=self.sioRoom)
 
 def main(seed):
     config= {}
