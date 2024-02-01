@@ -169,7 +169,7 @@ async function bubbleRoutine(keyword){
     console.log('bubbleRoutine...' + keyword);
     var walkthrough = {
         /*key: [[targets],BubbleId,BubbleText,button_id,[slider_ids],[slider_values]] */
-        'input':[['inputbox'],'modelbuilder_speech_bubble','Als Trainingsgrundlage dient der MNIST-Datensat, der aus 60.000 handgeschriebene Ziffern und ihren Labels besteht.','next_button'],
+        'input':[['inputbox'],'modelbuilder_speech_bubble','Als Trainingsgrundlage dient der MNIST-Datensatz, der aus 60.000 handgeschriebene Ziffern und ihren Labels besteht.','next_button'],
 
         'modelbuilder':[['rectanglelayer'],'modelbuilder_speech_bubble','Hier kannst du dein eigenes Netz zur Erkennung handgeschriebener Ziffern bauen. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Filtergröße, ReLu als Aktivierungsfunktion und 1 Block um fortzufahren.','next_button'],
         'output':[['outputbox'],'modelbuilder_speech_bubble','Die letzte Schicht des Netzes weist dem Bild eine Ziffer zu.','next_button'],
