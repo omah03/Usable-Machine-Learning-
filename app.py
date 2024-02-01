@@ -141,10 +141,11 @@ def toggle_training():
             trainer.queue.put((trainer.training, (session.get("config"), False)))
         q.put(trainer.work_queue_items)
     else:
-        while trainer.queue.not_empty:
+        while not trainer.queue.empty():
             x= trainer.queue.get()
             trainer.queue.task_done()
-        session["config"].update({"training_active":True, "training_stop_signal":True})
+        session["config"]["training_active"]= True
+        session["config"]["training_stop_signal"]= True
     socketio.emit("training_data", session["config"], room= session.get("room"))
     
 
@@ -162,8 +163,9 @@ def return_gif():
 modelbuilder_model = 'ml_utils/Trained_modelbuilder_model.pkl'
 #print(f"using {test_model}")
 @app.route('/classify', methods=["POST"])
-def classify(data):
+def classify():
     print("Die classify(data) Funktion wird ausgeführt")
+    data= request.get_json()
     print("Empfangene Daten:", data)
     canvas_data = data['canvasData']
     print("Canvas data: ", canvas_data)

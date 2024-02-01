@@ -171,7 +171,7 @@ function handleTrainingData(training_config) {
     if (training_config["training_active"] == true && training_config["training_stop_signal"] == true) {
         progress.style.width = "" + training_config["EpochProgress"] + "%"
         startbutton.innerHTML = "CONTINUE"
-        trainingdisplay.innerHTML = `Waiting for Epoch ${training_config["Epochs_Trained"]} to finish...`
+        trainingdisplay.innerHTML = `Waiting for Epoch to finish...`
     }
     else if (training_config["training_active"] == true && training_config["training_stop_signal"] == false) {
         progress.style.width = "" + training_config["EpochProgress"] + "%"

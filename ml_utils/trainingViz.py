@@ -179,7 +179,7 @@ class Trainer():
             func(*args)
             self.queue.task_done()
         print("FINISHED TRAINING")
-        self.sio.emit("training_data", {"training_active": False, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch}, room= self.sioRoom)
+        self.sio.emit("training_data", {"training_active": False, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch-1}, room= self.sioRoom)
         
 def main(seed):
     config= {}
