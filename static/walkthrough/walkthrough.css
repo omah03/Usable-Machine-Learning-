@@ -33,7 +33,7 @@
     height: auto;
     bottom: -10px;
     display: none;
-    z-index: 1000;
+    z-index: 100;
     font-size: 3vh;
 
 }
