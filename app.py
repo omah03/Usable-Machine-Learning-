@@ -28,15 +28,15 @@ defaultconfig= {"ActivationFunc": "act_reluOption",
                             "NEpochs":1,
                             "NBlocks": 2,
                             "KSize": "2",
-                            "Epochs_Trained": 0,
                             "training_active": False,
-                            "training_stop_signal": False}
+                            "training_stop_signal": False
+}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     global defaultconfig,trainers
     if not session.get("config"):
-        session["config"]= defaultconfig
+        session.update({"config":defaultconfig})
     session["room"]= str(random.randint(0,10000))
     trainers[session.get("room")]= Trainer(socketio, session.get("room"))
     
@@ -76,9 +76,10 @@ acc = -1
 q = queue.Queue()
 
 def listener():
-    global q, acc
+    global q
     while True:
         acc = q.get()
+        acc()
         q.task_done()
 
 @app.route("/get_blocks")
@@ -92,10 +93,10 @@ def update_value():
     data= request.get_json()
     type= data.get("type")
     value= data.get("value")
-    conf= session.get("config")
+    conf = session.get("config")
     conf.update({type:value})
-    session["config"]= conf
-    print(session["config"])
+    session.update({"config":conf})
+    print(session)
     return jsonify("True")
 
 @app.route("/infotext", methods=["POST"])
@@ -105,12 +106,10 @@ def get_infotext():
     value= data.get("item")
     return jsonify(infotexts[value])
 
-training_data=[]
-
 @app.route("/get_config", methods=["GET"])
 def get_config():
     print("CONFIG IS BEING SENT TO CLIENT:  ")
-    print(session["config"])
+    print(session)
     return jsonify(session["config"])
 
 
@@ -122,35 +121,32 @@ def handleButton():
 
     # Do match case statement for every button (python 3.10 doesnt support match case)
     if type=="starttraining":         
-        q.put(toggle_training(session))
-        return jsonify(session["config"]["training_active"])
+        toggle_training()
+        return jsonify(session.get("config")["training_active"])
     if type=="resettraining":
         print("RESET")
-        session["config"].update({"training_active":False, "training_stop_signal":True, "Epochs_Trained":0, "acc":[], "loss":[] })
-        socketio.emit("training_data", session["config"], room = session.get("room"))       
+        session["config"].update({"training_active":False, "training_stop_signal":False, "Epochs_Trained":0 })
         trainer= trainers[session.get("room")]
         trainer.reset()
     else:
         print(type)
     return jsonify(True)
 
-def toggle_training(session):
-    global trainers
+def toggle_training():
+    global trainers,session
     trainer = trainers[session.get("room")]
-    if session["config"]["training_active"]==False: #start training
-        session["config"]["training_active"]=True
-        session["config"]["training_stop_signal"]=False
+    if trainer.queue.empty():
+        session["config"].update({"training_active":True, "training_stop_signal":False})
         for _ in range(int(session["config"]["NEpochs"])):
-            if session["config"]["training_stop_signal"]==True:
-                break
-            session["config"]["Epochs_Trained"] += 1
-            socketio.emit("training_data",session["config"], room= session.get("room"))
-            trainer.training(session.get("config"), cuda=False)
-        session["config"]["training_active"]=False
-    elif session["config"]["training_active"]==True and session["config"]["training_stop_signal"]==False:
-        session["config"]["training_stop_signal"]=True
-    
-    socketio.emit("training_data", session["config"])
+            trainer.queue.put((trainer.training, (session.get("config"), False)))
+        q.put(trainer.work_queue_items)
+    else:
+        while not trainer.queue.empty():
+            x= trainer.queue.get()
+            trainer.queue.task_done()
+        session["config"]["training_active"]= True
+        session["config"]["training_stop_signal"]= True
+    socketio.emit("training_data", session["config"], room= session.get("room"))
     
 
 @app.route("/get_gif", methods=["POST"])
@@ -166,15 +162,16 @@ def return_gif():
 #Get Canvas Image & classify it
 modelbuilder_model = 'ml_utils/Trained_modelbuilder_model.pkl'
 #print(f"using {test_model}")
-@socketio.on('classify')
-def classify(data):
+@app.route('/classify', methods=["POST"])
+def classify():
     print("Die classify(data) Funktion wird ausgeführt")
+    data= request.get_json()
     print("Empfangene Daten:", data)
     canvas_data = data['canvasData']
     print("Canvas data: ", canvas_data)
     classification_result = classify_canvas_image(canvas_data, modelbuilder_model)
     print("classification result = ", classification_result)
-    socketio.emit('classification_result', classification_result)
+    socketio.emit('classification_result', classification_result, room= session.get("room"))
 
 
 
