@@ -117,7 +117,7 @@ function conditions(keyword){
     var sliderConditions = sliderCondition('KSizeSlider', '3');
     
     if(keyword == 'training'){
-        var sliderConditions = sliderConditions && sliderCondition('LRateSlider','4') && sliderCondition('BSizeSlider','256') && sliderCondition('NEpochsSlider','1');
+        var sliderConditions = sliderConditions && sliderCondition('LRateSlider','1') && sliderCondition('BSizeSlider','256') && sliderCondition('NEpochsSlider','1');
     }
     
     console.log(document.getElementById('act_Label').innerText.slice(-6)=='(ReLU)');
