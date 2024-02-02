@@ -316,9 +316,14 @@
 
 .block_info {
     width:100%;
+    height: 70%;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+}
+
+.BlockButton h2{
+    height: 20%;
 }
 
 .block_label{
