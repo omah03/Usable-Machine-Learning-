@@ -334,6 +334,7 @@
     padding-left: 0%;
     width: 100%;
     border: 5px solid var(--background-color);
+    font-size: 1vw;
 }
 
 .block-icon {
