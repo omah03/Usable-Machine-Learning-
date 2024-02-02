@@ -3,8 +3,7 @@
 console.log('Das ist ein Test');
 
 // Verbindung zum WebSocket-Server herstellen
-const socket = io('http://127.0.0.1:5000');    //Muss in html eingebunden sein!
-//const socket = io('127.0.0.1:5000');    //Muss in html eingebunden sein!
+const socket = io.connect('http://' + location.host);//const socket = io('127.0.0.1:5000');    //Muss in html eingebunden sein!
 
 // Event bei erfolgreicher Verbindung zu Socket.io
 socket.on('connect', () => {

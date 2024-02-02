@@ -172,6 +172,7 @@ def classify():
     classification_result = classify_canvas_image(canvas_data, modelbuilder_model)
     print("classification result = ", classification_result)
     socketio.emit('classification_result', classification_result, room= session.get("room"))
+    return jsonify(True)
 
 
 
