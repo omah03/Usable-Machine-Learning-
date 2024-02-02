@@ -119,6 +119,9 @@ class Trainer():
     def add_to_saved_models(self):
         print(self.config.values())
 
+    def save_stats(self):
+        print("SAVING")
+
     @staticmethod
     def convert_config_for_modelbuilder(config:dict):
         res = {}

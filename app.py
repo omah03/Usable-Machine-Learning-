@@ -8,8 +8,8 @@ from flask_socketio import SocketIO, join_room, leave_room
 from flask import send_file
 
 from ml_utils.explain_classification import classify_canvas_image
-
-from ml_utils.trainingViz import Trainer
+from ml_utils.leaderboard import Leaderboard
+from ml_utils.Trainer import Trainer
 
 from static.infobox.infotexts import infotexts
 
@@ -157,6 +157,13 @@ def return_gif():
     s = data.get("stride")
     p = data.get("padding")
     return send_file(gifpath+f'cnnK{k}S{s}P{p}.gif', mimetype='image/gif')
+
+@app.route("/get_Leaderboard", methods["GET"])
+def return_leaderboard():
+    l = Leaderboard()
+    entries = l.get_topX()
+    return entries
+    
 
 
 #Get Canvas Image & classify it
