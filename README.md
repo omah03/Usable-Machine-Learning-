@@ -1,25 +1,25 @@
-# Repository for the 'Usable ML' Software Project @ FU Berlin
+# Usable Machine Learning - Catastrophic CupCakes
 
 ## Features
 
-This repository is for the 'Usable ML' software project course at FU Berlin, provided by Fraunhofer AISEC.
+The initial repository was for the 'Usable ML' software project course at FU Berlin, provided by Fraunhofer AISEC.
 Students will develop a graphical user interface that allows creating machine learning models and manipulating them. Possible features include:
 
 ### **Training Interface**
   
-- **start training**
-- **interrupt training**
-- **continue training**
-- **adjust parameters** (e.g., **learning rate**, **loss function**, momentum, dropout-rate) (0.5 P)
-  - **before the training**
-  - **during the training**
+- ***start training***
+- ***interrupt training***
+- ***continue training***
+- ***adjust parameters*** (e.g., ***learning rate***, **loss function**, momentum, dropout-rate) (0.5 P)
+  - ***before the training***
+  - ***during the training***
 - revert to an earlier epoch (1 P)
 - freeze parts of the model (1 P)
   
 ### **Training Monitor**
 
-- **display accuracy and loss over time for training set**
-- **indicate point in training where a parameter was changed**
+- ***display accuracy and loss over time for training set***
+- ***indicate point in training where a parameter was changed***
 - display accuracy and loss over time for test set (0.5 P)
 - display layer-specific information (e.g., gradients) (1 - 2 P)
 - compare different runs (1 P)
@@ -27,9 +27,9 @@ Students will develop a graphical user interface that allows creating machine le
 
 ### Model Creator
 
-- create models using a GUI (2 P)
-- change the composition of layers (1 P)
-- change aspects of the layers (e.g., sizes) (0.5 P)
+- *create models using a GUI* (2 P)
+- *change the composition of layers* (1 P)
+- *change aspects of the layers (e.g., sizes)* (0.5 P)
 
 ### Model Evaluator
 
@@ -41,11 +41,25 @@ Students will develop a graphical user interface that allows creating machine le
 
 Items in **bold** are expected as a minimum feature set.
 
+Items in *cursiv* are implemented.
+
+### Extra Features
+
+- Machine Learning/CNN Explanations
+- Interactive Visualization of Convolution
+- Interactive Tutorial
+- Input Drawn Number (with Heatmap & Softmax Results)
+
+## Known Limitations
+
+- Every client is assigned a room code. The assignment of this room code should be per a hash function
+- Multithreading is supported and safe, but for multiprocess deployment, sticky session load balancing is required
+
 ## Structure
 
 This is the structure used:
 
-```
+```file
 project/
     app.py
     templates/
@@ -125,4 +139,4 @@ python app.py
 
 ## License
 
-This project is licensed under the GNU Affero General Public License v3.0. 
+This project is licensed under the GNU Affero General Public License v3.0.
