@@ -158,11 +158,12 @@ def return_gif():
     p = data.get("padding")
     return send_file(gifpath+f'cnnK{k}S{s}P{p}.gif', mimetype='image/gif')
 
-@app.route("/get_Leaderboard", methods["GET"])
+@app.route("/get_Leaderboard", methods=["GET"])
 def return_leaderboard():
     l = Leaderboard()
     entries = l.get_topX()
-    return entries
+    print(f"Sending Leaderboard entries {(entries)}")
+    return jsonify(entries)
     
 
 
@@ -179,7 +180,6 @@ def classify():
     classification_result = classify_canvas_image(canvas_data, modelbuilder_model)
     print("classification result = ", classification_result)
     socketio.emit('classification_result', classification_result, room= session.get("room"))
-
 
 
 

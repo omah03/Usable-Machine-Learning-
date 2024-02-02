@@ -16,7 +16,7 @@ class Leaderboard():
         files = path.glob("*.json")
         for file in files:
             assert self.is_valid_entry(file)
-            with open(file, "w") as fbuff:
+            with open(file, "r") as fbuff:
                 dict = json.load(fbuff)
                 self.entries.append(dict)
             
