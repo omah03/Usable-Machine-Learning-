@@ -1,6 +1,8 @@
+
+import sys
 import pickle
 import torch
-from ml_utils.data import get_dataset
+from data import get_dataset
 import matplotlib.pyplot as plt
 import numpy as np
 import base64
@@ -10,6 +12,7 @@ import torchvision
 from torchvision import transforms, models
 import torch.nn.functional as F
 
+print(sys.path)
 
 
 def show_linear_filters(model, layer_index=0, num_filters=10):
@@ -132,14 +135,13 @@ def saveim(image,path):
     pil_image = Image.fromarray(image.astype('uint8'))
 
     # Speichern Sie das PIL-Image als JPG-Datei
-    file_path = f'imagem{path}.jpg'
+    file_path = f'images/image{path}.jpg'
     pil_image.save(file_path)
 
 
 def gradCAM(model, image):
 
     assert image.requires_grad == True, "image.requires_grad is False!"
-    
     output_tensor = model(image)
     output_class = torch.argmax(output_tensor).item()  # Annahme: Bestimmung der vorhergesagten Klasse
 
@@ -188,7 +190,7 @@ def gradCAM(model, image):
     
     # Feature Maps der letzten Convolutional Layer und Gradienten erhalten
     gradients = model.conv_layers[0].conv.weight.grad #this is the kernel for each convolution
-
+    
 
 
 
@@ -252,6 +254,9 @@ def classify_canvas_image(image,modelFile):
     image = preprocess_image(image)
     print(type(image))
     print(image.requires_grad)
+
+    
+
     if __name__ != "__main__":
         image.requires_grad = True
 
@@ -263,9 +268,11 @@ def classify_canvas_image(image,modelFile):
     #Show the image and check if the array representation works
     # Konvertiere den Tensor in ein Numpy-Array
     #image_np = image.squeeze(0).squeeze(0).numpy()
+    print("the shape is ", image.shape, type(image), image[0:10])
     image_np = image.squeeze(0).squeeze(0).detach().numpy()# diese version für explainable part
-    #showim(image_np)
-
+    print("the shape is now", image_np.shape, type(image_np), image_np[0:10])
+    showim(image_np)
+    saveim(image_np,'9')
 
     #assert image.requires_grad == True, "image.requires_grad is not True"
     # Annahme: Das Modell gibt eine Vorhersage für das Bild zurück
@@ -293,7 +300,7 @@ def classify_canvas_image(image,modelFile):
 if __name__ == "__main__":
     print("testing....")
     test = get_dataset(test =True)
-    for i in range(10,11):
+    for i in range(10,20):
         image, label = test[i]
 
         #saveim(image)
