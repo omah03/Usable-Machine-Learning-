@@ -2,7 +2,7 @@
 import sys
 import pickle
 import torch
-from data import get_dataset
+from ml_utils.data import get_dataset
 import matplotlib.pyplot as plt
 import numpy as np
 import base64
@@ -246,6 +246,7 @@ def gradCAM(model, image):
 
 
 
+
 def classify_canvas_image(image,modelFile):
     
     
@@ -271,8 +272,8 @@ def classify_canvas_image(image,modelFile):
     print("the shape is ", image.shape, type(image), image[0:10])
     image_np = image.squeeze(0).squeeze(0).detach().numpy()# diese version für explainable part
     print("the shape is now", image_np.shape, type(image_np), image_np[0:10])
-    showim(image_np)
-    saveim(image_np,'9')
+    #showim(image_np)
+    #saveim(image_np,'9')
 
     #assert image.requires_grad == True, "image.requires_grad is not True"
     # Annahme: Das Modell gibt eine Vorhersage für das Bild zurück
@@ -286,15 +287,16 @@ def classify_canvas_image(image,modelFile):
     #plt.show()
 
     output_array = output_tensor.flatten().detach().numpy()
-    output = output_array.tolist()
+    output = [(e,i) for (e,i) in zip(output_array,list(range(len(output_array))))]
+    output.sort(reverse = True)
+    softmaxValues, permutation = zip(*output)
 
-    print("explaining is done.")
+    softmaxValues = [float(e) for e in softmaxValues] #floats are converted to string to make them JSON seriealizable
 
-    
-    print("output_class:", int(np.argmax(output)))
-    print("output = , ", output)
-    print("updated heatmap version")
-    return output, heatmap
+    permutation = list(permutation)
+    softmaxValues = list(softmaxValues)
+
+    return softmaxValues, permutation, heatmap
 
 
 if __name__ == "__main__":
@@ -307,8 +309,8 @@ if __name__ == "__main__":
         
         image.requires_grad = True  # Setzen von requires_grad auf True (für explainable part)
     
-        model_file = 'ml_utils/Trained_modelbuilder_model.pkl'#'MNIST_new_classifier_model.pkl'#
-        _ , heatmap = classify_canvas_image(image,model_file)
+        model_file = 'ml_utils/models/Trained_modelbuilder_model.pkl'#'ml_utils/models/MNIST_new_classifier_model.pkl'#
+        _ , _ , heatmap = classify_canvas_image(image,model_file)
 
         #showheatmap(heatmap)
         #saveim(heatmap, f"heatmap{i}")
