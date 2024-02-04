@@ -187,70 +187,7 @@ function classificationResult(softmaxValues, permutation){
         bar.style.width = percentage + "%";
         number.innerText= percentage + "%";//
         num.innerText = i;//
-
-
-     /*   
-        let i = permutation.indexOf(index);
-
-        console.log(i);
-        let intensity = softmaxValues[i];
-        console.log('intensirty' + intensity);
-
-        let percentage = (""+intensity*100).slice(0,4);
-        console.log('percentage' + percentage);
-        //
-        //bar = element.getElementsByClassName('percentage-bar')[0]
-        bar = element.getElementsByClassName('percentage-bar')[0]
-
-        console.log('width = ' +bar.style.width);
-
-        bar.style.width = 100 + '%';//percentage + "%";
-
-        console.log('new w' + bar.style.width);
-
-        let number = element.getElementsByClassName("percentage")[0];
-        console.log();
-
-        number.innerHTML= percentage + "%";
-        console.log();
-
-        element.innerHTML = `${i}`;
-        console.log();
-        
-*/
-
     })
-/*
-    permutation.forEach((i,index) => {
-        let intensity = softmaxValues[index];
-        let num = classifierClasses[index];
-        if(num){
-            console.log('this is num: ' + num);
-        }
-        console.log("index = " + index);
-        console.log("innerText = " + num.innerText);
-        console.log(`Intensität für Klasse ${i}:`, intensity); // Überprüfen der Intensität für jede Klasse
-        percentage = (""+intensity*100).slice(0,4)
-        console.log('percentage ' +  percentage);
-        let bar= num.getElementsByClassName("percentage-bar")[0];
-        if(bar){
-            
-            console.log('info' + typeof bar + 'other ' +  typeof bar.style.width);
-            console.log('this is bar.width = ' + bar.style.width);
-        }else{
-            console.log('undefined');
-        }
-        console.log('done2');
-        bar.style.width = percentage + "%";
-        console.log('done3');
-        let number = num.getElementsByClassName("percentage")[0];
-        console.log('done4');
-        number.innerHTML= percentage + "%";
-        num.innerHTML = `${i}`;
-        console.log('done5');
-    console.log('classificationResult ausgeführt');
-
-    })*/
     }
 
 
