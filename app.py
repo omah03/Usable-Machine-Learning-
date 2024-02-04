@@ -11,6 +11,7 @@ from ml_utils.explain_classification import classify_canvas_image
 from ml_utils.trainingViz import Trainer
 
 from static.infobox.infotexts import infotexts
+import json
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -148,9 +149,16 @@ def classify(data):
     print("Empfangene Daten:", data)
     canvas_data = data['canvasData']
     print("Canvas data: ", canvas_data)
-    classification_result = classify_canvas_image(canvas_data, modelbuilder_model)
-    print("classification result = ", classification_result)
+    softmaxValues, permutation, heatmap  = classify_canvas_image(canvas_data, modelbuilder_model)
+    print("app", softmaxValues, permutation, heatmap)
+    data = {
+    "softmaxValues": softmaxValues,
+    "permutation": permutation,
+    "heatmap": heatmap
+    }
+    classification_result = json.dumps(data)
     socketio.emit('classification_result', classification_result)
+    print('json.dumped')
 
 
 

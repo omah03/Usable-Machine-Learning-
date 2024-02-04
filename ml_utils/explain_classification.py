@@ -1,3 +1,5 @@
+
+import sys
 import pickle
 import torch
 from ml_utils.data import get_dataset
@@ -10,6 +12,7 @@ import torchvision
 from torchvision import transforms, models
 import torch.nn.functional as F
 
+print(sys.path)
 
 
 def show_linear_filters(model, layer_index=0, num_filters=10):
@@ -132,14 +135,13 @@ def saveim(image,path):
     pil_image = Image.fromarray(image.astype('uint8'))
 
     # Speichern Sie das PIL-Image als JPG-Datei
-    file_path = f'imagem{path}.jpg'
+    file_path = f'images/image{path}.jpg'
     pil_image.save(file_path)
 
 
 def gradCAM(model, image):
 
     assert image.requires_grad == True, "image.requires_grad is False!"
-    
     output_tensor = model(image)
     output_class = torch.argmax(output_tensor).item()  # Annahme: Bestimmung der vorhergesagten Klasse
 
@@ -188,7 +190,7 @@ def gradCAM(model, image):
     
     # Feature Maps der letzten Convolutional Layer und Gradienten erhalten
     gradients = model.conv_layers[0].conv.weight.grad #this is the kernel for each convolution
-
+    
 
 
 
@@ -244,6 +246,7 @@ def gradCAM(model, image):
 
 
 
+
 def classify_canvas_image(image,modelFile):
     
     
@@ -252,6 +255,9 @@ def classify_canvas_image(image,modelFile):
     image = preprocess_image(image)
     print(type(image))
     print(image.requires_grad)
+
+    
+
     if __name__ != "__main__":
         image.requires_grad = True
 
@@ -263,9 +269,11 @@ def classify_canvas_image(image,modelFile):
     #Show the image and check if the array representation works
     # Konvertiere den Tensor in ein Numpy-Array
     #image_np = image.squeeze(0).squeeze(0).numpy()
+    print("the shape is ", image.shape, type(image), image[0:10])
     image_np = image.squeeze(0).squeeze(0).detach().numpy()# diese version für explainable part
+    print("the shape is now", image_np.shape, type(image_np), image_np[0:10])
     #showim(image_np)
-
+    #saveim(image_np,'9')
 
     #assert image.requires_grad == True, "image.requires_grad is not True"
     # Annahme: Das Modell gibt eine Vorhersage für das Bild zurück
@@ -279,29 +287,30 @@ def classify_canvas_image(image,modelFile):
     #plt.show()
 
     output_array = output_tensor.flatten().detach().numpy()
-    output = output_array.tolist()
+    output = [(e,i) for (e,i) in zip(output_array,list(range(len(output_array))))]
+    output.sort(reverse = True)
+    softmaxValues, permutation = zip(*output)
 
-    print("explaining is done.")
+    softmaxValues = [float(e) for e in softmaxValues] #floats are converted to string to make them JSON seriealizable
 
-    
-    print("output_class:", int(np.argmax(output)))
-    print("output = , ", output)
-    print("updated heatmap version")
-    return output, heatmap
+    permutation = list(permutation)
+    softmaxValues = list(softmaxValues)
+
+    return softmaxValues, permutation, heatmap
 
 
 if __name__ == "__main__":
     print("testing....")
     test = get_dataset(test =True)
-    for i in range(10,11):
+    for i in range(10,20):
         image, label = test[i]
 
         #saveim(image)
         
         image.requires_grad = True  # Setzen von requires_grad auf True (für explainable part)
     
-        model_file = 'ml_utils/Trained_modelbuilder_model.pkl'#'MNIST_new_classifier_model.pkl'#
-        _ , heatmap = classify_canvas_image(image,model_file)
+        model_file = 'ml_utils/models/Trained_modelbuilder_model.pkl'#'ml_utils/models/MNIST_new_classifier_model.pkl'#
+        _ , _ , heatmap = classify_canvas_image(image,model_file)
 
         #showheatmap(heatmap)
         #saveim(heatmap, f"heatmap{i}")
