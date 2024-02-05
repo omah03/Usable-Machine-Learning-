@@ -144,6 +144,7 @@ fetch("/get_config")
 
 socket.on("chart_data", (data) => handleChartUpdate(data))
 function handleChartUpdate(data) {
+    toggleTestBlur(false);
     myChart.data.labels = data["epochs"];
     myChart.data.datasets[0].data = data["accs"];
     myChart.data.datasets[1].data = data["losses"];
@@ -170,19 +171,20 @@ function handleBatchData(data) {
 
 socket.on("training_data", (data) => handleTrainingData(data))
 function handleTrainingData(training_config) {
-    toggleModelbuilderBlur(true);
-    toggleTestBlur(false);
     if (training_config["training_active"] == true && training_config["training_stop_signal"] == true) {
+        toggleModelbuilderBlur(true);
         progress.style.width = "" + training_config["EpochProgress"] + "%"
         startbutton.innerHTML = "CONTINUE"
         trainingdisplay.innerHTML = `Waiting for Epoch to finish...`
     }
     else if (training_config["training_active"] == true && training_config["training_stop_signal"] == false) {
+        toggleModelbuilderBlur(true);
         progress.style.width = "" + training_config["EpochProgress"] + "%"
         startbutton.innerHTML = "PAUSE"
         trainingdisplay.innerHTML = `Training Epoch ${training_config["Epochs_Trained"]}...`
     }
     else if (training_config["Epochs_Trained"] > 0) {
+        toggleTestBlur(false);
         progress.style.width = "0%"
         startbutton.innerHTML = "CONTINUE"
         trainingdisplay.innerHTML = `Trained ${training_config["Epochs_Trained"]} Epochs`
@@ -233,13 +235,18 @@ function handleButton(buttonName) {
 
 function toggleTestBlur(turnOn){
     drawcanvas= document.getElementById("canvas");
+    controls = document.getElementsByClassName("resetButton");
 
     if (turnOn){
         drawcanvas.classList.add('blurred-section');
-    }
+        for (const el of controls){
+            el.disabled=true
+        }    }
     else{
         drawcanvas.classList.remove('blurred-section');
-
+        for (const el of controls){
+            el.disabled=false
+        }
     }
 }
 
