@@ -176,7 +176,10 @@ class Trainer():
         while not self.queue.empty():
             func, args= self.queue.get()
             self.sio.emit("training_data", {"training_active": True, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch}, room= self.sioRoom)
-            func(*args)
+            try:
+                func(*args)
+            except:
+                print("ERROR\nERROR    There has been an error with Training. Maybe user has reset the model during Training \nERROR")
             self.queue.task_done()
         print("FINISHED TRAINING")
         self.sio.emit("training_data", {"training_active": False, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch-1}, room= self.sioRoom)

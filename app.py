@@ -9,7 +9,7 @@ from flask import send_file
 
 from ml_utils.explain_classification import classify_canvas_image
 
-from ml_utils.trainingViz import Trainer
+from ml_utils.Trainer import Trainer
 
 from static.infobox.infotexts import infotexts
 import json
