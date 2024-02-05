@@ -160,7 +160,7 @@ def return_gif():
     return send_file(gifpath+f'cnnK{k}S{s}P{p}.gif', mimetype='image/gif')
 
 #Get Canvas Image & classify it
-modelbuilder_model = 'ml_utils/Trained_modelbuilder_model'
+modelbuilder_model = 'data/models/Trained_modelbuilder_model'
 #print(f"using {test_model}")
 @app.route('/classify', methods=["POST"])
 def classify():

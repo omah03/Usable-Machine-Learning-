@@ -99,7 +99,7 @@ class Trainer():
         self.loss.append(test_loss)  
         self.send_results_to_frontend()
         
-        model_pkl_file = "ml_utils/Trained_modelbuilder_model"  
+        model_pkl_file = "data/models/Trained_modelbuilder_model"  
 
         with open(f"{model_pkl_file}{self.sioRoom}.pkl", 'wb') as file:  
             pickle.dump(self.model, file) 
