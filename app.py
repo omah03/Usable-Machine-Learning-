@@ -158,15 +158,6 @@ def return_gif():
     p = data.get("padding")
     return send_file(gifpath+f'cnnK{k}S{s}P{p}.gif', mimetype='image/gif')
 
-@app.route("/get_Leaderboard", methods=["GET"])
-def return_leaderboard():
-    l = Leaderboard()
-    entries = l.get_topX()
-    print(f"Sending Leaderboard entries {(entries)}")
-    return jsonify(entries)
-    
-
-
 #Get Canvas Image & classify it
 modelbuilder_model = 'ml_utils/Trained_modelbuilder_model.pkl'
 #print(f"using {test_model}")
@@ -181,22 +172,26 @@ def classify():
     print("classification result = ", classification_result)
     socketio.emit('classification_result', classification_result, room= session.get("room"))
 
+@app.route("/get_Leaderboard", methods=["GET"])
+def return_leaderboard():
+    l = Leaderboard()
+    entries = l.get_topX()
+    print(f"Sending Leaderboard entries {(entries)}")
+    return jsonify(entries)
+    
 
-
-"""
-@app.route("/update_seed", methods=["POST"])
-def update_seed():
-    global seed
-    seed = int(request.form["seed"])
-    return jsonify({"seed": seed})
-
-
-@app.route("/get_accuracy")
-def get_accuracy():
-    global acc
-    return jsonify({"acc": acc})
-"""
-
+@app.route("/get_model_for_Leaderboard", methods=["GET"])
+def return_model():
+    print("return model for Leaderboard")
+    conf = session["config"]
+    trainer = trainers[session["room"]]
+    settings=Trainer.convert_config_for_modelbuilder(conf)  
+    conf.update({"settings": settings})
+    conf.update({"Epochs_Trained": trainer.nextEpoch-1})
+    conf.update({"accs":trainer.accs})
+    conf.update({"loss":trainer.loss})
+    return jsonify(Leaderboard.get_as_entry(conf))
+    
 if __name__ == "__main__":
     host = "127.0.0.1"
     port = 5000
