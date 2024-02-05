@@ -16,7 +16,7 @@
 
   z-index: 1000;
 
-  font-size : 1.5vh;
+  font-size : 2vh;
   color: #000000;  
 }
 
@@ -56,7 +56,7 @@
   margin-right: 5%;
   margin-left: 5%;
   width: 90%;
-  min-width: 300px;
+  overflow: auto;
 }
 
 /* High class = "info-small">'light effect on hover */
