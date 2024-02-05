@@ -16,7 +16,7 @@
 
   z-index: 1000;
 
-  font-size : 1.5vh;
+  font-size : 2vh;
   color: #000000;  
 
   
@@ -61,6 +61,7 @@
   min-width: 300px;
   scrollbar-width: thin; /* Width of the scrollbar */
   scrollbar-color: #666 #f0f0f0; /* Color of the thumb and track */
+  overflow: auto;
 }
 
 
