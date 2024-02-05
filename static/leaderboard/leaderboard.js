@@ -1,7 +1,19 @@
 function format_Leaderboard_Entry(entry, rank){
+    actFunc = ""
+    switch (entry["settings"]["ActFunc"]){
+        case "act_reluOption":
+            actFunc = "ReLU"
+            break;
+        case "act_sigmoidOption":
+            actFunc = "Sigmoid"
+            break;
+        case "act_tanhOption":
+            actFunc = "tanh"
+            break;
+    }
     header = `<h2>${rank}</h2>`
     p1 = `<p> Accuracy: ${entry["accuracy"]}% <br> Loss: ${entry["loss"]}% </p>`
-    p2 = `<p> Kernel:${entry["settings"]["KSize"]}; Blocks:${entry["settings"]["NBlocks"]};<br> AF:${entry["settings"]["ActFunc"]}; Trained: ${entry["Epochs"]} Epochs; </p>`
+    p2 = `<p> Kernel:${entry["settings"]["KSize"]}; Blocks:${entry["settings"]["NBlocks"]};<br> AF: ${actFunc}; Trained: ${entry["Epochs"]} Epochs; </p>`
     return header + p1 + p2
 }
 
