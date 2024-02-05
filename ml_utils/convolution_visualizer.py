@@ -31,7 +31,9 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride
     padded_image = padded_image.squeeze().numpy()
 
     # Prepare for animation
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5.5))
+
+    plt.tight_layout()
 
     # Calculate the size of the feature map
     height, width = padded_image.shape
@@ -46,7 +48,7 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride
 
         # Display the original image with highlighted region
         axes[0].set_xlim(-1,32)
-        axes[0].set_ylim(-1,32)
+        axes[0].set_ylim(32,-1)
         axes[0].imshow(shown_image, cmap='gray')
         axes[0].add_patch(plt.Rectangle((j+2-padding, i+2-padding), kernel_size, kernel_size, edgecolor='red', facecolor='none'))
         axes[0].set_title("Originalbild")
@@ -69,7 +71,6 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride
         axes[2].imshow(feature_map, cmap='gray')
         axes[2].set_title("Merkmalskarte")
 
-        plt.tight_layout()
 
     # Create animation frames
     frames = []
@@ -82,8 +83,9 @@ def visualize_adjustable_kernel_convolution(image, kernel, kernel_size=3, stride
 
     print(f'Saving: cnnK{kernel_size}S{stride}P{padding}.gif')
     #plt.show()
-    ani.save(f'cnnK{kernel_size}S{stride}P{padding}.gif', writer='pillow', fps=5)
+    ani.save(f'cnnK{kernel_size}S{stride}P{padding}.gif', writer='pillow', fps=15//stride)
 
+    
     #plt.show(block=True)  # Display the animation
     #plt.pause(10)
     plt.close()

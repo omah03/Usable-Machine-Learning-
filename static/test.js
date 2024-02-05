@@ -3,8 +3,7 @@
 console.log('Das ist ein Test');
 
 // Verbindung zum WebSocket-Server herstellen
-const socket = io('http://127.0.0.1:5000');    //Muss in html eingebunden sein!
-//const socket = io('127.0.0.1:5000');    //Muss in html eingebunden sein!
+const socket = io.connect('http://' + location.host);//const socket = io('127.0.0.1:5000');    //Muss in html eingebunden sein!
 
 // Event bei erfolgreicher Verbindung zu Socket.io
 socket.on('connect', () => {
@@ -144,8 +143,14 @@ function printPrediction(predicted_digit){
 
 function sendAndReceiveClassification(canvasData){
     return new Promise((resolve, reject) => {
-        socket.emit('classify', { canvasData });
-        socket.on('classification_result', data => {
+        fetch("/classify", {
+            method: 'POST', // Use POST method to send data
+            headers: {
+              'Content-Type': 'application/json', // Specify the content type as JSON
+            },
+            body: JSON.stringify({ canvasData }) // Convert the canvasData object to a JSON string
+          })
+            socket.on('classification_result', data => {
             var result = JSON.parse(data);
             var softmaxValues = result.softmaxValues;
             var permutation = result.permutation;

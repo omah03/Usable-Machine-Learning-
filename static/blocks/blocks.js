@@ -112,7 +112,7 @@ fetch("/get_blocks")
         // Access the number from the response JSON
         const NumBlocks = data.number;
         console.log("NUMBER " + NumBlocks);
-        for (i = 1; i <= NumBlocks; i++) {
+        for (var i = 1; i <= NumBlocks; i++) {
             Blocks[i].style.display = "flex";
         }
         if (MinusButtons[NumBlocks] && (NumBlocks > 1)) {

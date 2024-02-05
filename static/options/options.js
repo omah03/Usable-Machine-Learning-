@@ -60,7 +60,7 @@ fetch("/get_config")
 function handleDropdownChange(option, type) {
     labelHTML = "error";                            // if überflüssig, da LRate weg?
     if (type == "act") {
-        labelHTML = "Activation Function: <br>"
+        labelHTML = "<br>"
         flask_type = "ActivationFunc"
     }
     var titleElement = document.getElementById(`${type}_Label`);
@@ -127,16 +127,16 @@ function updateSliderValue(slider) {
     else if (sliderName == 'LRate') {
         switch (sliderValue) {
             case "1":
-                display.innerHTML = "0.5"
+                display.innerHTML = "0.01"
                 break
             case "2":
-                display.innerHTML = "0.3"
-                break
-            case "3":
                 display.innerHTML = "0.1"
                 break
+            case "3":
+                display.innerHTML = "0.3"
+                break
             case "4":
-                display.innerHTML = "0.01"
+                display.innerHTML = "0.5"
                 break
         }
     }

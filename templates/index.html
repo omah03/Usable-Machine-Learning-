@@ -46,7 +46,7 @@
             <div class="ml-text">
                 <h2>Was ist Machine Learning?</h2>
                 <p>
-                    Machine Learning (ML) ist ein Teilbereich von Künstlicher Intelligenz, in dem Algorithmen automatisch lernen, in Daten Muster zu erkennen. Dazu gehören Applikationen wie Google Translate, Bildgeneratoren wie DALL-E oder Chatbots wie ChatGPT. Diese Applikation stellt das erste Problem der meisten ML-Vorlesungen vor: handgeschriebene Ziffern zu erkennen.  </p>
+                    Machine Learning (ML) ist ein Teilbereich von Künstlicher Intelligenz, in dem Algorithmen automatisch lernen, in Daten Muster zu erkennen. Dazu gehören Applikationen wie Google Translate, Bildgeneratoren wie DALL-E oder Chatbots wie ChatGPT. Diese Applikation stellt die erste Aufgabe der meisten ML-Vorlesungen vor: handgeschriebene Ziffern zu erkennen.  </p>
             </div>
         </div>
     </section>
@@ -67,21 +67,21 @@
         <section id="How CNNs work" class="gif-explanation">
             <div class="gifoptions-container">
                 <div class = "slider-text"> 
-                    <label for="KernelGifSlider">Kernel Size</label>
+                    <label for="KernelGifSlider">Filtergröße</label>
                     <div class= "sliderDisplay">
                         <input type="range" id="KernelGifSlider" min="1" max="3" value="{{ 2 }}">
                         <span style="margin-left: 5%;" id="KernelGifDisplay">6</span>
                     </div>
                 </div>
                 <div class = "slider-text"> 
-                    <label for="StrideGifSlider">Stride</label>
+                    <label for="StrideGifSlider">Schrittweite</label>
                     <div class= "sliderDisplay">
                         <input type="range" id="StrideGifSlider" min="1" max="3" value="{{ 2 }}">
                         <span style="margin-left: 5%;" id="StrideGifDisplay">2</span>
                     </div>
                 </div>
                 <div class = "slider-text"> 
-                    <label for="PaddingGifSlider">Padding</label>
+                    <label for="PaddingGifSlider">Polsterung</label>
                     <div class= "sliderDisplay">
                         <input type="range" id="PaddingGifSlider" min="0" max="2" value="{{ 1 }}">
                         <span style="margin-left: 5%;" id="PaddingGifDisplay">1</span>
@@ -89,12 +89,22 @@
                 </div>
             </div>
             <div class="explanation-container">
-                <p>Der rote Ausschnitt ist ein <strong> Filter</strong>, der über die Pixel und seinen umliegenden Nachbarn schreitet, dabei Merkmale wie Kanten oder Kreise erkennt und eine <strong> Merkmalskarte</strong> erstellt.
-                    Ein neuronales Netz verwendet mehrere Filter für unterschiedliche Merkmale. Über die Merkmalskarten laufen daraufhin wieder Filter, sodass das Network zunehmend abstrake Muster erkennt. 
-                    Hier kannst du entscheiden, wie groß der Filter sein soll, ob er dabei jeden Pixel betrachtet oder mal einen überspringt und ob am Rand noch mehr Pixel hinzugefügt werden, um Randpixel mehr zu berücksichtigen.     
+                <p>Der rote Ausschnitt ist ein <strong> Filter</strong>, der über die Pixel eines Bildes und seinen umliegenden Nachbarn schreitet, dabei Merkmale wie Kanten oder Kreise erkennt und eine <strong> Merkmalskarte</strong> erstellt.
+                    Mit diesen Merkmalskarten passiert wiederum dasselbe, sodass das Netz zunehmend abstrake Muster erkennt. 
+                    Hier kannst du über die Größe des Filters entscheiden, wie weit er voranschreitet und ob am Rand Pixel hinzugefügt werden, um Randpixel mehr zu berücksichtigen.     
                 </p>
             </div>
-        </section> 
+        </section> x
+
+
+        <section id="Wie lernt ein Modell?" class="optimization-explanation">
+            <h2> Was bedeutet "Lernen" in Machine Learning?</h2>
+            <div class="container">
+                <img src="{{ url_for('static', filename='include/CNN Deutsch.png') }}" alt="Optimization Visualization" class="optimization-image">
+                <p>
+                    Mit Lernen ist in ML die Optimierung gemeint. Für dieses Beispiel bedeutet das, die richtigen Filter zu erstellen sowie herauszufinden, welche Merkmale am wichtigsten für die Klassifizierung sind. Zu Beginn sind diese Einstellungen noch zufällig, während des Trainingsprozesses werden sie dann angepasst.
+            </div>
+        </section>
 
         <section id ="Model Builder">
 
@@ -114,29 +124,37 @@
                 <div class= "container-blockVisualization" >
                     <div class= "container-MNIST">
                         <div class="MNIST" id="inputbox">
-                            <h2> 
-                                MNIST Dataset
-                            </h2>
+                            <label for="inputbox">MNIST Dataset </label>
                             <img class = "MNIST_picture" src="../static/include/Images/UML_MNIST.png" alt="Visualization of handwritten digit from the MNIST set. Shown are 5 items per digit.">
                         </div>
-
+                    </div>
+                    <div class="arrows-container">
+                        <span style="font-size: 5vh; color: rgba(255, 255, 255, 1);">&#8594;</span>
+                        <span style="font-size: 5vh; color:  #3498db;">&#8594;</span> 
+                        <span style="font-size: 5vh; color: rgba(255, 255, 255, 1);">&#8594;</span>
+                        <span style="font-size: 5vh; color:  #3498db;">&#8594;</span> 
+                        <span style="font-size: 5vh; color: rgba(255, 255, 255, 1);">&#8594;</span>
+                        <span style="font-size: 5vh; color:  #3498db;">&#8594;</span> 
+                        <span style="font-size: 5vh; color: rgba(255, 255, 255, 1);">&#8594;</span>
                     </div>
                     <div class= "container-modelconfiguration" id = "rectanglelayer">
                         <div class="container-modelconfiguration-options">
                             <div class = "container-dropdown" id= "actFuncCol"> 
                                 <div class="dropdown">
                                     <button id="actFunc" class="dropbtn" >
-                                        <span id="act_Label">Activation function</span>
+                                        <label for="actFunc"> Aktivierungsfunktion </label>
+                                        <span id="act_Label"></span>
+
                                     </button>
                                     <div class="dropdown-content" id = "act_dropdown">
                                         <button href="#" class="act_Option" id="act_reluOption" value = "relu">Rectified Linear Activation (ReLU)</button>
-                                        <button href="#" class="act_Option" id="act_sigmoidOption" value = "sigm">Logistics (Sigmoid)</button>
-                                        <button href="#" class="act_Option" id="act_tanhOption" value = "tanh">Hyperbolic Tangent (tanh)</button>
+                                        <button href="#" class="act_Option" id="act_sigmoidOption" value = "sigm">Sigmoid-Funktion</button>
+                                        <button href="#" class="act_Option" id="act_tanhOption" value = "tanh">Hyperbolische Tangente (tanh)</button>
                                     </div>
                                 </div>
                             </div>
                             <div class = "container-slider" id= "KSizeCol">
-                                    <label for="KSizeSlider">Kernel Complexity</label>
+                                    <label for="KSizeSlider">Filtergröße</label>
                                     <div class= "KSizeSliderDisplay">
                                         <input type="range" id="KSizeSlider" min="1" max="3" value="{{ 2 }}">
                                         <span style="margin-left: 5%;" id="KSizeDisplay">medium</span>
@@ -146,74 +164,102 @@
                         <div class="container-blocks">
                             <div class = "blockcolumn">
                                 <div id="block1"class = "BlockButton">
+                                    <h2> Block 1 </h2>
                                     <div class="block_info">
-                                        <div class= "block_label"> 
-                                            Convolutional Layer 
-                                            <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
+                                        <div id="ConvInfo1" class= "block_label">
+                                            Filternde Schicht
+                                            <label for="ConvInfo1"> 
+                                                <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
+                                            </label>
+                                        </div>    
+                                        <div id="ActFuncInfo1" class= "block_label">
+                                            Aktivierungs-funktion 
+                                            <label for="ActFuncInfo1"> 
+                                                <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
+                                            </label>
                                         </div>
-                                        <div class= "block_label">
-                                            Activation Function 
-                                            <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
-                                        </div>
-                                        <div class= "block_label"> 
-                                            Max-Pooling Layer 
-                                            <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
-                                        </div>                                    
+                                        <div id="MaxPoolInfo1" class= "block_label">
+                                            Pooling Schicht
+                                            <label for="MaxPoolInfo1"> 
+                                                <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
+                                            </label>
+                                        </div>                                  
                                     </div>
                                 </div>
                                 <button id="Add_block1", class="AddButton"> + </button>
-                                <div class="interception"></div>
                                 <button id="Minus_block1" class="MinusButton"> - </button>
                             </div>
                             <div class = "blockcolumn">
                                 <div id="block2"class = "BlockButton">
+                                    <h2> Block 2 </h2>
                                     <div class="block_info">
-                                        <div class= "block_label"> 
-                                            Convolutional Layer 
-                                            <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
+                                        <div id="ConvInfo2" class= "block_label">
+                                            Filternde Schicht
+                                            <label for="ConvInfo2"> 
+                                                <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
+                                            </label>
+                                        </div>    
+                                        <div id="ActFuncInfo2" class= "block_label">
+                                            Aktivierungs-funktion 
+                                            <label for="ActFuncInfo2"> 
+                                                <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
+                                            </label>
                                         </div>
-                                        <div class= "block_label">
-                                            Activation Function 
-                                            <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
-                                        </div>
-                                        <div class= "block_label"> 
-                                            Max-Pooling Layer 
-                                            <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
-                                        </div>                                    
+                                        <div id="MaxPoolInfo2" class= "block_label">
+                                            Pooling Schicht
+                                            <label for="MaxPoolInfo2"> 
+                                                <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
+                                            </label>
+                                        </div>                                  
                                     </div>
                                 </div>
                                 <button id="Add_block2" class="AddButton"> + </button>
-                                <div class="interception"></div>
                                 <button id="Minus_block2" class="MinusButton"> - </button>
                             </div>
                             <div class = "blockcolumn">
-                                <div id="block3"class = "BlockButton">
+                                <div id="block3" class = "BlockButton">
+                                    <h2> Block 3 </h2>
                                     <div class="block_info">
-                                        <div class= "block_label"> 
-                                            Convolutional Layer 
-                                            <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
+                                        <div id="ConvInfo3" class= "block_label">
+                                            Filternde Schicht
+                                            <label for="ConvInfo3"> 
+                                                Filterschicht
+                                                <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
+                                            </label>
+                                        </div>    
+                                        <div id="ActFuncInfo3" class= "block_label">
+                                            Aktivierungs-funktion 
+                                            <label for="ActFuncInfo3"> 
+                                                <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
+                                            </label>
                                         </div>
-                                        <div class= "block_label">
-                                            Activation Function 
-                                            <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
-                                        </div>
-                                        <div class= "block_label"> 
-                                            Max-Pooling Layer 
-                                            <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
-                                        </div>                                    
+                                        <div id="MaxPoolInfo3" class= "block_label">
+                                            Pooling Schicht
+                                            <label for="MaxPoolInfo3"> 
+                                                <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
+                                            </label>
+                                        </div>                                  
                                     </div>
                                 </div>
                                 
                                 <button id="Add_block3" class="AddButton"> + </button>
-                                <div class="interception"></div>
                                 <button id="Minus_block3" class="MinusButton"> - </button>
                             </div>
                         </div>
                     </div>
+                    <div class="arrows-container">
+                        <span style="font-size: 5vh; color: rgba(255, 255, 255, 1);">&#8594;</span>
+                        <span style="font-size: 5vh; color:  #3498db;">&#8594;</span> 
+                        <span style="font-size: 5vh; color: rgba(255, 255, 255, 1);">&#8594;</span>
+                        <span style="font-size: 5vh; color:  #3498db;">&#8594;</span> 
+                        <span style="font-size: 5vh; color: rgba(255, 255, 255, 1);">&#8594;</span>
+                        <span style="font-size: 5vh; color:  #3498db;">&#8594;</span> 
+                        <span style="font-size: 5vh; color: rgba(255, 255, 255, 1);">&#8594;</span>
+                    </div>
                     <div class= "container-classification" id= "outputbox" >
-                        <div class="LinearLayer_Header" >
+                        <label for="outputbox" class="LinearLayer_Header" >
                             <h2> Linear Layer </h2> <h2> Output</h2>
-                        </div>
+                        </label>
                         <div class = "staticClassifier">
                             <div class="linear_layer">
                             </div>
@@ -245,16 +291,6 @@
             </div>
         </section>
 
-        <section id="Wie lernt ein Modell?" class="optimization-explanation">
-            <h2> Was bedeutet "lernen" für ein Neuronales Netz? </h2>
-            <div class="container">
-                <img src="{{ url_for('static', filename='include/cnn_graph.png') }}" alt="Optimization Visualization" class="optimization-image">
-                <p>
-                    Mit Lernen ist in ML die Optimierung von dem jeweiligen Modell gemeint. Für dieses Beispiel bedeutet das, die richtigen Filter zu finden sowie für jedes Bild anzugeben, welche Merkmale am wichtigsten für die Klassifizierung sind. Zu Beginn sind diese Einstellungen noch zufällig, während des Trainingsprozesses werden sie iterativ angepasst, um ihre Leistung zu verbessern.
-                </p>
-            </div>
-        </section>
-
         <section id = "Train & Test" class="model-builder">
             <div class = "speech_bubble infobox" id = "training_speech_bubble">
                 <p class = "walkthrough_text">Dies ist die training_speech_bubble</p>
@@ -277,7 +313,7 @@
                             <div class="parameters-container" id = training_sliders>
                                 <div class="LearningRate">
                                     <div class = "slider-text" id= "LRateCol">
-                                        <label for="LRateSlider"> Learning Rate</label>
+                                        <label for="LRateSlider"> Lernrate</label>
                                         <div class= "sliderDisplay">
                                             <input type="range" id="LRateSlider" min="1" max="4" value="{{ 2 }}">
                                             <span style="margin-left: 5%;" id="LRateDisplay"></span>
@@ -286,7 +322,7 @@
                                 </div> 
                                 <div class="BatchSize">
                                     <div class="slider-text" id= "BSizeCol">
-                                        <label for="BSizeSlider">Batch Size</label>
+                                        <label for="BSizeSlider">Trainingseinheiten</label>
                                         <div class= "sliderDisplay">
                                             <input type="range" id="BSizeSlider" min="1" max="256" value="{{ 32 }}">
                                             <span style="margin-left: 5%;" id="BSizeDisplay"></span>
@@ -294,8 +330,8 @@
                                     </div>
                                 </div>
                                 <div class="Epochs">
-                                    <div class = "slider-text" id= "EpochsCol"> 
-                                        <label for="NEpochsSlider">Epochs</label>
+                                    <div class = "slider-text" id= "NEpochsCol"> 
+                                        <label for="NEpochsSlider">Epochen</label>
                                         <div class= "sliderDisplay">
                                             <input type="range" id="NEpochsSlider" min="1" max="10" value="{{ 4 }}">
                                             <span style="margin-left: 5%;" id="NEpochsDisplay"></span>
@@ -358,7 +394,7 @@
 
                     </div>
                     <div class="classification-container">
-                            <p style="color: var(--text-color-playground); font-size: 3vw; text-align: center;"> Classification </p>
+                            <p style="color: var(--text-color-playground); font-size: 2vw; text-align: center;"> Classification </p>
                             <div class="classification-numbers-container">
                                 <div class="classification-numbers">
                                     <div class="classifier_class"> <p name="value">0</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
