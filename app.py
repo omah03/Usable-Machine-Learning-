@@ -119,12 +119,12 @@ def handleButton():
     return jsonify(True)
 
 def toggle_training():
-    global trainers,session
+    global trainers,session, CUDA
     trainer = trainers[session.get("room")]
     if trainer.queue.empty():
         session["config"].update({"training_active":True, "training_stop_signal":False})
         for _ in range(int(session["config"]["NEpochs"])):
-            trainer.queue.put((trainer.training, (session.get("config"), False)))
+            trainer.queue.put((trainer.training, (session.get("config"), CUDA)))
         q.put(trainer.work_queue_items)
     else:
         while not trainer.queue.empty():
