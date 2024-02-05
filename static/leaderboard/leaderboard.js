@@ -12,8 +12,8 @@ function format_Leaderboard_Entry(entry, rank){
             break;
     }
     header = `<h2>${rank}</h2>`
-    p1 = `<p> Accuracy: ${entry["accuracy"].toFixed(3)}% <br> Loss: ${entry["loss"].toFixed(3)}% </p>`
-    p2 = `<p> Kernel:${entry["settings"]["KSize"]}; Blocks:${entry["settings"]["NBlocks"]};<br> AF: ${actFunc}; Trained: ${entry["Epochs"]} Epochs; </p>`
+    p1 = `<p> ${entry["accuracy"].toFixed(3)}% / ${entry["loss"].toFixed(3)}% </p>`
+    p2 = `<p> ${entry["settings"]["KSize"]}</p> <p>${entry["settings"]["NBlocks"]}</p> <p>${actFunc}</p> <p> ${entry["Epochs"]}</p>`
     return header + p1 + p2
 }
 

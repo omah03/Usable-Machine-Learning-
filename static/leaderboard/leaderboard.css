@@ -53,3 +53,24 @@
     margin: auto;
     width: 100%;
 }
+
+.leaderboard-header{
+    height: 10%;
+    padding-left:5%;
+    width: 100%;
+    border-bottom: var(--background-color) 5px solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+
+}
+
+.leaderboard-cols {
+    display: flex;
+    flex-direction: row;
+    font-size: 1vh;
+
+    width: 50%;
+    justify-content: space-between;
+}
