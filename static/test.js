@@ -29,7 +29,7 @@ let isDrawing = false;
 function displayText() {
     ctx.font = '20px Arial';
     ctx.fillStyle = '#000';
-    const text = 'Draw a digit\n to be classified,\n here'; // Mit \n wird ein Zeilenumbruch erzeugt
+    const text = 'Zeichne hier\n deine Ziffer'; // Mit \n wird ein Zeilenumbruch erzeugt
     const lineHeight = 25; // Zeilenhöhe festlegen
 
     const lines = text.split('\n'); // Text in einzelne Zeilen aufteilen
@@ -179,7 +179,9 @@ function classificationResult(softmaxValues, permutation){
     classifierClasses.forEach((element,index) => {
         let i = permutation[index];
         let intensity = softmaxValues[index];
-        let percentage = (""+intensity*100).slice(0,4);
+        console.log('intensity = ' +  intensity);
+        let percentage = (intensity*100).toFixed(2).toString();
+        console.log('percentage = ' + percentage)
         let number = element.getElementsByClassName("percentage")[0];
         let num = element.querySelector('p[name="value"]');
 
@@ -189,10 +191,6 @@ function classificationResult(softmaxValues, permutation){
         num.innerText = i;//
     })
     }
-
-
-  
-
 
 var percentColors = [
     { pct: 0.0, color: { r: 0xff, g: 0x00, b: 0 } },

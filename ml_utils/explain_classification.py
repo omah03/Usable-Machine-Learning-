@@ -11,6 +11,7 @@ import io
 import torchvision
 from torchvision import transforms, models
 import torch.nn.functional as F
+from torchinfo import summary
 
 print(sys.path)
 
@@ -64,10 +65,7 @@ def loadmodel(saved_model):
 
 def preprocess_image(image):
     if isinstance(image, str):
-        print("removing prefix")
         image = image.split(",")[1]# Entferne das Präfix, um nur die eigentliche Base64-Daten zu behalten
-        print("prefix removed")
-        print("new image: ", image)
     if is_base64(image):
         
 
@@ -145,20 +143,41 @@ def gradCAM(model, image):
     output_tensor = model(image)
     output_class = torch.argmax(output_tensor).item()  # Annahme: Bestimmung der vorhergesagten Klasse
 
-    
+    print("model: ", model)
+
     """better code:"""
     #1 forward pass with input image
     c = output_class
     c_tensor = output_tensor[0,c]
     #2 set gradients to 0 for all classes except for output class (which is set to 1)
     """im not sure here"""
-
+    """
     #3 backprop until last conv
-    #c_tensor.backward()
+    c_tensor.backward()
 
-    #3.2 calculate 'importance' of the kth feature map
-    #akc = ...
+    #3.2 calculate 'importance' of the kth feature map by computing gradients wrt fmap activations
+    i = 0
+    last_conv = model.conv_layers[-1].conv
+    in_channels = last_conv.in_channels
+    print("outs", in_channels)
+    image = image.expand(-1, in_channels, -1, -1)
+    print("new dim = ", image.shape)
+    print("last_conv = ",last_conv, type(last_conv))
+    grads = last_conv.weight.grad
+    print("shape grads = ", grads.shape)
+    i = 0
 
+    for fmap in grads:
+        i += 1 
+        print(f"{i}. featuremap = ", fmap)
+        print("type = ", type(fmap), fmap.shape)
+#        print("grad k = ", gradients_k, k.shape)
+        alpha_kc = fmap.mean()
+        print("alpha = ", alpha_kc, alpha_kc.shape)
+
+    activations = last_conv(image).detach()
+    print("activations", activations, activations.shape, len(activations), activations.size(1))
+    """
     #3.3 average over all k feature maps and apply Relu because only positive impacts are interesting to us.
     #for k in model.conv_layers[-1].
 
@@ -185,12 +204,11 @@ def gradCAM(model, image):
 
 
 
-    print("model: ", model)###
     output_tensor[0, output_class].backward()
     
     # Feature Maps der letzten Convolutional Layer und Gradienten erhalten
     gradients = model.conv_layers[0].conv.weight.grad #this is the kernel for each convolution
-    
+
 
 
 
@@ -252,9 +270,9 @@ def classify_canvas_image(image,modelFile):
     
     """This function classifies the image and sends the heatmap (aka explanation) back to frontend"""
     model = loadmodel(modelFile)
+    summary(model, (1,1,28,28))
     image = preprocess_image(image)
-    print(type(image))
-    print(image.requires_grad)
+    print(image.shape)
 
     
 
@@ -269,9 +287,9 @@ def classify_canvas_image(image,modelFile):
     #Show the image and check if the array representation works
     # Konvertiere den Tensor in ein Numpy-Array
     #image_np = image.squeeze(0).squeeze(0).numpy()
-    print("the shape is ", image.shape, type(image), image[0:10])
+    #print("the shape is ", image.shape, type(image), image[0:10])
     image_np = image.squeeze(0).squeeze(0).detach().numpy()# diese version für explainable part
-    print("the shape is now", image_np.shape, type(image_np), image_np[0:10])
+    #print("the shape is now", image_np.shape, type(image_np), image_np[0:10])
     #showim(image_np)
     #saveim(image_np,'9')
 
