@@ -140,6 +140,9 @@ def saveim(image,path):
 def gradCAM(model, image):
 
     assert image.requires_grad == True, "image.requires_grad is False!"
+    print(image.device)
+    #print(model.device)
+    model = model.to("cpu")
     output_tensor = model(image)
     output_class = torch.argmax(output_tensor).item()  # Annahme: Bestimmung der vorhergesagten Klasse
 
