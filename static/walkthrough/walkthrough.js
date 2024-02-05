@@ -158,13 +158,12 @@ async function bubbleRoutine(keyword){
     console.log('bubbleRoutine...' + keyword);
     var walkthrough = {
         /*key: [[targets],BubbleId,BubbleText,button_id,[slider_ids],[slider_values]] */
-        'input':[['inputbox'],'modelbuilder_speech_bubble','Der MNIST-Datensatz besteht aus 60.000 Bildern von handgeschriebenen Ziffern. Diese werden später als Trainingsdaten für dein Model verwendet.','next_button'],
-
-        'modelbuilder':[['rectanglelayer'],'modelbuilder_speech_bubble','Hier kannst du das Neuronale Netz bauen, welches lernen wird, handgeschriebene Ziffern zu klassifizieren. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Kernelkomplexität, ReLU als Aktivierungsfunktion und 1 Block um fortzufahren.','next_button'],
-        'output':[['outputbox'],'modelbuilder_speech_bubble','Die letzte Schicht des Modells wird jedes Eingabebild auf eine Ziffer abbilden können.','next_button'],
+        'input':[['inputbox'],'modelbuilder_speech_bubble','Als Trainingsgrundlage dient der MNIST-Datensatz, der aus 60.000 handgeschriebene Ziffern und ihren Labels besteht.','next_button'],
+        'modelbuilder':[['rectanglelayer'],'modelbuilder_speech_bubble','Hier kannst du dein eigenes Netz zur Erkennung handgeschriebener Ziffern bauen. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Filtergröße, ReLu als Aktivierungsfunktion und 1 Block um fortzufahren.','next_button'],
+        'output':[['outputbox'],'modelbuilder_speech_bubble','Die letzte Schicht des Netzes weist dem Bild eine Ziffer zu.','next_button'],
         'training':[['training_params'],'training_speech_bubble','Hier kannst du die Parameter für das Training anpassen. Wähle eine Lernrate von 0.01, eine Batchgröße von 256 und 1 Epoche aus und klicke zum Fortfahren auf Start.',"starttraining"],
-        'graph':[['training_graph','training_params'],'training_graph_speech_bubble',"Dieser Graph zeigt dir, wie sich die Performance des Modells im Laufe des Trainings verändert. Sobald das Training abgeschlossen ist, klicke auf 'weiter'",'graph_next_button'],
-        'testing':[['testing_section'],'testing_speech_bubble','Das Modell wurde fertig trainiert. Jetzt kannst du selber eine Ziffer zeichnen, um sie von deinem Modell klassifizieren zu lassen.','classify']
+        'graph':[['training_graph','training_params'],'training_graph_speech_bubble',"Dieser Graph zeigt dir, wie sich die Leistung des Netzes im Laufe des Trainings verändert. Sobald das Training abgeschlossen ist, klicke auf 'next'",'graph_next_button'],
+        'testing':[['testing_section'],'testing_speech_bubble','Das Netz wurde fertig trainiert. Jetzt kannst du selber eine Ziffer zeichnen, um sie klassifizieren zu lassen.','classify']
     }
     var target_ids = walkthrough[keyword][0];
     var bubble_id = walkthrough[keyword][1];
@@ -233,7 +232,7 @@ async function bubbleRoutine(keyword){
         await waitForClick(button_id);
         //Special Case for last step only
 
-        changeText(bubble_id,'Geschafft! Die Rotfärbung der Pixel gibt diejenigen Pixel an, die besonders ins Gewicht fallen. Probiere jetzt gerne noch weiter rum :)');
+        changeText(bubble_id,'Geschafft! Die Rotfärbung der Pixel gibt diejenigen Pixel an, die besonders zur Klassifizierung beigetragen haben.');
         showElement('testing_next_button');
         await waitForClick('testing_next_button');
         removeElement('testing_next_button');
