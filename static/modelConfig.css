@@ -348,10 +348,10 @@
     display: None;
     position:absolute;
     justify-self: center;
-    width : 20vw;
-    height: 20vh;
+    width : 24vw;
+    height: auto;
     margin:auto;
-    margin-left: 40vw;
+    margin-left: 38vw;
 
     background-color: rgba(255,255,255, 200);
     flex-direction: column;

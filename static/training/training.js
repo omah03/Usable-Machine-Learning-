@@ -170,6 +170,8 @@ function handleBatchData(data) {
 
 socket.on("training_data", (data) => handleTrainingData(data))
 function handleTrainingData(training_config) {
+    toggleModelbuilderBlur(true);
+    toggleTestBlur(false);
     if (training_config["training_active"] == true && training_config["training_stop_signal"] == true) {
         progress.style.width = "" + training_config["EpochProgress"] + "%"
         startbutton.innerHTML = "CONTINUE"
@@ -205,6 +207,8 @@ function resetTraining(){
     progress.style.width = "0%";
     blockBatchData = true;
     
+    toggleModelbuilderBlur(false);
+
     //reset Graph
     myChart.data.datasets[0].data=[]
     myChart.data.datasets[1].data=[]
@@ -227,3 +231,27 @@ function handleButton(buttonName) {
         .then(response => response.json());
 }
 
+function toggleTestBlur(turnOn){
+    drawcanvas= document.getElementById("canvas");
+
+    if (turnOn){
+        drawcanvas.classList.add('blurred-section');
+    }
+    else{
+        drawcanvas.classList.remove('blurred-section');
+
+    }
+}
+
+
+function toggleModelbuilderBlur(turnOn){
+    rectanglelayer=document.getElementById("rectanglelayer")
+    
+    if (turnOn){
+        rectanglelayer.classList.add('blurred-section');
+    }
+    else{
+        rectanglelayer.classList.remove('blurred-section');
+
+    }
+}
