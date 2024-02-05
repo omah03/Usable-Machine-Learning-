@@ -7,3 +7,4 @@
 **/**.pkl
 **/MNIST/**
 data/models/**
+config.ini

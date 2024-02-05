@@ -2,6 +2,8 @@ import threading
 import queue
 import webbrowser
 import random
+import configparser
+from pathlib import Path
 
 from flask import Flask, render_template, request, jsonify, session
 from flask_socketio import SocketIO, join_room, leave_room
@@ -13,13 +15,25 @@ from ml_utils.Trainer import Trainer
 
 from static.infobox.infotexts import infotexts
 import json
+import torch
+
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
+# Initialize variables
+seed = 42
+acc = -1
+q = queue.Queue()
+
+def listener():
+    global q
+    while True:
+        acc = q.get()
+        acc()
+        q.task_done()
 
 trainers={}
-app.secret_key="TESTSECRET"
 
 # moved config to session["config"} to prepare for storing the data ina flask session variable (I hope thats possible)
 # this would allow multiple users + fix some thread safety concerns
@@ -53,35 +67,6 @@ def on_connect():
 def on_disconnect():
     room = session.get('room')
     leave_room(room)
-    
-@app.route('/model')
-def model_page():
-    print("TEST")
-    return render_template('model.html')
-
-@app.route('/param')
-def third_page():
-    return render_template('param.html')
-
-@app.route('/train')
-def train_page():
-    return render_template('train.html')
-
-@app.route('/test')
-def test_page():
-    return render_template('test.html')
-
-# Initialize variables
-seed = 42
-acc = -1
-q = queue.Queue()
-
-def listener():
-    global q
-    while True:
-        acc = q.get()
-        acc()
-        q.task_done()
 
 @app.route("/get_blocks")
 def get_blocks():
@@ -198,9 +183,25 @@ def return_model():
     return jsonify(Leaderboard.get_as_entry(conf))
     
 if __name__ == "__main__":
-    host = "127.0.0.1"
-    port = 5000
+    # get config
+    config= configparser.ConfigParser()
+    if not Path("config.ini").exists():
+        print("No config found, creating default config...")
+        print("PLEASE CHANGE THE SECRET KEY IN THE CONFIG")
+        with open("default_config.ini", "r") as f:
+            c = f.read()
+        with open("config.ini", "w") as f:
+            f.write(c)
+    config.read("config.ini")
+
+    global CUDA
+    CUDA = config["TRAINING"].getboolean("AllowCuda") and torch.cuda.is_available()
+
+    app.secret_key=config["SERVER"]["secretKey"]
+
+
     print("App started")
     threading.Thread(target=listener, daemon=True).start()
-    webbrowser.open_new_tab(f"http://{host}:{port}")
-    socketio.run(app, host=host, port=port, debug=True)
+    if config["OTHER"]["openBrowser"]:
+        webbrowser.open_new_tab(f'http://{config["SERVER"]["host"]}:{config["SERVER"]["port"]}')
+    socketio.run(app, host=config["SERVER"]["host"], port=config["SERVER"]["port"], debug=config["OTHER"].getboolean("debug"))
