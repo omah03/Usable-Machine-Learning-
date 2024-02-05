@@ -117,7 +117,7 @@ async function anyAction(keyword){
             var reluCondition = document.getElementById('act_Label').innerText.slice(-6)=='(ReLU)';
             var sliderConditions = 1;
             var conditions = 1;
-        
+            console.log('asdfsadfasdf');
             if(keyword == 'training'){
                 sliderConditions = sliderConditions && sliderCondition('LRateSlider','1') && sliderCondition('BSizeSlider','256') && sliderCondition('NEpochsSlider','1');
                 conditions = conditions && sliderConditions
@@ -136,6 +136,9 @@ async function anyAction(keyword){
             
             if(conditions){
                 console.log('conditions met.');
+                document.removeEventListener('mousemove',checkConditions);
+                document.getElementById('graph_next_button').removeEventListener('click',checkConditions);
+
                 resolve();
             }else{
                 console.log('conditions not met!')
@@ -143,13 +146,12 @@ async function anyAction(keyword){
             
         }
         
-        document.getElementById('act_reluOption').addEventListener('click',checkConditions);
-        document.getElementById('KSizeSlider').addEventListener('input',checkConditions);
-        document.getElementById('Minus_block2').addEventListener('click',checkConditions);
-        document.getElementById('LRateSlider').addEventListener('click',checkConditions);
-        document.getElementById('BSizeSlider').addEventListener('click',checkConditions);
-        document.getElementById('NEpochsSlider').addEventListener('click',checkConditions);  
-        document.getElementById('graph_next_button').addEventListener('click',checkConditions)
+        
+        if(keyword == 'graph'){
+            document.getElementById('graph_next_button').addEventListener('click',checkConditions);
+        }else{
+            document.addEventListener('mousemove',checkConditions);
+        }
 
     })
 }
