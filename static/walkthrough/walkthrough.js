@@ -294,7 +294,10 @@ async function skip_start_walkthrough(){
     } else{
         console.log('else');
         console.log(skip_button_label);
-        removeElement('modelbuilder_speech_bubble');
+        for (const speechBubble of document.getElementsByClassName("speech_bubble")){
+            removeElement(speechBubble.id);
+        }
+
         walkthroughTargets.forEach(target => {
         highlight_section(target); 
         });
