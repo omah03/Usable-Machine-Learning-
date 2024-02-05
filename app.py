@@ -177,24 +177,6 @@ def classify():
     socketio.emit('classification_result', classification_result, room= session.get("room"))
     return jsonify(True)
 
-
-
-
-
-"""
-@app.route("/update_seed", methods=["POST"])
-def update_seed():
-    global seed
-    seed = int(request.form["seed"])
-    return jsonify({"seed": seed})
-
-
-@app.route("/get_accuracy")
-def get_accuracy():
-    global acc
-    return jsonify({"acc": acc})
-"""
-
 if __name__ == "__main__":
     host = "127.0.0.1"
     port = 5000

@@ -5,3 +5,4 @@
 *.gz
 .DS_Store
 **/**.pkl
+**/MNIST/**
