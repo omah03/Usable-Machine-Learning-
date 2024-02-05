@@ -1,0 +1,1 @@
+{"Epochs": 1, "accuracy": 2, "loss": 2, "settings": {"KSize": 2, "NBlocks": 3, "ActFunc": "act_reluOption"}}

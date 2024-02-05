@@ -6,3 +6,5 @@
 .DS_Store
 **/**.pkl
 **/MNIST/**
+data/models/**
+config.ini

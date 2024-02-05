@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='traintest/traintest.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='walkthrough/walkthrough.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='traintest/traintest.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='leaderboard/leaderboard.css') }}">
 
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -306,7 +307,7 @@
             <div class="modelbuilder-text">
             <h2 style= 'color: var(--text-color-playground); display: flex; align-items: center; justify-content: center;'> Netz trainieren und testen</h2>            
             </div>
-            
+
                 <div class="training-container">
                     <div class="parameter-control-progressbar" id = training_params>
                         <div class="parameter-control-container">
@@ -370,6 +371,24 @@
                 
                 <div class="testing-container" id = "testing_section">
                     
+                    <div class="magic-container">
+                        <h2> Leaderboard </h2>
+                        <div class = "list-container">
+                            <div class = "leaderboard-header">
+                                <p>Rank</p><p>Accuracy/Loss</p><div class = "leaderboard-cols"><p>Blocks</p><p>Kernels</p><p>Act. Func.</p><p>Epochs</p></div>
+                            </div>
+                            <p class = "leaderboard-entry"></p>
+                            <p class = "leaderboard-entry"></p>
+                            <p class = "leaderboard-entry"></p>
+                            <p class = "leaderboard-entry"></p>
+                            <p class = "leaderboard-entry"></p>
+                        </div>
+
+                        <div class = "current-container">
+                            <p class = "current-entry"></p>
+                        </div>
+                    </div>
+
                     <div class="canvas-container">
                         <div class="canvas-box">
                             <canvas id="canvas" class = "inputCanvas"></canvas>
@@ -390,9 +409,7 @@
                             </div>
                         
                     </div>
-                    <div class="magic-container">
 
-                    </div>
                     <div class="classification-container">
                             <p style="color: var(--text-color-playground); font-size: 2vw; text-align: center;"> Classification </p>
                             <div class="classification-numbers-container">
@@ -440,6 +457,7 @@
     <script src="{{ url_for('static', filename='scroll-animation.js') }}"></script>
     <script src="{{ url_for('static', filename='walkthrough/walkthrough.js') }}"></script>
     <script src="{{ url_for('static', filename='gifOptions.js') }}"></script>
+    <script src="{{ url_for('static', filename='leaderboard/leaderboard.js') }}"></script>
 
 
 

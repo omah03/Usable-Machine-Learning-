@@ -2,24 +2,38 @@ import threading
 import queue
 import webbrowser
 import random
+import configparser
+from pathlib import Path
 
 from flask import Flask, render_template, request, jsonify, session
 from flask_socketio import SocketIO, join_room, leave_room
 from flask import send_file
 
 from ml_utils.explain_classification import classify_canvas_image
-
-from ml_utils.trainingViz import Trainer
+from ml_utils.leaderboard import Leaderboard
+from ml_utils.Trainer import Trainer
 
 from static.infobox.infotexts import infotexts
 import json
+import torch
+
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
+# Initialize variables
+seed = 42
+acc = -1
+q = queue.Queue()
+
+def listener():
+    global q
+    while True:
+        acc = q.get()
+        acc()
+        q.task_done()
 
 trainers={}
-app.secret_key="TESTSECRET"
 
 # moved config to session["config"} to prepare for storing the data ina flask session variable (I hope thats possible)
 # this would allow multiple users + fix some thread safety concerns
@@ -53,35 +67,6 @@ def on_connect():
 def on_disconnect():
     room = session.get('room')
     leave_room(room)
-    
-@app.route('/model')
-def model_page():
-    print("TEST")
-    return render_template('model.html')
-
-@app.route('/param')
-def third_page():
-    return render_template('param.html')
-
-@app.route('/train')
-def train_page():
-    return render_template('train.html')
-
-@app.route('/test')
-def test_page():
-    return render_template('test.html')
-
-# Initialize variables
-seed = 42
-acc = -1
-q = queue.Queue()
-
-def listener():
-    global q
-    while True:
-        acc = q.get()
-        acc()
-        q.task_done()
 
 @app.route("/get_blocks")
 def get_blocks():
@@ -134,12 +119,12 @@ def handleButton():
     return jsonify(True)
 
 def toggle_training():
-    global trainers,session
+    global trainers,session, CUDA
     trainer = trainers[session.get("room")]
     if trainer.queue.empty():
         session["config"].update({"training_active":True, "training_stop_signal":False})
         for _ in range(int(session["config"]["NEpochs"])):
-            trainer.queue.put((trainer.training, (session.get("config"), False)))
+            trainer.queue.put((trainer.training, (session.get("config"), CUDA)))
         q.put(trainer.work_queue_items)
     else:
         while not trainer.queue.empty():
@@ -159,15 +144,14 @@ def return_gif():
     p = data.get("padding")
     return send_file(gifpath+f'cnnK{k}S{s}P{p}.gif', mimetype='image/gif')
 
-
 #Get Canvas Image & classify it
-modelbuilder_model = 'ml_utils/Trained_modelbuilder_model.pkl'
+modelbuilder_model = 'data/models/Trained_modelbuilder_model'
 #print(f"using {test_model}")
 @app.route('/classify', methods=["POST"])
 def classify():
     data = request.get_json()
     canvas_data = data['canvasData']
-    softmaxValues, permutation, heatmap  = classify_canvas_image(canvas_data, modelbuilder_model)
+    softmaxValues, permutation, heatmap  = classify_canvas_image(canvas_data, f"{modelbuilder_model}{session.get('room')}.pkl",)
     data = {
     "softmaxValues": softmaxValues,
     "permutation": permutation,
@@ -177,10 +161,47 @@ def classify():
     socketio.emit('classification_result', classification_result, room= session.get("room"))
     return jsonify(True)
 
+
+@app.route("/get_Leaderboard", methods=["GET"])
+def return_leaderboard():
+    l = Leaderboard()
+    entries = l.get_topX()
+    print(f"Sending Leaderboard entries {(entries)}")
+    return jsonify(entries)
+    
+
+@app.route("/get_model_for_Leaderboard", methods=["GET"])
+def return_model():
+    print("return model for Leaderboard")
+    conf = session["config"]
+    trainer = trainers[session["room"]]
+    settings=Trainer.convert_config_for_modelbuilder(conf)  
+    conf.update({"settings": settings})
+    conf.update({"Epochs_Trained": trainer.nextEpoch-1})
+    conf.update({"accs":trainer.accs})
+    conf.update({"loss":trainer.loss})
+    return jsonify(Leaderboard.get_as_entry(conf))
+    
 if __name__ == "__main__":
-    host = "127.0.0.1"
-    port = 5000
+    # get config
+    config= configparser.ConfigParser()
+    if not Path("config.ini").exists():
+        print("No config found, creating default config...")
+        print("PLEASE CHANGE THE SECRET KEY IN THE CONFIG")
+        with open("default_config.ini", "r") as f:
+            c = f.read()
+        with open("config.ini", "w") as f:
+            f.write(c)
+    config.read("config.ini")
+
+    global CUDA
+    CUDA = config["TRAINING"].getboolean("AllowCuda") and torch.cuda.is_available()
+
+    app.secret_key=config["SERVER"]["secretKey"]
+
+
     print("App started")
     threading.Thread(target=listener, daemon=True).start()
-    webbrowser.open_new_tab(f"http://{host}:{port}")
-    socketio.run(app, host=host, port=port, debug=True)
+    if config["OTHER"]["openBrowser"]:
+        webbrowser.open_new_tab(f'http://{config["SERVER"]["host"]}:{config["SERVER"]["port"]}')
+    socketio.run(app, host=config["SERVER"]["host"], port=config["SERVER"]["port"], debug=config["OTHER"].getboolean("debug"))

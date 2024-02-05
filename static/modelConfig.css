@@ -230,7 +230,7 @@
 .grayscale-image {
     margin: auto;
     margin-top: 1%;
-    height:15%;
+    width: 50%;
 }
 
 .MNIST {

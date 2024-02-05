@@ -103,11 +103,13 @@ returnButton.addEventListener("click", () => {
     window.scrollBy(0,100);
 })
 
+const discardbutton = document.getElementById("discardButton")
 const resetbutton = document.getElementById("resettraining");
 resetbutton.addEventListener("click", resetTraining);
 
 async function handleStartButton() {
     resetbutton.disabled=true
+    discardbutton.disabled=true
     modelPopup.style.display= "flex";
 
     fetch('/button_press', {
@@ -183,6 +185,8 @@ function handleTrainingData(training_config) {
         startbutton.innerHTML = "CONTINUE"
         trainingdisplay.innerHTML = `Trained ${training_config["Epochs_Trained"]} Epochs`
         resetbutton.disabled=false
+        discardbutton.disabled=false
+
     }
     else {
         progress.style.width = "0%"
