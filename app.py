@@ -164,7 +164,8 @@ def return_gif():
 modelbuilder_model = 'ml_utils/Trained_modelbuilder_model.pkl'
 #print(f"using {test_model}")
 @app.route('/classify', methods=["POST"])
-def classify(data):
+def classify():
+    data = request.get_json()
     canvas_data = data['canvasData']
     softmaxValues, permutation, heatmap  = classify_canvas_image(canvas_data, modelbuilder_model)
     data = {
