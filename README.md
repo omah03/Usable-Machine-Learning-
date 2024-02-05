@@ -50,62 +50,9 @@ Items in *cursiv* are implemented.
 - Interactive Tutorial
 - Input Drawn Number (with Heatmap & Softmax Results)
 
-## Known Limitations
-
-- Every client is assigned a room code. The assignment of this room code should be per a hash function
-- Multithreading is supported and safe, but for multiprocess deployment, sticky session load balancing is required
-
-## Structure
-
-This is the structure used:
-
-```file
-project/
-    app.py
-    templates/
-        *.html
-    static/
-        componentA/
-            componentA.js
-            componentA.css
-            componentA.*
-        componentB/
-            componentB.js
-            componentB.css
-            componentB.*
-        ...
-        style.css
-    ml_utils/
-        backend_componentA.py   <-- To be Restructured
-        backend_componentB.py
-
-```
-
-### Extending the structure - Frontend
-
-For the frontend component, following requirements should be met:
-
-- The script should be able to be included into any html page; without braking it. Meaning:
-  - Any HTMLelement needs to be check for NULL before usage
-  - if similar versions of one component exist, they should both be handled by the same .js
-- The backend is our only "source of truth". Meaning:
-  - Any data should immediatly sent in the backend <-- We might need to adjust this for optimization later
-  - Any data should necessary data should be gotten from the backend on loading
-
 ## Installation
 
 Python3.10 or newer is required
-
-We provide two ways (conda and venv) of installation. With both options pytorch needs to be installed seperately.
-
-### conda
-
-1. Install the requirements into a conda environment
-  ``` {bash}
-  conda env create -f env.yml
-  ```
-2. Install PyTorch into your environment.
-Follow official [instructions](https://pytorch.org/get-started/locally/) or just install via pip when enviroment is active
 
 ### venv
 
@@ -118,22 +65,22 @@ Follow official [instructions](https://pytorch.org/get-started/locally/) or just
 Follow official [instructions](https://pytorch.org/get-started/locally/) or just install via pip when enviroment is active
 
 1. Install additional requirements
-
-      source venv/bin/activate
+```{bash}
+      . venv/bin/activate
       pip install -r requirements
-
+```
 1. Activate/Deactivate enviroment
-
-      source venv/bin/activate
-      source venv/bin/deactivate
-
+```{bash}
+      . venv/bin/activate
+      . venv/bin/deactivate
+```
 ## Usage
   
 1. Activate enviroment (see above)
 
 1. Run the app
 
-``` {python}
+``` {bash}
 python app.py
 ```
 
