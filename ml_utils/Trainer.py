@@ -11,6 +11,7 @@ from torch import manual_seed, Tensor
 from torch.optim import Optimizer, SGD
 import torch
 
+from ml_utils.leaderboard import Leaderboard
 from ml_utils.data import get_data_loaders
 from ml_utils.evaluate import accuracy
 from ml_utils.modelbuilder import ModelBuilder
@@ -98,12 +99,13 @@ class Trainer():
         self.loss.append(test_loss)  
         self.send_results_to_frontend()
         
-        model_pkl_file = "ml_utils/Trained_modelbuilder_model.pkl"  
+        model_pkl_file = "ml_utils/Trained_modelbuilder_model"  
 
-        with open(model_pkl_file, 'wb') as file:  
+        with open(f"{model_pkl_file}{self.sioRoom}.pkl", 'wb') as file:  
             pickle.dump(self.model, file) 
         print(f"model saved to {file}") 
 
+        Leaderboard.add_entry(self.config, self.accs, self.loss, self.nextEpoch)
 
     def reset(self):
         self.model=None
@@ -183,6 +185,8 @@ class Trainer():
             self.queue.task_done()
         print("FINISHED TRAINING")
         self.sio.emit("training_data", {"training_active": False, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch-1}, room= self.sioRoom)
+        
+        
         
 def main(seed):
     config= {}

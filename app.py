@@ -160,13 +160,13 @@ def return_gif():
     return send_file(gifpath+f'cnnK{k}S{s}P{p}.gif', mimetype='image/gif')
 
 #Get Canvas Image & classify it
-modelbuilder_model = 'ml_utils/Trained_modelbuilder_model.pkl'
+modelbuilder_model = 'ml_utils/Trained_modelbuilder_model'
 #print(f"using {test_model}")
 @app.route('/classify', methods=["POST"])
 def classify():
     data = request.get_json()
     canvas_data = data['canvasData']
-    softmaxValues, permutation, heatmap  = classify_canvas_image(canvas_data, modelbuilder_model)
+    softmaxValues, permutation, heatmap  = classify_canvas_image(canvas_data, f"{modelbuilder_model}{session.get('room')}.pkl",)
     data = {
     "softmaxValues": softmaxValues,
     "permutation": permutation,

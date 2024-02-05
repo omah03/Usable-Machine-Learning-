@@ -5,8 +5,9 @@ from datetime import datetime
 DEFAULTPATH = "data/models"
 
 class Leaderboard():
+    path= DEFAULTPATH
     def __init__(self, filepath= None):
-        self.path = filepath if filepath else DEFAULTPATH
+        Leaderboard.path = filepath if filepath else DEFAULTPATH
         self.entries = []
         self._get_entries_from_folder()
         self._sort_entries_by_accuracy()
@@ -27,18 +28,19 @@ class Leaderboard():
     def get_topX(self, x : int = 5):    
         return self.entries[:x]
     
-    def add_entry(self, entry:dict):
+    @staticmethod
+    def add_entry(config:dict, accs:list, loss:list, NextEpoch:int):
         res = {
-            "Epochs": entry["Epochs_Trained"],
-            "accuracy": entry["accs"][-1],
-            "loss": entry["loss"][-1],
-            "settings": entry["settings"]
+            "Epochs": NextEpoch-1,
+            "accuracy": accs[-1],
+            "loss": loss[-1],
+            "settings": config
         }
-        name = self.path + "/Model"+ (datetime.now().strftime("%Y%m%d%H%M%S%f")) +".json"
+        name = Leaderboard.path + "/Model"+ (datetime.now().strftime("%Y%m%d%H%M%S%f")) +".json"
         with open(name, "w") as file:
             json.dump(res, file)
-        self.entries.append(res)
-        self._sort_entries_by_accuracy()
+        #self.entries.append(res)
+        # self._sort_entries_by_accuracy()
         
     @staticmethod
     def get_as_entry(dict):

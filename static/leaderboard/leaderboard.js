@@ -12,11 +12,10 @@ function format_Leaderboard_Entry(entry, rank){
             break;
     }
     header = `<h2>${rank}</h2>`
-    p1 = `<p> Accuracy: ${entry["accuracy"]}% <br> Loss: ${entry["loss"]}% </p>`
+    p1 = `<p> Accuracy: ${entry["accuracy"].toFixed(3)}% <br> Loss: ${entry["loss"].toFixed(3)}% </p>`
     p2 = `<p> Kernel:${entry["settings"]["KSize"]}; Blocks:${entry["settings"]["NBlocks"]};<br> AF: ${actFunc}; Trained: ${entry["Epochs"]} Epochs; </p>`
     return header + p1 + p2
 }
-
 
 // Function to fetch leaderboard data and update HTML containers
 function fetchAndDisplayLeaderboard() {
@@ -49,7 +48,6 @@ function fetchAndDisplayLeaderboard() {
 document.addEventListener('DOMContentLoaded', fetchAndDisplayLeaderboard);
 document.addEventListener('DOMContentLoaded', fetchAndDisplayOwnModel);
 
-
 socket.on("chart_data", ()=>{fetchAndDisplayOwnModel()})
 function fetchAndDisplayOwnModel(){
     fetch('/get_model_for_Leaderboard', {
@@ -62,6 +60,6 @@ function fetchAndDisplayOwnModel(){
     .then(data => {
         var yourModel = document.getElementsByClassName("current-entry")[0]
         yourModel.innerHTML= format_Leaderboard_Entry(data, "Your Model")
+        setTimeout(fetchAndDisplayLeaderboard, 500)
     })
-
 }
