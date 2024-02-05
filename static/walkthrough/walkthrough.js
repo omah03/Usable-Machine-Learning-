@@ -146,12 +146,7 @@ async function anyAction(keyword){
             
         }
         
-        //document.getElementById('act_reluOption').addEventListener('click',checkConditions);
-        //document.getElementById('KSizeSlider').addEventListener('input',checkConditions);
-        //document.getElementById('Minus_block2').addEventListener('click',checkConditions);
-        //document.getElementById('LRateSlider').addEventListener('click',checkConditions);
-        //document.getElementById('BSizeSlider').addEventListener('click',checkConditions);
-        //document.getElementById('NEpochsSlider').addEventListener('click',checkConditions);  
+        
         if(keyword == 'graph'){
             document.getElementById('graph_next_button').addEventListener('click',checkConditions);
         }else{
