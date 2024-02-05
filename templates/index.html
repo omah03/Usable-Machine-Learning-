@@ -36,7 +36,7 @@
 
     <header class="header-background">
         <div class="container header-content">
-            <h1>Cupcakes for Machine Learning</h1>
+            <h1>Einführung in Machine Learning</h1>
         </div>
         <button id = "skip_tut">Skip Tutorial</button>
     </header>
@@ -114,7 +114,7 @@
                 </div>
                 <div class = "speech_bubble infobox" id = "modelbuilder_speech_bubble">
                     <p class = "walkthrough_text">Dies ist die modelbuilder_speech_bubble</p>
-                    <button id = "next_button">next</button>
+                    <button id = "next_button">weiter</button>
                 </div>                
                 <div class= "popup infobox" id = "modelPopup">
                     Wenn du das Model änderst, setzt sich dein Trainingsfortschritt zurück. Du kannst zum Training zurückkehren und deine Fortschritte beibehalten oder ein neues Netz aufsetzen.
@@ -167,20 +167,21 @@
                                     <h2> Block 1 </h2>
                                     <div class="block_info">
                                         <div id="ConvInfo1" class= "block_label">
+                                            Filternde Schicht
                                             <label for="ConvInfo1"> 
                                                 Filterschicht
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>    
                                         <div id="ActFuncInfo1" class= "block_label">
+                                            Aktivierungs-funktion 
                                             <label for="ActFuncInfo1"> 
-                                                Aktivierungs-funktion 
                                                 <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>
                                         <div id="MaxPoolInfo1" class= "block_label">
+                                            Pooling Schicht
                                             <label for="MaxPoolInfo1"> 
-                                                Pooling Schicht
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>                                  
@@ -194,20 +195,21 @@
                                     <h2> Block 2 </h2>
                                     <div class="block_info">
                                         <div id="ConvInfo2" class= "block_label">
+                                            Filternde Schicht
                                             <label for="ConvInfo2"> 
                                                 Filterschicht
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>    
                                         <div id="ActFuncInfo2" class= "block_label">
+                                            Aktivierungs-funktion 
                                             <label for="ActFuncInfo2"> 
-                                                Aktivierungs-funktion 
                                                 <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>
                                         <div id="MaxPoolInfo2" class= "block_label">
+                                            Pooling Schicht
                                             <label for="MaxPoolInfo2"> 
-                                                Pooling Schicht
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>                                  
@@ -221,20 +223,21 @@
                                     <h2> Block 3 </h2>
                                     <div class="block_info">
                                         <div id="ConvInfo3" class= "block_label">
+                                            Filternde Schicht
                                             <label for="ConvInfo3"> 
                                                 Filterschicht
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>    
                                         <div id="ActFuncInfo3" class= "block_label">
+                                            Aktivierungs-funktion 
                                             <label for="ActFuncInfo3"> 
-                                                Aktivierungs-funktion 
                                                 <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>
                                         <div id="MaxPoolInfo3" class= "block_label">
+                                            Pooling Schicht
                                             <label for="MaxPoolInfo3"> 
-                                                Pooling Schicht
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>                                  
@@ -296,11 +299,11 @@
             </div>
             <div class = "speech_bubble infobox" id = "testing_speech_bubble">
                 <p class = "walkthrough_text">Dies ist die testing_speech_bubble</p>
-                <button id = 'testing_next_button'>Tutorial accomplished</button>
+                <button id = 'testing_next_button'>Tutorial beenden</button>
             </div>
             <div class = "speech_bubble infobox" id = "training_graph_speech_bubble">
                 <p class = "walkthrough_text">Dies ist die training_graph_speech_bubble</p>
-                <button id = "graph_next_button">next</button>
+                <button id = "graph_next_button">weiter</button>
             </div>
             <div class="modelbuilder-text">
             <h2 style= 'color: var(--text-color-playground); display: flex; align-items: center; justify-content: center;'> Netz trainieren und testen</h2>            
@@ -309,7 +312,7 @@
                 <div class="training-container">
                     <div class="parameter-control-progressbar" id = training_params>
                         <div class="parameter-control-container">
-                            <div class="parameters-container">
+                            <div class="parameters-container" id = training_sliders>
                                 <div class="LearningRate">
                                     <div class = "slider-text" id= "LRateCol">
                                         <label for="LRateSlider"> Lernrate</label>
@@ -431,13 +434,13 @@
         </div>
     </footer>
 
-    <script type="module" src="{{ url_for('static', filename='blocks/blocks.js') }}"></script>
+    <script src="{{ url_for('static', filename='blocks/blocks.js') }}"></script>
     <script src="{{ url_for('static', filename='infobox/infobox.js') }}"></script>
     <script src="{{ url_for('static', filename='options/options.js') }}"></script>
     <script src="{{ url_for('static', filename='test.js') }}"></script>
     <script src="{{ url_for('static', filename='training/training.js') }}"></script>
     <script src="{{ url_for('static', filename='scroll-animation.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='walkthrough/walkthrough.js') }}"></script>
+    <script src="{{ url_for('static', filename='walkthrough/walkthrough.js') }}"></script>
     <script src="{{ url_for('static', filename='gifOptions.js') }}"></script>
 
 

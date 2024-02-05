@@ -9,18 +9,23 @@ from torch.cuda import empty_cache
 from torch.nn import Module, functional as F
 from torch import manual_seed, Tensor
 from torch.optim import Optimizer, SGD
+import torch
 
 from ml_utils.data import get_data_loaders
 from ml_utils.evaluate import accuracy
 from ml_utils.modelbuilder import ModelBuilder
+import queue
+
+torch.autograd.set_detect_anomaly(True)
 
 import pickle #for saving the model
 
 MOMENTUM = 0.5
-
+acc= -1
 class Trainer():
-    def __init__(self, socketio) -> None:
+    def __init__(self, socketio, socketioRoom) -> None:
         self.sio= socketio
+        self.sioRoom = socketioRoom
         self.model=None
         self.optimizer=None
         self.train_loader=None
@@ -30,6 +35,8 @@ class Trainer():
         self.loss= [0]
         self.config={}
         self.changes=set()
+        self.queue= queue.Queue()
+
 
     def add_model_and_config(self, config):
         settings= self.convert_config_for_modelbuilder(config)
@@ -97,6 +104,7 @@ class Trainer():
             pickle.dump(self.model, file) 
         print(f"model saved to {file}") 
 
+
     def reset(self):
         self.model=None
         self.optimizer=None
@@ -108,6 +116,8 @@ class Trainer():
         self.config={}
         self.changes=set()
 
+    def add_to_saved_models(self):
+        print(self.config.values())
 
     @staticmethod
     def convert_config_for_modelbuilder(config:dict):
@@ -149,9 +159,8 @@ class Trainer():
         self.optimizer.step()
         self.optimizer.zero_grad()
 
-    @staticmethod
-    def send_data_to_frontend(socketio,batch_data):
-        socketio.emit("batch_data", batch_data)
+    def send_data_to_frontend(self,socketio, batch_data):
+        socketio.emit("batch_data", batch_data, room= self.sioRoom)
 
     def send_results_to_frontend(self):
         data= {
@@ -161,8 +170,17 @@ class Trainer():
             "changes": list(self.changes)
         }
         print(data)
-        self.sio.emit("chart_data", data)
+        self.sio.emit("chart_data", data, room=self.sioRoom)
 
+    def work_queue_items(self):
+        while not self.queue.empty():
+            func, args= self.queue.get()
+            self.sio.emit("training_data", {"training_active": True, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch}, room= self.sioRoom)
+            func(*args)
+            self.queue.task_done()
+        print("FINISHED TRAINING")
+        self.sio.emit("training_data", {"training_active": False, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch-1}, room= self.sioRoom)
+        
 def main(seed):
     config= {}
     

@@ -3,8 +3,7 @@
 console.log('Das ist ein Test');
 
 // Verbindung zum WebSocket-Server herstellen
-const socket = io('http://127.0.0.1:5000');    //Muss in html eingebunden sein!
-//const socket = io('127.0.0.1:5000');    //Muss in html eingebunden sein!
+const socket = io.connect('http://' + location.host);//const socket = io('127.0.0.1:5000');    //Muss in html eingebunden sein!
 
 // Event bei erfolgreicher Verbindung zu Socket.io
 socket.on('connect', () => {
@@ -144,8 +143,14 @@ function printPrediction(predicted_digit){
 
 function sendAndReceiveClassification(canvasData){
     return new Promise((resolve, reject) => {
-        socket.emit('classify', { canvasData });
-        socket.on('classification_result', (result,heatmap) => {
+        fetch('/classify', {
+            method: 'POST', // or 'GET' depending on your server's API
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ canvasData }),
+          });
+            socket.on('classification_result', (result,heatmap) => {
             console.log('Klassifizierungsergebnis', result);
             resolve([result,heatmap]); // Ergebnis an die Aufrufer-Funktion übergeben
         });
