@@ -145,12 +145,8 @@ modelbuilder_model = 'ml_utils/Trained_modelbuilder_model.pkl'
 #print(f"using {test_model}")
 @socketio.on('classify')
 def classify(data):
-    print("Die classify(data) Funktion wird ausgeführt")
-    print("Empfangene Daten:", data)
     canvas_data = data['canvasData']
-    print("Canvas data: ", canvas_data)
     softmaxValues, permutation, heatmap  = classify_canvas_image(canvas_data, modelbuilder_model)
-    print("app", softmaxValues, permutation, heatmap)
     data = {
     "softmaxValues": softmaxValues,
     "permutation": permutation,
@@ -158,7 +154,6 @@ def classify(data):
     }
     classification_result = json.dumps(data)
     socketio.emit('classification_result', classification_result)
-    print('json.dumped')
 
 
 
