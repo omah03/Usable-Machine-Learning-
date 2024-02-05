@@ -1,5 +1,8 @@
 function format_Leaderboard_Entry(entry, rank){
-    return `<h2>${rank}</h2> Config: Kernel:${entry["settings"]["KSize"]}; Blocks:${entry["settings"]["NBlocks"]}; AF:${entry["settings"]["ActFunc"]} <br>Trained: ${entry["Epochs"]} Epochs; Accuracy: ${entry["accuracy"]}%`
+    header = `<h2>${rank}</h2>`
+    p1 = `<p> Accuracy: ${entry["accuracy"]}% <br> Loss: ${entry["loss"]}% </p>`
+    p2 = `<p> Kernel:${entry["settings"]["KSize"]}; Blocks:${entry["settings"]["NBlocks"]};<br> AF:${entry["settings"]["ActFunc"]}; Trained: ${entry["Epochs"]} Epochs; </p>`
+    return header + p1 + p2
 }
 
 
