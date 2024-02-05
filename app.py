@@ -12,6 +12,7 @@ from ml_utils.explain_classification import classify_canvas_image
 from ml_utils.trainingViz import Trainer
 
 from static.infobox.infotexts import infotexts
+import json
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -163,16 +164,18 @@ def return_gif():
 modelbuilder_model = 'ml_utils/Trained_modelbuilder_model.pkl'
 #print(f"using {test_model}")
 @app.route('/classify', methods=["POST"])
-def classify():
-    print("Die classify(data) Funktion wird ausgeführt")
-    data= request.get_json()
-    print("Empfangene Daten:", data)
+def classify(data):
     canvas_data = data['canvasData']
-    print("Canvas data: ", canvas_data)
-    classification_result = classify_canvas_image(canvas_data, modelbuilder_model)
-    print("classification result = ", classification_result)
+    softmaxValues, permutation, heatmap  = classify_canvas_image(canvas_data, modelbuilder_model)
+    data = {
+    "softmaxValues": softmaxValues,
+    "permutation": permutation,
+    "heatmap": heatmap
+    }
+    classification_result = json.dumps(data)
     socketio.emit('classification_result', classification_result, room= session.get("room"))
     return jsonify(True)
+
 
 
 
