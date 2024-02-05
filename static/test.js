@@ -28,7 +28,7 @@ let isDrawing = false;
 function displayText() {
     ctx.font = '20px Arial';
     ctx.fillStyle = '#000';
-    const text = 'Draw a digit\n to be classified,\n here'; // Mit \n wird ein Zeilenumbruch erzeugt
+    const text = 'Zeichne hier\n deine Ziffer'; // Mit \n wird ein Zeilenumbruch erzeugt
     const lineHeight = 25; // Zeilenhöhe festlegen
 
     const lines = text.split('\n'); // Text in einzelne Zeilen aufteilen
@@ -143,16 +143,25 @@ function printPrediction(predicted_digit){
 
 function sendAndReceiveClassification(canvasData){
     return new Promise((resolve, reject) => {
-        fetch('/classify', {
-            method: 'POST', // or 'GET' depending on your server's API
+        fetch("/classify", {
+            method: 'POST', // Use POST method to send data
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json', // Specify the content type as JSON
             },
-            body: JSON.stringify({ canvasData }),
-          });
-            socket.on('classification_result', (result,heatmap) => {
-            console.log('Klassifizierungsergebnis', result);
-            resolve([result,heatmap]); // Ergebnis an die Aufrufer-Funktion übergeben
+            body: JSON.stringify({ canvasData }) // Convert the canvasData object to a JSON string
+          })
+            socket.on('classification_result', data => {
+            var result = JSON.parse(data);
+            var softmaxValues = result.softmaxValues;
+            var permutation = result.permutation;
+            var heatmap = result.heatmap;
+
+            //const str = "['6.35', '2.72', '11.79', '183.25']",
+            console.log('sofmaxValues' + softmaxValues);
+            console.log('permutaiton = ' + permutation);
+            console.log('heatmap = ' + heatmap);   
+
+            resolve([softmaxValues, permutation,heatmap]); // Ergebnis an die Aufrufer-Funktion übergeben
         });
     });
 }
@@ -167,23 +176,26 @@ function mapIntensityToColor(intensity) {
 }
 
 
-function classificationResult(softmaxValues){
-    //const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
-    //const resultClass = classes[predicted_digit];
-    //resultClass.style.backgroundColor = 'red';
+function classificationResult(softmaxValues, permutation){
     const classifierClasses = document.querySelectorAll('.classifier_class');
+    console.log(typeof permutation);
+    console.log(permutation);
 
-    classifierClasses.forEach((element, index) => {
-        const intensity = softmaxValues[index];
-        console.log(`Intensität für Klasse ${index}:`, intensity); // Überprüfen der Intensität für jede Klasse
-        percentage = (""+intensity*100).slice(0,4)
-        bar= element.getElementsByClassName("percentage-bar")[0]
-        bar.style.width= percentage + "%";
-        number = element.getElementsByClassName("percentage")[0]
-        number.innerHTML= percentage + "%";
-    });
-    console.log('classificationResult ausgeführt');
-}
+    classifierClasses.forEach((element,index) => {
+        let i = permutation[index];
+        let intensity = softmaxValues[index];
+        console.log('intensity = ' +  intensity);
+        let percentage = (intensity*100).toFixed(2).toString();
+        console.log('percentage = ' + percentage)
+        let number = element.getElementsByClassName("percentage")[0];
+        let num = element.querySelector('p[name="value"]');
+
+        bar = element.getElementsByClassName('percentage-bar')[0]
+        bar.style.width = percentage + "%";
+        number.innerText= percentage + "%";//
+        num.innerText = i;//
+    })
+    }
 
 var percentColors = [
     { pct: 0.0, color: { r: 0xff, g: 0x00, b: 0 } },
@@ -265,10 +277,10 @@ async function classifyImage(){
     const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
     classes.forEach(container => {container.style.backgroundColor = 'transparent';});
     try {
-        const [resultArray, heatmap] = await sendAndReceiveClassification(canvasData);
-        console.log('Die Klassifizierung ergibt:', resultArray);
+        const [softmaxValues, permutation, heatmap] = await sendAndReceiveClassification(canvasData);
+        console.log('test.js: Die Klassifizierung ergibt:', softmaxValues);
         //printPrediction(classification); not needed anymore as containers are colored
-        classificationResult(resultArray);
+        classificationResult(softmaxValues, permutation);
         showHeatmap(heatmap);
         
     } catch(error) {

@@ -1,3 +1,5 @@
+
+import sys
 import pickle
 import torch
 from ml_utils.data import get_dataset
@@ -9,7 +11,9 @@ import io
 import torchvision
 from torchvision import transforms, models
 import torch.nn.functional as F
+from torchinfo import summary
 
+print(sys.path)
 
 
 def show_linear_filters(model, layer_index=0, num_filters=10):
@@ -61,10 +65,7 @@ def loadmodel(saved_model):
 
 def preprocess_image(image):
     if isinstance(image, str):
-        print("removing prefix")
         image = image.split(",")[1]# Entferne das Präfix, um nur die eigentliche Base64-Daten zu behalten
-        print("prefix removed")
-        print("new image: ", image)
     if is_base64(image):
         
 
@@ -132,31 +133,51 @@ def saveim(image,path):
     pil_image = Image.fromarray(image.astype('uint8'))
 
     # Speichern Sie das PIL-Image als JPG-Datei
-    file_path = f'imagem{path}.jpg'
+    file_path = f'images/image{path}.jpg'
     pil_image.save(file_path)
 
 
 def gradCAM(model, image):
 
     assert image.requires_grad == True, "image.requires_grad is False!"
-    
     output_tensor = model(image)
     output_class = torch.argmax(output_tensor).item()  # Annahme: Bestimmung der vorhergesagten Klasse
 
-    
+    print("model: ", model)
+
     """better code:"""
     #1 forward pass with input image
     c = output_class
     c_tensor = output_tensor[0,c]
     #2 set gradients to 0 for all classes except for output class (which is set to 1)
     """im not sure here"""
-
+    """
     #3 backprop until last conv
-    #c_tensor.backward()
+    c_tensor.backward()
 
-    #3.2 calculate 'importance' of the kth feature map
-    #akc = ...
+    #3.2 calculate 'importance' of the kth feature map by computing gradients wrt fmap activations
+    i = 0
+    last_conv = model.conv_layers[-1].conv
+    in_channels = last_conv.in_channels
+    print("outs", in_channels)
+    image = image.expand(-1, in_channels, -1, -1)
+    print("new dim = ", image.shape)
+    print("last_conv = ",last_conv, type(last_conv))
+    grads = last_conv.weight.grad
+    print("shape grads = ", grads.shape)
+    i = 0
 
+    for fmap in grads:
+        i += 1 
+        print(f"{i}. featuremap = ", fmap)
+        print("type = ", type(fmap), fmap.shape)
+#        print("grad k = ", gradients_k, k.shape)
+        alpha_kc = fmap.mean()
+        print("alpha = ", alpha_kc, alpha_kc.shape)
+
+    activations = last_conv(image).detach()
+    print("activations", activations, activations.shape, len(activations), activations.size(1))
+    """
     #3.3 average over all k feature maps and apply Relu because only positive impacts are interesting to us.
     #for k in model.conv_layers[-1].
 
@@ -183,7 +204,6 @@ def gradCAM(model, image):
 
 
 
-    print("model: ", model)###
     output_tensor[0, output_class].backward()
     
     # Feature Maps der letzten Convolutional Layer und Gradienten erhalten
@@ -244,14 +264,18 @@ def gradCAM(model, image):
 
 
 
+
 def classify_canvas_image(image,modelFile):
     
     
     """This function classifies the image and sends the heatmap (aka explanation) back to frontend"""
     model = loadmodel(modelFile)
+    summary(model, (1,1,28,28))
     image = preprocess_image(image)
-    print(type(image))
-    print(image.requires_grad)
+    print(image.shape)
+
+    
+
     if __name__ != "__main__":
         image.requires_grad = True
 
@@ -263,9 +287,11 @@ def classify_canvas_image(image,modelFile):
     #Show the image and check if the array representation works
     # Konvertiere den Tensor in ein Numpy-Array
     #image_np = image.squeeze(0).squeeze(0).numpy()
+    #print("the shape is ", image.shape, type(image), image[0:10])
     image_np = image.squeeze(0).squeeze(0).detach().numpy()# diese version für explainable part
+    #print("the shape is now", image_np.shape, type(image_np), image_np[0:10])
     #showim(image_np)
-
+    #saveim(image_np,'9')
 
     #assert image.requires_grad == True, "image.requires_grad is not True"
     # Annahme: Das Modell gibt eine Vorhersage für das Bild zurück
@@ -279,29 +305,30 @@ def classify_canvas_image(image,modelFile):
     #plt.show()
 
     output_array = output_tensor.flatten().detach().numpy()
-    output = output_array.tolist()
+    output = [(e,i) for (e,i) in zip(output_array,list(range(len(output_array))))]
+    output.sort(reverse = True)
+    softmaxValues, permutation = zip(*output)
 
-    print("explaining is done.")
+    softmaxValues = [float(e) for e in softmaxValues] #floats are converted to string to make them JSON seriealizable
 
-    
-    print("output_class:", int(np.argmax(output)))
-    print("output = , ", output)
-    print("updated heatmap version")
-    return output, heatmap
+    permutation = list(permutation)
+    softmaxValues = list(softmaxValues)
+
+    return softmaxValues, permutation, heatmap
 
 
 if __name__ == "__main__":
     print("testing....")
     test = get_dataset(test =True)
-    for i in range(10,11):
+    for i in range(10,20):
         image, label = test[i]
 
         #saveim(image)
         
         image.requires_grad = True  # Setzen von requires_grad auf True (für explainable part)
     
-        model_file = 'ml_utils/Trained_modelbuilder_model.pkl'#'MNIST_new_classifier_model.pkl'#
-        _ , heatmap = classify_canvas_image(image,model_file)
+        model_file = 'ml_utils/models/Trained_modelbuilder_model.pkl'#'ml_utils/models/MNIST_new_classifier_model.pkl'#
+        _ , _ , heatmap = classify_canvas_image(image,model_file)
 
         #showheatmap(heatmap)
         #saveim(heatmap, f"heatmap{i}")
