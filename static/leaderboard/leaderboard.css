@@ -69,8 +69,15 @@
 .leaderboard-cols {
     display: flex;
     flex-direction: row;
-    font-size: 1vh;
-
-    width: 50%;
+    font-size: 1.3vh;
+    margin-right: 5%;
+    width: 46%;
     justify-content: space-between;
+    align-items: center;
+}
+
+.magic-container {
+    /* Customize the scrollbar width, color, etc. */
+    scrollbar-width: thin; /* Width of the scrollbar */
+    scrollbar-color: #666 #f0f0f0; /* Color of the thumb and track */
 }
