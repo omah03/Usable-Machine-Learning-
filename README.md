@@ -49,6 +49,8 @@ Items in *cursiv* are implemented.
 - Interactive Visualization of Convolution
 - Interactive Tutorial
 - Input Drawn Number (with Heatmap & Softmax Results)
+- Model Leaderboard
+- Highlighting and sorting of highest classification 
 
 ## Installation
 
