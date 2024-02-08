@@ -42,7 +42,7 @@ const myChart = new Chart(ctxs, {
                 color: 'rgba(0,0,0,0)',
                 borderColor: 'rgba(0, 0, 0,0)',
                 backgroundColor: 'rgba(0,0,0,0)',
-                data: [1,100],
+                data: [1, 100],
                 borderWidth: 5,
             },
         ],
@@ -100,7 +100,7 @@ returnButton = document.getElementById("returnButton");
 
 discardButton.addEventListener("click", resetTraining)
 returnButton.addEventListener("click", () => {
-    window.scrollBy(0,100);
+    window.scrollBy(0, 100);
 })
 
 const discardbutton = document.getElementById("discardButton")
@@ -108,9 +108,9 @@ const resetbutton = document.getElementById("resettraining");
 resetbutton.addEventListener("click", resetTraining);
 
 async function handleStartButton() {
-    resetbutton.disabled=true
-    discardbutton.disabled=true
-    modelPopup.style.display= "flex";
+    resetbutton.disabled = true
+    discardbutton.disabled = true
+    modelPopup.style.display = "flex";
 
     fetch('/button_press', {
         method: 'POST',
@@ -144,7 +144,9 @@ fetch("/get_config")
 
 socket.on("chart_data", (data) => handleChartUpdate(data))
 function handleChartUpdate(data) {
-    toggleTestBlur(false);
+    if (data["accs"].length > 1) {
+        toggleTestBlur(false);
+    }
     myChart.data.labels = data["epochs"];
     myChart.data.datasets[0].data = data["accs"];
     myChart.data.datasets[1].data = data["losses"];
@@ -175,6 +177,7 @@ function handleTrainingData(training_config) {
         toggleModelbuilderBlur(true);
         progress.style.width = "" + training_config["EpochProgress"] + "%"
         startbutton.innerHTML = "CONTINUE"
+        startbutton.disabled = true;
         trainingdisplay.innerHTML = `Waiting for Epoch to finish...`
     }
     else if (training_config["training_active"] == true && training_config["training_stop_signal"] == false) {
@@ -187,12 +190,14 @@ function handleTrainingData(training_config) {
         toggleTestBlur(false);
         progress.style.width = "0%"
         startbutton.innerHTML = "CONTINUE"
+        startbutton.disabled = false;
         trainingdisplay.innerHTML = `Trained ${training_config["Epochs_Trained"]} Epochs`
-        resetbutton.disabled=false
-        discardbutton.disabled=false
+        resetbutton.disabled = false
+        discardbutton.disabled = false
 
     }
     else {
+        startbutton.disabled = false;
         progress.style.width = "0%"
         startbutton.innerHTML = "START"
         trainingdisplay.innerHTML = ""
@@ -203,18 +208,18 @@ function handleTrainingData(training_config) {
 
 
 
-function resetTraining(){
-    modelPopup.style.display="none";
+function resetTraining() {
+    modelPopup.style.display = "none";
     handleButton(resetbutton.id);
     progress.style.width = "0%";
     blockBatchData = true;
-    
+
     toggleModelbuilderBlur(false);
 
     //reset Graph
-    myChart.data.datasets[0].data=[]
-    myChart.data.datasets[1].data=[]
-    myChart.options.plugins.annotation.annotations={}
+    myChart.data.datasets[0].data = []
+    myChart.data.datasets[1].data = []
+    myChart.options.plugins.annotation.annotations = {}
     myChart.update()
 }
 
@@ -233,31 +238,32 @@ function handleButton(buttonName) {
         .then(response => response.json());
 }
 
-function toggleTestBlur(turnOn){
-    drawcanvas= document.getElementById("canvas");
+function toggleTestBlur(turnOn) {
+    drawcanvas = document.getElementById("canvas");
     controls = document.getElementsByClassName("resetButton");
 
-    if (turnOn){
+    if (turnOn) {
         drawcanvas.classList.add('blurred-section');
-        for (const el of controls){
-            el.disabled=true
-        }    }
-    else{
+        for (const el of controls) {
+            el.disabled = true
+        }
+    }
+    else {
         drawcanvas.classList.remove('blurred-section');
-        for (const el of controls){
-            el.disabled=false
+        for (const el of controls) {
+            el.disabled = false
         }
     }
 }
 
 
-function toggleModelbuilderBlur(turnOn){
-    rectanglelayer=document.getElementById("rectanglelayer")
-    
-    if (turnOn){
+function toggleModelbuilderBlur(turnOn) {
+    rectanglelayer = document.getElementById("rectanglelayer")
+
+    if (turnOn) {
         rectanglelayer.classList.add('blurred-section');
     }
-    else{
+    else {
         rectanglelayer.classList.remove('blurred-section');
 
     }
