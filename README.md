@@ -22,7 +22,7 @@ Students will develop a graphical user interface that allows creating machine le
 - ***indicate point in training where a parameter was changed***
 - display accuracy and loss over time for test set (0.5 P)
 - display layer-specific information (e.g., gradients) (1 - 2 P)
-- compare different runs (1 P)
+- *compare different runs* (1 P)
 - fork graph when parameters of earlier epochs are changed (1.5 P)
 
 ### Model Creator
@@ -49,6 +49,8 @@ Items in *cursiv* are implemented.
 - Interactive Visualization of Convolution
 - Interactive Tutorial
 - Input Drawn Number (with Heatmap & Softmax Results)
+- Model Leaderboard
+- Highlighting and sorting of highest classification 
 
 ## Installation
 
