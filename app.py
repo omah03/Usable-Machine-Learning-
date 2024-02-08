@@ -125,11 +125,14 @@ def toggle_training():
         session["config"].update({"training_active":True, "training_stop_signal":False})
         for _ in range(int(session["config"]["NEpochs"])):
             trainer.queue.put((trainer.training, (session.get("config"), CUDA)))
+        trainer.queue.put((trainer.training_end, (None,None)))
         q.put(trainer.work_queue_items)
     else:
         while not trainer.queue.empty():
+            print("Removing Training Epoch")
             x= trainer.queue.get()
             trainer.queue.task_done()
+        trainer.queue.put((trainer.training_end, (None,None)))
         session["config"]["training_active"]= True
         session["config"]["training_stop_signal"]= True
     socketio.emit("training_data", session["config"], room= session.get("room"))

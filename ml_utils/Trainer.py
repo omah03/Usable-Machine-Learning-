@@ -177,6 +177,10 @@ class Trainer():
         print(data)
         self.sio.emit("chart_data", data, room=self.sioRoom)
 
+    def training_end(self,x,y):
+        print("EXEC TRAINING END")
+        self.sio.emit("training_data", {"training_active": False, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch-1}, room= self.sioRoom)
+
     def work_queue_items(self):
         while not self.queue.empty():
             func, args= self.queue.get()
@@ -186,9 +190,8 @@ class Trainer():
             except:
                 print("ERROR\nERROR    There has been an error with Training. Maybe user has reset the model during Training \nERROR")
             self.queue.task_done()
-        print("FINISHED TRAINING")
-        self.sio.emit("training_data", {"training_active": False, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch-1}, room= self.sioRoom)
-        
+        #self.sio.emit("training_data", {"training_active": False, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch-1}, room= self.sioRoom)
+
         
         
 def main(seed):

@@ -312,6 +312,13 @@ header h1 {
     font-size: 3vh;
 }
 
+.container-model-builder h3{
+    font-size: 4vh;
+    height: 5vh;
+    margin-bottom:0;
+    margin-top: -5vh;
+}
+
 .modelbuilder-text h2{
     font-size: 3vw; 
     color: #ffffff;

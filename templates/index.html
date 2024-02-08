@@ -139,6 +139,7 @@
                         <span style="font-size: 5vh; color: rgba(255, 255, 255, 1);">&#8594;</span>
                     </div>
                     <div class= "container-modelconfiguration" id = "rectanglelayer">
+                        <h3> Merkmalserkennung </h3>
                         <div class="container-modelconfiguration-options">
                             <div class = "container-dropdown" id= "actFuncCol"> 
                                 <div class="dropdown">
@@ -224,7 +225,6 @@
                                         <div id="ConvInfo3" class= "block_label">
                                             Filternde Schicht
                                             <label for="ConvInfo3"> 
-                                                Filterschicht
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>    
@@ -258,6 +258,7 @@
                         <span style="font-size: 5vh; color: rgba(255, 255, 255, 1);">&#8594;</span>
                     </div>
                     <div class= "container-classification" id= "outputbox" >
+                        <h3>Klassifizierung</h3>
                         <label for="outputbox" class="LinearLayer_Header" >
                             <h2> Linear Layer </h2> <h2> Output</h2>
                         </label>
@@ -373,10 +374,10 @@
                     
                     <div class="magic-container">
                         <h2> Leaderboard </h2>
+                        <div class = "leaderboard-header">
+                            <p>Rank</p><p>Accuracy/Loss</p><div class = "leaderboard-cols"><p>Blocks</p><p>Kernels</p><p>Act. Func.</p><p>Epochs</p></div>
+                        </div>
                         <div class = "list-container">
-                            <div class = "leaderboard-header">
-                                <p>Rank</p><p>Accuracy/Loss</p><div class = "leaderboard-cols"><p>Blocks</p><p>Kernels</p><p>Act. Func.</p><p>Epochs</p></div>
-                            </div>
                             <p class = "leaderboard-entry"></p>
                             <p class = "leaderboard-entry"></p>
                             <p class = "leaderboard-entry"></p>
@@ -393,20 +394,21 @@
                         <div class="canvas-box">
                             <canvas id="canvas" class = "inputCanvas blurred-section"></canvas>
                         </div>
-                            <div class = "controls_column">
-                                <button id ="reset" class = "resetButton" aria-label="Reset" style="margin-bottom : -50px; margin-left: 50px">
-                                    <!-- SVG für das Reset-Symbol -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 40 40">
-                                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
-                                        <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
-                                    </svg>
-                                </button>
-                                <button id = "classify" class = "resetButton" aria-label="classify" style = "margin-bottom : -60px">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-play" viewBox="0 0 40 40">
-                                        <path d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
-                                    </svg>
-                                </button>
-                            </div>
+
+                        <div class = "controls_column">
+                            <button disabled id ="reset" class = "resetButton" aria-label="Reset" style="margin-bottom : -50px; margin-left: 50px">
+                                <!-- SVG für das Reset-Symbol -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 40 40">
+                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+                                    <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+                                </svg>
+                            </button>
+                            <button disabled id = "classify" class = "resetButton" aria-label="classify" style = "margin-bottom : -60px">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-play" viewBox="0 0 40 40">
+                                    <path d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
+                                </svg>
+                            </button>
+                        </div>
                         
                     </div>
 

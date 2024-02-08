@@ -57,13 +57,13 @@
 .leaderboard-header{
     height: 10%;
     padding-left:5%;
-    width: 100%;
+    padding-right: 3%;
+    width: 80%;
     border-bottom: var(--background-color) 5px solid;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: baseline;
-
 }
 
 .leaderboard-cols {
