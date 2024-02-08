@@ -178,8 +178,13 @@ function mapIntensityToColor(intensity) {
 
 function classificationResult(softmaxValues, permutation){
     const classifierClasses = document.querySelectorAll('.classifier_class');
+    const highlightColor = '#FFFF00';
+    const maxIndex = softmaxValues.indexOf(Math.max(...softmaxValues));
+
     console.log(typeof permutation);
     console.log(permutation);
+
+    classifierClasses[maxIndex].style.backgroundColor = highlightColor;
 
     classifierClasses.forEach((element,index) => {
         let i = permutation[index];
