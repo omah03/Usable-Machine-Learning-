@@ -294,10 +294,17 @@ async function classifyImage(){
 }
 
 const classifyButton = document.getElementById('classify');
-classifyButton.addEventListener('click',classifyImage);
+classifyButton.addEventListener('click', function() {
+    classifyImage();
+    classifyButton.disabled = true;
+});
+
 
 const resetCanvasButton = document.getElementById('reset');
-resetCanvasButton.addEventListener('click', clearCanvas)
+resetCanvasButton.addEventListener('click', function() {
+    clearCanvas();
+    classifyButton.disabled = false;
+});
 
 function clearCanvas(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
