@@ -29,12 +29,13 @@ class Leaderboard():
         return self.entries[:x]
     
     @staticmethod
-    def add_entry(config:dict, accs:list, loss:list, NextEpoch:int):
+    def add_entry(config:dict, accs:list, loss:list, NextEpoch:int, sioRoom:str):
         res = {
             "Epochs": NextEpoch-1,
             "accuracy": accs[-1],
             "loss": loss[-1],
-            "settings": config
+            "settings": config,
+            "creator": sioRoom
         }
         name = Leaderboard.path + "/Model"+ (datetime.now().strftime("%Y%m%d%H%M%S%f")) +".json"
         with open(name, "w") as file:
@@ -48,7 +49,8 @@ class Leaderboard():
                     "Epochs": dict["Epochs_Trained"],
                     "accuracy": dict["accs"][-1],
                     "loss": dict["loss"][-1],
-                    "settings": dict["settings"]
+                    "settings": dict["settings"],
+                    "creator": dict["sioRoom"]
                 }
         return res
     

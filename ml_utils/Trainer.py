@@ -105,7 +105,7 @@ class Trainer():
             pickle.dump(self.model, file) 
         print(f"model saved to {file}") 
 
-        Leaderboard.add_entry(self.config, self.accs, self.loss, self.nextEpoch)
+        Leaderboard.add_entry(self.config, self.accs, self.loss, self.nextEpoch, self.sioRoom)
 
     def reset(self):
         self.model=None
