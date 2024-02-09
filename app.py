@@ -17,6 +17,7 @@ from static.infobox.infotexts import infotexts
 import json
 import torch
 import string
+import asyncio
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -180,7 +181,7 @@ def classify():
 def return_leaderboard():
     l = Leaderboard()
     entries = l.get_topX(int(config["SERVER"]["leaderboardSize"]))
-    print(f"Sending Leaderboard entries {(entries)}")
+    #print(f"Sending Leaderboard entries {(entries)}")
     return jsonify(entries)
     
 

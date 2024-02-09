@@ -66,6 +66,10 @@ class Trainer():
         self.config.update(settings)
 
     def training(self, flask_config, cuda):
+        print("CALLING")
+        LRateValue = self.sio.call("get_LRate", room = self.sioRoom)
+        print("CALL DONE")
+        flask_config["LRate"]= LRateValue
         if self.model==None:
             self.add_model_and_config(flask_config)
         else:
@@ -185,10 +189,10 @@ class Trainer():
         while not self.queue.empty():
             func, args= self.queue.get()
             self.sio.emit("training_data", {"training_active": True, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch}, room= self.sioRoom)
-            try:
-                func(*args)
-            except:
-                print("ERROR\nERROR    There has been an error with Training. Maybe user has reset the model during Training \nERROR")
+            #try:
+            func(*args)
+            #except:
+            #    print("ERROR\nERROR    There has been an error with Training. Maybe user has reset the model during Training \nERROR")
             self.queue.task_done()
         #self.sio.emit("training_data", {"training_active": False, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch-1}, room= self.sioRoom)
 

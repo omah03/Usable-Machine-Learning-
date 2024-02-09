@@ -268,3 +268,11 @@ function toggleModelbuilderBlur(turnOn) {
 
     }
 }
+
+socket.on("get_LRate", (callback) => {
+    console.log("CALL RECEIVED");
+    let slider = document.getElementById("LRateSlider");
+    let value = slider.value;
+    // Use the callback function to send the value back to the server
+    callback(value);
+});
