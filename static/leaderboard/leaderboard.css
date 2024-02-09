@@ -81,3 +81,7 @@
     scrollbar-width: thin; /* Width of the scrollbar */
     scrollbar-color: #666 #f0f0f0; /* Color of the thumb and track */
 }
+
+.own-leaderboard-entry{
+    background-color: var(--background-color);
+}

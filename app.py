@@ -16,7 +16,8 @@ from ml_utils.Trainer import Trainer
 from static.infobox.infotexts import infotexts
 import json
 import torch
-
+import string
+import asyncio
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -33,14 +34,25 @@ def listener():
         acc()
         q.task_done()
 
+def get_random_key():
+    string_length = 15
+
+    # Define characters to choose from (including letters, digits, and special symbols)
+    characters = string.ascii_letters + string.digits #+ string.punctuation
+
+    # Generate a random string
+    random_string = ''.join(random.choices(characters, k=string_length))
+    return random_string
+
+
 trainers={}
 
 # moved config to session["config"} to prepare for storing the data ina flask session variable (I hope thats possible)
 # this would allow multiple users + fix some thread safety concerns
 defaultconfig= {"ActivationFunc": "act_reluOption",  
                             "LRate": 2,
-                            "BSize":1,
-                            "NEpochs":1,
+                            "BSize":32,
+                            "NEpochs":4,
                             "NBlocks": 2,
                             "KSize": "2",
                             "training_active": False,
@@ -52,7 +64,7 @@ def index():
     global defaultconfig,trainers
     if not session.get("config"):
         session.update({"config":defaultconfig})
-    session["room"]= str(random.randint(0,10000))
+    session["room"]= get_random_key()
     trainers[session.get("room")]= Trainer(socketio, session.get("room"))
     
     return render_template("index.html")
@@ -168,8 +180,8 @@ def classify():
 @app.route("/get_Leaderboard", methods=["GET"])
 def return_leaderboard():
     l = Leaderboard()
-    entries = l.get_topX()
-    print(f"Sending Leaderboard entries {(entries)}")
+    entries = l.get_topX(int(config["SERVER"]["leaderboardSize"]))
+    #print(f"Sending Leaderboard entries {(entries)}")
     return jsonify(entries)
     
 
@@ -183,19 +195,26 @@ def return_model():
     conf.update({"Epochs_Trained": trainer.nextEpoch-1})
     conf.update({"accs":trainer.accs})
     conf.update({"loss":trainer.loss})
+    conf.update({"sioRoom": session.get("room")})
     return jsonify(Leaderboard.get_as_entry(conf))
     
+@app.route("/get_sio_key")
+def return_room():
+    return jsonify(session["room"])    
+
 if __name__ == "__main__":
     # get config
     config= configparser.ConfigParser()
     if not Path("config.ini").exists():
         print("No config found, creating default config...")
-        print("PLEASE CHANGE THE SECRET KEY IN THE CONFIG")
         with open("default_config.ini", "r") as f:
             c = f.read()
         with open("config.ini", "w") as f:
             f.write(c)
-    config.read("config.ini")
+        config.read("config.ini")
+        config.set("SERVER", "secretKey", get_random_key()+get_random_key())
+    else:
+        config.read("config.ini")
 
     global CUDA
     CUDA = config["TRAINING"].getboolean("AllowCuda") and torch.cuda.is_available()
