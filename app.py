@@ -51,8 +51,8 @@ trainers={}
 # this would allow multiple users + fix some thread safety concerns
 defaultconfig= {"ActivationFunc": "act_reluOption",  
                             "LRate": 2,
-                            "BSize":1,
-                            "NEpochs":1,
+                            "BSize":32,
+                            "NEpochs":4,
                             "NBlocks": 2,
                             "KSize": "2",
                             "training_active": False,

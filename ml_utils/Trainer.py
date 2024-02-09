@@ -83,6 +83,16 @@ class Trainer():
         N_batch= len(self.train_loader)
         I_batch=1
         for batch in self.train_loader:
+            # change l rate dynamically on batch
+            opt_state= self.optimizer.state_dict()
+            options = [0.01, 0.1, 0.3, 0.5]
+            LRateValue = self.sio.call("get_LRate", room = self.sioRoom)
+            LRateValue = options[int(LRateValue)-1]
+            if opt_state['param_groups'][0]['lr'] != LRateValue:
+                self.changes.add((self.nextEpoch-1) + I_batch/N_batch)
+                opt_state['param_groups'][0]['lr'] = LRateValue
+                self.optimizer.load_state_dict(opt_state)
+
             data, target = batch
             self.train_step(cuda=cuda, data=data, target=target)
 
@@ -132,7 +142,7 @@ class Trainer():
     def convert_config_for_modelbuilder(config:dict):
         res = {}
 
-        options = [0.5, 0.3, 0.1, 0.01]
+        options = [0.01, 0.1, 0.3, 0.5]
         string =config["LRate"]
         LRate = int(string)
         res.update({"LRate" : options[LRate-1]})
@@ -189,10 +199,11 @@ class Trainer():
         while not self.queue.empty():
             func, args= self.queue.get()
             self.sio.emit("training_data", {"training_active": True, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch}, room= self.sioRoom)
-            #try:
+            
             func(*args)
-            #except:
-            #    print("ERROR\nERROR    There has been an error with Training. Maybe user has reset the model during Training \nERROR")
+            try:pass
+            except Exception:
+                print("ERROR\nERROR    There has been an error with Training. Maybe user has reset the model during Training \nERROR")
             self.queue.task_done()
         #self.sio.emit("training_data", {"training_active": False, "training_stop_signal": False, "Epochs_Trained": self.nextEpoch-1}, room= self.sioRoom)
 
