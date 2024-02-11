@@ -168,7 +168,7 @@
                                 <div id="block1"class = "BlockButton">
                                     <h2> Block 1 </h2>
                                     <div class="block_info">
-                                        <div id="ConvInfo1" class= "block_label">
+                                        <div id="ConvInfo1" class= "block_label" style="border-left: 0;">
                                             Filternde Schicht
                                             <label for="ConvInfo1"> 
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
@@ -180,7 +180,7 @@
                                                 <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>
-                                        <div id="MaxPoolInfo1" class= "block_label">
+                                        <div id="MaxPoolInfo1" class= "block_label" style="border-right: 0;">
                                             Pooling Schicht
                                             <label for="MaxPoolInfo1"> 
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
@@ -195,7 +195,7 @@
                                 <div id="block2"class = "BlockButton">
                                     <h2> Block 2 </h2>
                                     <div class="block_info">
-                                        <div id="ConvInfo2" class= "block_label">
+                                        <div id="ConvInfo2" class= "block_label" style="border-left: 0;">
                                             Filternde Schicht
                                             <label for="ConvInfo2"> 
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
@@ -207,7 +207,7 @@
                                                 <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>
-                                        <div id="MaxPoolInfo2" class= "block_label">
+                                        <div id="MaxPoolInfo2" class= "block_label" style="border-right: 0;">
                                             Pooling Schicht
                                             <label for="MaxPoolInfo2"> 
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
@@ -222,7 +222,7 @@
                                 <div id="block3" class = "BlockButton">
                                     <h2> Block 3 </h2>
                                     <div class="block_info">
-                                        <div id="ConvInfo3" class= "block_label">
+                                        <div id="ConvInfo3" class= "block_label" style="border-left: 0;">
                                             Filternde Schicht
                                             <label for="ConvInfo3"> 
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
@@ -234,7 +234,7 @@
                                                 <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>
-                                        <div id="MaxPoolInfo3" class= "block_label">
+                                        <div id="MaxPoolInfo3" class= "block_label" style="border-right: 0;">
                                             Pooling Schicht
                                             <label for="MaxPoolInfo3"> 
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
@@ -315,7 +315,7 @@
                             <div class="parameters-container" id = training_sliders>
                                 <div class="LearningRate">
                                     <div class = "slider-text" id= "LRateCol">
-                                        <label for="LRateSlider"> Lernrate</label>
+                                        <label for="LRateSlider">Lernrate</label>
                                         <div class= "sliderDisplay">
                                             <input type="range" id="LRateSlider" min="1" max="4" value="{{ 2 }}">
                                             <span style="margin-left: 5%;" id="LRateDisplay"></span>
@@ -344,7 +344,7 @@
 
                             <div class="control-container">
                                 <div class="training-text">
-                                    <h2>Training</h2>
+                                    Training
                                 </div>
                                 <div class="start">
                                     <button id = "starttraining" name="starttraining" class= "startbutton"> START </button>
@@ -353,7 +353,7 @@
                                     <button disabled id = "resettraining" name="restarttraining" class="startbutton"> RESET </button>
                                 </div>
                                 <div class="progress-container">
-                                    <p id="trainingdisplay"> </p>
+                                    <p style="display: flex; justify-content: center; align-items: center; margin-bottom: 0;" id="trainingdisplay"> </p>
                                 </div>
                             </div>
 
@@ -413,30 +413,30 @@
                     </div>
 
                     <div class="classification-container">
-                            <p style="color: var(--text-color-playground); font-size: 2vw; text-align: center;"> Classification </p>
+                            <p style="color: var(--text-color-playground); font-size: 2vw; text-align: center; margin-bottom: 0;"> Classification </p>
                             <div class="classification-numbers-container">
                                 <div class="classification-numbers">
-                                    <div class="classifier_class"> <p name="value">0</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
+                                    <div class="classifier_class"> <p name="value" style="margin-bottom: 0;">0</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
                                     </div>
-                                    <div class="classifier_class"> <p name="value">1</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
+                                    <div class="classifier_class"> <p name="value" style="margin-bottom: 0;">1</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
                                     </div>
-                                    <div class="classifier_class"> <p name="value">2</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
+                                    <div class="classifier_class"> <p name="value" style="margin-bottom: 0;">2</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
                                     </div>
-                                    <div class="classifier_class"> <p name="value">3</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
+                                    <div class="classifier_class"> <p name="value" style="margin-bottom: 0;">3</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
                                     </div>
-                                    <div class="classifier_class"> <p name="value">4</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
+                                    <div class="classifier_class"> <p name="value" style="margin-bottom: 0;">4</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
                                     </div>
                                 </div>
                                 <div class="classification-numbers">                              
-                                    <div class="classifier_class"> <p name="value">5</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
+                                    <div class="classifier_class"> <p name="value" style="margin-bottom: 0;">5</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
                                     </div>
-                                    <div class="classifier_class"> <p name="value">6</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
+                                    <div class="classifier_class"> <p name="value" style="margin-bottom: 0;">6</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
                                     </div>                
-                                    <div class="classifier_class"> <p name="value">7</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
+                                    <div class="classifier_class"> <p name="value" style="margin-bottom: 0;">7</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
                                     </div>
-                                    <div class="classifier_class"> <p name="value">8</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
+                                    <div class="classifier_class"> <p name="value" style="margin-bottom: 0;">8</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
                                     </div>
-                                    <div class="classifier_class"> <p name="value">9</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
+                                    <div class="classifier_class"> <p name="value" style="margin-bottom: 0;">9</p> <div class = "percentage-bar"></div> <p class = "percentage"></p>
                                     </div>
                                 </div>
                             </div>
