@@ -91,7 +91,7 @@
             </div>
             <div class="explanation-container">
                 <p>Der rote Ausschnitt ist ein <strong> Filter</strong>, der über die Pixel eines Bildes und seinen umliegenden Nachbarn schreitet, dabei Merkmale wie Kanten oder Kreise erkennt und eine <strong> Merkmalskarte</strong> erstellt.
-                    Mit diesen Merkmalskarten passiert wiederum dasselbe, sodass das Netz zunehmend abstrake Muster erkennt. 
+                    Über die Merkmalskarte laufen wiederum Filter, sodass das Netz zunehmend abstrake Muster erkennt.  
                     Hier kannst du über die Größe des Filters entscheiden, wie weit er voranschreitet und ob am Rand Pixel hinzugefügt werden, um Randpixel mehr zu berücksichtigen.     
                 </p>
             </div>
@@ -103,7 +103,7 @@
             <div class="container">
                 <img src="{{ url_for('static', filename='include/CNN Deutsch.png') }}" alt="Optimization Visualization" class="optimization-image">
                 <p>
-                    Mit Lernen ist in ML die Optimierung gemeint. Für dieses Beispiel bedeutet das, die richtigen Filter zu erstellen sowie herauszufinden, welche Merkmale am wichtigsten für die Klassifizierung sind. Zu Beginn sind diese Einstellungen noch zufällig, während des Trainingsprozesses werden sie dann angepasst.
+                    Mit Lernen ist in ML optimieren gemeint. Für dieses Beispiel bedeutet das, die richtigen Filter zu erstellen sowie herauszufinden, welche Merkmale am wichtigsten für die Klassifizierung sind. Zu Beginn sind diese Einstellungen noch zufällig, während des Trainingsprozesses werden sie dann angepasst.
             </div>
         </section>
 
