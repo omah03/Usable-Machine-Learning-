@@ -118,9 +118,9 @@
                     <button id = "next_button">weiter</button>
                 </div>                
                 <div class= "popup infobox" id = "modelPopup">
-                    Wenn du das Model änderst, setzt sich dein Trainingsfortschritt zurück. Du kannst zum Training zurückkehren und deine Fortschritte beibehalten oder ein neues Netz aufsetzen.
-                    <button id= "discardButton">Discard</button>
-                    <button id= "returnButton">Return</button>
+                    Wenn du das Modell änderst, setzt sich dein Trainingsfortschritt zurück. Du kannst zum Training zurückkehren und deine Fortschritte beibehalten oder ein neues Netz aufsetzen.
+                    <button id= "discardButton">Modell löschen</button>
+                    <button id= "returnButton">Zurück zum Testen</button>
                 </div>
                 <div class= "container-blockVisualization" >
                     <div class= "container-MNIST">
@@ -149,7 +149,7 @@
 
                                     </button>
                                     <div class="dropdown-content" id = "act_dropdown">
-                                        <button href="#" class="act_Option" id="act_reluOption" value = "relu">Rectified Linear Activation (ReLU)</button>
+                                        <button href="#" class="act_Option" id="act_reluOption" value = "relu">Rectified Linear Unit (ReLU)</button>
                                         <button href="#" class="act_Option" id="act_sigmoidOption" value = "sigm">Sigmoid-Funktion</button>
                                         <button href="#" class="act_Option" id="act_tanhOption" value = "tanh">Hyperbolische Tangente (tanh)</button>
                                     </div>
