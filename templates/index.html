@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usable Machine Learning</title>
+    <title>Machine Learning für Beginner</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='infobox/infobox.css') }}">
@@ -47,7 +47,7 @@
             <div class="ml-text">
                 <h2>Was ist Machine Learning?</h2>
                 <p>
-                    Machine Learning (ML) ist ein Teilbereich von Künstlicher Intelligenz, in dem Algorithmen automatisch lernen, in Daten Muster zu erkennen. Dazu gehören Applikationen wie Google Translate, Bildgeneratoren wie DALL-E oder Chatbots wie ChatGPT. Diese Applikation stellt die erste Aufgabe der meisten ML-Vorlesungen vor: handgeschriebene Ziffern zu erkennen.  </p>
+                    Machine Learning (ML) ist ein Teilbereich von Künstlicher Intelligenz, in dem Algorithmen automatisch lernen, in Daten Muster zu erkennen. Dazu gehören Applikationen wie Google Translate, Bildgeneratoren wie DALL-E oder Chatbots wie ChatGPT. Diese Applikation stellt die erste Aufgabe der meisten ML-Vorlesungen vor: handgeschriebene Ziffern erkennen.  </p>
             </div>
         </div>
     </section>
@@ -91,7 +91,7 @@
             </div>
             <div class="explanation-container">
                 <p>Der rote Ausschnitt ist ein <strong> Filter</strong>, der über die Pixel eines Bildes und seinen umliegenden Nachbarn schreitet, dabei Merkmale wie Kanten oder Kreise erkennt und eine <strong> Merkmalskarte</strong> erstellt.
-                    Mit diesen Merkmalskarten passiert wiederum dasselbe, sodass das Netz zunehmend abstrake Muster erkennt. 
+                    Auf diese Merkmalskarte werden wiederum Filter angewandt, sodass das Netz zunehmend abstrakte Muster erkennt.
                     Hier kannst du über die Größe des Filters entscheiden, wie weit er voranschreitet und ob am Rand Pixel hinzugefügt werden, um Randpixel mehr zu berücksichtigen.     
                 </p>
             </div>
@@ -103,7 +103,7 @@
             <div class="container">
                 <img src="{{ url_for('static', filename='include/CNN Deutsch.png') }}" alt="Optimization Visualization" class="optimization-image">
                 <p>
-                    Mit Lernen ist in ML die Optimierung gemeint. Für dieses Beispiel bedeutet das, die richtigen Filter zu erstellen sowie herauszufinden, welche Merkmale am wichtigsten für die Klassifizierung sind. Zu Beginn sind diese Einstellungen noch zufällig, während des Trainingsprozesses werden sie dann angepasst.
+                    Mit "lernen" ist in ML optimieren gemeint. Für dieses Beispiel bedeutet das, die richtigen Filter zu ermitteln sowie herauszufinden, welche Merkmale am wichtigsten für die Klassifizierung sind. Zu Beginn sind diese Einstellungen noch zufällig, während des Trainingsprozesses werden sie dann angepasst.
             </div>
         </section>
 
@@ -169,13 +169,13 @@
                                     <h2> Block 1 </h2>
                                     <div class="block_info">
                                         <div id="ConvInfo1" class= "block_label" style="border-left: 0;">
-                                            Filternde Schicht
+                                            Filterschicht
                                             <label for="ConvInfo1"> 
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>    
                                         <div id="ActFuncInfo1" class= "block_label">
-                                            Aktivierungs-funktion 
+                                            Aktivierungsfunktion 
                                             <label for="ActFuncInfo1"> 
                                                 <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
@@ -196,13 +196,13 @@
                                     <h2> Block 2 </h2>
                                     <div class="block_info">
                                         <div id="ConvInfo2" class= "block_label" style="border-left: 0;">
-                                            Filternde Schicht
+                                            Filterschicht
                                             <label for="ConvInfo2"> 
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>    
                                         <div id="ActFuncInfo2" class= "block_label">
-                                            Aktivierungs-funktion 
+                                            Aktivierungsfunktion 
                                             <label for="ActFuncInfo2"> 
                                                 <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
@@ -223,13 +223,13 @@
                                     <h2> Block 3 </h2>
                                     <div class="block_info">
                                         <div id="ConvInfo3" class= "block_label" style="border-left: 0;">
-                                            Filternde Schicht
+                                            Filterschicht
                                             <label for="ConvInfo3"> 
                                                 <img src="../static/include/KernelIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
                                         </div>    
                                         <div id="ActFuncInfo3" class= "block_label">
-                                            Aktivierungs-funktion 
+                                            Aktivierungsfunktion 
                                             <label for="ActFuncInfo3"> 
                                                 <img src="../static/include/functionIcon.png" class="block-icon" alt="Activation Function 2D Diagram">
                                             </label>
