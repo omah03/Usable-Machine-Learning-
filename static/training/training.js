@@ -178,13 +178,13 @@ function handleTrainingData(training_config) {
         progress.style.width = "" + training_config["EpochProgress"] + "%"
         startbutton.innerHTML = "WEITER"
         startbutton.disabled = true;
-        trainingdisplay.innerHTML = `Warten auf das Ende der Epoche...`
+        trainingdisplay.innerHTML = `Warte auf das Ende der Epoche...`
     }
     else if (training_config["training_active"] == true && training_config["training_stop_signal"] == false) {
         toggleModelbuilderBlur(true);
         progress.style.width = "" + training_config["EpochProgress"] + "%"
         startbutton.innerHTML = "PAUSE"
-        trainingdisplay.innerHTML = `Training Epoche ${training_config["Epochs_Trained"]}...`
+        trainingdisplay.innerHTML = `Trainiere Epoche ${training_config["Epochs_Trained"]}...`
     }
     else if (training_config["Epochs_Trained"] > 0) {
         toggleTestBlur(false);

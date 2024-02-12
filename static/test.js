@@ -190,7 +190,7 @@ function classificationResult(softmaxValues, permutation){
         let i = permutation[index];
         let intensity = softmaxValues[index];
         console.log('intensity = ' +  intensity);
-        let percentage = (intensity*100).toFixed(2).toString();
+        let percentage = (intensity*10).toFixed(2).toString();
         console.log('percentage = ' + percentage)
         let number = element.getElementsByClassName("percentage")[0];
         let num = element.querySelector('p[name="value"]');

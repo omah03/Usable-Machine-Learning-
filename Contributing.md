@@ -27,6 +27,10 @@ project/
             componentB.*
         ...
         style.css
+    viz_utils/
+        Viz_aidA.py
+        Viz_aidB.py
+        ...
     ml_utils/
         backend_componentA.py
         backend_componentB.py
