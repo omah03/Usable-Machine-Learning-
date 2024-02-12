@@ -140,6 +140,7 @@ class ModelBuilder(nn.Module):
         x = self.conv_layers(x)
         x = x.view(x.size(0), -1)
         x = self.linear_layers(x)
+        x = F.softmax(x,dim = 1)
         return x
     
 ##maximum amount of blocks is 3
