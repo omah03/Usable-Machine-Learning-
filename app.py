@@ -9,7 +9,7 @@ from flask import Flask, render_template, request, jsonify, session
 from flask_socketio import SocketIO, join_room, leave_room
 from flask import send_file
 
-from ml_utils.explain_classification import classify_canvas_image
+from ml_utils.explain_classification import get_classification_and_heatmap
 from ml_utils.leaderboard import Leaderboard
 from ml_utils.Trainer import Trainer
 
@@ -17,7 +17,6 @@ from static.infobox.infotexts import infotexts
 import json
 import torch
 import string
-import asyncio
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -166,7 +165,7 @@ modelbuilder_model = 'data/models/Trained_modelbuilder_model'
 def classify():
     data = request.get_json()
     canvas_data = data['canvasData']
-    softmaxValues, permutation, heatmap  = classify_canvas_image(canvas_data, f"{modelbuilder_model}{session.get('room')}.pkl",)
+    softmaxValues, permutation, heatmap = get_classification_and_heatmap(canvas_data, f"{modelbuilder_model}{session.get('room')}.pkl")
     data = {
     "softmaxValues": softmaxValues,
     "permutation": permutation,

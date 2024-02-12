@@ -75,6 +75,7 @@ class ModelBuilder(nn.Module):
                 raise ValueError(f"Configuration for block {i} not found in config.py")
             conv_block = ConvBlock(**conv_params, **max_pool_params, activation_function = activation_function)
             layers.add_module(f"conv_block_{i}", conv_block)
+            self.add_module(f"conv_block_{i}", conv_block)
         return layers
     
     #Function to create linear layer
@@ -134,13 +135,14 @@ class ModelBuilder(nn.Module):
         return flattened_size
             
     # Forward function
-    def forward(self, x):
+    def forward(self, x, usesoftmax = True):
         if x.ndim != 4 or x.shape[2:4] != self.input_size:
             raise ValueError(f"Input must be a 4D Tensor with shape (N, {self.input_size[0]}, {self.input_size[1]}, C)")
         x = self.conv_layers(x)
         x = x.view(x.size(0), -1)
         x = self.linear_layers(x)
-        x = F.softmax(x,dim = 1)
+        if usesoftmax:
+            x = F.softmax(x,dim = 1)
         return x
     
 ##maximum amount of blocks is 3
