@@ -89,6 +89,7 @@ class Trainer():
             LRateValue = self.sio.call("get_LRate", room = self.sioRoom)
             LRateValue = options[int(LRateValue)-1]
             if opt_state['param_groups'][0]['lr'] != LRateValue:
+                print(f"\n LRATE CHANGED: {opt_state['param_groups'][0]['lr']}->{LRateValue}")
                 self.changes.add((self.nextEpoch-1) + I_batch/N_batch)
                 opt_state['param_groups'][0]['lr'] = LRateValue
                 self.optimizer.load_state_dict(opt_state)
