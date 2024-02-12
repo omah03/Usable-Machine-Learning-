@@ -126,10 +126,10 @@ async function anyAction(keyword){
                 conditions = conditions && sliderConditions && reluCondition && numBlocksCondition
             }else if (keyword == 'graph'){
                 trainingdisplay=document.getElementById("trainingdisplay");
-                console.log('trainig display = ' + trainingdisplay.innerHTML.slice(0,7));
-                trainingdisplay.innerHTML.slice(0,7) == 'Trained';
+                console.log('training display = ' + trainingdisplay.innerHTML.slice(0,7));
+                trainingdisplay.innerHTML.slice(0,7) == 'Epochen';
 
-                conditions = conditions && trainingdisplay.innerHTML.slice(0,7) == 'Trained'
+                conditions = conditions && trainingdisplay.innerHTML.slice(0,7) == 'Epochen'
             }else{
                 throw new Error("An invalid keyword was given at checkConditions!");
             }
