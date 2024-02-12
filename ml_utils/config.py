@@ -36,7 +36,6 @@ max_pool_params = [
 ]
 
 linear_params = [
-    {"out_features": 128},
     {"out_features": 64},
     {"out_features": 10},
 ]
