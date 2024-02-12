@@ -175,7 +175,6 @@ class Trainer():
         prediction = self.model(data)
         loss = F.cross_entropy(prediction, target)
         loss.backward()
-        
         self.optimizer.step()
         self.optimizer.zero_grad()
 
