@@ -63,8 +63,10 @@ def index():
     global defaultconfig,trainers
     if not session.get("config"):
         session.update({"config":defaultconfig})
-    session["room"]= get_random_key()
-    trainers[session.get("room")]= Trainer(socketio, session.get("room"))
+    if not session.get("room"):
+        session["room"]= get_random_key()
+    if not trainers.get(session.get("room")):
+        trainers[session.get("room")]= Trainer(socketio, session.get("room"))
     
     return render_template("index.html")
     
@@ -222,6 +224,4 @@ if __name__ == "__main__":
 
     print("App started")
     threading.Thread(target=listener, daemon=True).start()
-    if config["OTHER"]["openBrowser"]:
-        webbrowser.open_new_tab(f'http://{config["SERVER"]["host"]}:{config["SERVER"]["port"]}')
     socketio.run(app, host=config["SERVER"]["host"], port=config["SERVER"]["port"], debug=config["OTHER"].getboolean("debug"))
