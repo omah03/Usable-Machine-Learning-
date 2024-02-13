@@ -169,11 +169,10 @@ def classify():
     data = {
     "softmaxValues": softmaxValues,
     "permutation": permutation,
-    "heatmap": heatmap
     }
     classification_result = json.dumps(data)
     socketio.emit('classification_result', classification_result, room= session.get("room"))
-    return jsonify(True)
+    return send_file(heatmap, mimetype="Image/png")
 
 
 @app.route("/get_Leaderboard", methods=["GET"])

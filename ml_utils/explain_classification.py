@@ -164,9 +164,23 @@ def get_heatmap(model, sample_image):
         out = model(sample_image, usesoftmax= False)
         activation_map = cam_extractor(out.squeeze(0).argmax().item(), out)
 
-    #plt.imshow(activation_map[0].squeeze(0).numpy()); plt.axis('off'); plt.tight_layout(); plt.show()
+    plt.imshow(activation_map[0].squeeze(0).numpy()); plt.axis('off'); plt.tight_layout(); plt.show()
 
+    image_array = activation_map[0].squeeze(0).numpy()  # Assuming activation_map is a torch.Tensor
+    image_array = (image_array * 255).astype(np.uint8)  # Ensure the pixel values are in the range [0, 255]
+    # Convert grayscale image to RGB by duplicating intensity values across all channels
+    image_array_rgb = np.stack((255-0*image_array, 255-image_array, 255-image_array), axis=-1)
+    #plt.imshow(plt.imshow(image_array_rgb)); plt.axis('off'); plt.tight_layout(); plt.show()
 
+    image = Image.fromarray(image_array_rgb)
+    
+    buffer = io.BytesIO()
+    image = image.convert("RGB")
+    plt.imshow(image); plt.axis('off'); plt.tight_layout(); plt.show()
+    image.save(buffer, format='PNG')  # You can change 'JPEG' to your desired format
+    buffer.seek(0)   
+    #image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')   
+    return buffer
 
 def get_classification_and_heatmap(image, modelFile):
     """This function classifies the image and sends the heatmap (aka explanation) back to frontend"""

@@ -94,6 +94,7 @@ displayText();
 
 
 
+
 function printPrediction(predicted_digit) {
     var predictionText = document.getElementById('predictionText');
     var text = 'Die Vorhersage des Models: ' + predicted_digit;
@@ -104,30 +105,43 @@ function printPrediction(predicted_digit) {
 
 function sendAndReceiveClassification(canvasData) {
     return new Promise((resolve, reject) => {
+    socket.on('classification_result', data => {
+        var result = JSON.parse(data);
+        var softmaxValues = result.softmaxValues;
+        var permutation = result.permutation;
+        console.log('sofmaxValues' + softmaxValues);
+        console.log('permutaiton = ' + permutation);
+        resolve([softmaxValues, permutation]); // Ergebnis an die Aufrufer-Funktion übergeben
+    });
         fetch("/classify", {
             method: 'POST', // Use POST method to send data
             headers: {
                 'Content-Type': 'application/json', // Specify the content type as JSON
             },
             body: JSON.stringify({ canvasData }) // Convert the canvasData object to a JSON string
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.blob();
         })
-        socket.on('classification_result', data => {
-            var result = JSON.parse(data);
-            var softmaxValues = result.softmaxValues;
-            var permutation = result.permutation;
-            var heatmap = new Image();
-            heatmap.src = 'data:image/jpeg;base64,' + btoa(String.fromCharCode.apply(null, new Uint8Array(data.heatmap)));
-            //clearCanvas();
-            ctx.drawImage(heatmap, 0, 0);
-            
-            //const str = "['6.35', '2.72', '11.79', '183.25']",
-            console.log('sofmaxValues' + softmaxValues);
-            console.log('permutaiton = ' + permutation);
-            console.log('heatmap = ' + heatmap);
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
 
-            resolve([softmaxValues, permutation]); // Ergebnis an die Aufrufer-Funktion übergeben
-        });
-    });
+                // Create an image object from the base64 string
+                var img = new Image();
+                ctx.imageSmoothingEnabled = false;
+                img.onload = function () {
+                    ctx.globalAlpha = 0.8; // Change the opacity value as needed (0 to 1)
+                    ctx.drawImage(img, 0,0, img.width, img.height, 0,0,canvas.width, canvas.height);
+                    ctx.globalAlpha = 1.0; // Change the opacity value as needed (0 to 1)
+                };
+                img.src = url;
+
+                // Draw the heatmap image onto the canvas
+
+            })
+    })
 }
 
 
@@ -168,7 +182,7 @@ async function classifyImage() {
     const classes = document.querySelectorAll('.classifier_class'); // Die Container(Ziffern 0-9)
     classes.forEach(container => { container.style.backgroundColor = 'transparent'; });
     try {
-        const [softmaxValues, permutation, heatmap] = await sendAndReceiveClassification(canvasData);
+        const [softmaxValues, permutation] = await sendAndReceiveClassification(canvasData);
         console.log('test.js: Die Klassifizierung ergibt:', softmaxValues);
         //printPrediction(classification); not needed anymore as containers are colored
         classificationResult(softmaxValues, permutation);
