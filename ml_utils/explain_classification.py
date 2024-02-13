@@ -164,7 +164,7 @@ def get_heatmap(model, sample_image):
         out = model(sample_image, usesoftmax= False)
         activation_map = cam_extractor(out.squeeze(0).argmax().item(), out)
 
-    plt.imshow(activation_map[0].squeeze(0).numpy()); plt.axis('off'); plt.tight_layout(); plt.show()
+    #plt.imshow(activation_map[0].squeeze(0).numpy()); plt.axis('off'); plt.tight_layout(); plt.show()
 
     image_array = activation_map[0].squeeze(0).numpy()  # Assuming activation_map is a torch.Tensor
     image_array = (image_array * 255).astype(np.uint8)  # Ensure the pixel values are in the range [0, 255]
@@ -176,7 +176,7 @@ def get_heatmap(model, sample_image):
     
     buffer = io.BytesIO()
     image = image.convert("RGB")
-    plt.imshow(image); plt.axis('off'); plt.tight_layout(); plt.show()
+    #plt.imshow(image); plt.axis('off'); plt.tight_layout(); plt.show()
     image.save(buffer, format='PNG')  # You can change 'JPEG' to your desired format
     buffer.seek(0)   
     #image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')   
