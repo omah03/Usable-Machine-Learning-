@@ -75,7 +75,7 @@ class ModelBuilder(nn.Module):
                 raise ValueError(f"Configuration for block {i} not found in config.py")
             conv_block = ConvBlock(**conv_params, **max_pool_params, activation_function = activation_function)
             layers.add_module(f"conv_block_{i}", conv_block)
-            self.add_module(f"conv_block_{i}", conv_block)
+            self.add_module(f"conv_{i}", conv_block.conv)
         return layers
     
     #Function to create linear layer

@@ -75,6 +75,10 @@ def index():
 def on_connect():
     room = session.get('room')  # Define how you assign rooms
     join_room(room)
+    if trainers.get(session["room"]):
+        T = trainers.get(session["room"])
+        if T.nextEpoch>1:
+            T.send_results_to_frontend()
 
 @socketio.on('disconnect')
 def on_disconnect():

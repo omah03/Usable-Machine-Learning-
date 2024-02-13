@@ -24,17 +24,20 @@ socket.on('disconnect', () => {
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let isDrawing = false;
+canvas.width    = 280
+canvas.height   = 280
+
 
 function displayText() {
-    ctx.font = '20px Arial';
+    ctx.font = '40px Arial';
     ctx.fillStyle = '#000';
-    const text = 'Zeichne hier\n deine Ziffer'; // Mit \n wird ein Zeilenumbruch erzeugt
-    const lineHeight = 25; // Zeilenhöhe festlegen
+    const text = '\nZeichne hier\n deine Ziffer'; // Mit \n wird ein Zeilenumbruch erzeugt
+    const lineHeight = 40; // Zeilenhöhe festlegen
 
     const lines = text.split('\n'); // Text in einzelne Zeilen aufteilen
     // Textzeilen nacheinander auf dem Canvas zeichnen
     for (let i = 0; i < lines.length; i++) {
-        ctx.fillText(lines[i], 50, 50 + i * lineHeight); // Hier kannst du die Position des Textes anpassen
+        ctx.fillText(lines[i], 25, 25 + i * lineHeight); // Hier kannst du die Position des Textes anpassen
     }
     isTextDisplayed = true;
 }
@@ -69,7 +72,7 @@ function draw(e) {
     if (!isDrawing) return;
     const pos = getMousePos(canvas, e);
 
-    ctx.lineWidth = 10;
+    ctx.lineWidth = 20;
     ctx.lineCap = 'round';
     ctx.strokeStyle = '#000';
 
