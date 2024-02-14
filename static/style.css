@@ -29,6 +29,7 @@
     --highlight-color: #FFC107;
     --highlight-color2: #ac1a1a;
     --model-background: none;
+    --leaderboard-and-classify-highlight: #FFC10799;
   }
 
 body, html {
@@ -374,11 +375,13 @@ header h1 {
     left:50%;
     bottom:0px;
     -webkit-animation: arrow 0.5s 1s infinite ease-out alternate;
+    animation:arrow 0.5s 1s infinite ease-out alternate;
     
   }
   
   .arrow-down:hover{
      -webkit-animation-play-state: paused;
+     animation-play-state: paused;
   }
   
   .left{
@@ -387,11 +390,15 @@ header h1 {
     width:40px;
     background:black;
     -webkit-transform:rotate(240deg);
+    transform:rotate(240deg);
     top:10px;
     left:10px;
     -webkit-border-radius:4px;
     -webkit-transform-origin:5px 50%;
     -webkit-animation: leftArrow 0.5s 1s infinite ease-out alternate;
+    border-radius:4px;
+    transform-origin:5px 50%;
+    animation: leftArrow 0.5s 1s infinite ease-out alternate;
   }
   
   .right{
@@ -405,6 +412,10 @@ header h1 {
     -webkit-border-radius:4px;
     -webkit-transform-origin:5px 50%;
     -webkit-animation: rightArrow 0.5s 1s infinite ease-out alternate;
+    transform:rotate(-60deg);
+    border-radius:4px;
+    transform-origin:5px 50%;
+    animation: rightArrow 0.5s 1s infinite ease-out alternate;
   }
   
   
