@@ -159,7 +159,7 @@ def classify(model, image):
 def get_heatmap(model, sample_image):
 
     print(model)
-
+    model = model.to("cpu")
     with SmoothGradCAMpp(model,target_layer="conv_0", input_shape=(1,28,28)) as cam_extractor: 
         out = model(sample_image, usesoftmax= False)
         activation_map = cam_extractor(out.squeeze(0).argmax().item(), out)
