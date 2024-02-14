@@ -6,6 +6,7 @@ This is not really an introduction to contributing on this project, rather a pla
 
 - Every client is assigned a room code. The assignment of this room code should be per a hash function
 - Multithreading is supported and safe, but for multiprocess deployment, sticky session load balancing is required
+- The leaderboard entries and models should be stored on a seperate database server/process; right now they are stored on disk and are not deleted
 
 ## Structure
 

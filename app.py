@@ -9,7 +9,7 @@ from flask import Flask, render_template, request, jsonify, session
 from flask_socketio import SocketIO, join_room, leave_room
 from flask import send_file
 
-from ml_utils.explain_classification import classify_canvas_image
+from ml_utils.explain_classification import get_classification_and_heatmap
 from ml_utils.leaderboard import Leaderboard
 from ml_utils.Trainer import Trainer
 
@@ -17,7 +17,6 @@ from static.infobox.infotexts import infotexts
 import json
 import torch
 import string
-import asyncio
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -64,8 +63,10 @@ def index():
     global defaultconfig,trainers
     if not session.get("config"):
         session.update({"config":defaultconfig})
-    session["room"]= get_random_key()
-    trainers[session.get("room")]= Trainer(socketio, session.get("room"))
+    if not session.get("room"):
+        session["room"]= get_random_key()
+    if not trainers.get(session.get("room")):
+        trainers[session.get("room")]= Trainer(socketio, session.get("room"))
     
     return render_template("index.html")
     
@@ -74,6 +75,10 @@ def index():
 def on_connect():
     room = session.get('room')  # Define how you assign rooms
     join_room(room)
+    if trainers.get(session["room"]):
+        T = trainers.get(session["room"])
+        if T.nextEpoch>1:
+            T.send_results_to_frontend()
 
 @socketio.on('disconnect')
 def on_disconnect():
@@ -166,15 +171,14 @@ modelbuilder_model = 'data/models/Trained_modelbuilder_model'
 def classify():
     data = request.get_json()
     canvas_data = data['canvasData']
-    softmaxValues, permutation, heatmap  = classify_canvas_image(canvas_data, f"{modelbuilder_model}{session.get('room')}.pkl",)
+    softmaxValues, permutation, heatmap = get_classification_and_heatmap(canvas_data, f"{modelbuilder_model}{session.get('room')}.pkl")
     data = {
     "softmaxValues": softmaxValues,
     "permutation": permutation,
-    "heatmap": heatmap
     }
     classification_result = json.dumps(data)
     socketio.emit('classification_result', classification_result, room= session.get("room"))
-    return jsonify(True)
+    return send_file(heatmap, mimetype="Image/png")
 
 
 @app.route("/get_Leaderboard", methods=["GET"])
@@ -224,6 +228,4 @@ if __name__ == "__main__":
 
     print("App started")
     threading.Thread(target=listener, daemon=True).start()
-    if config["OTHER"]["openBrowser"]:
-        webbrowser.open_new_tab(f'http://{config["SERVER"]["host"]}:{config["SERVER"]["port"]}')
     socketio.run(app, host=config["SERVER"]["host"], port=config["SERVER"]["port"], debug=config["OTHER"].getboolean("debug"))

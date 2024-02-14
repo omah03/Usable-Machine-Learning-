@@ -83,5 +83,5 @@
 }
 
 .own-leaderboard-entry{
-    background-color: #ffffba;
+    background-color: var(--leaderboard-and-classify-highlight);
 }

@@ -68,7 +68,7 @@ function changeText(speech_bubble_id,new_text){
     var textElement = speechBubble.querySelector('.walkthrough_text');
     textElement.innerText = new_text;
 
-    var boldWords = ["60.000 Bildern","hoher Kernelkomplexität","ReLU","1 Block","Lernrate von 0.01", "Batchgröße von 256","1 Epoche"];
+    var boldWords = ["60.000 Bildern","hoher Filtergröße","ReLU","1 Block","Lernrate von 0.01", "Batchgröße von 256","1 Epoche"];
     boldWords.forEach(function(word){
         textElement.innerHTML = textElement.innerHTML.replace(word, "<b>" + word + "</b>");
     });
@@ -126,10 +126,10 @@ async function anyAction(keyword){
                 conditions = conditions && sliderConditions && reluCondition && numBlocksCondition
             }else if (keyword == 'graph'){
                 trainingdisplay=document.getElementById("trainingdisplay");
-                console.log('trainig display = ' + trainingdisplay.innerHTML.slice(0,7));
-                trainingdisplay.innerHTML.slice(0,7) == 'Trained';
+                console.log('training display = ' + trainingdisplay.innerHTML.slice(0,7));
+                trainingdisplay.innerHTML.slice(0,7) == 'Epochen';
 
-                conditions = conditions && trainingdisplay.innerHTML.slice(0,7) == 'Trained'
+                conditions = conditions && trainingdisplay.innerHTML.slice(0,7) == 'Epochen'
             }else{
                 throw new Error("An invalid keyword was given at checkConditions!");
             }
@@ -161,10 +161,10 @@ async function bubbleRoutine(keyword){
     var walkthrough = {
         /*key: [[targets],BubbleId,BubbleText,button_id,[slider_ids],[slider_values]] */
         'input':[['inputbox'],'modelbuilder_speech_bubble','Als Trainingsgrundlage dient der MNIST-Datensatz, der aus 60.000 handgeschriebene Ziffern und ihren Labels besteht.','next_button'],
-        'modelbuilder':[['rectanglelayer'],'modelbuilder_speech_bubble','Hier kannst du dein eigenes Netz zur Erkennung handgeschriebener Ziffern bauen. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Filtergröße, ReLu als Aktivierungsfunktion und 1 Block um fortzufahren.','next_button'],
+        'modelbuilder':[['rectanglelayer'],'modelbuilder_speech_bubble','Hier kannst du dein eigenes Netz zur Erkennung handgeschriebener Ziffern bauen. Wenn dich die Parameter genauer interessieren, klicke auf die Fragezeichen. Erstelle ein Modell mit hoher Filtergröße, ReLU als Aktivierungsfunktion und 1 Block um fortzufahren.','next_button'],
         'output':[['outputbox'],'modelbuilder_speech_bubble','Die letzte Schicht des Netzes weist dem Bild eine Ziffer zu.','next_button'],
         'training':[['training_params'],'training_speech_bubble','Hier kannst du die Parameter für das Training anpassen. Wähle eine Lernrate von 0.01, eine Batchgröße von 256 und 1 Epoche aus und klicke zum Fortfahren auf Start.',"starttraining"],
-        'graph':[['training_graph','training_params'],'training_graph_speech_bubble',"Dieser Graph zeigt dir, wie sich die Leistung des Netzes im Laufe des Trainings verändert. Sobald das Training abgeschlossen ist, klicke auf 'next'",'graph_next_button'],
+        'graph':[['training_graph','training_params'],'training_graph_speech_bubble',"Dieser Graph zeigt dir, wie sich die Leistung des Netzes im Laufe des Trainings verändert. Sobald das Training abgeschlossen ist, klicke auf 'weiter'",'graph_next_button'],
         'testing':[['testing_section'],'testing_speech_bubble','Das Netz wurde fertig trainiert. Jetzt kannst du selber eine Ziffer zeichnen, um sie klassifizieren zu lassen.','classify']
     }
     var target_ids = walkthrough[keyword][0];

@@ -37,6 +37,7 @@
     border: 5px solid var(--background-color);
 
     background-color: var(--model-background);
+    text-align: center;
 
     display: flex;
     flex-direction: column;
@@ -335,6 +336,7 @@
     width: 100%;
     border: 5px solid var(--background-color);
     font-size: 1vw;
+    text-align: left;
 }
 
 .block-icon {

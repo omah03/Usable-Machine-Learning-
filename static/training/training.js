@@ -176,22 +176,22 @@ function handleTrainingData(training_config) {
     if (training_config["training_active"] == true && training_config["training_stop_signal"] == true) {
         toggleModelbuilderBlur(true);
         progress.style.width = "" + training_config["EpochProgress"] + "%"
-        startbutton.innerHTML = "CONTINUE"
+        startbutton.innerHTML = "WEITER"
         startbutton.disabled = true;
-        trainingdisplay.innerHTML = `Waiting for Epoch to finish...`
+        trainingdisplay.innerHTML = `Warte auf das Ende der Epoche...`
     }
     else if (training_config["training_active"] == true && training_config["training_stop_signal"] == false) {
         toggleModelbuilderBlur(true);
         progress.style.width = "" + training_config["EpochProgress"] + "%"
         startbutton.innerHTML = "PAUSE"
-        trainingdisplay.innerHTML = `Training Epoch ${training_config["Epochs_Trained"]}...`
+        trainingdisplay.innerHTML = `Trainiere Epoche ${training_config["Epochs_Trained"]}...`
     }
     else if (training_config["Epochs_Trained"] > 0) {
         toggleTestBlur(false);
         progress.style.width = "0%"
-        startbutton.innerHTML = "CONTINUE"
+        startbutton.innerHTML = "WEITER"
         startbutton.disabled = false;
-        trainingdisplay.innerHTML = `Trained ${training_config["Epochs_Trained"]} Epochs`
+        trainingdisplay.innerHTML = `Epochen trainiert: ${training_config["Epochs_Trained"]}`
         resetbutton.disabled = false
         discardbutton.disabled = false
 

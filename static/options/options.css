@@ -93,7 +93,7 @@ input[type="range"] {
   align-items: center;
   display: flex;
   flex-direction: column;
-  font-size: 200%; 
+  font-size: 2vh; 
   color: var(--text-color-playground);
 }
 

@@ -13,6 +13,15 @@ from torchvision import transforms, models
 import torch.nn.functional as F
 from torchinfo import summary
 
+from torchcam.methods import SmoothGradCAMpp
+from torchcam.utils import overlay_mask
+import torchvision.transforms as transforms
+import torchvision
+from torchvision.transforms.functional import to_pil_image
+import matplotlib.pyplot as plt
+
+
+
 print(sys.path)
 
 
@@ -61,7 +70,6 @@ def loadmodel(saved_model):
  with open(saved_model, 'rb') as file:  
      model = pickle.load(file)
  return model
-
 
 def preprocess_image(image):
     if isinstance(image, str):
@@ -137,176 +145,55 @@ def saveim(image,path):
     pil_image.save(file_path)
 
 
-def gradCAM(model, image):
+def classify(model, image):
 
-    assert image.requires_grad == True, "image.requires_grad is False!"
+    #assert image.requires_grad == True, "image.requires_grad is False!"
     print(image.device)
     #print(model.device)
     model = model.to("cpu")
     output_tensor = model(image)
     output_class = torch.argmax(output_tensor).item()  # Annahme: Bestimmung der vorhergesagten Klasse
 
-    print("model: ", model)
+    return output_tensor, output_class
 
-    """better code:"""
-    #1 forward pass with input image
-    c = output_class
-    c_tensor = output_tensor[0,c]
-    #2 set gradients to 0 for all classes except for output class (which is set to 1)
-    """im not sure here"""
-    """
-    #3 backprop until last conv
-    c_tensor.backward()
+def get_heatmap(model, sample_image):
 
-    #3.2 calculate 'importance' of the kth feature map by computing gradients wrt fmap activations
-    i = 0
-    last_conv = model.conv_layers[-1].conv
-    in_channels = last_conv.in_channels
-    print("outs", in_channels)
-    image = image.expand(-1, in_channels, -1, -1)
-    print("new dim = ", image.shape)
-    print("last_conv = ",last_conv, type(last_conv))
-    grads = last_conv.weight.grad
-    print("shape grads = ", grads.shape)
-    i = 0
+    print(model)
+    model = model.to("cpu")
+    with SmoothGradCAMpp(model,target_layer="conv_0", input_shape=(1,28,28)) as cam_extractor: 
+        out = model(sample_image, usesoftmax= False)
+        activation_map = cam_extractor(out.squeeze(0).argmax().item(), out)
 
-    for fmap in grads:
-        i += 1 
-        print(f"{i}. featuremap = ", fmap)
-        print("type = ", type(fmap), fmap.shape)
-#        print("grad k = ", gradients_k, k.shape)
-        alpha_kc = fmap.mean()
-        print("alpha = ", alpha_kc, alpha_kc.shape)
+    #plt.imshow(activation_map[0].squeeze(0).numpy()); plt.axis('off'); plt.tight_layout(); plt.show()
 
-    activations = last_conv(image).detach()
-    print("activations", activations, activations.shape, len(activations), activations.size(1))
-    """
-    #3.3 average over all k feature maps and apply Relu because only positive impacts are interesting to us.
-    #for k in model.conv_layers[-1].
+    image_array = activation_map[0].squeeze(0).numpy()  # Assuming activation_map is a torch.Tensor
+    image_array = (image_array * 255).astype(np.uint8)  # Ensure the pixel values are in the range [0, 255]
+    # Convert grayscale image to RGB by duplicating intensity values across all channels
+    image_array_rgb = np.stack((255-0*image_array, 255-image_array, 255-image_array), axis=-1)
+    #plt.imshow(plt.imshow(image_array_rgb)); plt.axis('off'); plt.tight_layout(); plt.show()
 
-    #4 compute heatmap
-   
-    #raise ValueError("stop")
-
-
-    """end of section"""
-
-
-
-    print("start explaining...")
-
-    model.zero_grad()
-
-    #show_linear_filters(model,layer_index=1,num_filters=10) #this is just for fun
-
-    #print(model.conv_layers[-1].conv)
-    #print(model.conv_layers[-1].conv.weight)
-
-    assert output_tensor.requires_grad == True, "output_tensor.requires_grad is False!"
-    assert isinstance(output_class,int), "output_class is not of type int"
-
-
-
-    output_tensor[0, output_class].backward()
+    image = Image.fromarray(image_array_rgb)
     
-    # Feature Maps der letzten Convolutional Layer und Gradienten erhalten
-    gradients = model.conv_layers[0].conv.weight.grad #this is the kernel for each convolution
+    buffer = io.BytesIO()
+    image = image.convert("RGB")
+    #plt.imshow(image); plt.axis('off'); plt.tight_layout(); plt.show()
+    image.save(buffer, format='PNG')  # You can change 'JPEG' to your desired format
+    buffer.seek(0)   
+    #image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')   
+    return buffer
 
-
-
-
-
-    print("gradients.shape= ",gradients.shape)
-
-    #print("gradients",gradients, gradients.shape, len(gradients))    
-
-    #assert (gradients.shape == torch.Size([16, 1, 3, 3])),"sth went wrong"
-    print("gradients = ", gradients)
-    pooled_gradients = torch.mean(gradients, dim=[1, 2, 3])
-    
-    activations = model.conv_layers[0].conv(image).detach()
-    #assert (model.conv_layers[0] == model.conv_layers[-1]), "Which one is the 'last conv layer'?" 
-    """A number of previous works have asserted that deeper repre-
-    sentations in a CNN capture higher-level visual constructs [6,
-    41]. Furthermore, convolutional layers naturally retain spatial
-    information which is lost in fully-connected layers, so we
-    can expect the last convolutional layers to have the best com-
-    promise between high-level semantics and detailed spatial
-    information. [Selvaraju et al.]"""
-    
-
-
-
-    print("activations", activations, activations.shape, len(activations), activations.size(1))
-
-    print("pooled_gradients", pooled_gradients, pooled_gradients.shape, len(pooled_gradients))
-
-    for i in range(activations.size(1)):
-        """I'm not sure whether this is correct. we should use the kernel not the average"""
-        print("pooled_gradients = ", pooled_gradients[i])
-        activations[:, i, :, :] *= pooled_gradients[i]
-
-    # Heatmap generieren
-    heatmap = torch.mean(activations, dim=1).squeeze()
-    heatmap = np.maximum(heatmap, 0) #avoiding negative values
-    heatmap /= torch.max(heatmap)
-
-    # Heatmap auf Originalbild überlagern
-    heatmap = heatmap.numpy()
-
-    #img = image.detach().numpy().convert('RGB')
-
-    #img = Image.open('mein_bild.jpg').convert('RGB')
-    #img = img.resize((28, 28))
-    heatmap = np.uint8(255 * heatmap)
-    heatmap = Image.fromarray(heatmap, 'L')
-    heatmap = heatmap.resize((image.size(2), image.size(3)), Image.BILINEAR)
-    heatmap = np.array(heatmap).tolist()
-    
-    return output_tensor, output_class, heatmap
-
-
-
-
-def classify_canvas_image(image,modelFile):
-    
-    
+def get_classification_and_heatmap(image, modelFile):
     """This function classifies the image and sends the heatmap (aka explanation) back to frontend"""
     model = loadmodel(modelFile)
-    summary(model, (1,1,28,28))
+    # summary(model, (1,1,28,28))
     image = preprocess_image(image)
-    print(image.shape)
-
-    
-
-    if __name__ != "__main__":
-        image.requires_grad = True
-
+    #print(image.shape)
     model.eval()
     
-    print("Classifying sample image...\n")
+    heatmap = get_heatmap(model, image)
     
+    output_tensor, output_class = classify(model, image)
     
-    #Show the image and check if the array representation works
-    # Konvertiere den Tensor in ein Numpy-Array
-    #image_np = image.squeeze(0).squeeze(0).numpy()
-    #print("the shape is ", image.shape, type(image), image[0:10])
-    image_np = image.squeeze(0).squeeze(0).detach().numpy()# diese version für explainable part
-    #print("the shape is now", image_np.shape, type(image_np), image_np[0:10])
-    #showim(image_np)
-    #saveim(image_np,'9')
-
-    #assert image.requires_grad == True, "image.requires_grad is not True"
-    # Annahme: Das Modell gibt eine Vorhersage für das Bild zurück
-    #showim(image_np)
-
-    output_tensor, output_class, heatmap = gradCAM(model,image) #gradCAM is used for the explanation
-
-
-
-    #plt.imshow(heatmap, alpha = 0.5, cmap='jet')
-    #plt.show()
-
     output_array = output_tensor.flatten().detach().numpy()
     output = [(e,i) for (e,i) in zip(output_array,list(range(len(output_array))))]
     output.sort(reverse = True)
@@ -316,24 +203,6 @@ def classify_canvas_image(image,modelFile):
 
     permutation = list(permutation)
     softmaxValues = list(softmaxValues)
-
-    return softmaxValues, permutation, heatmap
-
-
-if __name__ == "__main__":
-    print("testing....")
-    test = get_dataset(test =True)
-    for i in range(10,20):
-        image, label = test[i]
-
-        #saveim(image)
-        
-        image.requires_grad = True  # Setzen von requires_grad auf True (für explainable part)
     
-        model_file = 'ml_utils/models/Trained_modelbuilder_model.pkl'#'ml_utils/models/MNIST_new_classifier_model.pkl'#
-        _ , _ , heatmap = classify_canvas_image(image,model_file)
-
-        #showheatmap(heatmap)
-        #saveim(heatmap, f"heatmap{i}")
-
+    return softmaxValues, permutation, heatmap
 
