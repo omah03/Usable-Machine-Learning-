@@ -136,11 +136,10 @@ header h1 {
     align-items: center;
     justify-content: center;
 }
-.cnn-text, .cnn-gif {
+.cnn-text {
     margin: 0;
     padding: 1rem;
     flex: 1 1 50%; 
-    background-color: rgb(229,238,253); 
     color: #ffffff; 
     text-align: center;
 }
@@ -421,7 +420,7 @@ header h1 {
   
   
   
-  @-webkit-keyframes arrow{
+  @keyframes arrow{
     0% {
       bottom:0px;
     }
@@ -431,7 +430,7 @@ header h1 {
   }
   
   
-  @-webkit-keyframes leftArrow{
+  @keyframes leftArrow{
     0% {
     }
     100%{
@@ -439,7 +438,7 @@ header h1 {
     }
   }
   
-  @-webkit-keyframes rightArrow{
+  @keyframes rightArrow{
     0% {
     }
     100%{
