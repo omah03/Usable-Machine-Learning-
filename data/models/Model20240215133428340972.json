@@ -1,0 +1,1 @@
+{"Epochs": 4, "accuracy": 95.37, "loss": 1.9947458028793335, "settings": {"LRate": 0.1, "BSize": 256, "ActFunc": "act_tanhOption", "NBlocks": 2, "KSize": "medium"}, "creator": "OvWgMCIopcc7jCY"}
