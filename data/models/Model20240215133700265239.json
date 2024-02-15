@@ -1,0 +1,1 @@
+{"Epochs": 3, "accuracy": 11.35, "loss": 2.301962596178055, "settings": {"LRate": 0.3, "BSize": 256, "ActFunc": "act_sigmoidOption", "NBlocks": 2, "KSize": "medium"}, "creator": "OvWgMCIopcc7jCY"}

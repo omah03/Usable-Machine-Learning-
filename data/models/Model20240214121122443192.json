@@ -1,0 +1,1 @@
+{"Epochs": 3, "accuracy": 26.5, "loss": 2.2267166316509246, "settings": {"LRate": 0.01, "BSize": 256, "ActFunc": "act_reluOption", "NBlocks": 2, "KSize": "medium"}, "creator": "OJcuLfzapjNlgDk"}
